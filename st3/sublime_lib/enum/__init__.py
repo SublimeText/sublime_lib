@@ -1,1 +1,1 @@
-from .enum import *
+from ..vendor.python.enum import *
