@@ -1,1 +1,1 @@
-# This space intentionally left blank
+from .view_stream import ViewStream
