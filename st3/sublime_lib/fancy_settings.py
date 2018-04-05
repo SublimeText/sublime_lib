@@ -8,17 +8,17 @@ def isiterable(obj):
         return False
 
 class FancySettings():
-    def __init__(self, settings):
+    def __init__(self, settings, defaults={}):
         self.settings = settings
+        self.defaults = defaults
 
     def get(self, name, default=ARGUMENT_NOT_GIVEN):
-        if default is ARGUMENT_NOT_GIVEN:
-            if self.settings.has(name):
-                return self.settings.get(name)
-            else:
-                raise KeyError(name)
+        if self.settings.has(name):
+            return self.settings.get(name)
+        elif default is not ARGUMENT_NOT_GIVEN:
+            return self.defaults.get(name, default)
         else:
-            return self.settings.get(name, default)
+            return self.defaults.get(name)
 
     def set(self, name, value):
         self.settings.set(name, value)
