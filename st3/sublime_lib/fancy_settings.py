@@ -1,15 +1,33 @@
+ARGUMENT_NOT_GIVEN = {}
+
+def isiterable(obj):
+    try:
+        iter(obj)
+        return True
+    except TypeError:
+        return False
+
 class FancySettings():
     def __init__(self, settings):
         self.settings = settings
 
-    def get(self, name, default=None):
-        return self.settings.get(name, default)
+    def get(self, name, default=ARGUMENT_NOT_GIVEN):
+        if default is ARGUMENT_NOT_GIVEN:
+            if self.settings.has(name):
+                return self.settings.get(name)
+            else:
+                raise KeyError(name)
+        else:
+            return self.settings.get(name, default)
 
     def set(self, name, value):
         self.settings.set(name, value)
 
     def erase(self, name):
-        self.settings.erase(name)
+        if self.settings.has(name):
+            self.settings.erase(name)
+        else:
+            raise KeyError(name)
 
     def has(self, name):
         return self.settings.has(name)
@@ -27,15 +45,20 @@ class FancySettings():
         return self.has(item)
 
     def subscribe(self, key, selector, callback):
-        if isinstance(selector, str):
-            key = selector
-            selector = lambda this: this[key]
+        if callable(selector):
+            selector_fn = selector
+        elif isinstance(selector, str):
+            selector_fn = lambda this: this[selector]
+        elif isiterable(selector):
+            selector_fn = lambda this: { key : this[key] for key in selector }
+        else:
+            raise TypeError('The "callback" argument should be a function, string, or iterable of strings.')
 
-        previous_value = selector(self)
+        previous_value = selector_fn(self)
 
         def onchange():
             nonlocal previous_value
-            new_value = selector(self)
+            new_value = selector_fn(self)
 
             if new_value != previous_value:
                 callback(new_value, previous_value)
