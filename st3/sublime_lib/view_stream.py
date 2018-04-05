@@ -1,4 +1,5 @@
 from sublime import Region
+from io import SEEK_SET, SEEK_CUR, SEEK_END
 
 class ViewStream():
     def __init__(self, view):
@@ -14,10 +15,19 @@ class ViewStream():
     def flush(self):
         pass
 
-    def seek(self, index):
-        selection = self.view.sel()
-        selection.clear()
-        selection.add(Region(index))
+    def seek(self, index, whence=SEEK_SET):
+        if whence == SEEK_SET:
+            selection = self.view.sel()
+            selection.clear()
+            selection.add(Region(index))
+        elif whence == SEEK_CUR:
+            if index != 0: raise TypeError('Argument "index" must be zero when "whence" is io.SEEK_CUR.')
+            pass # Do nothing.
+        elif whence == SEEK_END:
+            if index != 0: raise TypeError('Argument "index" must be zero when "whence" is io.SEEK_END.')
+            self.seek(self.view.size())
+        else:
+            raise TypeError('Invalid value for argument "whence".')
 
     def seek_start(self):
         self.seek(0)
