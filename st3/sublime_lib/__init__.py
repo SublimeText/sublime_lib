@@ -1,1 +1,1 @@
-# This space intentionally left blank
+from .fancy_settings import FancySettings
