@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 def isiterable(obj):
     try:
         iter(obj)
@@ -40,7 +42,7 @@ class FancySettings():
     def __contains__(self, item):
         return self.has(item)
 
-    def subscribe(self, key, selector, callback):
+    def subscribe(self, selector, callback):
         if callable(selector):
             selector_fn = selector
         elif isinstance(selector, str):
@@ -60,7 +62,9 @@ class FancySettings():
                 callback(new_value, previous_value)
                 previous_value = new_value
 
+        key = str(uuid4())
         self.settings.add_on_change(key, onchange)
+        return key
 
     def unsubscribe(self, key):
         self.settings.clear_on_change(key)
