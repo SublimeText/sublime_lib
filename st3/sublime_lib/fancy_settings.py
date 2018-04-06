@@ -1,5 +1,3 @@
-ARGUMENT_NOT_GIVEN = {}
-
 def isiterable(obj):
     try:
         iter(obj)
@@ -12,34 +10,32 @@ class FancySettings():
         self.settings = settings
         self.defaults = defaults
 
-    def get(self, name, default=ARGUMENT_NOT_GIVEN):
-        if self.settings.has(name):
-            return self.settings.get(name)
-        elif default is not ARGUMENT_NOT_GIVEN:
-            return self.defaults.get(name, default)
-        else:
-            return self.defaults.get(name)
+    def get(self, name, default=None):
+        return self.settings.get(name, self.defaults.get(default))
 
     def set(self, name, value):
         self.settings.set(name, value)
 
     def erase(self, name):
-        if self.settings.has(name):
-            self.settings.erase(name)
-        else:
-            raise KeyError(name)
+        self.settings.erase(name)
 
     def has(self, name):
         return self.settings.has(name)
 
     def __getitem__(self, key):
-        return self.get(key)
+        if self.settings.has(key) or self.defaults.has(key):
+            return self.get(key)
+        else:
+            raise KeyError(name)
 
     def __setitem__(self, key, value):
         self.set(key, value)
 
     def __delitem__(self, key):
-        self.erase(key)
+        if self.has(name):
+            self.erase(name)
+        else:
+            raise KeyError(name)
 
     def __contains__(self, item):
         return self.has(item)
