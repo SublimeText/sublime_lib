@@ -25,10 +25,10 @@ class FancySettings():
         return self.settings.has(name)
 
     def __getitem__(self, key):
-        if self.settings.has(key) or self.defaults.has(key):
+        if self.settings.has(key) or key in self.defaults:
             return self.get(key)
         else:
-            raise KeyError(name)
+            raise KeyError(key)
 
     def __setitem__(self, key, value):
         self.set(key, value)
@@ -42,11 +42,11 @@ class FancySettings():
     def __contains__(self, item):
         return self.has(item)
 
-    def subscribe(self, selector, callback):
+    def subscribe(self, selector, callback, default_value=None):
         if callable(selector):
             selector_fn = selector
         elif isinstance(selector, str):
-            selector_fn = lambda this: this[selector]
+            selector_fn = lambda this: this.get(selector, default_value)
         elif isiterable(selector):
             selector_fn = lambda this: { key : this[key] for key in selector }
         else:
