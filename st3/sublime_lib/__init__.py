@@ -1,1 +1,1 @@
-# This space intentionally left blank
+from .view_buffer import ViewBuffer
