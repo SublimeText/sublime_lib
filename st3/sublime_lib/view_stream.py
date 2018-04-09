@@ -5,7 +5,12 @@ class ViewStream():
     def __init__(self, view):
         self.view = view
 
+    def _check_selection(self):
+        if len(self.view.sel()) > 1:
+            raise ValueError("The underlying view has multiple selections.")
+
     def write(self, s):
+        self._check_selection()
         self.view.run_command('insert', { 'characters': s })
         return len(s)
 
