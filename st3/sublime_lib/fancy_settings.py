@@ -7,25 +7,44 @@ def isiterable(obj):
     except TypeError:
         return False
 
+NOT_GIVEN = {}
+
 class FancySettings():
     def __init__(self, settings, defaults={}):
         self.settings = settings
         self.defaults = defaults
 
-    def get(self, name, default=None):
-        return self.settings.get(name, self.defaults.get(default))
+    def get(self, key, default=None):
+        return self.settings.get(key, self.defaults.get(key, default))
 
-    def set(self, name, value):
-        self.settings.set(name, value)
+    def set(self, key, value):
+        self.settings.set(key, value)
 
-    def erase(self, name):
-        self.settings.erase(name)
+    def erase(self, key):
+        self.settings.erase(key)
 
-    def has(self, name):
-        return self.settings.has(name)
+    def has(self, key):
+        return self.settings.has(key)
+
+    def pop(self, key, default=NOT_GIVEN):
+        if key in self:
+            ret = self.get(key)
+            self.erase(key)
+            return ret
+        elif default is NOT_GIVEN:
+            raise KeyError(key)
+        else:
+            return default
+
+    def setdefault(key, default=None):
+        if key in self:
+            return self.get(key)
+        else:
+            self.set(key, default)
+            return default
 
     def __getitem__(self, key):
-        if self.settings.has(key) or key in self.defaults:
+        if key in self or key in self.defaults:
             return self.get(key)
         else:
             raise KeyError(key)
@@ -41,6 +60,13 @@ class FancySettings():
 
     def __contains__(self, item):
         return self.has(item)
+
+    def update(*pairs, **kwargs):
+        for key, value in pairs:
+            self.set(key, value)
+
+        for key, value in kwargs.items():
+            self.set(key, value)
 
     def subscribe(self, selector, callback, default_value=None):
         if callable(selector):
