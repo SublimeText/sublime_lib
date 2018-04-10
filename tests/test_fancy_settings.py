@@ -1,20 +1,14 @@
 import sublime
 from sublime_lib import FancySettings
 
-from unittest import TestCase
+from sublime_lib.testing import ViewTestCase
 
-class TestFancySettings(TestCase):
+class TestFancySettings(ViewTestCase):
 
     def setUp(self):
-        self.view = sublime.active_window().new_file()
+        super().setUp()
         self.settings = self.view.settings()
         self.fancy = FancySettings(self.settings)
-
-    def tearDown(self):
-        if self.view:
-            self.view.set_scratch(True)
-            self.view.window().focus_view(self.view)
-            self.view.window().run_command("close_file")
 
 
     def test_item(self):

@@ -1,25 +1,13 @@
 import sublime
 from sublime_lib import ViewStream
 
-from unittest import TestCase
+from sublime_lib.testing import ViewTestCase
 
-class TestViewStream(TestCase):
+class TestViewStream(ViewTestCase):
 
     def setUp(self):
-        self.view = sublime.active_window().new_file()
+        super().setUp()
         self.stream = ViewStream(self.view)
-
-    def tearDown(self):
-        if self.view:
-            self.view.set_scratch(True)
-            self.view.window().focus_view(self.view)
-            self.view.window().run_command("close_file")
-
-    def assertContents(self, text):
-        self.assertEqual(
-            self.view.substr(sublime.Region(0, self.view.size())),
-            text
-        )
 
     def test_stream_operations(self):
         self.stream.write("Hello, ")

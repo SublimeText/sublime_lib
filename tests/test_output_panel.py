@@ -1,25 +1,19 @@
 import sublime
 from sublime_lib import OutputPanel
 
-from unittest import TestCase
+from sublime_lib.testing import ViewTestCase
 
-class TestOutputPanel(TestCase):
+class TestOutputPanel(ViewTestCase):
 
     def setUp(self):
         self.window = sublime.active_window()
-        self.panel_name = "test_panel"
-        self.panel = OutputPanel(self.window, self.panel_name)
+        self.panel = OutputPanel(self.window, "test_panel")
+        self.view = self.panel.view
         self.panel.show()
 
     def tearDown(self):
         self.panel.destroy()
 
-    def assertContents(self, text):
-        view = self.panel.view
-        self.assertEqual(
-            view.substr(sublime.Region(0, view.size())),
-            text
-        )
 
     def test_stream_operations(self):
         self.panel.write("Hello, ")
