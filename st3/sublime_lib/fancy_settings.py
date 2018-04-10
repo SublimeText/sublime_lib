@@ -14,17 +14,26 @@ class FancySettings():
         self.settings = settings
         self.defaults = defaults
 
-    def get(self, key, default=None):
-        return self.settings.get(key, self.defaults.get(key, default))
+    def __getitem__(self, key):
+        if key in self or key in self.defaults:
+            return self.get(key)
+        else:
+            raise KeyError(key)
 
-    def set(self, key, value):
+    def __setitem__(self, key, value):
         self.settings.set(key, value)
 
-    def erase(self, key):
-        self.settings.erase(key)
+    def __delitem__(self, key):
+        if self.has(name):
+            self.settings.erase(name)
+        else:
+            raise KeyError(name)
 
-    def has(self, key):
-        return self.settings.has(key)
+    def __contains__(self, item):
+        return self.settings.has(item)
+
+    def get(self, key, default=None):
+        return self.settings.get(key, self.defaults.get(key, default))
 
     def pop(self, key, default=NOT_GIVEN):
         if key in self:
@@ -42,24 +51,6 @@ class FancySettings():
         else:
             self.set(key, default)
             return default
-
-    def __getitem__(self, key):
-        if key in self or key in self.defaults:
-            return self.get(key)
-        else:
-            raise KeyError(key)
-
-    def __setitem__(self, key, value):
-        self.set(key, value)
-
-    def __delitem__(self, key):
-        if self.has(name):
-            self.erase(name)
-        else:
-            raise KeyError(name)
-
-    def __contains__(self, item):
-        return self.has(item)
 
     def update(*pairs, **kwargs):
         for key, value in pairs:
