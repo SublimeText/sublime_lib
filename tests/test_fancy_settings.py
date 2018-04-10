@@ -48,3 +48,16 @@ class TestFancySettings(TestCase):
         self.fancy["example_setting"] = "Hello, World!"
 
         self.assertEqual(self.settings.get('example_setting'), "Hello, World!")
+
+
+    def test_update(self):
+        self.fancy["foo"] = "Hello, World!"
+
+        self.fancy.update({'foo': 1, 'bar': 2}, xyzzy = 3)
+        self.fancy.update([('bar', 20), ('baz', 30)], yzzyx = 4)
+
+        self.assertEqual(self.fancy['foo'], 1)
+        self.assertEqual(self.fancy['bar'], 20)
+        self.assertEqual(self.fancy['baz'], 30)
+        self.assertEqual(self.fancy['xyzzy'], 3)
+        self.assertEqual(self.fancy['yzzyx'], 4)

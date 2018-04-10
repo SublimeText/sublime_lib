@@ -45,19 +45,22 @@ class FancySettings():
         else:
             return default
 
-    def setdefault(key, default=None):
+    def setdefault(self, key, default=None):
         if key in self:
             return self.get(key)
         else:
             self.set(key, default)
             return default
 
-    def update(*pairs, **kwargs):
-        for key, value in pairs:
-            self.set(key, value)
+    def update(self, other=[], **kwargs):
+        if isinstance(other, dict):
+            other = other.items()
+
+        for key, value in other:
+            self[key] = value
 
         for key, value in kwargs.items():
-            self.set(key, value)
+            self[key] = value
 
     def subscribe(self, selector, callback, default_value=None):
         if callable(selector):
