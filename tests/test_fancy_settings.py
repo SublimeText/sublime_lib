@@ -50,6 +50,54 @@ class TestFancySettings(TestCase):
         self.assertEqual(self.settings.get('example_setting'), "Hello, World!")
 
 
+    def test_delete(self):
+        self.fancy["example_setting"] = "Hello, World!"
+        del self.fancy["example_setting"]
+        self.assertNotIn("example_setting", self.fancy)
+
+    def test_delete_missing_error(self):
+        self.fancy["example_setting"] = "Hello, World!"
+        del self.fancy["example_setting"]
+        self.assertRaises(KeyError, self.fancy.__delitem__, "example_setting")
+
+
+    def test_contains(self):
+        self.assertNotIn("example_setting", self.fancy)
+        self.fancy["example_setting"] = "Hello, World!"
+        self.assertIn("example_setting", self.fancy)
+
+
+    def test_pop(self):
+        self.fancy["example_setting"] = "Hello, World!"
+        result = self.fancy.pop("example_setting")
+
+        self.assertEqual(result, "Hello, World!")
+        self.assertNotIn("example_setting", self.fancy)
+
+        default = self.fancy.pop("example_setting", 42)
+        self.assertEqual(default, 42)
+
+        self.assertRaises(KeyError, self.fancy.pop, "example_setting")
+
+
+    def test_setdefault(self):
+        result = self.fancy.setdefault("example_setting", "Hello, World!")
+
+        self.assertEqual(result, "Hello, World!")
+        self.assertEqual(self.fancy["example_setting"], "Hello, World!")
+
+        result = self.fancy.setdefault("example_setting", 42)
+
+        self.assertEqual(result, "Hello, World!")
+        self.assertEqual(self.fancy["example_setting"], "Hello, World!")
+
+    def test_setdefault_none(self):
+        result = self.fancy.setdefault("example_setting")
+
+        self.assertEqual(result, None)
+        self.assertEqual(self.fancy["example_setting"], None)
+
+
     def test_update(self):
         self.fancy["foo"] = "Hello, World!"
 

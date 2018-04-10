@@ -1,4 +1,5 @@
 from uuid import uuid4
+from collections.abc import Mapping
 
 def isiterable(obj):
     try:
@@ -6,6 +7,9 @@ def isiterable(obj):
         return True
     except TypeError:
         return False
+
+def ismapping(obj):
+    return isinstance(obj, Mapping)
 
 NOT_GIVEN = {}
 
@@ -24,10 +28,10 @@ class FancySettings():
         self.settings.set(key, value)
 
     def __delitem__(self, key):
-        if self.has(name):
-            self.settings.erase(name)
+        if key in self:
+            self.settings.erase(key)
         else:
-            raise KeyError(name)
+            raise KeyError(key)
 
     def __contains__(self, item):
         return self.settings.has(item)
@@ -37,8 +41,8 @@ class FancySettings():
 
     def pop(self, key, default=NOT_GIVEN):
         if key in self:
-            ret = self.get(key)
-            self.erase(key)
+            ret = self[key]
+            del self[key]
             return ret
         elif default is NOT_GIVEN:
             raise KeyError(key)
@@ -47,13 +51,13 @@ class FancySettings():
 
     def setdefault(self, key, default=None):
         if key in self:
-            return self.get(key)
+            return self[key]
         else:
-            self.set(key, default)
+            self[key] = default
             return default
 
     def update(self, other=[], **kwargs):
-        if isinstance(other, dict):
+        if ismapping(other):
             other = other.items()
 
         for key, value in other:
