@@ -2,6 +2,7 @@ import sublime
 from sublime_lib import ViewStream
 
 from unittest import TestCase
+from io import UnsupportedOperation
 
 class TestViewStream(TestCase):
 
@@ -24,11 +25,14 @@ class TestViewStream(TestCase):
     def test_stream_operations(self):
         self.stream.write("Hello, ")
         self.stream.print("World!")
+        self.assertEqual(self.stream.tell(), 14)
         
         self.stream.seek_start()
+        self.assertEqual(self.stream.tell(), 0)
         self.stream.print("Top")
 
         self.stream.seek_end()
+        self.assertEqual(self.stream.tell(), 18)
         self.stream.print("Bottom")
 
         self.stream.seek(4)
@@ -40,3 +44,8 @@ class TestViewStream(TestCase):
         self.stream.write("Some text")
         self.stream.clear()
         self.assertContents("")
+
+    def test_unsupported(self):
+        self.assertRaises(UnsupportedOperation, self.stream.detach)
+        self.assertRaises(UnsupportedOperation, self.stream.read, 1)
+        self.assertRaises(UnsupportedOperation, self.stream.readline)
