@@ -6,10 +6,17 @@ class ViewStream():
         self.view = view
 
     def _check_selection(self):
+        if len(self.view.sel()) == 0:
+            raise ValueError("The underlying view has no selection.")
         if len(self.view.sel()) > 1:
             raise ValueError("The underlying view has multiple selections.")
 
+    def _check_is_valid(self):
+        if not self.view.is_valid():
+            raise ValueError("The underlying view is invalid.")
+
     def write(self, s):
+        self._check_is_valid()
         self._check_selection()
         self.view.run_command('insert', { 'characters': s })
         return len(s)
@@ -21,6 +28,7 @@ class ViewStream():
         pass
 
     def seek(self, index, whence=SEEK_SET):
+        self._check_is_valid()
         if whence == SEEK_SET:
             selection = self.view.sel()
             selection.clear()
@@ -41,5 +49,6 @@ class ViewStream():
         self.seek(self.view.size())
 
     def clear(self):
+        self._check_is_valid()
         self.view.run_command('select_all')
         self.view.run_command('left_delete')

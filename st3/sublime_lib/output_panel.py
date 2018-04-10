@@ -14,9 +14,11 @@ class OutputPanel(ViewStream):
         return "output.%s" % self.name
 
     def show(self):
+        self._check_is_valid()
         self.window.run_command("show_panel", { "panel": self.full_name })
 
     def hide(self):
+        self._check_is_valid()
         self.window.run_command("hide_panel", { "panel": self.full_name })
 
     def destroy(self):
