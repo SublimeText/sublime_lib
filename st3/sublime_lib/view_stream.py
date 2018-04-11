@@ -1,8 +1,9 @@
 from sublime import Region
-from io import SEEK_SET, SEEK_CUR, SEEK_END, TextIOBase, UnsupportedOperation
+from io import SEEK_SET, SEEK_CUR, SEEK_END, TextIOBase
 
-"""A writable text stream encapsulating a `sublime.View` object."""
+
 class ViewStream(TextIOBase):
+    """A writable text stream encapsulating a `sublime.View` object."""
 
     def __init__(self, view):
         self.view = view
@@ -87,7 +88,6 @@ class ViewStream(TextIOBase):
         self._check_is_valid()
         self._check_selection()
         return self.view.sel()[0].b
-
 
     """Erase all text in the view.
 
