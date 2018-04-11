@@ -3,6 +3,7 @@ from sublime_lib import ViewStream
 
 from unittest import TestCase
 
+
 class TestViewStream(TestCase):
 
     def setUp(self):
@@ -24,7 +25,7 @@ class TestViewStream(TestCase):
     def test_stream_operations(self):
         self.stream.write("Hello, ")
         self.stream.print("World!")
-        
+
         self.stream.seek_start()
         self.stream.print("Top")
 

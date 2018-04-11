@@ -1,6 +1,7 @@
 from sublime import Region
 from io import SEEK_SET, SEEK_CUR, SEEK_END
 
+
 class ViewStream():
     def __init__(self, view):
         self.view = view
@@ -18,7 +19,7 @@ class ViewStream():
     def write(self, s):
         self._check_is_valid()
         self._check_selection()
-        self.view.run_command('insert', { 'characters': s })
+        self.view.run_command('insert', {'characters': s})
         return len(s)
 
     def print(self, *objects, **kwargs):
@@ -34,10 +35,14 @@ class ViewStream():
             selection.clear()
             selection.add(Region(index))
         elif whence == SEEK_CUR:
-            if index != 0: raise TypeError('Argument "index" must be zero when "whence" is io.SEEK_CUR.')
-            pass # Do nothing.
+            if index != 0:
+                raise TypeError('Argument "index" must be zero when "whence" '
+                                'is io.SEEK_CUR.')
+            pass  # Do nothing.
         elif whence == SEEK_END:
-            if index != 0: raise TypeError('Argument "index" must be zero when "whence" is io.SEEK_END.')
+            if index != 0:
+                raise TypeError('Argument "index" must be zero when "whence" '
+                                'is io.SEEK_END.')
             self.seek(self.view.size())
         else:
             raise TypeError('Invalid value for argument "whence".')

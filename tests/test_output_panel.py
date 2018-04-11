@@ -3,6 +3,7 @@ from sublime_lib import OutputPanel
 
 from unittest import TestCase
 
+
 class TestOutputPanel(TestCase):
 
     def setUp(self):
@@ -24,7 +25,7 @@ class TestOutputPanel(TestCase):
     def test_stream_operations(self):
         self.panel.write("Hello, ")
         self.panel.print("World!")
-        
+
         self.panel.seek_start()
         self.panel.print("Top")
 

@@ -1,5 +1,6 @@
 from sublime import Region
 
+
 class ViewBuffer():
     def __init__(self, view):
         self.view = view
@@ -24,11 +25,12 @@ class ViewBuffer():
 
     def __getitem__(self, arg):
         if isinstance(arg, Region):
-            return self.text[arg.begin() : arg.end()]
+            return self.text[arg.begin():arg.end()]
         else:
             return self.text[arg]
 
     def split_indent(self, region):
-        l = region.begin()
-        while self[l].isspace() and self[l] != '\n': l += 1
-        return (Region(region.begin(), l), Region(l, region.end()))
+        i = region.begin()
+        while self[i].isspace() and self[i] != '\n':
+            i += 1
+        return (Region(region.begin(), i), Region(i, region.end()))

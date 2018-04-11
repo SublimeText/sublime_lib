@@ -3,6 +3,7 @@ from sublime_lib import FancySettings
 
 from unittest import TestCase
 
+
 class TestFancySettings(TestCase):
 
     def setUp(self):
@@ -16,7 +17,6 @@ class TestFancySettings(TestCase):
             self.view.window().focus_view(self.view)
             self.view.window().run_command("close_file")
 
-
     def test_item(self):
         self.settings.set("example_setting", "Hello, World!")
 
@@ -26,7 +26,6 @@ class TestFancySettings(TestCase):
         self.settings.erase("example_setting")
 
         self.assertRaises(KeyError, lambda k: self.fancy[k], "example_setting")
-
 
     def test_get(self):
         self.settings.set("example_setting", "Hello, World!")
@@ -43,12 +42,10 @@ class TestFancySettings(TestCase):
 
         self.assertEqual(self.fancy.get("example_setting", "default"), "default")
 
-
     def test_set(self):
         self.fancy["example_setting"] = "Hello, World!"
 
         self.assertEqual(self.settings.get('example_setting'), "Hello, World!")
-
 
     def test_delete(self):
         self.fancy["example_setting"] = "Hello, World!"
@@ -60,12 +57,10 @@ class TestFancySettings(TestCase):
         del self.fancy["example_setting"]
         self.assertRaises(KeyError, self.fancy.__delitem__, "example_setting")
 
-
     def test_contains(self):
         self.assertNotIn("example_setting", self.fancy)
         self.fancy["example_setting"] = "Hello, World!"
         self.assertIn("example_setting", self.fancy)
-
 
     def test_pop(self):
         self.fancy["example_setting"] = "Hello, World!"
@@ -78,7 +73,6 @@ class TestFancySettings(TestCase):
         self.assertEqual(default, 42)
 
         self.assertRaises(KeyError, self.fancy.pop, "example_setting")
-
 
     def test_setdefault(self):
         result = self.fancy.setdefault("example_setting", "Hello, World!")
@@ -97,12 +91,11 @@ class TestFancySettings(TestCase):
         self.assertEqual(result, None)
         self.assertEqual(self.fancy["example_setting"], None)
 
-
     def test_update(self):
         self.fancy["foo"] = "Hello, World!"
 
-        self.fancy.update({'foo': 1, 'bar': 2}, xyzzy = 3)
-        self.fancy.update([('bar', 20), ('baz', 30)], yzzyx = 4)
+        self.fancy.update({'foo': 1, 'bar': 2}, xyzzy=3)
+        self.fancy.update([('bar', 20), ('baz', 30)], yzzyx=4)
 
         self.assertEqual(self.fancy['foo'], 1)
         self.assertEqual(self.fancy['bar'], 20)

@@ -1,6 +1,5 @@
-import sublime
-
 from .view_stream import ViewStream
+
 
 class OutputPanel(ViewStream):
     def __init__(self, window, name):
@@ -15,11 +14,11 @@ class OutputPanel(ViewStream):
 
     def show(self):
         self._check_is_valid()
-        self.window.run_command("show_panel", { "panel": self.full_name })
+        self.window.run_command("show_panel", {"panel": self.full_name})
 
     def hide(self):
         self._check_is_valid()
-        self.window.run_command("hide_panel", { "panel": self.full_name })
+        self.window.run_command("hide_panel", {"panel": self.full_name})
 
     def destroy(self):
         self.window.destroy_output_panel(self.name)
