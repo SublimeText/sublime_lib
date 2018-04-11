@@ -8,12 +8,16 @@ class TestOutputPanel(TestCase):
 
     def setUp(self):
         self.window = sublime.active_window()
+        self.panel_to_restore = self.window.active_panel()
+
         self.panel_name = "test_panel"
         self.panel = OutputPanel(self.window, self.panel_name)
-        self.panel.show()
 
     def tearDown(self):
         self.panel.destroy()
+
+        if self.panel_to_restore:
+            self.window.run_command("show_panel", {"panel": self.panel_to_restore})
 
     def assertContents(self, text):
         view = self.panel.view
