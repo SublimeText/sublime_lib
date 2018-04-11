@@ -2,11 +2,16 @@ from .view_stream import ViewStream
 
 
 class OutputPanel(ViewStream):
-    def __init__(self, window, name):
+    def __init__(self, window, name, *, settings=None):
         super().__init__(window.get_output_panel(name))
 
         self.window = window
         self.name = name
+
+        if settings:
+            view_settings = self.view.settings()
+            for key, value in settings.items():
+                view_settings.set(key, value)
 
     @property
     def full_name(self):
