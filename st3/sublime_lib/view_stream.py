@@ -22,8 +22,8 @@ class ViewStream(TextIOBase):
     characters inserted. The string will be inserted immediately before the
     cursor.
 
-    @precondition: The view is valid. (ValueError)
-    @precondition: The view has exactly one selection. (ValueError)
+    Precondition: The view is valid. (ValueError)
+    Precondition: The view has exactly one selection. (ValueError)
     """
     def write(self, s):
         self._check_is_valid()
@@ -34,7 +34,7 @@ class ViewStream(TextIOBase):
     def print(self, *objects, **kwargs):
         print(*objects, file=self, **kwargs)
 
-    """Do nothing."""
+    """Do nothing. (The stream is unbuffered.)"""
     def flush(self):
         pass
 
@@ -42,7 +42,7 @@ class ViewStream(TextIOBase):
     the behavior is the same as for TextIOBase. If the view had multiple
     selections, none will be preserved.
 
-    @precondition: The view is valid. (ValueError)
+    Precondition: The view is valid. (ValueError)
     """
     def seek(self, index, whence=SEEK_SET):
         self._check_is_valid()
@@ -64,7 +64,7 @@ class ViewStream(TextIOBase):
 
     """Move the cursor in the view to before the first character.
 
-    @precondition: The view is valid. (ValueError)
+    Precondition: The view is valid. (ValueError)
     """
     def seek_start(self):
         self._check_is_valid()
@@ -72,7 +72,7 @@ class ViewStream(TextIOBase):
 
     """Move the cursor in the view to after the last character.
 
-    @precondition: The view is valid. (ValueError)
+    Precondition: The view is valid. (ValueError)
     """
     def seek_end(self):
         self._check_is_valid()
@@ -86,7 +86,7 @@ class ViewStream(TextIOBase):
 
     """Erase all text in the view.
 
-    @precondition: The view is valid. (ValueError)
+    Precondition: The view is valid. (ValueError)
     """
     def clear(self):
         self._check_is_valid()
