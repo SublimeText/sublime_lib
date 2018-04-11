@@ -1,9 +1,13 @@
+import sublime
+
 from .enum import IntEnum, IntFlag
+
 
 class DialogResult(IntEnum):
     CANCEL = sublime.DIALOG_CANCEL
     YES = sublime.DIALOG_YES
     NO = sublime.DIALOG_NO
+
 
 class PointClass(IntFlag):
     WORD_START = sublime.CLASS_WORD_START
@@ -16,9 +20,11 @@ class PointClass(IntFlag):
     LINE_END = sublime.CLASS_LINE_END
     EMPTY_LINE = sublime.CLASS_EMPTY_LINE
 
+
 class FindOption(IntFlag):
     LITERAL = sublime.LITERAL
     IGNORECASE = sublime.IGNORECASE
+
 
 class RegionOption(IntFlag):
     DRAW_EMPTY = sublime.DRAW_EMPTY
@@ -32,19 +38,23 @@ class RegionOption(IntFlag):
     PERSISTENT = sublime.PERSISTENT
     HIDDEN = sublime.HIDDEN
 
+
 class PopupOption(IntFlag):
     COOPERATE_WITH_AUTO_COMPLETE = sublime.COOPERATE_WITH_AUTO_COMPLETE
     HIDE_ON_MOUSE_MOVE = sublime.HIDE_ON_MOUSE_MOVE
     HIDE_ON_MOUSE_MOVE_AWAY = sublime.HIDE_ON_MOUSE_MOVE_AWAY
+
 
 class PhantomLayout(IntFlag):
     INLINE = sublime.LAYOUT_INLINE
     BELOW = sublime.LAYOUT_BELOW
     BLOCK = sublime.LAYOUT_BLOCK
 
+
 class OpenFileOption(IntFlag):
     ENCODED_POSITION = sublime.ENCODED_POSITION
     TRANSIENT = sublime.TRANSIENT
+
 
 class QuickPanelOption(IntFlag):
     MONOSPACE_FONT = sublime.MONOSPACE_FONT

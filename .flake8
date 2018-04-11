@@ -1,5 +1,7 @@
 [flake8]
 
+ignore = E731
+
 exclude =
     .git,
     st3/sublime_lib/vendor

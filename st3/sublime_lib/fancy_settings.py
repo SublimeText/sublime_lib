@@ -1,6 +1,7 @@
 from uuid import uuid4
 from collections.abc import Mapping
 
+
 def isiterable(obj):
     try:
         iter(obj)
@@ -8,10 +9,13 @@ def isiterable(obj):
     except TypeError:
         return False
 
+
 def ismapping(obj):
     return isinstance(obj, Mapping)
 
+
 NOT_GIVEN = {}
+
 
 class FancySettings():
     def __init__(self, settings, defaults={}):
@@ -72,9 +76,10 @@ class FancySettings():
         elif isinstance(selector, str):
             selector_fn = lambda this: this.get(selector, default_value)
         elif isiterable(selector):
-            selector_fn = lambda this: { key : this[key] for key in selector }
+            selector_fn = lambda this: {key: this[key] for key in selector}
         else:
-            raise TypeError('The "callback" argument should be a function, string, or iterable of strings.')
+            raise TypeError('The "callback" argument should be a function, '
+                            'string, or iterable of strings.')
 
         previous_value = selector_fn(self)
 

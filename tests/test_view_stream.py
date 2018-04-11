@@ -4,6 +4,7 @@ from sublime_lib import ViewStream
 from unittest import TestCase
 from io import UnsupportedOperation
 
+
 class TestViewStream(TestCase):
 
     def setUp(self):
@@ -26,7 +27,7 @@ class TestViewStream(TestCase):
         self.stream.write("Hello, ")
         self.stream.print("World!")
         self.assertEqual(self.stream.tell(), 14)
-        
+
         self.stream.seek_start()
         self.assertEqual(self.stream.tell(), 0)
         self.stream.print("Top")
