@@ -96,5 +96,13 @@ class TestViewStream(TestCase):
         self.assertEqual(text, "World")
         self.assertEqual(self.stream.tell(), 12)
 
+    def test_write_only(self):
+        self.stream.view.set_read_only(True)
+
+        self.assertRaises(ValueError, self.stream.write, 'foo')
+
+        self.stream.force_writes = True
+        self.assertEqual(self.stream.write('foo'), 3)
+
     def test_unsupported(self):
         self.assertRaises(UnsupportedOperation, self.stream.detach)

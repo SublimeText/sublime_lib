@@ -13,8 +13,9 @@ class ViewStream(TextIOBase):
     empty (i.e. a simple cursor). Otherwise, ValueError will be raised.
     """
 
-    def __init__(self, view):
+    def __init__(self, view, *, force_writes=False):
         self.view = view
+        self.force_writes = force_writes
 
     def _check_selection(self):
         if len(self.view.sel()) == 0:
@@ -27,10 +28,6 @@ class ViewStream(TextIOBase):
     def _check_is_valid(self):
         if not self.view.is_valid():
             raise ValueError("The underlying view is invalid.")
-
-    def _check_writable(self):
-        if self.view.is_read_only():
-            raise ValueError("The underlying view is read-only.")
 
     def read(self, size):
         """Read and return at most <var>size</var> characters from the stream as a
@@ -72,8 +69,21 @@ class ViewStream(TextIOBase):
         """
 
         self._check_is_valid()
-        self._check_writable()
         self._check_selection()
+
+        if self.view.is_read_only():
+            if self.force_writes:
+                try:
+                    self.view.set_read_only(False)
+                    return self._write(s)
+                finally:
+                    self.view.set_read_only(True)
+            else:
+                raise ValueError("The underlying view is read-only.")
+        else:
+            return self._write(s)
+
+    def _write(self, s):
         self.view.run_command('insert', {'characters': s})
         return len(s)
 
