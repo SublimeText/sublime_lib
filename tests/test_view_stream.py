@@ -2,6 +2,7 @@ import sublime
 from sublime_lib import ViewStream
 
 from unittest import TestCase
+from io import UnsupportedOperation
 
 
 class TestViewStream(TestCase):
@@ -25,11 +26,14 @@ class TestViewStream(TestCase):
     def test_stream_operations(self):
         self.stream.write("Hello, ")
         self.stream.print("World!")
+        self.assertEqual(self.stream.tell(), 14)
 
         self.stream.seek_start()
+        self.assertEqual(self.stream.tell(), 0)
         self.stream.print("Top")
 
         self.stream.seek_end()
+        self.assertEqual(self.stream.tell(), 18)
         self.stream.print("Bottom")
 
         self.stream.seek(4)
@@ -41,3 +45,56 @@ class TestViewStream(TestCase):
         self.stream.write("Some text")
         self.stream.clear()
         self.assertContents("")
+
+    def test_read(self):
+        self.stream.write("Hello, World!\nGoodbye, World!")
+
+        self.stream.seek(7)
+        text = self.stream.read(5)
+        self.assertEqual(text, "World")
+        self.assertEqual(self.stream.tell(), 12)
+
+        text = self.stream.read(3)
+        self.assertEqual(text, "!\nG")
+        self.assertEqual(self.stream.tell(), 15)
+
+        text = self.stream.read(1000)
+        self.assertEqual(text, "oodbye, World!")
+        self.assertEqual(self.stream.tell(), self.stream.view.size())
+
+        self.stream.seek(7)
+        text = self.stream.read(None)
+        self.assertEqual(text, "World!\nGoodbye, World!")
+
+        self.stream.seek(7)
+        text = self.stream.read(-1)
+        self.assertEqual(text, "World!\nGoodbye, World!")
+
+    def test_readline(self):
+        self.stream.write("Hello, World!\nGoodbye, World!")
+
+        self.stream.seek(7)
+        text = self.stream.readline()
+        self.assertEqual(text, "World!\n")
+        self.assertEqual(self.stream.tell(), 14)
+
+        text = self.stream.readline()
+        self.assertEqual(text, "Goodbye, World!")
+
+        self.stream.seek(7)
+        text = self.stream.readline(1000)
+        self.assertEqual(text, "World!\n")
+        self.assertEqual(self.stream.tell(), 14)
+
+        self.stream.seek(7)
+        text = self.stream.readline(-1)
+        self.assertEqual(text, "World!\n")
+        self.assertEqual(self.stream.tell(), 14)
+
+        self.stream.seek(7)
+        text = self.stream.readline(5)
+        self.assertEqual(text, "World")
+        self.assertEqual(self.stream.tell(), 12)
+
+    def test_unsupported(self):
+        self.assertRaises(UnsupportedOperation, self.stream.detach)
