@@ -16,8 +16,13 @@ class ViewStream():
         if not self.view.is_valid():
             raise ValueError("The underlying view is invalid.")
 
+    def _check_writable(self):
+        if self.view.is_read_only():
+            raise ValueError("The underlying view is read-only.")
+
     def write(self, s):
         self._check_is_valid()
+        self._check_writable()
         self._check_selection()
         self.view.run_command('insert', {'characters': s})
         return len(s)

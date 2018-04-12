@@ -2,7 +2,8 @@ from .view_stream import ViewStream
 
 
 class OutputPanel(ViewStream):
-    def __init__(self, window, name, *,
+    def __init__(
+        self, window, name, *,
         settings=None,
         read_only=None
     ):
@@ -17,7 +18,7 @@ class OutputPanel(ViewStream):
                 view_settings.set(key, value)
 
         if read_only is not None:
-            view.set_read_only(read_only)
+            self.view.set_read_only(read_only)
 
     @property
     def full_name(self):
