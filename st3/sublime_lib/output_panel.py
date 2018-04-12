@@ -2,16 +2,22 @@ from .view_stream import ViewStream
 
 
 class OutputPanel(ViewStream):
-    def __init__(self, window, name, *, settings=None):
+    def __init__(self, window, name, *,
+        settings=None,
+        read_only=None
+    ):
         super().__init__(window.get_output_panel(name))
 
         self.window = window
         self.name = name
 
-        if settings:
+        if settings is not None:
             view_settings = self.view.settings()
             for key, value in settings.items():
                 view_settings.set(key, value)
+
+        if read_only is not None:
+            view.set_read_only(read_only)
 
     @property
     def full_name(self):
