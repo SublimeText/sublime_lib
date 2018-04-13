@@ -61,3 +61,11 @@ class TestOutputPanel(TestCase):
     def test_destroy(self):
         self.panel.destroy()
         self.assertIsNone(self.window.find_output_panel(self.panel.name))
+
+    def test_settings(self):
+        self.panel = OutputPanel(self.window, self.panel_name, settings={
+            "test_setting": "Hello, World!"
+        })
+
+        view_settings = self.panel.view.settings()
+        self.assertEqual(view_settings.get("test_setting"), "Hello, World!")

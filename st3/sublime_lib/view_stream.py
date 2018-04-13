@@ -13,8 +13,9 @@ class ViewStream(TextIOBase):
     empty (i.e. a simple cursor). Otherwise, ValueError will be raised.
     """
 
-    def __init__(self, view):
+    def __init__(self, view, *, force_writes=False):
         self.view = view
+        self.force_writes = force_writes
 
     def _check_selection(self):
         if len(self.view.sel()) == 0:
@@ -27,6 +28,19 @@ class ViewStream(TextIOBase):
     def _check_is_valid(self):
         if not self.view.is_valid():
             raise ValueError("The underlying view is invalid.")
+
+    def _wrap_read_only(self, callback, *args):
+        if self.view.is_read_only():
+            if self.force_writes:
+                try:
+                    self.view.set_read_only(False)
+                    return callback(*args)
+                finally:
+                    self.view.set_read_only(True)
+            else:
+                raise ValueError("The underlying view is read-only.")
+        else:
+            return callback(*args)
 
     def read(self, size):
         """Read and return at most <var>size</var> characters from the stream as a
@@ -69,6 +83,10 @@ class ViewStream(TextIOBase):
 
         self._check_is_valid()
         self._check_selection()
+
+        return self._wrap_read_only(self._write, s)
+
+    def _write(self, s):
         self.view.run_command('insert', {'characters': s})
         return len(s)
 
@@ -131,5 +149,8 @@ class ViewStream(TextIOBase):
     def clear(self):
         """Erase all text in the view."""
         self._check_is_valid()
+        self._wrap_read_only(self._clear)
+
+    def _clear(self):
         self.view.run_command('select_all')
         self.view.run_command('left_delete')
