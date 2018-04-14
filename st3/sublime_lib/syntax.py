@@ -1,22 +1,27 @@
 import sublime
 
 import re
+from collections import namedtuple
 
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']
 
 
-class SyntaxInfo():
-    __slots__ = ['path', 'name', 'scope', 'hidden']
+SyntaxInfo = namedtuple('SyntaxInfo', ['path', 'name', 'scope', 'hidden'])
+SyntaxInfo.__new__.__defaults__ = (None, None, False)  # type: ignore
 
-    def __init__(self, path, name=None, scope=None, hidden=False):
-        self.path = path
-        self.name = name
-        self.scope = scope
-        self.hidden = hidden
 
-    def __eq__(self, other):
-        return ((self.path, self.name, self.scope, self.hidden)
-                == (other.path, other.name, other.scope, other.hidden))
+def _parse_yaml_value(value):
+    if value.startswith("'"):
+        return value[1:-1].replace("''", "'")
+    elif value.startswith('"'):
+        # This is a simplifcation but one that should do for now
+        return re.sub(r"\\(.)", r"\1", value[1:-1])
+    elif value == "true":
+        return True
+    elif value == "false":
+        return False
+    else:
+        return value
 
 
 def get_syntax_metadata(path, text):
@@ -25,12 +30,12 @@ def get_syntax_metadata(path, text):
     keys = {'name', 'scope', 'hidden'}
 
     for line in text.splitlines():
-        m = re.match(r'^(\w+):\s*(.*?)\s*$', line)
+        m = re.match(r'^(\w+):\s*(.*)\s*$', line)
         if not m:
             continue
         key, value = m.groups()
         if key in keys:
-            ret[key] = value
+            ret[key] = _parse_yaml_value(value)
 
     return SyntaxInfo(path=path, **ret)
 

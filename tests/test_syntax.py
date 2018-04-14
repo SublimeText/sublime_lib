@@ -30,8 +30,24 @@ class TestGetMetadata(TestCase):
         contents = dedent("""\
             name: Test Syntax
             scope: source.test
+            hidden: true
         """)
-
         syntax = get_syntax_metadata("file", contents)
-        syntax_ref = SyntaxInfo(path="file", name="Test Syntax", scope="source.test")
+        syntax_ref = SyntaxInfo(path="file", name="Test Syntax", scope="source.test", hidden=True)
+        self.assertEqual(syntax, syntax_ref)
+
+    def test_single_quoted(self):
+        contents = dedent("""\
+            name: 'Test''s Syntax'
+        """)
+        syntax = get_syntax_metadata("file", contents)
+        syntax_ref = SyntaxInfo(path="file", name="Test's Syntax")
+        self.assertEqual(syntax, syntax_ref)
+
+    def test_double_quoted(self):
+        contents = dedent("""\
+            name: "\\" escapes "
+        """)
+        syntax = get_syntax_metadata("file", contents)
+        syntax_ref = SyntaxInfo(path="file", name='" escapes ')
         self.assertEqual(syntax, syntax_ref)
