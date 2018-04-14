@@ -14,6 +14,10 @@ class SyntaxInfo():
         self.scope = scope
         self.hidden = hidden
 
+    def __eq__(self, other):
+        return ((self.path, self.name, self.scope, self.hidden)
+                == (other.path, other.name, other.scope, other.hidden))
+
 
 def get_syntax_metadata(path, text):
     ret = {}
