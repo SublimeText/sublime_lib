@@ -51,3 +51,11 @@ class TestGetMetadata(TestCase):
         syntax = get_syntax_metadata("file", contents)
         syntax_ref = SyntaxInfo(path="file", name='" escapes ')
         self.assertEqual(syntax, syntax_ref)
+
+    def test_quoted_key(self):
+        contents = dedent("""\
+            'name': Normal Syntax
+        """)
+        syntax = get_syntax_metadata("file", contents)
+        syntax_ref = SyntaxInfo(path="file", name='Normal Syntax')
+        self.assertEqual(syntax, syntax_ref)

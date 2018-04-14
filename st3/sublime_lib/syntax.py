@@ -30,12 +30,12 @@ def get_syntax_metadata(path, text):
     keys = {'name', 'scope', 'hidden'}
 
     for line in text.splitlines():
-        m = re.match(r'^(\w+):\s*(.*)\s*$', line)
+        m = re.match(r'^(.*?):\s*(.*)\s*$', line)
         if not m:
             continue
-        key, value = m.groups()
+        key, value = map(_parse_yaml_value, m.groups())
         if key in keys:
-            ret[key] = _parse_yaml_value(value)
+            ret[key] = value
 
     return SyntaxInfo(path=path, **ret)
 
