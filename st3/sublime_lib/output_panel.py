@@ -1,4 +1,5 @@
 from .view_stream import ViewStream
+from .view_stream import _guard, _guard_validity
 
 
 class OutputPanel(ViewStream):
@@ -28,12 +29,12 @@ class OutputPanel(ViewStream):
     def full_name(self):
         return "output.%s" % self.name
 
+    @_guard(_guard_validity)
     def show(self):
-        self._check_is_valid()
         self.window.run_command("show_panel", {"panel": self.full_name})
 
+    @_guard(_guard_validity)
     def hide(self):
-        self._check_is_valid()
         self.window.run_command("hide_panel", {"panel": self.full_name})
 
     def destroy(self):
