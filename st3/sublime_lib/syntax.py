@@ -14,13 +14,16 @@ def _parse_yaml_value(value):
     if value.startswith("'"):
         return value[1:-1].replace("''", "'")
     elif value.startswith('"'):
-        # This is a simplifcation but one that should do for now
-        return re.sub(r"\\(.)", r"\1", value[1:-1])
+        # JSON and YAML quotation rules are very similar, if not identical
+        return sublime.decode_value(value)
     elif value == "true":
         return True
     elif value == "false":
         return False
+    elif value == "null":
+        return None
     else:
+        # Does not handle numbers because we don't expect any
         return value
 
 
