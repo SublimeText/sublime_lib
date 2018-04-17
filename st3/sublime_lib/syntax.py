@@ -3,6 +3,8 @@ import sublime
 import re
 from collections import namedtuple
 
+from . import plist
+
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']
 
 
@@ -27,26 +29,59 @@ def _parse_yaml_value(value):
         return value
 
 
+def projection(d, keys):
+    if isinstance(keys, dict):
+        return {
+            keys[key]: value
+            for key, value in d.items()
+            if key in keys
+        }
+    else:
+        return {
+            key: value
+            for key, value in d.items()
+            if key in keys
+        }
+
+
+def get_yaml_metadata(text):
+    return projection(
+        dict(
+            map(_parse_yaml_value, match.groups())
+            for match in re.finditer(r'(?m)^(\S.*?):\s*(.*)\s*$', text)
+        ),
+        {'name', 'hidden', 'scope'}
+    )
+
+
+def get_xml_metadata(text):
+    tree = plist.loads(text)
+
+    return projection(tree, {
+        'name': 'name',
+        'hidden': 'hidden',
+        'scopeName': 'scope',
+    })
+
+
 def get_syntax_metadata(path, text):
-    ret = {}
+    if path.endswith('.sublime-syntax'):
+        meta = get_yaml_metadata(text)
+    elif path.endswith('.tmLanguage'):
+        meta = get_xml_metadata(text)
+    else:
+        raise TypeError("%s is not a syntax definition." % path)
 
-    keys = {'name', 'scope', 'hidden'}
-
-    for line in text.splitlines():
-        m = re.match(r'^(\S.*?):\s*(.*)\s*$', line)
-        if not m:
-            continue
-        key, value = map(_parse_yaml_value, m.groups())
-        if key in keys:
-            ret[key] = value
-
-    return SyntaxInfo(path=path, **ret)
+    return SyntaxInfo(path=path, **meta)
 
 
 def list_syntaxes():
     return [
         get_syntax_metadata(path, sublime.load_resource(path))
-        for path in sublime.find_resources('*.sublime-syntax')
+        for path in (
+            sublime.find_resources('*.sublime-syntax') +
+            sublime.find_resources('*.tmLanguage')
+        )
     ]
 
 

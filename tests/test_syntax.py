@@ -32,30 +32,59 @@ class TestGetMetadata(TestCase):
             scope: source.test
             hidden: true
         """)
-        syntax = get_syntax_metadata("file", contents)
-        syntax_ref = SyntaxInfo(path="file", name="Test Syntax", scope="source.test", hidden=True)
+        syntax = get_syntax_metadata("file.sublime-syntax", contents)
+        syntax_ref = SyntaxInfo(
+            path="file.sublime-syntax",
+            name="Test Syntax",
+            scope="source.test",
+            hidden=True
+        )
         self.assertEqual(syntax, syntax_ref)
 
     def test_single_quoted(self):
         contents = dedent("""\
             name: 'Test''s Syntax'
         """)
-        syntax = get_syntax_metadata("file", contents)
-        syntax_ref = SyntaxInfo(path="file", name="Test's Syntax")
+        syntax = get_syntax_metadata("file.sublime-syntax", contents)
+        syntax_ref = SyntaxInfo(path="file.sublime-syntax", name="Test's Syntax")
         self.assertEqual(syntax, syntax_ref)
 
     def test_double_quoted(self):
         contents = dedent("""\
             name: "\\" escapes "
         """)
-        syntax = get_syntax_metadata("file", contents)
-        syntax_ref = SyntaxInfo(path="file", name='" escapes ')
+        syntax = get_syntax_metadata("file.sublime-syntax", contents)
+        syntax_ref = SyntaxInfo(path="file.sublime-syntax", name='" escapes ')
         self.assertEqual(syntax, syntax_ref)
 
     def test_quoted_key(self):
         contents = dedent("""\
             'name': Normal Syntax
         """)
-        syntax = get_syntax_metadata("file", contents)
-        syntax_ref = SyntaxInfo(path="file", name='Normal Syntax')
+        syntax = get_syntax_metadata("file.sublime-syntax", contents)
+        syntax_ref = SyntaxInfo(path="file.sublime-syntax", name='Normal Syntax')
+        self.assertEqual(syntax, syntax_ref)
+
+    def test_tmlanguage(self):
+        contents = dedent("""\
+            <?xml version="1.0" encoding="UTF-8"?>
+            <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+                "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+            <plist version="1.0">
+            <dict>
+                <key>name</key>
+                <string>Test Syntax</string>
+                <key>scopeName</key>
+                <string>source.test</string>
+                <key>hidden</key>
+                <true/>
+            </dict>
+        """)
+        syntax = get_syntax_metadata("file.tmLanguage", contents)
+        syntax_ref = SyntaxInfo(
+            path="file.tmLanguage",
+            name="Test Syntax",
+            scope="source.test",
+            hidden=True
+        )
         self.assertEqual(syntax, syntax_ref)
