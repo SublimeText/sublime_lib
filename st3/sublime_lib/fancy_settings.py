@@ -1,3 +1,5 @@
+import sublime
+
 from uuid import uuid4
 from collections.abc import Mapping
 
@@ -97,3 +99,12 @@ class FancySettings():
 
     def unsubscribe(self, key):
         self.settings.clear_on_change(key)
+
+
+class NamedFancySettings(FancySettings):
+    def __init__(self, name, defaults={}):
+        super().__init__(sublime.load_settings(name), defaults)
+        self.name = name
+
+    def save(self):
+        sublime.save_settings(self.name)
