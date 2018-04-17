@@ -102,3 +102,6 @@ class TestFancySettings(TestCase):
         self.assertEqual(self.fancy['baz'], 30)
         self.assertEqual(self.fancy['xyzzy'], 3)
         self.assertEqual(self.fancy['yzzyx'], 4)
+
+    def test_nameless_save_error(self):
+        self.assertRaises(ValueError, self.fancy.save)

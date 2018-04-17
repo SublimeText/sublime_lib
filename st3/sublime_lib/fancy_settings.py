@@ -1,3 +1,4 @@
+import sublime
 from uuid import uuid4
 from collections.abc import Mapping
 
@@ -19,7 +20,15 @@ NOT_GIVEN = {}
 
 class FancySettings():
     def __init__(self, settings, defaults={}):
-        self.settings = settings
+        if isinstance(settings, sublime.Settings):
+            self.settings = settings
+            self.name = None
+        elif isinstance(settings, str):
+            self.settings = sublime.load_settings(settings)
+            self.name = settings
+        else:
+            raise TypeError('The "settings" argument should be a Settings object or string.')
+
         self.defaults = defaults
 
     def __getitem__(self, key):
@@ -69,6 +78,12 @@ class FancySettings():
 
         for key, value in kwargs.items():
             self[key] = value
+
+    def save(self):
+        if self.name is None:
+            raise ValueError("Only named settings can be saved.")
+        else:
+            sublime.save_settings(self.name)
 
     def subscribe(self, selector, callback, default_value=None):
         if callable(selector):
