@@ -3,7 +3,7 @@ import sublime
 import re
 from collections import namedtuple
 
-from . import plist
+import plistlib
 
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']
 
@@ -55,7 +55,7 @@ def get_yaml_metadata(text):
 
 
 def get_xml_metadata(text):
-    tree = plist.loads(text)
+    tree = plistlib.readPlistFromBytes(text)
 
     return projection(tree, {
         'name': 'name',
@@ -64,11 +64,11 @@ def get_xml_metadata(text):
     })
 
 
-def get_syntax_metadata(path, text):
+def get_syntax_metadata(path):
     if path.endswith('.sublime-syntax'):
-        meta = get_yaml_metadata(text)
+        meta = get_yaml_metadata(sublime.load_resource(path))
     elif path.endswith('.tmLanguage'):
-        meta = get_xml_metadata(text)
+        meta = get_xml_metadata(sublime.load_binary_resource(path))
     else:
         raise TypeError("%s is not a syntax definition." % path)
 
@@ -77,7 +77,7 @@ def get_syntax_metadata(path, text):
 
 def list_syntaxes():
     return [
-        get_syntax_metadata(path, sublime.load_resource(path))
+        get_syntax_metadata(path)
         for path in (
             sublime.find_resources('*.sublime-syntax') +
             sublime.find_resources('*.tmLanguage')
