@@ -1,4 +1,5 @@
 from .view_stream import ViewStream
+from .view_utils import set_view_options
 
 
 class OutputPanel(ViewStream):
@@ -16,13 +17,7 @@ class OutputPanel(ViewStream):
         self.window = window
         self.name = name
 
-        if settings is not None:
-            view_settings = self.view.settings()
-            for key, value in settings.items():
-                view_settings.set(key, value)
-
-        if read_only is not None:
-            self.view.set_read_only(read_only)
+        set_view_options(self.view, settings=settings, read_only=read_only)
 
     @property
     def full_name(self):
