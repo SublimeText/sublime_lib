@@ -6,8 +6,7 @@ class OutputPanel(ViewStream):
     def __init__(
         self, window, name, *,
         force_writes=False,
-        settings=None,
-        read_only=None
+        **kwargs
     ):
         super().__init__(
             window.get_output_panel(name),
@@ -17,7 +16,7 @@ class OutputPanel(ViewStream):
         self.window = window
         self.name = name
 
-        set_view_options(self.view, settings=settings, read_only=read_only)
+        set_view_options(self.view, **kwargs)
 
     @property
     def full_name(self):

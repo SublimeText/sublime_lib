@@ -23,6 +23,7 @@ class TestViewUtils(TestCase):
         self.assertEquals(self.view.name(), '')
         self.assertFalse(self.view.is_read_only())
         self.assertFalse(self.view.is_scratch())
+        self.assertFalse(self.view.overwrite_status())
 
         self.assertEquals(self.view.scope_name(0).strip(), 'text.plain')
 
@@ -41,6 +42,11 @@ class TestViewUtils(TestCase):
 
         self.assertTrue(self.view.is_scratch())
 
+    def test_overwrite(self):
+        self.view = new_view(self.window, overwrite=True)
+
+        self.assertTrue(self.view.overwrite_status())
+
     def test_settings(self):
         self.view = new_view(self.window, settings={
             'example_setting': 'Hello, World!',
@@ -55,3 +61,33 @@ class TestViewUtils(TestCase):
         self.view = new_view(self.window, scope='source.js')
 
         self.assertTrue(self.view.scope_name(0).startswith('source.js'))
+
+    def test_syntax_scope_exclusive(self):
+        self.assertRaises(
+            TypeError,
+            new_view,
+            self.window,
+            scope='source.js',
+            syntax='Packages/JavaScript/JavaScript.sublime-syntax'
+        )
+
+    def test_encoding(self):
+        self.view = new_view(self.window, encoding='utf-16')
+
+        self.assertEquals(self.view.encoding(), "UTF-16 LE with BOM")
+
+    def test_content(self):
+        self.view = new_view(self.window, content="Hello, World!")
+
+        self.assertEquals(
+            self.view.substr(sublime.Region(0, self.view.size())),
+            "Hello, World!"
+        )
+
+    def test_content_read_only(self):
+        self.view = new_view(self.window, content="Hello, World!", read_only=True)
+
+        self.assertEquals(
+            self.view.substr(sublime.Region(0, self.view.size())),
+            "Hello, World!"
+        )
