@@ -1,5 +1,5 @@
 from .view_stream import ViewStream
-from .view_utils import set_view_options
+from .view_utils import set_view_options, validate_view_options
 
 
 class OutputPanel(ViewStream):
@@ -8,6 +8,8 @@ class OutputPanel(ViewStream):
         force_writes=False,
         **kwargs
     ):
+        validate_view_options(kwargs)
+
         super().__init__(
             window.get_output_panel(name),
             force_writes=force_writes

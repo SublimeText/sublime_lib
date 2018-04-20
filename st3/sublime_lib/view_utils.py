@@ -1,14 +1,27 @@
+import inspect
+
 from .syntax import get_syntax_for_scope
 from .encodings import to_sublime
 
 
+__all__ = ['new_view']
+
+
 def new_view(window, **kwargs):
-    if 'scope' in kwargs and 'syntax' in kwargs:
-        raise TypeError('The "syntax" and "scope" arguments are exclusive.')
+    validate_view_options(kwargs)
 
     view = window.new_file()
     set_view_options(view, **kwargs)
     return view
+
+
+def validate_view_options(options):
+    unknown = set(options) - VIEW_OPTIONS
+    if unknown:
+        raise ValueError('Unknown view options: %s.' % ', '.join(list(unknown)))
+
+    if 'scope' in options and 'syntax' in options:
+        raise ValueError('The "syntax" and "scope" arguments are exclusive.')
 
 
 def set_view_options(
@@ -51,3 +64,10 @@ def set_view_options(
 
     if encoding is not None:
         view.set_encoding(to_sublime(encoding))
+
+
+VIEW_OPTIONS = {
+    name
+    for name, param in inspect.signature(set_view_options).parameters.items()
+    if param.kind == inspect.Parameter.KEYWORD_ONLY
+}

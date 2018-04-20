@@ -62,9 +62,17 @@ class TestViewUtils(TestCase):
 
         self.assertTrue(self.view.scope_name(0).startswith('source.js'))
 
+    def test_unknown_args(self):
+        self.assertRaises(
+            ValueError,
+            new_view,
+            self.window,
+            bogus_arg="Hello, World!"
+        )
+
     def test_syntax_scope_exclusive(self):
         self.assertRaises(
-            TypeError,
+            ValueError,
             new_view,
             self.window,
             scope='source.js',
