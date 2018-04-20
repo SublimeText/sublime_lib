@@ -110,3 +110,33 @@ class TestViewStream(TestCase):
 
     def test_unsupported(self):
         self.assertRaises(UnsupportedOperation, self.stream.detach)
+
+    def test_selection_guard(self):
+        sel = self.view.sel()
+        sel.clear()
+        self.assertRaises(ValueError, self.stream.write, "\n")
+
+        sel.add(0)
+        self.stream.write("\n")
+
+        sel.add(0)
+        self.assertRaises(ValueError, self.stream.write, "\n")
+
+        sel.clear()
+        sel.add(sublime.Region(0, 1))
+        self.assertRaises(ValueError, self.stream.write, "\n")
+
+    def test_validity_guard(self):
+        self.view.set_scratch(True)
+        self.view.window().focus_view(self.view)
+        self.view.window().run_command("close_file")
+        self.view = None
+
+        self.assertRaises(ValueError, self.stream.read, None)
+        self.assertRaises(ValueError, self.stream.readline)
+        self.assertRaises(ValueError, self.stream.write, "\n")
+        self.assertRaises(ValueError, self.stream.clear)
+        self.assertRaises(ValueError, self.stream.seek, 0)
+        self.assertRaises(ValueError, self.stream.seek_start)
+        self.assertRaises(ValueError, self.stream.seek_end)
+        self.assertRaises(ValueError, self.stream.tell)

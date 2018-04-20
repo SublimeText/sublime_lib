@@ -1,5 +1,24 @@
 from sublime import Region
+
+from contextlib import contextmanager
+from functools import wraps
 from io import SEEK_SET, SEEK_CUR, SEEK_END, TextIOBase
+
+
+def define_guard(guard_fn):
+    def decorator(wrapped):
+        @wraps(wrapped)
+        def wrapper_guards(self, *args, **kwargs):
+            ret_val = guard_fn(self)
+            if hasattr(ret_val, '__enter__'):
+                with ret_val:
+                    return wrapped(self, *args, **kwargs)
+            else:
+                return wrapped(self, *args, **kwargs)
+
+        return wrapper_guards
+
+    return decorator
 
 
 class ViewStream(TextIOBase):
@@ -13,11 +32,26 @@ class ViewStream(TextIOBase):
     empty (i.e. a simple cursor). Otherwise, ValueError will be raised.
     """
 
-    def __init__(self, view, *, force_writes=False):
-        self.view = view
-        self.force_writes = force_writes
+    @define_guard
+    @contextmanager
+    def guard_read_only(self):
+        if self.view.is_read_only():
+            if self.force_writes:
+                self.view.set_read_only(False)
+                yield
+                self.view.set_read_only(True)
+            else:
+                raise ValueError("The underlying view is read-only.")
+        else:
+            yield
 
-    def _check_selection(self):
+    @define_guard
+    def guard_validity(self):
+        if not self.view.is_valid():
+            raise ValueError("The underlying view is invalid.")
+
+    @define_guard
+    def guard_selection(self):
         if len(self.view.sel()) == 0:
             raise ValueError("The underlying view has no selection.")
         elif len(self.view.sel()) > 1:
@@ -25,44 +59,27 @@ class ViewStream(TextIOBase):
         elif not self.view.sel()[0].empty():
             raise ValueError("The underlying view's selection is not empty.")
 
-    def _check_is_valid(self):
-        if not self.view.is_valid():
-            raise ValueError("The underlying view is invalid.")
+    def __init__(self, view, *, force_writes=False):
+        self.view = view
+        self.force_writes = force_writes
 
-    def _wrap_read_only(self, callback, *args):
-        if self.view.is_read_only():
-            if self.force_writes:
-                try:
-                    self.view.set_read_only(False)
-                    return callback(*args)
-                finally:
-                    self.view.set_read_only(True)
-            else:
-                raise ValueError("The underlying view is read-only.")
-        else:
-            return callback(*args)
-
+    @guard_validity
+    @guard_selection
     def read(self, size):
         """Read and return at most <var>size</var> characters from the stream as a
         single `str`. If <var>size</var> is negative or None, reads until EOF.
         """
-
-        self._check_is_valid()
-        self._check_selection()
-
         begin = self._tell()
         end = self.view.size()
 
         return self._read(begin, end, size)
 
+    @guard_validity
+    @guard_selection
     def readline(self, size=-1):
         """Read until newline or EOF and return a single `str`. If the stream is
         already at EOF, an empty string is returned.
         """
-
-        self._check_is_valid()
-        self._check_selection()
-
         begin = self._tell()
         end = self.view.full_line(begin).end()
 
@@ -75,18 +92,14 @@ class ViewStream(TextIOBase):
         self._seek(end)
         return self.view.substr(Region(begin, end))
 
+    @guard_validity
+    @guard_selection
+    @guard_read_only
     def write(self, s):
         """Insert the string <var>s</var> into the view and return the number of
         characters inserted. The string will be inserted immediately before the
         cursor.
         """
-
-        self._check_is_valid()
-        self._check_selection()
-
-        return self._wrap_read_only(self._write, s)
-
-    def _write(self, s):
         self.view.run_command('insert', {'characters': s})
         return len(s)
 
@@ -97,14 +110,12 @@ class ViewStream(TextIOBase):
         """Do nothing. (The stream is not buffered.)"""
         pass
 
+    @guard_validity
     def seek(self, offset, whence=SEEK_SET):
         """Move the cursor in the view to the given offset. If `whence` is
         provided, the behavior is the same as for TextIOBase. If the view had
         multiple selections, none will be preserved.
         """
-
-        self._check_is_valid()
-
         if whence == SEEK_SET:
             return self._seek(offset)
         elif whence == SEEK_CUR:
@@ -127,30 +138,29 @@ class ViewStream(TextIOBase):
         selection.add(Region(offset))
         return offset
 
+    @guard_validity
     def seek_start(self):
         """Move the cursor in the view to before the first character."""
-        self._check_is_valid()
         self._seek(0)
 
+    @guard_validity
     def seek_end(self):
         """Move the cursor in the view to after the last character."""
-        self._check_is_valid()
         self._seek(self.view.size())
 
+    @guard_validity
+    @guard_selection
     def tell(self):
         """Return the character offset of the cursor."""
-        self._check_is_valid()
-        self._check_selection()
         return self._tell()
 
     def _tell(self):
         return self.view.sel()[0].b
 
+    @guard_validity
+    @guard_selection
+    @guard_read_only
     def clear(self):
         """Erase all text in the view."""
-        self._check_is_valid()
-        self._wrap_read_only(self._clear)
-
-    def _clear(self):
         self.view.run_command('select_all')
         self.view.run_command('left_delete')
