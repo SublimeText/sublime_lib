@@ -4,7 +4,7 @@ from .syntax import get_syntax_for_scope
 from .encodings import to_sublime
 
 
-__all__ = ['new_view']
+__all__ = ['new_view', 'close_view']
 
 
 def new_view(window, **kwargs):
@@ -13,6 +13,23 @@ def new_view(window, **kwargs):
     view = window.new_file()
     set_view_options(view, **kwargs)
     return view
+
+
+def close_view(view, *, force=False):
+    if not view.is_valid():
+        return
+
+    if view.window() is None:
+        raise ValueError('The view has no associated window.')
+
+    if view.is_dirty() and not view.is_scratch():
+        if force:
+            view.set_scratch(True)
+        else:
+            raise ValueError('The view has unsaved changes.')
+
+    view.window().focus_view(view)
+    view.window().run_command("close_file")
 
 
 def validate_view_options(options):

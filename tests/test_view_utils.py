@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib.view_utils import new_view
+from sublime_lib.view_utils import new_view, close_view
 
 from unittest import TestCase
 
@@ -11,9 +11,7 @@ class TestViewUtils(TestCase):
 
     def tearDown(self):
         if getattr(self, 'view', None):
-            self.view.set_scratch(True)
-            self.view.window().focus_view(self.view)
-            self.view.window().run_command("close_file")
+            close_view(self.view, force=True)
 
     def test_new_view(self):
         self.view = new_view(self.window)
@@ -99,3 +97,25 @@ class TestViewUtils(TestCase):
             self.view.substr(sublime.Region(0, self.view.size())),
             "Hello, World!"
         )
+
+    def test_close_view(self):
+        self.view = new_view(self.window)
+
+        close_view(self.view)
+        self.assertFalse(self.view.is_valid())
+
+    def test_close_unsaved(self):
+        self.view = new_view(self.window, content="Hello, World!")
+
+        self.assertRaises(ValueError, close_view, self.view)
+        self.assertTrue(self.view.is_valid())
+
+        close_view(self.view, force=True)
+        self.assertFalse(self.view.is_valid())
+
+    def test_close_panel_error(self):
+        view = self.window.create_output_panel('sublime_lib-TestViewUtils')
+
+        self.assertRaises(ValueError, close_view, view)
+
+        self.window.destroy_output_panel('sublime_lib-TestViewUtils')
