@@ -100,8 +100,13 @@ class ViewStream(TextIOBase):
         characters inserted. The string will be inserted immediately before the
         cursor.
         """
-        self.view.run_command('insert', {'characters': s})
-        return len(s)
+        # This is a hack to get around auto-indentation.
+        old_size = self.view.size()
+        self.view.run_command('insert_snippet', {
+            'contents': '$sublime_lib__insert_text',
+            'sublime_lib__insert_text': s,
+        })
+        return self.view.size() - old_size
 
     def print(self, *objects, **kwargs):
         print(*objects, file=self, **kwargs)

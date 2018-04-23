@@ -41,6 +41,19 @@ class TestViewStream(TestCase):
 
         self.assertContents("Top\nAfter Top\nHello, World!\nBottom\n")
 
+    def test_write_size(self):
+        text = "Hello\n\tWorld!"
+
+        size = self.stream.write(text)
+        self.assertEqual(size, self.stream.view.size())
+
+    def test_no_indent(self):
+        text = "Hello\n    World\n!"
+
+        self.stream.view.settings().set('auto_indent', True)
+        self.stream.write(text)
+        self.assertContents(text)
+
     def test_clear(self):
         self.stream.write("Some text")
         self.stream.clear()
