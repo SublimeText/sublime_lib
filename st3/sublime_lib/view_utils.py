@@ -102,7 +102,7 @@ def set_view_options(
         view.set_name(name)
 
     if content is not None:
-        view.run_command('insert', {'characters': content})
+        view.run_command('append', {'characters': content})
 
     if settings is not None:
         view_settings = view.settings()
