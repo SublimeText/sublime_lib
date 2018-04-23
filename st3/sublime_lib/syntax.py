@@ -31,21 +31,6 @@ def _parse_yaml_value(value):
         return value
 
 
-# def projection(d, keys):
-#     if isinstance(keys, dict):
-#         return {
-#             keys[key]: value
-#             for key, value in d.items()
-#             if key in keys
-#         }
-#     else:
-#         return {
-#             key: value
-#             for key, value in d.items()
-#             if key in keys
-#         }
-
-
 def get_yaml_metadata(text):
     return projection(
         dict(
