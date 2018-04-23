@@ -102,3 +102,59 @@ class TestFancySettings(TestCase):
         self.assertEqual(self.fancy['baz'], 30)
         self.assertEqual(self.fancy['xyzzy'], 3)
         self.assertEqual(self.fancy['yzzyx'], 4)
+
+
+class TestFancySettingsSubscription(TestCase):
+
+    def setUp(self):
+        self.view = sublime.active_window().new_file()
+        self.settings = self.view.settings()
+        self.fancy = FancySettings(self.settings)
+
+    def tearDown(self):
+        if self.view:
+            self.view.set_scratch(True)
+            self.view.window().focus_view(self.view)
+            self.view.window().run_command("close_file")
+
+        if self.fancy and getattr(self, 'key', None):
+            self.fancy.unsubscribe(self.key)
+
+    def test_subscribe(self):
+        self.fancy['example_setting'] = 1
+
+        values = None
+
+        def callback(new, old):
+            nonlocal values
+            values = (new, old)
+
+        self.key = self.fancy.subscribe('example_setting', callback)
+
+        self.fancy['example_setting'] = 2
+        self.assertEqual(values, (2, 1))
+
+        self.fancy.unsubscribe(self.key)
+        self.fancy['example_setting'] = 3
+        self.assertEqual(values, (2, 1))
+
+    def test_subscribe_multiple(self):
+        self.fancy.update(
+            example_1=1,
+            example_2=2
+        )
+
+        values = None
+
+        def callback(new, old):
+            nonlocal values
+            values = new
+
+        self.key = self.fancy.subscribe({'example_1', 'example_2', 'example_3'}, callback)
+
+        self.fancy['example_1'] = 10
+
+        self.assertEqual(values, {
+            'example_1': 10,
+            'example_2': 2
+        })
