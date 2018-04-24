@@ -99,9 +99,17 @@ class ViewStream(TextIOBase):
         """Insert the string <var>s</var> into the view and return the number of
         characters inserted. The string will be inserted immediately before the
         cursor.
+
+        Note: Because Sublime may convert tabs to spaces, the number of
+        characters inserted may not match the length of the argument.
         """
-        self.view.run_command('insert', {'characters': s})
-        return len(s)
+        # This is a hack to get around auto-indentation.
+        old_size = self.view.size()
+        self.view.run_command('insert_snippet', {
+            'contents': '$sublime_lib__insert_text',
+            'sublime_lib__insert_text': s,
+        })
+        return self.view.size() - old_size
 
     def print(self, *objects, **kwargs):
         print(*objects, file=self, **kwargs)
