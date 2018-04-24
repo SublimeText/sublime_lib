@@ -50,7 +50,7 @@ SUBLIME_TO_STANDARD = {  # noqa: E121
 
 
 STANDARD_TO_SUBLIME = {  # noqa: E121
-   standard_name: sublime_name
-   for sublime_name, standard_name in SUBLIME_TO_STANDARD.items()
+    standard_name: sublime_name
+    for sublime_name, standard_name in SUBLIME_TO_STANDARD.items()
 }
 STANDARD_TO_SUBLIME['utf-16'] = 'UTF-16 LE with BOM'
