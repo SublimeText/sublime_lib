@@ -3,6 +3,8 @@ import sublime
 from uuid import uuid4
 from collections.abc import Mapping
 
+from .collection_utils import projection
+
 
 def isiterable(obj):
     try:
@@ -78,7 +80,7 @@ class FancySettings():
         elif isinstance(selector, str):
             selector_fn = lambda this: this.get(selector, default_value)
         elif isiterable(selector):
-            selector_fn = lambda this: {key: this[key] for key in selector}
+            selector_fn = lambda this: projection(this, selector)
         else:
             raise TypeError('The "callback" argument should be a function, '
                             'string, or iterable of strings.')

@@ -2,8 +2,10 @@ import sublime
 
 import re
 from collections import namedtuple
-
 import plistlib
+
+from .collection_utils import projection
+
 
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']
 
@@ -27,21 +29,6 @@ def _parse_yaml_value(value):
     else:
         # Does not handle numbers because we don't expect any
         return value
-
-
-def projection(d, keys):
-    if isinstance(keys, dict):
-        return {
-            keys[key]: value
-            for key, value in d.items()
-            if key in keys
-        }
-    else:
-        return {
-            key: value
-            for key, value in d.items()
-            if key in keys
-        }
 
 
 def get_yaml_metadata(text):
