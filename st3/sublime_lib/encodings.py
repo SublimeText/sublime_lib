@@ -50,37 +50,7 @@ SUBLIME_TO_STANDARD = {  # noqa: E121
 
 
 STANDARD_TO_SUBLIME = {  # noqa: E121
-   "cp1258": "Vietnamese (Windows 1258)",
-   "cp1250": "Central European (Windows 1250)",
-   "cp1251": "Cyrillic (Windows 1251)",
-   "cp1252": "Western (Windows 1252)",
-   "cp1253": "Greek (Windows 1253)",
-   "cp1254": "Turkish (Windows 1254)",
-   "cp1255": "Hebrew (Windows 1255)",
-   "cp1256": "Arabic (Windows 1256)",
-   "cp1257": "Baltic (Windows 1257)",
-   "cp437": "DOS (CP 437)",
-   "cp866": "Cyrillic (Windows 866)",
-   "iso8859-1": "Western (ISO 8859-1)",
-   "iso8859-2": "Central European (ISO 8859-2)",
-   "iso8859-3": "Western (ISO 8859-3)",
-   "iso8859-4": "Baltic (ISO 8859-4)",
-   "iso8859-5": "Cyrillic (ISO 8859-5)",
-   "iso8859-6": "Arabic (ISO 8859-6)",
-   "iso8859-7": "Greek (ISO 8859-7)",
-   "iso8859-8": "Hebrew (ISO 8859-8)",
-   "iso8859-9": "Turkish (ISO 8859-9)",
-   "iso8859-10": "Nordic (ISO 8859-10)",
-   "iso8859-13": "Estonian (ISO 8859-13)",
-   "iso8859-14": "Celtic (ISO 8859-14)",
-   "iso8859-15": "Western (ISO 8859-15)",
-   "iso8859-16": "Romanian (ISO 8859-16)",
-   "koi8-r": "Cyrillic (KOI8-R)",
-   "koi8-u": "Cyrillic (KOI8-U)",
-   "mac-roman": "Western (Mac Roman)",
-   "utf-16": "UTF-16 LE with BOM",
-   "utf-16-be": "UTF-16 BE",
-   "utf-16-le": "UTF-16 LE",
-   "utf-8": "UTF-8",
-   "utf-8-sig": "UTF-8 with BOM",
+   standard_name: sublime_name
+   for sublime_name, standard_name in SUBLIME_TO_STANDARD.items()
 }
+STANDARD_TO_SUBLIME['utf-16'] = 'UTF-16 LE with BOM'
