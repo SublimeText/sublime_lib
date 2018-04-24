@@ -1,13 +1,15 @@
 from .view_stream import ViewStream
+from .view_utils import set_view_options, validate_view_options
 
 
 class OutputPanel(ViewStream):
     def __init__(
         self, window, name, *,
         force_writes=False,
-        settings=None,
-        read_only=None
+        **kwargs
     ):
+        validate_view_options(kwargs)
+
         super().__init__(
             window.get_output_panel(name),
             force_writes=force_writes
@@ -16,13 +18,7 @@ class OutputPanel(ViewStream):
         self.window = window
         self.name = name
 
-        if settings is not None:
-            view_settings = self.view.settings()
-            for key, value in settings.items():
-                view_settings.set(key, value)
-
-        if read_only is not None:
-            self.view.set_read_only(read_only)
+        set_view_options(self.view, **kwargs)
 
     @property
     def full_name(self):
