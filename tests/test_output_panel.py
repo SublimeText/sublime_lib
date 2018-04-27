@@ -49,10 +49,22 @@ class TestOutputPanel(TestCase):
     def test_show_hide(self):
         self.panel.show()
 
+        self.assertTrue(self.panel.is_visible())
         self.assertEqual(self.window.active_panel(), self.panel.full_name)
 
         self.panel.hide()
 
+        self.assertFalse(self.panel.is_visible())
+        self.assertNotEqual(self.window.active_panel(), self.panel.full_name)
+
+        self.panel.toggle_visibility()
+
+        self.assertTrue(self.panel.is_visible())
+        self.assertEqual(self.window.active_panel(), self.panel.full_name)
+
+        self.panel.toggle_visibility()
+
+        self.assertFalse(self.panel.is_visible())
         self.assertNotEqual(self.window.active_panel(), self.panel.full_name)
 
     def test_exists(self):
@@ -69,3 +81,11 @@ class TestOutputPanel(TestCase):
 
         view_settings = self.panel.view.settings()
         self.assertEqual(view_settings.get("test_setting"), "Hello, World!")
+
+    def test_unlisted(self):
+        self.panel.destroy()
+        self.panel = OutputPanel(self.window, self.panel_name, unlisted=True)
+
+        self.panel.show()
+        self.assertTrue(self.panel.is_visible())
+        self.assertNotIn(self.panel.full_name, self.window.panels())
