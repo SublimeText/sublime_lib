@@ -3,23 +3,32 @@ from .view_utils import set_view_options, validate_view_options
 
 
 class OutputPanel(ViewStream):
-    def __init__(
-        self, window, name, *,
+    @staticmethod
+    def create(
+        window, name, *,
         force_writes=False,
         unlisted=False,
         **kwargs
     ):
         validate_view_options(kwargs)
 
+        window.destroy_output_panel(name)
+        view = window.create_output_panel(name, unlisted)
+        set_view_options(view, **kwargs)
+
+        return OutputPanel(window, name, force_writes=force_writes)
+
+    def __init__(
+        self, window, name, *,
+        force_writes=False
+    ):
         super().__init__(
-            window.create_output_panel(name, unlisted),
+            window.find_output_panel(name),
             force_writes=force_writes
         )
 
         self.window = window
         self.name = name
-
-        set_view_options(self.view, **kwargs)
 
     @property
     def full_name(self):
