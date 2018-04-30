@@ -172,7 +172,7 @@ class NamedFancySettings(FancySettings):
 
 
 class DefaultFancySettings(FancySettings):
-    def __init__(self, settings, defaults={}):
+    def __init__(self, settings, defaults):
         """
         Return a new FancySettings wrapping a given Settings object *settings*.
         """
@@ -180,4 +180,4 @@ class DefaultFancySettings(FancySettings):
         self.defaults = defaults
 
     def __missing__(self, key):
-        return self.defaults[key]
+        return self.setdefault(key, self.defaults[key])
