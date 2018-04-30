@@ -22,32 +22,65 @@ NOT_GIVEN = {}
 
 
 class FancySettings():
+    """
+    Wraps a sublime.Settings object with a dict-like interface.
+
+    There is no way to list or iterate over the keys of a `sublime.Settings`
+    object. As a result, the following methods are not implemented:
+
+    - len(d)
+    - iter(d)
+    - clear()
+    - copy()
+    - items()
+    - keys()
+    - popitem()
+    - values()
+    """
+
     def __init__(self, settings, defaults={}):
+        """
+        Return a new FancySettings wrapping a given Settings object *settings*.
+        """
         self.settings = settings
         self.defaults = defaults
 
     def __getitem__(self, key):
+        """Return the setting named *key*. Raises a KeyError if there is no such setting."""
         if key in self or key in self.defaults:
             return self.get(key)
         else:
             raise KeyError(key)
 
     def __setitem__(self, key, value):
+        """Set `d[key]` to *value*."""
         self.settings.set(key, value)
 
     def __delitem__(self, key):
+        """Remove `d[key]` from *d*. Raises a KeyError if *key* is not in the map."""
         if key in self:
             self.settings.erase(key)
         else:
             raise KeyError(key)
 
     def __contains__(self, item):
+        """Return `True` if *d* has a key *key*, else `False`."""
         return self.settings.has(item)
 
     def get(self, key, default=None):
+        """
+        Return the value for key if key is in the dictionary, else default. If
+        default is not given, it defaults to None, so that this method never
+        raises a KeyError.
+        """
         return self.settings.get(key, self.defaults.get(key, default))
 
     def pop(self, key, default=NOT_GIVEN):
+        """
+        If key is in the dictionary, remove it and return its value, else
+        return default. If default is not given and key is not in the
+        dictionary, a KeyError is raised.
+        """
         if key in self:
             ret = self[key]
             del self[key]
@@ -58,6 +91,10 @@ class FancySettings():
             return default
 
     def setdefault(self, key, default=None):
+        """
+        If key is in the dictionary, return its value. If not, insert key with
+        a value of default and return default. default defaults to None.
+        """
         if key in self:
             return self[key]
         else:
@@ -65,6 +102,15 @@ class FancySettings():
             return default
 
     def update(self, other=[], **kwargs):
+        """
+        Update the dictionary with the key/value pairs from other, overwriting
+        existing keys. Return None.
+
+        update() accepts either another dictionary object or an iterable of
+        key/value pairs (as tuples or other iterables of length two). If keyword
+        arguments are specified, the dictionary is then updated with those
+        key/value pairs: d.update(red=1, blue=2).
+        """
         if ismapping(other):
             other = other.items()
 
@@ -75,6 +121,9 @@ class FancySettings():
             self[key] = value
 
     def subscribe(self, selector, callback, default_value=None):
+        """
+        Register a calback to be invoked when the settings object changes.
+        """
         if callable(selector):
             selector_fn = selector
         elif isinstance(selector, str):
@@ -104,9 +153,17 @@ class FancySettings():
 
 
 class NamedFancySettings(FancySettings):
+    """
+    Wraps a `sublime.Settings` object corresponding to a `sublime-settings`
+    file.
+    """
+
     def __init__(self, name, defaults={}):
+        """Return a new NamedFancySettings corresponding to the given name."""
+
         super().__init__(sublime.load_settings(name), defaults)
         self.name = name
 
     def save(self):
+        """Flushes any in-memory changes to the named settings object to disk."""
         sublime.save_settings(self.name)
