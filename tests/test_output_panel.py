@@ -13,7 +13,8 @@ class TestOutputPanel(TestCase):
         self.panel_name = "test_panel"
 
     def tearDown(self):
-        self.panel.destroy()
+        if getattr(self, 'panel', None):
+            self.panel.destroy()
 
         if self.panel_to_restore:
             self.window.run_command("show_panel", {"panel": self.panel_to_restore})
@@ -104,3 +105,6 @@ class TestOutputPanel(TestCase):
 
         self.panel.destroy()
         self.assertRaises(ValueError, other.tell)
+
+    def test_init_nonexistent_error(self):
+        self.assertRaises(ValueError, OutputPanel, self.window, 'does_not_exist')

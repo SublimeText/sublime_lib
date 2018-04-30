@@ -3,8 +3,9 @@ from .view_utils import set_view_options, validate_view_options
 
 
 class OutputPanel(ViewStream):
-    @staticmethod
+    @classmethod
     def create(
+        cls,
         window, name, *,
         force_writes=False,
         unlisted=False,
@@ -16,16 +17,17 @@ class OutputPanel(ViewStream):
         view = window.create_output_panel(name, unlisted)
         set_view_options(view, **kwargs)
 
-        return OutputPanel(window, name, force_writes=force_writes)
+        return cls(window, name, force_writes=force_writes)
 
     def __init__(
         self, window, name, *,
         force_writes=False
     ):
-        super().__init__(
-            window.find_output_panel(name),
-            force_writes=force_writes
-        )
+        view = window.find_output_panel(name)
+        if view is None:
+            raise ValueError('Output panel "%s" does not exist.' % name)
+
+        super().__init__(view, force_writes=force_writes)
 
         self.window = window
         self.name = name
