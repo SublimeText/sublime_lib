@@ -11,10 +11,10 @@ class TestOutputPanel(TestCase):
         self.panel_to_restore = self.window.active_panel()
 
         self.panel_name = "test_panel"
-        self.panel = OutputPanel(self.window, self.panel_name)
 
     def tearDown(self):
-        self.panel.destroy()
+        if getattr(self, 'panel', None):
+            self.panel.destroy()
 
         if self.panel_to_restore:
             self.window.run_command("show_panel", {"panel": self.panel_to_restore})
@@ -27,6 +27,8 @@ class TestOutputPanel(TestCase):
         )
 
     def test_stream_operations(self):
+        self.panel = OutputPanel.create(self.window, self.panel_name)
+
         self.panel.write("Hello, ")
         self.panel.print("World!")
 
@@ -42,11 +44,15 @@ class TestOutputPanel(TestCase):
         self.assertContents("Top\nAfter Top\nHello, World!\nBottom\n")
 
     def test_clear(self):
+        self.panel = OutputPanel.create(self.window, self.panel_name)
+
         self.panel.write("Some text")
         self.panel.clear()
         self.assertContents("")
 
     def test_show_hide(self):
+        self.panel = OutputPanel.create(self.window, self.panel_name)
+
         self.panel.show()
 
         self.assertTrue(self.panel.is_visible())
@@ -68,14 +74,16 @@ class TestOutputPanel(TestCase):
         self.assertNotEqual(self.window.active_panel(), self.panel.full_name)
 
     def test_exists(self):
+        self.panel = OutputPanel.create(self.window, self.panel_name)
         self.assertIsNotNone(self.window.find_output_panel(self.panel.name))
 
     def test_destroy(self):
+        self.panel = OutputPanel.create(self.window, self.panel_name)
         self.panel.destroy()
         self.assertIsNone(self.window.find_output_panel(self.panel.name))
 
     def test_settings(self):
-        self.panel = OutputPanel(self.window, self.panel_name, settings={
+        self.panel = OutputPanel.create(self.window, self.panel_name, settings={
             "test_setting": "Hello, World!"
         })
 
@@ -83,9 +91,20 @@ class TestOutputPanel(TestCase):
         self.assertEqual(view_settings.get("test_setting"), "Hello, World!")
 
     def test_unlisted(self):
-        self.panel.destroy()
-        self.panel = OutputPanel(self.window, self.panel_name, unlisted=True)
+        self.panel = OutputPanel.create(self.window, self.panel_name, unlisted=True)
 
         self.panel.show()
         self.assertTrue(self.panel.is_visible())
         self.assertNotIn(self.panel.full_name, self.window.panels())
+
+    def test_attach(self):
+        self.panel = OutputPanel.create(self.window, self.panel_name, unlisted=True)
+
+        other = OutputPanel(self.window, self.panel_name)
+        self.assertEqual(self.panel.view.id(), other.view.id())
+
+        self.panel.destroy()
+        self.assertRaises(ValueError, other.tell)
+
+    def test_init_nonexistent_error(self):
+        self.assertRaises(ValueError, OutputPanel, self.window, 'does_not_exist')
