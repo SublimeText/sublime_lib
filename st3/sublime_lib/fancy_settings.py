@@ -38,19 +38,32 @@ class FancySettings():
     - values()
     """
 
-    def __init__(self, settings, defaults={}):
+    def __init__(self, settings):
         """
         Return a new FancySettings wrapping a given Settings object *settings*.
         """
         self.settings = settings
-        self.defaults = defaults
 
     def __getitem__(self, key):
-        """Return the setting named *key*. Raises a KeyError if there is no such setting."""
-        if key in self or key in self.defaults:
+        """
+        Return the setting named *key*. Raises a KeyError if there is no such
+        setting.
+
+        If a subclass of FancySettings defines a method `__missing__()` and
+        `key` is not present, the `d[key]` operation calls that method with the
+        key `key` as argument. The `d[key]` operation then returns or raises
+        whatever is returned or raised by the `__missing__(key)` call. No other
+        operations or methods invoke `__missing__()`. If `__missing__()` is not
+        defined, `KeyError` is raised. `__missing__()` must be a method; it
+        cannot be an instance variable.
+        """
+        if key in self:
             return self.get(key)
         else:
-            raise KeyError(key)
+            return self.__missing__(key)
+
+    def __missing__(self, key):
+        raise KeyError(key)
 
     def __setitem__(self, key, value):
         """Set `d[key]` to *value*."""
@@ -73,7 +86,7 @@ class FancySettings():
         default is not given, it defaults to None, so that this method never
         raises a KeyError.
         """
-        return self.settings.get(key, self.defaults.get(key, default))
+        return self.settings.get(key, default)
 
     def pop(self, key, default=NOT_GIVEN):
         """
@@ -158,12 +171,48 @@ class NamedFancySettings(FancySettings):
     file.
     """
 
-    def __init__(self, name, defaults={}):
+    def __init__(self, name):
         """Return a new NamedFancySettings corresponding to the given name."""
 
-        super().__init__(sublime.load_settings(name), defaults)
+        super().__init__(sublime.load_settings(name))
         self.name = name
 
     def save(self):
         """Flushes any in-memory changes to the named settings object to disk."""
         sublime.save_settings(self.name)
+
+
+class DefaultFancySettings(FancySettings):
+    """
+    A subclass of FancySettings that accepts user-defined default values.
+
+    This class generally should not be used with named settings files. Instead,
+    package developers should provide settings files populated with defaults.
+    """
+
+    def __init__(self, settings, defaults):
+        """
+        Return a new DefaultFancySettings wrapping a given Settings object
+        *settings*, with a given dict-like object *defaults* of default values.
+        """
+        super().__init__(settings)
+        self.defaults = defaults
+
+    def __missing__(self, key):
+        """
+        Lookup the given `key` in this object's `defaults` attribute, insert
+        that value into this object for the `key`, and return that value.
+
+        If looking up `key` in `defaults` raises an exception (such as a
+        `KeyError`), this exception is propagated unchanged.
+
+        This method is called by the __getitem__() method of the FancySettings
+        class when the requested key is not found; whatever it returns or
+        raises is then returned or raised by __getitem__().
+
+        Note that __missing__() is not called for any operations besides
+        __getitem__(). This means that get() will, like normal dictionaries,
+        return None as a default rather than using defaults.
+        """
+        self[key] = self.defaults[key]
+        return self[key]

@@ -1,5 +1,6 @@
 import sublime
 from sublime_lib import FancySettings
+from sublime_lib import DefaultFancySettings
 
 from unittest import TestCase
 
@@ -158,3 +159,31 @@ class TestFancySettingsSubscription(TestCase):
             'example_1': 10,
             'example_2': 2
         })
+
+
+class TestDefaultFancySettings(TestCase):
+
+    def setUp(self):
+        self.view = sublime.active_window().new_file()
+        self.settings = self.view.settings()
+
+    def tearDown(self):
+        if self.view:
+            self.view.set_scratch(True)
+            self.view.window().focus_view(self.view)
+            self.view.window().run_command("close_file")
+
+    def test_get_default(self):
+        self.fancy = DefaultFancySettings(self.settings, {
+            'example_1': 'Hello, World!',
+        })
+
+        self.assertEqual(self.fancy['example_1'], 'Hello, World!')
+
+        self.fancy['example_1'] = 'Goodbye, World!'
+        self.assertEqual(self.fancy['example_1'], 'Goodbye, World!')
+
+        self.fancy.__missing__('example_1')
+        self.assertEqual(self.fancy['example_1'], 'Hello, World!')
+
+        self.assertRaises(KeyError, self.fancy.__getitem__, 'example_2')
