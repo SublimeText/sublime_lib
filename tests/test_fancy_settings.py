@@ -179,7 +179,11 @@ class TestDefaultFancySettings(TestCase):
         })
 
         self.assertEqual(self.fancy['example_1'], 'Hello, World!')
+
         self.fancy['example_1'] = 'Goodbye, World!'
         self.assertEqual(self.fancy['example_1'], 'Goodbye, World!')
+
+        self.fancy.__missing__('example_1')
+        self.assertEqual(self.fancy['example_1'], 'Hello, World!')
 
         self.assertRaises(KeyError, self.fancy.__getitem__, 'example_2')
