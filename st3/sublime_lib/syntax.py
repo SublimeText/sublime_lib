@@ -63,7 +63,7 @@ def get_syntax_metadata(path):
 
 
 def list_syntaxes():
-    return [
+    syntaxes = [
         get_syntax_metadata(path)
         for path in (
             sublime.find_resources('*.sublime-syntax') +
@@ -71,10 +71,22 @@ def list_syntaxes():
         )
     ]
 
+    def sort_key(syntax):
+        path = syntax.path
+        if path.startswith('Packages/Default'):
+            return '0_' + path
+        elif path.startswith('Packages/User'):
+            return '2_' + path
+        else:
+            return '1_' + path
+
+    syntaxes.sort(key=sort_key)
+    return syntaxes
+
 
 def get_syntax_for_scope(scope):
     return next((
         syntax.path
-        for syntax in list_syntaxes()
+        for syntax in reversed(list_syntaxes())
         if syntax.scope == scope
     ), None)
