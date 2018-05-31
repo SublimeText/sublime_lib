@@ -1,16 +1,16 @@
 import sublime
-from sublime_lib import FancySettings
-from sublime_lib import DefaultFancySettings
+from sublime_lib import SettingsDict
+from sublime_lib import DefaultSettingsDict
 
 from unittest import TestCase
 
 
-class TestFancySettings(TestCase):
+class TestSettingsDict(TestCase):
 
     def setUp(self):
         self.view = sublime.active_window().new_file()
         self.settings = self.view.settings()
-        self.fancy = FancySettings(self.settings)
+        self.fancy = SettingsDict(self.settings)
 
     def tearDown(self):
         if self.view:
@@ -105,12 +105,12 @@ class TestFancySettings(TestCase):
         self.assertEqual(self.fancy['yzzyx'], 4)
 
 
-class TestFancySettingsSubscription(TestCase):
+class TestSettingsDictSubscription(TestCase):
 
     def setUp(self):
         self.view = sublime.active_window().new_file()
         self.settings = self.view.settings()
-        self.fancy = FancySettings(self.settings)
+        self.fancy = SettingsDict(self.settings)
 
     def tearDown(self):
         if self.view:
@@ -161,7 +161,7 @@ class TestFancySettingsSubscription(TestCase):
         })
 
 
-class TestDefaultFancySettings(TestCase):
+class TestDefaultSettingsDict(TestCase):
 
     def setUp(self):
         self.view = sublime.active_window().new_file()
@@ -174,7 +174,7 @@ class TestDefaultFancySettings(TestCase):
             self.view.window().run_command("close_file")
 
     def test_get_default(self):
-        self.fancy = DefaultFancySettings(self.settings, {
+        self.fancy = DefaultSettingsDict(self.settings, {
             'example_1': 'Hello, World!',
         })
 

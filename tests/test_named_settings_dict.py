@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib import NamedFancySettings
+from sublime_lib import NamedSettingsDict
 
 import os
 from os import path
@@ -7,21 +7,21 @@ from os import path
 from unittesting import DeferrableTestCase
 
 
-class TestNamedFancySettings(DeferrableTestCase):
+class TestNamedSettingsDict(DeferrableTestCase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def setUp(self):
-        self.name = "_sublime_lib_NamedFancySettingsTest.sublime-settings"
+        self.name = "_sublime_lib_NamedSettingsDictTest.sublime-settings"
         self.settings_path = path.join(sublime.packages_path(), 'User', self.name)
-        self.fancy = NamedFancySettings(self.name)
+        self.fancy = NamedSettingsDict(self.name)
 
     def tearDown(self):
         if path.exists(self.settings_path):
             os.remove(self.settings_path)
 
     def test_named(self):
-        other = NamedFancySettings(self.name)
+        other = NamedSettingsDict(self.name)
 
         self.fancy["example_setting"] = "Hello, World!"
 

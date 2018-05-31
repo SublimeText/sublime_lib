@@ -21,7 +21,7 @@ def ismapping(obj):
 NOT_GIVEN = {}
 
 
-class FancySettings():
+class SettingsDict():
     """
     Wraps a sublime.Settings object with a dict-like interface.
 
@@ -40,7 +40,7 @@ class FancySettings():
 
     def __init__(self, settings):
         """
-        Return a new FancySettings wrapping a given Settings object *settings*.
+        Return a new SettingsDict wrapping a given Settings object *settings*.
         """
         self.settings = settings
 
@@ -49,7 +49,7 @@ class FancySettings():
         Return the setting named *key*. Raises a KeyError if there is no such
         setting.
 
-        If a subclass of FancySettings defines a method `__missing__()` and
+        If a subclass of SettingsDict defines a method `__missing__()` and
         `key` is not present, the `d[key]` operation calls that method with the
         key `key` as argument. The `d[key]` operation then returns or raises
         whatever is returned or raised by the `__missing__(key)` call. No other
@@ -165,14 +165,14 @@ class FancySettings():
         self.settings.clear_on_change(key)
 
 
-class NamedFancySettings(FancySettings):
+class NamedSettingsDict(SettingsDict):
     """
     Wraps a `sublime.Settings` object corresponding to a `sublime-settings`
     file.
     """
 
     def __init__(self, name):
-        """Return a new NamedFancySettings corresponding to the given name."""
+        """Return a new NamedSettingsDict corresponding to the given name."""
 
         super().__init__(sublime.load_settings(name))
         self.name = name
@@ -182,9 +182,9 @@ class NamedFancySettings(FancySettings):
         sublime.save_settings(self.name)
 
 
-class DefaultFancySettings(FancySettings):
+class DefaultSettingsDict(SettingsDict):
     """
-    A subclass of FancySettings that accepts user-defined default values.
+    A subclass of SettingsDict that accepts user-defined default values.
 
     This class generally should not be used with named settings files. Instead,
     package developers should provide settings files populated with defaults.
@@ -192,7 +192,7 @@ class DefaultFancySettings(FancySettings):
 
     def __init__(self, settings, defaults):
         """
-        Return a new DefaultFancySettings wrapping a given Settings object
+        Return a new DefaultSettingsDict wrapping a given Settings object
         *settings*, with a given dict-like object *defaults* of default values.
         """
         super().__init__(settings)
@@ -206,7 +206,7 @@ class DefaultFancySettings(FancySettings):
         If looking up `key` in `defaults` raises an exception (such as a
         `KeyError`), this exception is propagated unchanged.
 
-        This method is called by the __getitem__() method of the FancySettings
+        This method is called by the __getitem__() method of the SettingsDict
         class when the requested key is not found; whatever it returns or
         raises is then returned or raised by __getitem__().
 
