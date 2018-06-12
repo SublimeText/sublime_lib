@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="sublime_lib.view_buffer module" href="sublime_lib.view_buffer.html" />
@@ -155,6 +156,33 @@
             
   <div class="section" id="module-sublime_lib.syntax">
 <span id="sublime-lib-syntax-module"></span><h1>sublime_lib.syntax module<a class="headerlink" href="#module-sublime_lib.syntax" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="sublime_lib.syntax.list_syntaxes">
+<code class="descclassname">sublime_lib.syntax.</code><code class="descname">list_syntaxes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.syntax.list_syntaxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all loaded syntax definitions.</p>
+<p>Each item is a <code class="xref py py-class docutils literal notranslate"><span class="pre">namedtuple</span></code> with the following properties:</p>
+<dl class="simple">
+<dt>path</dt>
+<dd><p>The resource path to the syntax definition file.</p>
+</dd>
+<dt>name</dt>
+<dd><p>The display name of the syntax definition.</p>
+</dd>
+<dt>scope</dt>
+<dd><p>The top-level scope of the syntax.</p>
+</dd>
+<dt>hidden</dt>
+<dd><p>Whether the syntax will appear in the syntax menus and the command palette.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sublime_lib.syntax.get_syntax_for_scope">
+<code class="descclassname">sublime_lib.syntax.</code><code class="descname">get_syntax_for_scope</code><span class="sig-paren">(</span><em>scope</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.syntax.get_syntax_for_scope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the last syntax in load order matching <cite>scope</cite>.</p>
+</dd></dl>
+
 </div>
 
 

@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="sublime_lib.view_utils module" href="sublime_lib.view_utils.html" />
@@ -164,12 +165,6 @@ be valid (using <code class="xref py py-meth docutils literal notranslate"><span
 <p>The <a class="reference internal" href="#sublime_lib.view_stream.ViewStream.read" title="sublime_lib.view_stream.ViewStream.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a>, <a class="reference internal" href="#sublime_lib.view_stream.ViewStream.readline" title="sublime_lib.view_stream.ViewStream.readline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readline()</span></code></a>, <a class="reference internal" href="#sublime_lib.view_stream.ViewStream.write" title="sublime_lib.view_stream.ViewStream.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a>, and <a class="reference internal" href="#sublime_lib.view_stream.ViewStream.tell" title="sublime_lib.view_stream.ViewStream.tell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tell()</span></code></a> methods require that the
 underlying View have exactly one selection, and that the selection is
 empty (i.e. a simple cursor). Otherwise, <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> will be raised.</p>
-<dl class="method">
-<dt id="sublime_lib.view_stream.ViewStream.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>view</em>, <em>*</em>, <em>force_writes=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="sublime_lib.view_stream.ViewStream.read">
 <code class="descname">read</code><span class="sig-paren">(</span><em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.read" title="Permalink to this definition">¶</a></dt>

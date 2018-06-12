@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="sublime_lib.syntax module" href="sublime_lib.syntax.html" />
@@ -164,59 +165,45 @@ interface.</p>
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code> object. As a result, the following methods are
 not implemented:</p>
 <ul class="simple">
-<li>len(d)</li>
-<li>iter(d)</li>
-<li>clear()</li>
-<li>copy()</li>
-<li>items()</li>
-<li>keys()</li>
-<li>popitem()</li>
-<li>values()</li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">copy()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">items()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">keys()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">popitem()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">values()</span></code></p></li>
 </ul>
 <dl class="method">
-<dt id="sublime_lib.settings_dict.SettingsDict.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="sublime_lib.settings_dict.SettingsDict.__getitem__">
-<code class="descname">__getitem__</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__getitem__" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Synopsis:</th><td class="field-body">foo?</td>
-</tr>
-</tbody>
-</table>
-<p>Return the setting named <cite>key</cite>. Raises <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> if there is no such
+<code class="descname">d[key]</code><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the setting named <cite>key</cite>. Raises <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> if there is no such
 setting.</p>
-<p>If a subclass of SettingsDict defines a method <cite>__missing__()</cite> and
+<p>If a subclass of SettingsDict defines a method <code class="xref py py-meth docutils literal notranslate"><span class="pre">__missing__()</span></code> and
 <cite>key</cite> is not present, the <cite>d[key]</cite> operation calls that method with the
 key <cite>key</cite> as argument. The <cite>d[key]</cite> operation then returns or raises
-whatever is returned or raised by the <cite>__missing__(key)</cite> call. No other
-operations or methods invoke <cite>__missing__()</cite>. If <cite>__missing__()</cite> is not
-defined, <cite>KeyError</cite> is raised. <cite>__missing__()</cite> must be a method; it
+whatever is returned or raised by the <code class="docutils literal notranslate"><span class="pre">__missing__(key)</span></code> call. No other
+operations or methods invoke <code class="xref py py-meth docutils literal notranslate"><span class="pre">__missing__()</span></code>. If <code class="xref py py-meth docutils literal notranslate"><span class="pre">__missing__()</span></code> is not
+defined, <cite>KeyError</cite> is raised. <code class="xref py py-meth docutils literal notranslate"><span class="pre">__missing__()</span></code> must be a method; it
 cannot be an instance variable.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="sublime_lib.settings_dict.SettingsDict.__setitem__">
-<code class="descname">__setitem__</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__setitem__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">d[key] = value</code><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__setitem__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set <cite>d[key]</cite> to <cite>value</cite>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="sublime_lib.settings_dict.SettingsDict.__delitem__">
-<code class="descname">__delitem__</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__delitem__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove <cite>d[key]</cite> from <em>d</em>. Raises <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> if <em>key</em> is not in the map.</p>
+<code class="descname">del d[key]</code><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__delitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove <cite>d[key]</cite> from <em>d</em>. Raises <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> if <cite>key</cite> is not in the map.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="sublime_lib.settings_dict.SettingsDict.__contains__">
-<code class="descname">__contains__</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__contains__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <cite>True</cite> if <em>d</em> has a key <em>key</em>, else <cite>False</cite>.</p>
+<code class="descname">item in d</code><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <cite>d</cite> has a setting named <cite>key</cite>, else <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -245,9 +232,9 @@ a value of <cite>default</cite> and return <cite>default</cite>.</p>
 <dl class="method">
 <dt id="sublime_lib.settings_dict.SettingsDict.update">
 <code class="descname">update</code><span class="sig-paren">(</span><em>other=[]</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update the dictionary with the key/value pairs from other, overwriting
+<dd><p>Update the dictionary with the key/value pairs from <cite>other</cite>, overwriting
 existing keys. Return None.</p>
-<p>update() accepts either another dictionary object or an iterable of
+<p>Accepts either another dictionary object or an iterable of
 key/value pairs (as tuples or other iterables of length two). If keyword
 arguments are specified, the dictionary is then updated with those
 key/value pairs: d.update(red=1, blue=2).</p>
@@ -259,12 +246,6 @@ key/value pairs: d.update(red=1, blue=2).</p>
 <dd><p>Register a calback to be invoked when the settings object changes.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="sublime_lib.settings_dict.SettingsDict.__weakref__">
-<code class="descname">__weakref__</code><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__weakref__" title="Permalink to this definition">¶</a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
@@ -272,12 +253,6 @@ key/value pairs: d.update(red=1, blue=2).</p>
 <em class="property">class </em><code class="descclassname">sublime_lib.settings_dict.</code><code class="descname">NamedSettingsDict</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.NamedSettingsDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wraps a <cite>sublime.Settings</cite> object corresponding to a <cite>sublime-settings</cite>
 file.</p>
-<dl class="method">
-<dt id="sublime_lib.settings_dict.NamedSettingsDict.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.NamedSettingsDict.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new NamedSettingsDict corresponding to the given name.</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="sublime_lib.settings_dict.NamedSettingsDict.save">
 <code class="descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.NamedSettingsDict.save" title="Permalink to this definition">¶</a></dt>
@@ -289,31 +264,9 @@ file.</p>
 <dl class="class">
 <dt id="sublime_lib.settings_dict.DefaultSettingsDict">
 <em class="property">class </em><code class="descclassname">sublime_lib.settings_dict.</code><code class="descname">DefaultSettingsDict</code><span class="sig-paren">(</span><em>settings</em>, <em>defaults</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.DefaultSettingsDict" title="Permalink to this definition">¶</a></dt>
-<dd><p>A subclass of SettingsDict that accepts user-defined default values.</p>
+<dd><p>A subclass of <a class="reference internal" href="#sublime_lib.settings_dict.SettingsDict" title="sublime_lib.settings_dict.SettingsDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">SettingsDict</span></code></a> that accepts user-defined default values.</p>
 <p>This class generally should not be used with named settings files. Instead,
 package developers should provide settings files populated with defaults.</p>
-<dl class="method">
-<dt id="sublime_lib.settings_dict.DefaultSettingsDict.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>settings</em>, <em>defaults</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.DefaultSettingsDict.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new DefaultSettingsDict wrapping a given Settings object
-<em>settings</em>, with a given dict-like object <em>defaults</em> of default values.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="sublime_lib.settings_dict.DefaultSettingsDict.__missing__">
-<code class="descname">__missing__</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.DefaultSettingsDict.__missing__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lookup the given <cite>key</cite> in this object’s <cite>defaults</cite> attribute, insert
-that value into this object for the <cite>key</cite>, and return that value.</p>
-<p>If looking up <cite>key</cite> in <cite>defaults</cite> raises an exception (such as a
-<cite>KeyError</cite>), this exception is propagated unchanged.</p>
-<p>This method is called by the __getitem__() method of the SettingsDict
-class when the requested key is not found; whatever it returns or
-raises is then returned or raised by __getitem__().</p>
-<p>Note that __missing__() is not called for any operations besides
-__getitem__(). This means that get() will, like normal dictionaries,
-return None as a default rather than using defaults.</p>
-</dd></dl>
-
 </dd></dl>
 
 </div>

@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="sublime_lib.settings_dict module" href="sublime_lib.settings_dict.html" />
@@ -160,25 +161,16 @@
 <em class="property">class </em><code class="descclassname">sublime_lib.output_panel.</code><code class="descname">OutputPanel</code><span class="sig-paren">(</span><em>window</em>, <em>name</em>, <em>*</em>, <em>force_writes=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.output_panel.OutputPanel" title="Permalink to this definition">¶</a></dt>
 <dd><p>A <a class="reference internal" href="sublime_lib.view_stream.html#sublime_lib.view_stream.ViewStream" title="sublime_lib.view_stream.ViewStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewStream</span></code></a> wrapping an output panel
 in the given <cite>window</cite> with the given <cite>name</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><strong>ValueError</strong></a> – if <cite>window</cite> has no output panel called <cite>name</cite>.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><strong>ValueError</strong></a> – if <cite>window</cite> has no output panel called <cite>name</cite>.</p>
+</dd>
+</dl>
 <dl class="classmethod">
 <dt id="sublime_lib.output_panel.OutputPanel.create">
 <em class="property">classmethod </em><code class="descname">create</code><span class="sig-paren">(</span><em>window</em>, <em>name</em>, <em>*</em>, <em>force_writes=False</em>, <em>unlisted=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.output_panel.OutputPanel.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new output panel with the given <cite>name</cite> in the given <cite>window</cite>.</p>
 <p>If <cite>kwargs</cite> are given, they will be interpreted as for <a class="reference internal" href="sublime_lib.view_utils.html#sublime_lib.view_utils.new_view" title="sublime_lib.view_utils.new_view"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_view()</span></code></a>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="sublime_lib.output_panel.OutputPanel.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>window</em>, <em>name</em>, <em>*</em>, <em>force_writes=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.output_panel.OutputPanel.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 <dl class="attribute">

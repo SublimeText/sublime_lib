@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="sublime_lib.view_stream module" href="sublime_lib.view_stream.html" /> 
@@ -159,32 +160,41 @@
 <code class="descclassname">sublime_lib.view_utils.</code><code class="descname">new_view</code><span class="sig-paren">(</span><em>window</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_utils.new_view" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a new view in the given window, returning the View object.</p>
 <p>This function takes many optional keyword arguments:</p>
-<dl class="docutils">
+<dl class="simple">
 <dt>content:</dt>
-<dd>Text to be inserted into the new view. The text will be inserted even
-if the <cite>read_only</cite> option is True.</dd>
+<dd><p>Text to be inserted into the new view. The text will be inserted even
+if the <cite>read_only</cite> option is True.</p>
+</dd>
 <dt>encoding:</dt>
-<dd>The encoding that the view should use when saving.</dd>
+<dd><p>The encoding that the view should use when saving.</p>
+</dd>
 <dt>name:</dt>
-<dd>The name of the view. This will be shown as the title of the view’s tab.</dd>
+<dd><p>The name of the view. This will be shown as the title of the view’s tab.</p>
+</dd>
 <dt>overwrite:</dt>
-<dd>If True, the view will be in overwrite mode.</dd>
+<dd><p>If True, the view will be in overwrite mode.</p>
+</dd>
 <dt>read_only:</dt>
-<dd>If True, the view will be read-only.</dd>
+<dd><p>If True, the view will be read-only.</p>
+</dd>
 <dt>scope:</dt>
-<dd>A scope name. The view will be assigned a syntax definition that
+<dd><p>A scope name. The view will be assigned a syntax definition that
 corresponds to the given scope (as determined by
 sublime_lib.syntax.get_syntax_for_scope). Exclusive with the <cite>syntax</cite>
-option.</dd>
+option.</p>
+</dd>
 <dt>scratch:</dt>
-<dd>If True, the view will be a scratch buffer. The user will not be
-prompted to save the view before closing it.</dd>
+<dd><p>If True, the view will be a scratch buffer. The user will not be
+prompted to save the view before closing it.</p>
+</dd>
 <dt>settings:</dt>
-<dd>A dictionary of names and values that will be applied to the new view’s
-Settings object.</dd>
+<dd><p>A dictionary of names and values that will be applied to the new view’s
+Settings object.</p>
+</dd>
 <dt>syntax:</dt>
-<dd>The resource path of a syntax definition that the view will use.
-Exclusive with the <cite>scope</cite> option.</dd>
+<dd><p>The resource path of a syntax definition that the view will use.
+Exclusive with the <cite>scope</cite> option.</p>
+</dd>
 </dl>
 </dd></dl>
 

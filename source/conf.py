@@ -15,6 +15,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../st3'))
+sys.path.insert(0, os.path.abspath('extensions'))
 
 # -- Project information -----------------------------------------------------
 
@@ -83,6 +84,7 @@ pygments_style = 'sphinx'
 #
 # html_theme = 'alabaster'
 html_theme = 'sphinx_rtd_theme'
+# html_theme = 'basic'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -93,6 +95,8 @@ html_theme_options = {
     # 'navigation_depth': 10,
     'collapse_navigation': False,
 }
+
+html_experimental_html5_writer = True
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -108,3 +112,11 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
+
+def setup(app):
+    app.add_stylesheet('style.css')
+
+    from prettify_special_methods import PrettifySpecialMethods, show_special_methods
+
+    app.add_transform(PrettifySpecialMethods)
+    app.connect('autodoc-skip-member', show_special_methods)
