@@ -6,6 +6,9 @@ from collections.abc import Mapping
 from .collection_utils import projection
 
 
+__all__ = [ 'SettingsDict', 'NamedSettingsDict', 'DefaultSettingsDict' ]
+
+
 def isiterable(obj):
     try:
         iter(obj)
@@ -23,38 +26,37 @@ NOT_GIVEN = {}
 
 class SettingsDict():
     """
-    Wraps a sublime.Settings object with a dict-like interface.
+    Wraps a :class:`sublime.Settings` object `settings` with a :class:`dict`-like
+    interface.
 
-    There is no way to list or iterate over the keys of a `sublime.Settings`
-    object. As a result, the following methods are not implemented:
+    There is no way to list or iterate over the keys of a
+    :class:`~sublime.Settings` object. As a result, the following methods are
+    not implemented:
 
-    - len(d)
-    - iter(d)
-    - clear()
-    - copy()
-    - items()
-    - keys()
-    - popitem()
-    - values()
+    - :meth:`__len__`
+    - :meth:`__iter__`
+    - :meth:`clear`
+    - :meth:`copy`
+    - :meth:`items`
+    - :meth:`keys`
+    - :meth:`popitem`
+    - :meth:`values`
     """
 
     def __init__(self, settings):
-        """
-        Return a new SettingsDict wrapping a given Settings object *settings*.
-        """
         self.settings = settings
 
     def __getitem__(self, key):
         """
-        Return the setting named *key*. Raises a KeyError if there is no such
+        Return the setting named `key`. Raises :exc:`KeyError` if there is no such
         setting.
 
-        If a subclass of SettingsDict defines a method `__missing__()` and
+        If a subclass of SettingsDict defines a method :meth:`__missing__` and
         `key` is not present, the `d[key]` operation calls that method with the
         key `key` as argument. The `d[key]` operation then returns or raises
-        whatever is returned or raised by the `__missing__(key)` call. No other
-        operations or methods invoke `__missing__()`. If `__missing__()` is not
-        defined, `KeyError` is raised. `__missing__()` must be a method; it
+        whatever is returned or raised by the ``__missing__(key)`` call. No other
+        operations or methods invoke :meth:`__missing__`. If :meth:`__missing__` is not
+        defined, `KeyError` is raised. :meth:`__missing__` must be a method; it
         cannot be an instance variable.
         """
         if key in self:
@@ -66,25 +68,25 @@ class SettingsDict():
         raise KeyError(key)
 
     def __setitem__(self, key, value):
-        """Set `d[key]` to *value*."""
+        """Set `d[key]` to `value`."""
         self.settings.set(key, value)
 
     def __delitem__(self, key):
-        """Remove `d[key]` from *d*. Raises a KeyError if *key* is not in the map."""
+        """Remove `d[key]` from *d*. Raises :exc:`KeyError` if `key` is not in the map."""
         if key in self:
             self.settings.erase(key)
         else:
             raise KeyError(key)
 
     def __contains__(self, item):
-        """Return `True` if *d* has a key *key*, else `False`."""
+        """Return ``True`` if `d` has a setting named `key`, else ``False``."""
         return self.settings.has(item)
 
     def get(self, key, default=None):
         """
         Return the value for key if key is in the dictionary, else default. If
         default is not given, it defaults to None, so that this method never
-        raises a KeyError.
+        raises :exc:`KeyError`.
         """
         return self.settings.get(key, default)
 
@@ -92,7 +94,7 @@ class SettingsDict():
         """
         If key is in the dictionary, remove it and return its value, else
         return default. If default is not given and key is not in the
-        dictionary, a KeyError is raised.
+        dictionary, raise :exc:`KeyError`.
         """
         if key in self:
             ret = self[key]
@@ -105,8 +107,8 @@ class SettingsDict():
 
     def setdefault(self, key, default=None):
         """
-        If key is in the dictionary, return its value. If not, insert key with
-        a value of default and return default. default defaults to None.
+        If `key` is in the dictionary, return its value. If not, insert `key` with
+        a value of `default` and return `default`.
         """
         if key in self:
             return self[key]
@@ -116,10 +118,10 @@ class SettingsDict():
 
     def update(self, other=[], **kwargs):
         """
-        Update the dictionary with the key/value pairs from other, overwriting
+        Update the dictionary with the key/value pairs from `other`, overwriting
         existing keys. Return None.
 
-        update() accepts either another dictionary object or an iterable of
+        Accepts either another dictionary object or an iterable of
         key/value pairs (as tuples or other iterables of length two). If keyword
         arguments are specified, the dictionary is then updated with those
         key/value pairs: d.update(red=1, blue=2).
@@ -135,7 +137,19 @@ class SettingsDict():
 
     def subscribe(self, selector, callback, default_value=None):
         """
-        Register a calback to be invoked when the settings object changes.
+        Register a calback to be invoked when the a value derived from the
+        settings object changes.
+
+        The derived value depends on the type of `selector`:
+
+        Instead of passing the `SettingsDict` to callback, a value derived
+        using `selector` is passed. If `selector` is callable, then
+        `selector(self)` is passed. If `selector` is a :class:`str`, then
+        `self.get(selector, default_value)` is passed. Otherwise,
+        `projection(self, selector)` is passed.
+
+        `callback` should accept two arguments, the new derived value and the
+        previous derived value.
         """
         if callable(selector):
             selector_fn = selector
@@ -184,7 +198,7 @@ class NamedSettingsDict(SettingsDict):
 
 class DefaultSettingsDict(SettingsDict):
     """
-    A subclass of SettingsDict that accepts user-defined default values.
+    A subclass of :class:`SettingsDict` that accepts user-defined default values.
 
     This class generally should not be used with named settings files. Instead,
     package developers should provide settings files populated with defaults.
@@ -193,7 +207,7 @@ class DefaultSettingsDict(SettingsDict):
     def __init__(self, settings, defaults):
         """
         Return a new DefaultSettingsDict wrapping a given Settings object
-        *settings*, with a given dict-like object *defaults* of default values.
+        `settings`, with a given dict-like object `defaults` of default values.
         """
         super().__init__(settings)
         self.defaults = defaults
@@ -204,11 +218,11 @@ class DefaultSettingsDict(SettingsDict):
         that value into this object for the `key`, and return that value.
 
         If looking up `key` in `defaults` raises an exception (such as a
-        `KeyError`), this exception is propagated unchanged.
+        :exc:`KeyError`), this exception is propagated unchanged.
 
-        This method is called by the __getitem__() method of the SettingsDict
+        This method is called by the :meth:`__getitem__` method of the SettingsDict
         class when the requested key is not found; whatever it returns or
-        raises is then returned or raised by __getitem__().
+        raises is then returned or raised by :meth:`__getitem__`.
 
         Note that __missing__() is not called for any operations besides
         __getitem__(). This means that get() will, like normal dictionaries,
