@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sublime_lib.view_stream module &mdash; sublime_lib  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="sublime_lib.view_utils module" href="sublime_lib.view_utils.html" />
+    <link rel="prev" title="sublime_lib.view_buffer module" href="sublime_lib.view_buffer.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> sublime_lib
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.collection_utils.html">sublime_lib.collection_utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.encodings.html">sublime_lib.encodings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.enum.html">sublime_lib.enum module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.flags.html">sublime_lib.flags module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.output_panel.html">sublime_lib.output_panel module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.settings_dict.html">sublime_lib.settings_dict module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.syntax.html">sublime_lib.syntax module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_buffer.html">sublime_lib.view_buffer module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">sublime_lib.view_stream module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_utils.html">sublime_lib.view_utils module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sublime_lib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>sublime_lib.view_stream module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/sublime_lib.view_stream.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-sublime_lib.view_stream">
+<span id="sublime-lib-view-stream-module"></span><h1>sublime_lib.view_stream module<a class="headerlink" href="#module-sublime_lib.view_stream" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="sublime_lib.view_stream.ViewStream">
+<em class="property">class </em><code class="descclassname">sublime_lib.view_stream.</code><code class="descname">ViewStream</code><span class="sig-paren">(</span><em>view</em>, <em>*</em>, <em>force_writes=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOBase" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextIOBase</span></code></a> encapsulating a <code class="xref py py-class docutils literal notranslate"><span class="pre">View</span></code> object.</p>
+<p>All public methods (except <a class="reference internal" href="#sublime_lib.view_stream.ViewStream.flush" title="sublime_lib.view_stream.ViewStream.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a>) require that the underlying View object
+be valid (using <code class="xref py py-meth docutils literal notranslate"><span class="pre">View.is_valid()</span></code>). Otherwise, <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> will be raised.</p>
+<p>The <a class="reference internal" href="#sublime_lib.view_stream.ViewStream.read" title="sublime_lib.view_stream.ViewStream.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a>, <a class="reference internal" href="#sublime_lib.view_stream.ViewStream.readline" title="sublime_lib.view_stream.ViewStream.readline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readline()</span></code></a>, <a class="reference internal" href="#sublime_lib.view_stream.ViewStream.write" title="sublime_lib.view_stream.ViewStream.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a>, and <a class="reference internal" href="#sublime_lib.view_stream.ViewStream.tell" title="sublime_lib.view_stream.ViewStream.tell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tell()</span></code></a> methods require that the
+underlying View have exactly one selection, and that the selection is
+empty (i.e. a simple cursor). Otherwise, <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> will be raised.</p>
+<dl class="method">
+<dt id="sublime_lib.view_stream.ViewStream.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>view</em>, <em>*</em>, <em>force_writes=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.view_stream.ViewStream.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read and return at most <cite>size</cite> characters from the stream as a
+single <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>. If <cite>size</cite> is negative or None, reads until EOF.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.view_stream.ViewStream.readline">
+<code class="descname">readline</code><span class="sig-paren">(</span><em>size=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.readline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read until newline or EOF and return a single <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>. If the stream is
+already at EOF, an empty string is returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.view_stream.ViewStream.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert the string <cite>s</cite> into the view and return the number of
+characters inserted. The string will be inserted immediately before the
+cursor.</p>
+<p>Note: Because Sublime may convert tabs to spaces, the number of
+characters inserted may not match the length of the argument.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.view_stream.ViewStream.flush">
+<code class="descname">flush</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do nothing. (The stream is not buffered.)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.view_stream.ViewStream.seek">
+<code class="descname">seek</code><span class="sig-paren">(</span><em>offset</em>, <em>whence=0</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.seek" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the cursor in the view to the given offset. If <cite>whence</cite> is
+provided, the behavior is the same as for TextIOBase. If the view had
+multiple selections, none will be preserved.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.view_stream.ViewStream.seek_start">
+<code class="descname">seek_start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.seek_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the cursor in the view to before the first character.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.view_stream.ViewStream.seek_end">
+<code class="descname">seek_end</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.seek_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the cursor in the view to after the last character.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.view_stream.ViewStream.tell">
+<code class="descname">tell</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.tell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the character offset of the cursor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.view_stream.ViewStream.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_stream.ViewStream.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Erase all text in the view.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sublime_lib.view_utils.html" class="btn btn-neutral float-right" title="sublime_lib.view_utils module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sublime_lib.view_buffer.html" class="btn btn-neutral" title="sublime_lib.view_buffer module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Thomas Smith.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

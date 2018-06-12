@@ -6,6 +6,9 @@ from collections.abc import Mapping
 from .collection_utils import projection
 
 
+__all__ = [ 'SettingsDict', 'NamedSettingsDict', 'DefaultSettingsDict' ]
+
+
 def isiterable(obj):
     try:
         iter(obj)
@@ -23,10 +26,12 @@ NOT_GIVEN = {}
 
 class SettingsDict():
     """
-    Wraps a sublime.Settings object with a dict-like interface.
+    Wraps a :class:`sublime.Settings` object `settings` with a :class:`dict`-like
+    interface.
 
-    There is no way to list or iterate over the keys of a `sublime.Settings`
-    object. As a result, the following methods are not implemented:
+    There is no way to list or iterate over the keys of a
+    :class:`~sublime.Settings` object. As a result, the following methods are
+    not implemented:
 
     - len(d)
     - iter(d)
@@ -39,14 +44,13 @@ class SettingsDict():
     """
 
     def __init__(self, settings):
-        """
-        Return a new SettingsDict wrapping a given Settings object *settings*.
-        """
         self.settings = settings
 
     def __getitem__(self, key):
         """
-        Return the setting named *key*. Raises a KeyError if there is no such
+        :synopsis: foo?
+
+        Return the setting named `key`. Raises :exc:`KeyError` if there is no such
         setting.
 
         If a subclass of SettingsDict defines a method `__missing__()` and
@@ -66,11 +70,11 @@ class SettingsDict():
         raise KeyError(key)
 
     def __setitem__(self, key, value):
-        """Set `d[key]` to *value*."""
+        """Set `d[key]` to `value`."""
         self.settings.set(key, value)
 
     def __delitem__(self, key):
-        """Remove `d[key]` from *d*. Raises a KeyError if *key* is not in the map."""
+        """Remove `d[key]` from *d*. Raises :exc:`KeyError` if *key* is not in the map."""
         if key in self:
             self.settings.erase(key)
         else:
@@ -84,7 +88,7 @@ class SettingsDict():
         """
         Return the value for key if key is in the dictionary, else default. If
         default is not given, it defaults to None, so that this method never
-        raises a KeyError.
+        raises :exc:`KeyError`.
         """
         return self.settings.get(key, default)
 
@@ -92,7 +96,7 @@ class SettingsDict():
         """
         If key is in the dictionary, remove it and return its value, else
         return default. If default is not given and key is not in the
-        dictionary, a KeyError is raised.
+        dictionary, raise :exc:`KeyError`.
         """
         if key in self:
             ret = self[key]
@@ -105,8 +109,8 @@ class SettingsDict():
 
     def setdefault(self, key, default=None):
         """
-        If key is in the dictionary, return its value. If not, insert key with
-        a value of default and return default. default defaults to None.
+        If `key` is in the dictionary, return its value. If not, insert `key` with
+        a value of `default` and return `default`.
         """
         if key in self:
             return self[key]

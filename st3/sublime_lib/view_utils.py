@@ -55,9 +55,9 @@ def new_view(window, **kwargs):
 
 def close_view(view, *, force=False):
     """
-    Closes the given view. If the `force` argument is True, then any unsaved
-    changes will be lost. Otherwise, if there are unsaved changes, ValueError
-    will be raised.
+    Close the given view. If `force` argument is ``True``, then any unsaved
+    changes will be lost. Otherwise, if there are unsaved changes, raise
+    :exc:`ValueError`.
 
     If the view is invalid (e.g. already closed), `close_view` will do nothing.
     """

@@ -22,14 +22,14 @@ def define_guard(guard_fn):
 
 
 class ViewStream(TextIOBase):
-    """A TextIO encapsulating a `sublime.View` object.
+    """A :class:`~io.TextIOBase` encapsulating a :class:`~sublime.View` object.
 
-    All public methods (except flush) require that the underlying View object
-    be valid (using View.is_valid). Otherwise, ValueError will be raised.
+    All public methods (except :meth:`flush`) require that the underlying View object
+    be valid (using :meth:`View.is_valid`). Otherwise, :class:`ValueError` will be raised.
 
-    The `read`, `readline`, `write`, and `tell` methods require that the
+    The :meth:`read`, :meth:`readline`, :meth:`write`, and :meth:`tell` methods require that the
     underlying View have exactly one selection, and that the selection is
-    empty (i.e. a simple cursor). Otherwise, ValueError will be raised.
+    empty (i.e. a simple cursor). Otherwise, :class:`ValueError` will be raised.
     """
 
     @define_guard
@@ -66,8 +66,8 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     def read(self, size):
-        """Read and return at most <var>size</var> characters from the stream as a
-        single `str`. If <var>size</var> is negative or None, reads until EOF.
+        """Read and return at most `size` characters from the stream as a
+        single :class:`str`. If `size` is negative or None, reads until EOF.
         """
         begin = self._tell()
         end = self.view.size()
@@ -77,7 +77,7 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     def readline(self, size=-1):
-        """Read until newline or EOF and return a single `str`. If the stream is
+        """Read until newline or EOF and return a single :class:`str`. If the stream is
         already at EOF, an empty string is returned.
         """
         begin = self._tell()
@@ -96,7 +96,7 @@ class ViewStream(TextIOBase):
     @guard_selection
     @guard_read_only
     def write(self, s):
-        """Insert the string <var>s</var> into the view and return the number of
+        """Insert the string `s` into the view and return the number of
         characters inserted. The string will be inserted immediately before the
         cursor.
 
