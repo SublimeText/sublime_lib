@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.output_panel.html">sublime_lib.output_panel module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.settings_dict.html">sublime_lib.settings_dict module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.syntax.html">sublime_lib.syntax module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_buffer.html">sublime_lib.view_buffer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_buffer.html">sublime_lib.settings_dict module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_stream.html">sublime_lib.view_stream module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_utils.html">sublime_lib.view_utils module</a></li>
 </ul>
@@ -160,12 +160,20 @@
 <dt id="sublime_lib.encodings.from_sublime">
 <code class="descclassname">sublime_lib.encodings.</code><code class="descname">from_sublime</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.encodings.from_sublime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Translate <cite>name</cite> from a Sublime encoding name to a standard Python encoding name.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">from_sublime</span><span class="p">(</span><span class="s2">&quot;Western (Windows 1252)&quot;</span><span class="p">)</span>
+<span class="go">&quot;cp1252&quot;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="sublime_lib.encodings.to_sublime">
 <code class="descclassname">sublime_lib.encodings.</code><code class="descname">to_sublime</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.encodings.to_sublime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Translate <cite>name</cite> from a standard Python encoding name to a Sublime encoding name.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">to_sublime</span><span class="p">(</span><span class="s2">&quot;cp1252&quot;</span><span class="p">)</span>
+<span class="go">&quot;Western (Windows 1252)&quot;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>

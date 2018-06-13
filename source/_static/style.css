@@ -3,7 +3,7 @@ code, dt {
 }
 
 ul.simple {
-    columns: 10em;
+    /*columns: 10em;*/
 }
 
 ul.simple > li > :last-child {
@@ -16,4 +16,12 @@ a > code {
 
 a:hover > code {
     text-decoration: underline !important;
+}
+
+pre {
+    font-size: inherit !important;
+}
+
+.descclassname {
+    font-weight: normal !important;
 }

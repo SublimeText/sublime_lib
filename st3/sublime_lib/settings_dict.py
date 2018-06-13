@@ -137,7 +137,19 @@ class SettingsDict():
 
     def subscribe(self, selector, callback, default_value=None):
         """
-        Register a calback to be invoked when the settings object changes.
+        Register a calback to be invoked when the a value derived from the
+        settings object changes.
+
+        The derived value depends on the type of `selector`:
+
+        Instead of passing the `SettingsDict` to callback, a value derived
+        using `selector` is passed. If `selector` is callable, then
+        `selector(self)` is passed. If `selector` is a :class:`str`, then
+        `self.get(selector, default_value)` is passed. Otherwise,
+        `projection(self, selector)` is passed.
+
+        `callback` should accept two arguments, the new derived value and the
+        previous derived value.
         """
         if callable(selector):
             selector_fn = selector
@@ -195,7 +207,7 @@ class DefaultSettingsDict(SettingsDict):
     def __init__(self, settings, defaults):
         """
         Return a new DefaultSettingsDict wrapping a given Settings object
-        *settings*, with a given dict-like object *defaults* of default values.
+        `settings`, with a given dict-like object `defaults` of default values.
         """
         super().__init__(settings)
         self.defaults = defaults

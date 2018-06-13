@@ -8,42 +8,33 @@ __all__ = ['new_view', 'close_view']
 
 
 def new_view(window, **kwargs):
-    """Open a new view in the given window, returning the View object.
+    """Open a new view in the given `window`, returning the :class:`~sublime.View` object.
 
     This function takes many optional keyword arguments:
 
-    content:
-        Text to be inserted into the new view. The text will be inserted even
+    :argument content: Text to be inserted into the new view. The text will be inserted even
         if the `read_only` option is True.
 
-    encoding:
-        The encoding that the view should use when saving.
+    :argument encoding: The encoding that the view should use when saving.
 
-    name:
-        The name of the view. This will be shown as the title of the view's tab.
+    :argument name: The name of the view. This will be shown as the title of the view's tab.
 
-    overwrite:
-        If True, the view will be in overwrite mode.
+    :argument overwrite: If True, the view will be in overwrite mode.
 
-    read_only:
-        If True, the view will be read-only.
+    :argument read_only: If True, the view will be read-only.
 
-    scope:
-        A scope name. The view will be assigned a syntax definition that
+    :argument scope: A scope name. The view will be assigned a syntax definition that
         corresponds to the given scope (as determined by
         sublime_lib.syntax.get_syntax_for_scope). Exclusive with the `syntax`
         option.
 
-    scratch:
-        If True, the view will be a scratch buffer. The user will not be
+    :argument scratch: If True, the view will be a scratch buffer. The user will not be
         prompted to save the view before closing it.
 
-    settings:
-        A dictionary of names and values that will be applied to the new view's
+    :argument settings: A dictionary of names and values that will be applied to the new view's
         Settings object.
 
-    syntax:
-        The resource path of a syntax definition that the view will use.
+    :argument syntax: The resource path of a syntax definition that the view will use.
         Exclusive with the `scope` option.
     """
     validate_view_options(kwargs)
@@ -55,11 +46,12 @@ def new_view(window, **kwargs):
 
 def close_view(view, *, force=False):
     """
-    Close the given view. If `force` argument is ``True``, then any unsaved
-    changes will be lost. Otherwise, if there are unsaved changes, raise
-    :exc:`ValueError`.
+    Close the given view, discarding unsaved changes if `force` is ``True``.
 
-    If the view is invalid (e.g. already closed), `close_view` will do nothing.
+    If the view is invalid (e.g. already closed), do nothing.
+
+    :raise ValueError: if the view has no associated window (e.g. a panel).
+    :raise ValueError: if the view has unsaved changes and `force` is not ``True``.
     """
     if not view.is_valid():
         return

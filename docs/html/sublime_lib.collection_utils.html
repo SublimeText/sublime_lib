@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.output_panel.html">sublime_lib.output_panel module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.settings_dict.html">sublime_lib.settings_dict module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.syntax.html">sublime_lib.syntax module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_buffer.html">sublime_lib.view_buffer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_buffer.html">sublime_lib.settings_dict module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_stream.html">sublime_lib.view_stream module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_utils.html">sublime_lib.view_utils module</a></li>
 </ul>
@@ -156,6 +156,22 @@
             
   <div class="section" id="module-sublime_lib.collection_utils">
 <span id="sublime-lib-collection-utils-module"></span><h1>sublime_lib.collection_utils module<a class="headerlink" href="#module-sublime_lib.collection_utils" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="sublime_lib.collection_utils.projection">
+<code class="descclassname">sublime_lib.collection_utils.</code><code class="descname">projection</code><span class="sig-paren">(</span><em>d</em>, <em>keys</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.collection_utils.projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> with keys restricted to values in <cite>keys</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">projection</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="go">{&#39;b&#39;: 2}</span>
+</pre></div>
+</div>
+<p>If <cite>keys</cite> is a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, then it maps keys of the original dict to
+keys of the result:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">projection</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">})</span>
+<span class="go">{&#39;c&#39;: 2}</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </div>
 
 

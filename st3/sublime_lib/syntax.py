@@ -103,7 +103,7 @@ def list_syntaxes():
 
 def get_syntax_for_scope(scope):
     """
-    Returns the last syntax in load order matching `scope`.
+    Returns the last syntax in load order that matches `scope`.
     """
     return next((
         syntax.path

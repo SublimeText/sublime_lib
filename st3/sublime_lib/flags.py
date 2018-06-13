@@ -3,22 +3,47 @@ import sublime
 from .enum import IntEnum, IntFlag
 
 
-class DialogResult(IntEnum):
-    CANCEL = sublime.DIALOG_CANCEL
-    YES = sublime.DIALOG_YES
-    NO = sublime.DIALOG_NO
+def create_enum(type, name, members, prefix=None):
+    full_prefix = prefix + '_' if prefix else ''
+
+    ret = type(name, {
+        member: getattr(sublime, full_prefix + member)
+        for member in members
+    })
+
+    ret.__doc__ = '\n'.join([
+        '- ``{}`` = `sublime.{}`'.format(member, full_prefix + member) for member in members
+    ])
+
+    return ret
+
+# print(
+#     create_enum(
+#         IntEnum, 'DialogResult',
+#         [ 'CANCEL', 'YES', 'NO' ],
+#         'DIALOG'
+#     ).__doc__
+# )
+
+DialogResult = create_enum(IntEnum, 'DialogResult', ['CANCEL', 'YES', 'NO'], 'DIALOG')
+
+# class DialogResult(IntEnum):
+#     CANCEL = sublime.DIALOG_CANCEL
+#     YES = sublime.DIALOG_YES
+#     NO = sublime.DIALOG_NO
 
 
 class PointClass(IntFlag):
-    WORD_START = sublime.CLASS_WORD_START
-    WORD_END = sublime.CLASS_WORD_END
-    PUNCTUATION_START = sublime.CLASS_PUNCTUATION_START
-    PUNCTUATION_END = sublime.CLASS_PUNCTUATION_END
-    SUB_WORD_START = sublime.CLASS_SUB_WORD_START
-    SUB_WORD_END = sublime.CLASS_SUB_WORD_END
-    LINE_START = sublime.CLASS_LINE_START
-    LINE_END = sublime.CLASS_LINE_END
-    EMPTY_LINE = sublime.CLASS_EMPTY_LINE
+    # WORD_START = sublime.CLASS_WORD_START
+    # WORD_END = sublime.CLASS_WORD_END
+    # PUNCTUATION_START = sublime.CLASS_PUNCTUATION_START
+    # PUNCTUATION_END = sublime.CLASS_PUNCTUATION_END
+    # SUB_WORD_START = sublime.CLASS_SUB_WORD_START
+    # SUB_WORD_END = sublime.CLASS_SUB_WORD_END
+    # LINE_START = sublime.CLASS_LINE_START
+    # LINE_END = sublime.CLASS_LINE_END
+    # EMPTY_LINE = sublime.CLASS_EMPTY_LINE
+    EXAMPLE = 42
 
 
 class FindOption(IntFlag):

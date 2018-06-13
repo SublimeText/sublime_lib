@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.output_panel.html">sublime_lib.output_panel module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">sublime_lib.settings_dict module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.syntax.html">sublime_lib.syntax module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_buffer.html">sublime_lib.view_buffer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_buffer.html">sublime_lib.settings_dict module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_stream.html">sublime_lib.view_stream module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_utils.html">sublime_lib.view_utils module</a></li>
 </ul>
@@ -243,7 +243,16 @@ key/value pairs: d.update(red=1, blue=2).</p>
 <dl class="method">
 <dt id="sublime_lib.settings_dict.SettingsDict.subscribe">
 <code class="descname">subscribe</code><span class="sig-paren">(</span><em>selector</em>, <em>callback</em>, <em>default_value=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.subscribe" title="Permalink to this definition">¶</a></dt>
-<dd><p>Register a calback to be invoked when the settings object changes.</p>
+<dd><p>Register a calback to be invoked when the a value derived from the
+settings object changes.</p>
+<p>The derived value depends on the type of <cite>selector</cite>:</p>
+<p>Instead of passing the <cite>SettingsDict</cite> to callback, a value derived
+using <cite>selector</cite> is passed. If <cite>selector</cite> is callable, then
+<cite>selector(self)</cite> is passed. If <cite>selector</cite> is a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, then
+<cite>self.get(selector, default_value)</cite> is passed. Otherwise,
+<cite>projection(self, selector)</cite> is passed.</p>
+<p><cite>callback</cite> should accept two arguments, the new derived value and the
+previous derived value.</p>
 </dd></dl>
 
 </dd></dl>

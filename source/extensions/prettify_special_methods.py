@@ -65,8 +65,5 @@ class PrettifySpecialMethods(SphinxTransform):
                 )
 
 def show_special_methods(app, what, name, obj, skip, options):
-    # if hasattr(obj, '__doc__'):
-    #     print(obj)
-    #     return False
     if what == 'class' and name in SPECIAL_METHODS:
         return False

@@ -86,7 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.output_panel.html">sublime_lib.output_panel module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.settings_dict.html">sublime_lib.settings_dict module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.syntax.html">sublime_lib.syntax module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_buffer.html">sublime_lib.view_buffer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_buffer.html">sublime_lib.settings_dict module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_stream.html">sublime_lib.view_stream module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">sublime_lib.view_utils module</a></li>
 </ul>
@@ -158,42 +158,28 @@
 <dl class="function">
 <dt id="sublime_lib.view_utils.new_view">
 <code class="descclassname">sublime_lib.view_utils.</code><code class="descname">new_view</code><span class="sig-paren">(</span><em>window</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_utils.new_view" title="Permalink to this definition">¶</a></dt>
-<dd><p>Open a new view in the given window, returning the View object.</p>
+<dd><p>Open a new view in the given <cite>window</cite>, returning the <code class="xref py py-class docutils literal notranslate"><span class="pre">View</span></code> object.</p>
 <p>This function takes many optional keyword arguments:</p>
-<dl class="simple">
-<dt>content:</dt>
-<dd><p>Text to be inserted into the new view. The text will be inserted even
-if the <cite>read_only</cite> option is True.</p>
-</dd>
-<dt>encoding:</dt>
-<dd><p>The encoding that the view should use when saving.</p>
-</dd>
-<dt>name:</dt>
-<dd><p>The name of the view. This will be shown as the title of the view’s tab.</p>
-</dd>
-<dt>overwrite:</dt>
-<dd><p>If True, the view will be in overwrite mode.</p>
-</dd>
-<dt>read_only:</dt>
-<dd><p>If True, the view will be read-only.</p>
-</dd>
-<dt>scope:</dt>
-<dd><p>A scope name. The view will be assigned a syntax definition that
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>content</strong> – Text to be inserted into the new view. The text will be inserted even
+if the <cite>read_only</cite> option is True.</p></li>
+<li><p><strong>encoding</strong> – The encoding that the view should use when saving.</p></li>
+<li><p><strong>name</strong> – The name of the view. This will be shown as the title of the view’s tab.</p></li>
+<li><p><strong>overwrite</strong> – If True, the view will be in overwrite mode.</p></li>
+<li><p><strong>read_only</strong> – If True, the view will be read-only.</p></li>
+<li><p><strong>scope</strong> – A scope name. The view will be assigned a syntax definition that
 corresponds to the given scope (as determined by
 sublime_lib.syntax.get_syntax_for_scope). Exclusive with the <cite>syntax</cite>
-option.</p>
-</dd>
-<dt>scratch:</dt>
-<dd><p>If True, the view will be a scratch buffer. The user will not be
-prompted to save the view before closing it.</p>
-</dd>
-<dt>settings:</dt>
-<dd><p>A dictionary of names and values that will be applied to the new view’s
-Settings object.</p>
-</dd>
-<dt>syntax:</dt>
-<dd><p>The resource path of a syntax definition that the view will use.
-Exclusive with the <cite>scope</cite> option.</p>
+option.</p></li>
+<li><p><strong>scratch</strong> – If True, the view will be a scratch buffer. The user will not be
+prompted to save the view before closing it.</p></li>
+<li><p><strong>settings</strong> – A dictionary of names and values that will be applied to the new view’s
+Settings object.</p></li>
+<li><p><strong>syntax</strong> – The resource path of a syntax definition that the view will use.
+Exclusive with the <cite>scope</cite> option.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -201,10 +187,16 @@ Exclusive with the <cite>scope</cite> option.</p>
 <dl class="function">
 <dt id="sublime_lib.view_utils.close_view">
 <code class="descclassname">sublime_lib.view_utils.</code><code class="descname">close_view</code><span class="sig-paren">(</span><em>view</em>, <em>*</em>, <em>force=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.view_utils.close_view" title="Permalink to this definition">¶</a></dt>
-<dd><p>Close the given view. If <cite>force</cite> argument is <code class="docutils literal notranslate"><span class="pre">True</span></code>, then any unsaved
-changes will be lost. Otherwise, if there are unsaved changes, raise
-<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
-<p>If the view is invalid (e.g. already closed), <cite>close_view</cite> will do nothing.</p>
+<dd><p>Close the given view, discarding unsaved changes if <cite>force</cite> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p>If the view is invalid (e.g. already closed), do nothing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><strong>ValueError</strong></a> – if the view has no associated window (e.g. a panel).</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><strong>ValueError</strong></a> – if the view has unsaved changes and <cite>force</cite> is not <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

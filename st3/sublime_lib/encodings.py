@@ -4,13 +4,25 @@ __all__ = ['from_sublime', 'to_sublime']
 
 
 def from_sublime(name):
-    """Translate `name` from a Sublime encoding name to a standard Python encoding name."""
+    """Translate `name` from a Sublime encoding name to a standard Python encoding name.
+
+    .. code-block:: python
+
+       >>> from_sublime("Western (Windows 1252)")
+       "cp1252"
+    """
 
     return SUBLIME_TO_STANDARD.get(name, None)
 
 
 def to_sublime(name):
-    """Translate `name` from a standard Python encoding name to a Sublime encoding name."""
+    """Translate `name` from a standard Python encoding name to a Sublime encoding name.
+
+    .. code-block:: python
+
+       >>> to_sublime("cp1252")
+       "Western (Windows 1252)"
+    """
     return STANDARD_TO_SUBLIME.get(lookup(name).name, None)
 
 

@@ -112,6 +112,7 @@ class ViewStream(TextIOBase):
         return self.view.size() - old_size
 
     def print(self, *objects, **kwargs):
+        """Shorthand for ``print(*objects, file=self, **kwargs)``."""
         print(*objects, file=self, **kwargs)
 
     def flush(self):
