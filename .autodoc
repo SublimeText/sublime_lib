@@ -1,0 +1,8 @@
+{
+    "package_path": "st3",
+    "docs_path": "docs",
+    "ignore_patterns": [
+        "sublime_lib/vendor",
+        "**/__*",
+    ],
+}

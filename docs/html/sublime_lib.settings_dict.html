@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sublime_lib.settings_dict module &mdash; sublime_lib  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="sublime_lib.syntax module" href="sublime_lib.syntax.html" />
+    <link rel="prev" title="sublime_lib.output_panel module" href="sublime_lib.output_panel.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> sublime_lib
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.collection_utils.html">sublime_lib.collection_utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.encodings.html">sublime_lib.encodings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.enum.html">sublime_lib.enum module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.flags.html">sublime_lib.flags module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.output_panel.html">sublime_lib.output_panel module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">sublime_lib.settings_dict module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.syntax.html">sublime_lib.syntax module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_buffer.html">sublime_lib.settings_dict module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_stream.html">sublime_lib.view_stream module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sublime_lib.view_utils.html">sublime_lib.view_utils module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sublime_lib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>sublime_lib.settings_dict module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/sublime_lib.settings_dict.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-sublime_lib.settings_dict">
+<span id="sublime-lib-settings-dict-module"></span><h1>sublime_lib.settings_dict module<a class="headerlink" href="#module-sublime_lib.settings_dict" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="sublime_lib.settings_dict.SettingsDict">
+<em class="property">class </em><code class="descclassname">sublime_lib.settings_dict.</code><code class="descname">SettingsDict</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps a <code class="xref py py-class docutils literal notranslate"><span class="pre">sublime.Settings</span></code> object <cite>settings</cite> with a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>-like
+interface.</p>
+<p>There is no way to list or iterate over the keys of a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code> object. As a result, the following methods are
+not implemented:</p>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">copy()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">items()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">keys()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">popitem()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">values()</span></code></p></li>
+</ul>
+<dl class="method">
+<dt id="sublime_lib.settings_dict.SettingsDict.__getitem__">
+<code class="descname">d[key]</code><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the setting named <cite>key</cite>. Raises <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> if there is no such
+setting.</p>
+<p>If a subclass of SettingsDict defines a method <code class="xref py py-meth docutils literal notranslate"><span class="pre">__missing__()</span></code> and
+<cite>key</cite> is not present, the <cite>d[key]</cite> operation calls that method with the
+key <cite>key</cite> as argument. The <cite>d[key]</cite> operation then returns or raises
+whatever is returned or raised by the <code class="docutils literal notranslate"><span class="pre">__missing__(key)</span></code> call. No other
+operations or methods invoke <code class="xref py py-meth docutils literal notranslate"><span class="pre">__missing__()</span></code>. If <code class="xref py py-meth docutils literal notranslate"><span class="pre">__missing__()</span></code> is not
+defined, <cite>KeyError</cite> is raised. <code class="xref py py-meth docutils literal notranslate"><span class="pre">__missing__()</span></code> must be a method; it
+cannot be an instance variable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.settings_dict.SettingsDict.__setitem__">
+<code class="descname">d[key] = value</code><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set <cite>d[key]</cite> to <cite>value</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.settings_dict.SettingsDict.__delitem__">
+<code class="descname">del d[key]</code><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__delitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove <cite>d[key]</cite> from <em>d</em>. Raises <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> if <cite>key</cite> is not in the map.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.settings_dict.SettingsDict.__contains__">
+<code class="descname">item in d</code><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <cite>d</cite> has a setting named <cite>key</cite>, else <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.settings_dict.SettingsDict.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>key</em>, <em>default=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the value for key if key is in the dictionary, else default. If
+default is not given, it defaults to None, so that this method never
+raises <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.settings_dict.SettingsDict.pop">
+<code class="descname">pop</code><span class="sig-paren">(</span><em>key</em>, <em>default={}</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>If key is in the dictionary, remove it and return its value, else
+return default. If default is not given and key is not in the
+dictionary, raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.settings_dict.SettingsDict.setdefault">
+<code class="descname">setdefault</code><span class="sig-paren">(</span><em>key</em>, <em>default=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.setdefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <cite>key</cite> is in the dictionary, return its value. If not, insert <cite>key</cite> with
+a value of <cite>default</cite> and return <cite>default</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.settings_dict.SettingsDict.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>other=[]</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the dictionary with the key/value pairs from <cite>other</cite>, overwriting
+existing keys. Return None.</p>
+<p>Accepts either another dictionary object or an iterable of
+key/value pairs (as tuples or other iterables of length two). If keyword
+arguments are specified, the dictionary is then updated with those
+key/value pairs: d.update(red=1, blue=2).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sublime_lib.settings_dict.SettingsDict.subscribe">
+<code class="descname">subscribe</code><span class="sig-paren">(</span><em>selector</em>, <em>callback</em>, <em>default_value=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.SettingsDict.subscribe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a calback to be invoked when the a value derived from the
+settings object changes.</p>
+<p>The derived value depends on the type of <cite>selector</cite>:</p>
+<p>Instead of passing the <cite>SettingsDict</cite> to callback, a value derived
+using <cite>selector</cite> is passed. If <cite>selector</cite> is callable, then
+<cite>selector(self)</cite> is passed. If <cite>selector</cite> is a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, then
+<cite>self.get(selector, default_value)</cite> is passed. Otherwise,
+<cite>projection(self, selector)</cite> is passed.</p>
+<p><cite>callback</cite> should accept two arguments, the new derived value and the
+previous derived value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="sublime_lib.settings_dict.NamedSettingsDict">
+<em class="property">class </em><code class="descclassname">sublime_lib.settings_dict.</code><code class="descname">NamedSettingsDict</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.NamedSettingsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps a <cite>sublime.Settings</cite> object corresponding to a <cite>sublime-settings</cite>
+file.</p>
+<dl class="method">
+<dt id="sublime_lib.settings_dict.NamedSettingsDict.save">
+<code class="descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.NamedSettingsDict.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flushes any in-memory changes to the named settings object to disk.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="sublime_lib.settings_dict.DefaultSettingsDict">
+<em class="property">class </em><code class="descclassname">sublime_lib.settings_dict.</code><code class="descname">DefaultSettingsDict</code><span class="sig-paren">(</span><em>settings</em>, <em>defaults</em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.settings_dict.DefaultSettingsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>A subclass of <a class="reference internal" href="#sublime_lib.settings_dict.SettingsDict" title="sublime_lib.settings_dict.SettingsDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">SettingsDict</span></code></a> that accepts user-defined default values.</p>
+<p>This class generally should not be used with named settings files. Instead,
+package developers should provide settings files populated with defaults.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sublime_lib.syntax.html" class="btn btn-neutral float-right" title="sublime_lib.syntax module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sublime_lib.output_panel.html" class="btn btn-neutral" title="sublime_lib.output_panel module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Thomas Smith.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

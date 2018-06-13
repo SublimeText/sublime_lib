@@ -1,0 +1,27 @@
+code, dt {
+    font-size: inherit !important;
+}
+
+ul.simple {
+    /*columns: 10em;*/
+}
+
+ul.simple > li > :last-child {
+    margin-bottom: 0 !important;
+}
+
+a > code {
+    color: inherit !important;
+}
+
+a:hover > code {
+    text-decoration: underline !important;
+}
+
+pre {
+    font-size: inherit !important;
+}
+
+.descclassname {
+    font-weight: normal !important;
+}
