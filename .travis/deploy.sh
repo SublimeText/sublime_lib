@@ -8,6 +8,7 @@ fi
 
 # create commit of docs/html folder
 pushd docs/html
+touch .nojekyll # disable jekyll for our generated docs
 git init
 git add .
 git -c user.name='Deployment Bot' -c user.email='deploy@travis-ci.org' commit -m "Auto-deploy of $TRAVIS_COMMIT"
