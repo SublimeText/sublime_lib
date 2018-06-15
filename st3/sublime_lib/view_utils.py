@@ -65,8 +65,7 @@ def close_view(view, *, force=False):
         else:
             raise ValueError('The view has unsaved changes.')
 
-    view.window().focus_view(view)
-    view.window().run_command("close_file")
+    view.close()
 
 
 def validate_view_options(options):
