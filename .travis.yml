@@ -3,9 +3,8 @@ python: 3.6
 
 install:
   - pip install sphinx
-  - $(npm bin)/gitbook install
 
-script: make html
+script: make source html
 
 git:
   depth: 1
