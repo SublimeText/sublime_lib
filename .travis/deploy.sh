@@ -14,7 +14,7 @@ git -c user.name='Deployment Bot' -c user.email='deploy@travis-ci.org' commit -m
 popd
 
 # load ssh key
-openssl aes-256-cbc -K $encrypted_85e7c4721db4_key -iv $encrypted_85e7c4721db4_iv -in .travis/id_deploy.enc -out .travus/id_deploy -d
+openssl aes-256-cbc -K $encrypted_85e7c4721db4_key -iv $encrypted_85e7c4721db4_iv -in .travis/id_deploy.enc -out .travis/id_deploy -d
 chmod 600 .travis/id_deploy
 eval $(ssh-agent -s)
 ssh-add .travis/id_deploy
