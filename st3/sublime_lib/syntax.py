@@ -7,7 +7,7 @@ import plistlib
 from .collection_utils import projection
 
 
-__all__ = ['list_syntaxes', 'get_syntax_for_scope']
+__all__ = ['list_syntaxes', 'get_syntax_for_scope' ]
 
 
 SyntaxInfo = namedtuple('SyntaxInfo', ['path', 'name', 'scope', 'hidden'])
@@ -63,6 +63,23 @@ def get_syntax_metadata(path):
 
 
 def list_syntaxes():
+    """
+    Return a list of all loaded syntax definitions.
+
+    Each item is a :class:`namedtuple` with the following properties:
+
+    path
+        The resource path to the syntax definition file.
+
+    name
+        The display name of the syntax definition.
+
+    scope
+        The top-level scope of the syntax.
+
+    hidden
+        Whether the syntax will appear in the syntax menus and the command palette.
+    """
     syntaxes = [
         get_syntax_metadata(path)
         for path in (
@@ -74,17 +91,20 @@ def list_syntaxes():
     def sort_key(syntax):
         path = syntax.path
         if path.startswith('Packages/Default'):
-            return '0_' + path
+            return (0, path)
         elif path.startswith('Packages/User'):
-            return '2_' + path
+            return (2, path)
         else:
-            return '1_' + path
+            return (1, path)
 
     syntaxes.sort(key=sort_key)
     return syntaxes
 
 
 def get_syntax_for_scope(scope):
+    """
+    Returns the last syntax in load order that matches `scope`.
+    """
     return next((
         syntax.path
         for syntax in reversed(list_syntaxes())
