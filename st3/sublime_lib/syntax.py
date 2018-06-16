@@ -7,7 +7,7 @@ import plistlib
 from .collection_utils import projection
 
 
-__all__ = ['list_syntaxes', 'get_syntax_for_scope' ]
+__all__ = ['list_syntaxes', 'get_syntax_for_scope']
 
 
 SyntaxInfo = namedtuple('SyntaxInfo', ['path', 'name', 'scope', 'hidden'])
