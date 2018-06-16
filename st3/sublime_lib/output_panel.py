@@ -2,7 +2,7 @@ from .view_stream import ViewStream
 from .view_utils import set_view_options, validate_view_options
 
 
-__all__ = [ 'OutputPanel' ]
+__all__ = ['OutputPanel']
 
 
 class OutputPanel(ViewStream):
@@ -23,7 +23,8 @@ class OutputPanel(ViewStream):
         """
         Create a new output panel with the given `name` in the given `window`.
 
-        If `kwargs` are given, they will be interpreted as for :func:`~sublime_lib.view_utils.new_view`.
+        If `kwargs` are given, they will be interpreted as for
+        :func:`~sublime_lib.view_utils.new_view`.
         """
         validate_view_options(kwargs)
 
