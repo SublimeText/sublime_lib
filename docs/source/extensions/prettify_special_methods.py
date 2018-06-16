@@ -1,6 +1,7 @@
 from sphinx.transforms import SphinxTransform
 import sphinx.addnodes as SphinxNodes
 
+
 SPECIAL_METHODS = {
     '__getitem__': '{self}[{0}]',
     '__setitem__': '{self}[{0}] = {1}',
@@ -38,6 +39,7 @@ SPECIAL_METHODS = {
     '__invert__': '~{self}',
 }
 
+
 class PrettifySpecialMethods(SphinxTransform):
     default_priority = 800
 
@@ -52,7 +54,7 @@ class PrettifySpecialMethods(SphinxTransform):
             method_name = name_node.astext()
 
             if method_name in SPECIAL_METHODS:
-                param_names = [ p.astext() for p in ref.traverse(SphinxNodes.desc_parameter) ]
+                param_names = [p.astext() for p in ref.traverse(SphinxNodes.desc_parameter)]
 
                 ref.remove(ref.next_node(SphinxNodes.desc_parameterlist))
 
@@ -63,6 +65,7 @@ class PrettifySpecialMethods(SphinxTransform):
                         **name_node.attributes
                     )
                 )
+
 
 def show_special_methods(app, what, name, obj, skip, options):
     if what == 'class' and name in SPECIAL_METHODS:
