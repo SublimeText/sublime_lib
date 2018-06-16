@@ -1,7 +1,6 @@
 import sublime
 
-from .enum import IntEnum, IntFlag
-
+from .vendor.python.enum import IntEnum, IntFlag
 
 class DialogResult(IntEnum):
     CANCEL = sublime.DIALOG_CANCEL
