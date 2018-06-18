@@ -41,6 +41,10 @@ class SettingsDict():
     - :meth:`keys`
     - :meth:`popitem`
     - :meth:`values`
+
+    You can use :class:`collections.ChainMap` to chain a :class:`SettingsDict`
+    with other dict-like objects. If you do, calling the above unimplemented
+    methods on the :class:`~collections.ChainMap` will raise an error.
     """
 
     def __init__(self, settings):
