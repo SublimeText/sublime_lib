@@ -1,6 +1,6 @@
 __pycache__
 docs/html/
-docs/source/sublime_lib*.rst
+docs/source/modules/
 *.doctree
 *.pickle
 modules.rst
