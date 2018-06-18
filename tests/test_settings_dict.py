@@ -1,8 +1,8 @@
 import sublime
 from sublime_lib import SettingsDict
-from sublime_lib import DefaultSettingsDict
 
 from unittest import TestCase
+from collections import ChainMap
 
 
 class TestSettingsDict(TestCase):
@@ -104,6 +104,28 @@ class TestSettingsDict(TestCase):
         self.assertEqual(self.fancy['xyzzy'], 3)
         self.assertEqual(self.fancy['yzzyx'], 4)
 
+    def test_not_iterable(self):
+        self.assertRaises(NotImplementedError, iter, self.fancy)
+
+    def test_get_default(self):
+        defaults = {'example_1': 'Hello, World!'}
+
+        chained = ChainMap(self.fancy, defaults)
+
+        self.assertNotIn('example_1', self.fancy)
+        self.assertIn('example_1', chained)
+
+        self.assertEqual(chained['example_1'], 'Hello, World!')
+
+        chained['example_1'] = 'Goodbye, World!'
+        self.assertEqual(chained['example_1'], 'Goodbye, World!')
+        self.assertEqual(self.fancy['example_1'], 'Goodbye, World!')
+        self.assertEqual(defaults['example_1'], 'Hello, World!')
+
+        self.assertRaises(KeyError, chained.__getitem__, 'example_2')
+
+        self.assertRaises(NotImplementedError, iter, chained)
+
 
 class TestSettingsDictSubscription(TestCase):
 
@@ -159,31 +181,3 @@ class TestSettingsDictSubscription(TestCase):
             'example_1': 10,
             'example_2': 2
         })
-
-
-class TestDefaultSettingsDict(TestCase):
-
-    def setUp(self):
-        self.view = sublime.active_window().new_file()
-        self.settings = self.view.settings()
-
-    def tearDown(self):
-        if self.view:
-            self.view.set_scratch(True)
-            self.view.window().focus_view(self.view)
-            self.view.window().run_command("close_file")
-
-    def test_get_default(self):
-        self.fancy = DefaultSettingsDict(self.settings, {
-            'example_1': 'Hello, World!',
-        })
-
-        self.assertEqual(self.fancy['example_1'], 'Hello, World!')
-
-        self.fancy['example_1'] = 'Goodbye, World!'
-        self.assertEqual(self.fancy['example_1'], 'Goodbye, World!')
-
-        self.fancy.__missing__('example_1')
-        self.assertEqual(self.fancy['example_1'], 'Hello, World!')
-
-        self.assertRaises(KeyError, self.fancy.__getitem__, 'example_2')

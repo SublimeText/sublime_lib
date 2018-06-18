@@ -6,7 +6,7 @@ from collections.abc import Mapping
 from .collection_utils import projection
 
 
-__all__ = [ 'SettingsDict', 'NamedSettingsDict', 'DefaultSettingsDict' ]
+__all__ = ['SettingsDict', 'NamedSettingsDict']
 
 
 def isiterable(obj):
@@ -41,10 +41,18 @@ class SettingsDict():
     - :meth:`keys`
     - :meth:`popitem`
     - :meth:`values`
+
+    You can use :class:`collections.ChainMap` to chain a :class:`SettingsDict`
+    with other dict-like objects. If you do, calling the above unimplemented
+    methods on the :class:`~collections.ChainMap` will raise an error.
     """
 
     def __init__(self, settings):
         self.settings = settings
+
+    def __iter__(self):
+        """Raise NotImplementedError."""
+        raise NotImplementedError()
 
     def __getitem__(self, key):
         """
@@ -194,39 +202,3 @@ class NamedSettingsDict(SettingsDict):
     def save(self):
         """Flushes any in-memory changes to the named settings object to disk."""
         sublime.save_settings(self.name)
-
-
-class DefaultSettingsDict(SettingsDict):
-    """
-    A subclass of :class:`SettingsDict` that accepts user-defined default values.
-
-    This class generally should not be used with named settings files. Instead,
-    package developers should provide settings files populated with defaults.
-    """
-
-    def __init__(self, settings, defaults):
-        """
-        Return a new DefaultSettingsDict wrapping a given Settings object
-        `settings`, with a given dict-like object `defaults` of default values.
-        """
-        super().__init__(settings)
-        self.defaults = defaults
-
-    def __missing__(self, key):
-        """
-        Lookup the given `key` in this object's `defaults` attribute, insert
-        that value into this object for the `key`, and return that value.
-
-        If looking up `key` in `defaults` raises an exception (such as a
-        :exc:`KeyError`), this exception is propagated unchanged.
-
-        This method is called by the :meth:`__getitem__` method of the SettingsDict
-        class when the requested key is not found; whatever it returns or
-        raises is then returned or raised by :meth:`__getitem__`.
-
-        Note that __missing__() is not called for any operations besides
-        __getitem__(). This means that get() will, like normal dictionaries,
-        return None as a default rather than using defaults.
-        """
-        self[key] = self.defaults[key]
-        return self[key]
