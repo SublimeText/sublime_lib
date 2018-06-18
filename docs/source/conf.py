@@ -16,6 +16,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../../st3'))
 sys.path.insert(0, os.path.abspath('extensions'))
+sys.path.insert(0, os.path.abspath('mocks'))
 
 # -- Project information -----------------------------------------------------
 
@@ -43,7 +44,7 @@ extensions = [
     'sphinx.ext.intersphinx',
 ]
 
-autodoc_mock_imports = ["sublime", "sublime_plugin"]
+autodoc_mock_imports = ["sublime_plugin"]
 autodoc_default_flags = ["members"]
 autodoc_member_order = 'bysource'
 
