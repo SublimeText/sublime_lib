@@ -5,7 +5,7 @@ SOURCEDIR     = docs/source
 BUILDDIR      = docs
 MODULEDIR     = st3
 
-.PHONY: Makefile source clean
+.PHONY: source clean
 
 source:
 	SPHINX_APIDOC_OPTIONS=members,no-special-members sphinx-apidoc --separate --force --no-toc -o "$(SOURCEDIR)/modules" "$(MODULEDIR)"
