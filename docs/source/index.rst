@@ -6,7 +6,6 @@ Welcome to sublime_lib's documentation!
 
    sublime_lib.collection_utils
    sublime_lib.encodings
-   sublime_lib.enum
    sublime_lib.flags
    sublime_lib.output_panel
    sublime_lib.settings_dict
