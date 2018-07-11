@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib import OutputPanel
+from sublime_lib.output_panel import OutputPanel
 
 from unittest import TestCase
 

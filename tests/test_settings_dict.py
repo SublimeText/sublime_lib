@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib import SettingsDict
+from sublime_lib.settings_dict import SettingsDict
 
 from unittest import TestCase
 from collections import ChainMap
