@@ -8,17 +8,16 @@ from unittesting import DeferrableTestCase
 
 
 class TestNamedSettingsDict(DeferrableTestCase):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def setUp(self):
-        self.name = "_sublime_lib_NamedSettingsDictTest.sublime-settings"
-        self.settings_path = path.join(sublime.packages_path(), 'User', self.name)
+        self.name = "_sublime_lib_NamedSettingsDictTest"
         self.fancy = NamedSettingsDict(self.name)
+        self.settings_path = path.join(sublime.packages_path(), 'User', self.fancy.file_name)
 
     def tearDown(self):
-        if path.exists(self.settings_path):
+        try:
             os.remove(self.settings_path)
+        except FileNotFoundError:
+            pass
 
     def test_named(self):
         other = NamedSettingsDict(self.name)

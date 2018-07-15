@@ -193,12 +193,18 @@ class NamedSettingsDict(SettingsDict):
     file.
     """
 
+    @property
+    def file_name(self):
+        """The name of the sublime-settings files associated with the
+        NamedSettingsDict."""
+        return self.name + '.sublime-settings'
+
     def __init__(self, name):
         """Return a new NamedSettingsDict corresponding to the given name."""
 
-        super().__init__(sublime.load_settings(name))
         self.name = name
+        super().__init__(sublime.load_settings(self.file_name))
 
     def save(self):
         """Flushes any in-memory changes to the named settings object to disk."""
-        sublime.save_settings(self.name)
+        sublime.save_settings(self.file_name)
