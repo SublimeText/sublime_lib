@@ -116,6 +116,12 @@ class TestViewUtils(TestCase):
         close_view(self.view, force=True)
         self.assertFalse(self.view.is_valid())
 
+    def test_close_closed_error(self):
+        self.view = new_view(self.window)
+
+        close_view(self.view)
+        self.assertRaises(ValueError, close_view, self.view)
+
     def test_close_panel_error(self):
         view = self.window.create_output_panel('sublime_lib-TestViewUtils')
 
