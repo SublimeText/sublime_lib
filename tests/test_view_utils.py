@@ -11,7 +11,10 @@ class TestViewUtils(TestCase):
 
     def tearDown(self):
         if getattr(self, 'view', None):
-            close_view(self.view, force=True)
+            try:
+                close_view(self.view, force=True)
+            except ValueError:
+                pass
 
     def test_new_view(self):
         self.view = new_view(self.window)
