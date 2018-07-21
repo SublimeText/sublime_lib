@@ -202,7 +202,11 @@ class NamedSettingsDict(SettingsDict):
     def __init__(self, name):
         """Return a new NamedSettingsDict corresponding to the given name."""
 
-        self.name = name
+        if name.endswith('.sublime-settings'):
+            self.name = name[:-17]
+        else:
+            self.name = name
+
         super().__init__(sublime.load_settings(self.file_name))
 
     def save(self):
