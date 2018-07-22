@@ -50,23 +50,17 @@ def close_view(view, *, force=False):
 
     If the view is invalid (e.g. already closed), do nothing.
 
-    :raise ValueError: if the view has no associated window (e.g. a panel).
     :raise ValueError: if the view has unsaved changes and `force` is not ``True``.
+    :raise ValueError: if the view is not closed for any other reason.
     """
-    if not view.is_valid():
-        return
-
-    if view.window() is None:
-        raise ValueError('The view has no associated window.')
-
     if view.is_dirty() and not view.is_scratch():
         if force:
             view.set_scratch(True)
         else:
             raise ValueError('The view has unsaved changes.')
 
-    view.window().focus_view(view)
-    view.window().run_command("close_file")
+    if not view.close():
+        raise ValueError('The view could not be closed.')
 
 
 def validate_view_options(options):
