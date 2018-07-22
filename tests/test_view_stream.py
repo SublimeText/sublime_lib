@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib import ViewStream
+from sublime_lib.view_stream import ViewStream
 
 from unittest import TestCase
 from io import UnsupportedOperation

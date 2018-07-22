@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib import NamedSettingsDict
+from sublime_lib.settings_dict import NamedSettingsDict
 
 import os
 from os import path
