@@ -145,8 +145,9 @@ class SettingsDict():
 
     def subscribe(self, selector, callback, default_value=None):
         """
-        Register a calback to be invoked when the a value derived from the
-        settings object changes.
+        Register a callback to be invoked when the a value derived from the
+        settings object changes. Returns a function that when invoked will
+        unregister the callback.
 
         The derived value depends on the type of `selector`:
 
@@ -181,10 +182,7 @@ class SettingsDict():
 
         key = str(uuid4())
         self.settings.add_on_change(key, onchange)
-        return key
-
-    def unsubscribe(self, key):
-        self.settings.clear_on_change(key)
+        return lambda: self.settings.clear_on_change(key)
 
 
 class NamedSettingsDict(SettingsDict):
