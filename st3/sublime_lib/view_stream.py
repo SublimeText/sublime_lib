@@ -111,9 +111,11 @@ class ViewStream(TextIOBase):
         })
         return self.view.size() - old_size
 
-    def print(self, *objects, **kwargs):
-        """Shorthand for ``print(*objects, file=self, **kwargs)``."""
-        print(*objects, file=self, **kwargs)
+    def print(self, *objects, sep=' ', end='\n'):
+        """Print `objects` to the view, separated by `sep` and followed by `end`
+        (similar to the builtin :func:`print()` function). Converts arguments to
+        string using :func:`str()`."""
+        self.write(sep.join(map(str, objects)) + end)
 
     def flush(self):
         """Do nothing. (The stream is not buffered.)"""

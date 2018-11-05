@@ -2,7 +2,7 @@ import sublime
 from sublime_lib import ViewStream
 
 from unittest import TestCase
-from io import UnsupportedOperation
+from io import UnsupportedOperation, StringIO
 
 
 class TestViewStream(TestCase):
@@ -109,7 +109,7 @@ class TestViewStream(TestCase):
         self.assertEqual(text, "World")
         self.assertEqual(self.stream.tell(), 12)
 
-    def test_write_only(self):
+    def test_write_read_only(self):
         self.stream.view.set_read_only(True)
 
         self.assertRaises(ValueError, self.stream.write, 'foo')
@@ -117,6 +117,44 @@ class TestViewStream(TestCase):
 
         self.stream.force_writes = True
         self.assertEqual(self.stream.write('foo'), 3)
+
+        self.stream.clear()
+        self.assertEqual(self.stream.view.size(), 0)
+
+    def _compare_print(self, *args, **kwargs):
+        self.stream.clear()
+        self.stream.print(*args, **kwargs)
+        self.stream.seek_start()
+
+        s = StringIO()
+        print(*args, file=s, **kwargs)
+
+        self.assertContents(s.getvalue())
+
+    def test_print(self):
+        text = "Hello, World!"
+        number = 42
+
+        self._compare_print(text, number)
+        self._compare_print(text, number, sep=',', end=';')
+        self._compare_print(text, number, sep='', end='')
+
+    def test_print_no_indent(self):
+        text = "Hello\n    World\n!"
+
+        self.stream.view.settings().set('auto_indent', True)
+        self.stream.print(text)
+        self.assertContents(text + "\n")
+
+    def test_print_read_only(self):
+        self.stream.view.set_read_only(True)
+
+        self.assertRaises(ValueError, self.stream.print, 'foo')
+        self.assertRaises(ValueError, self.stream.clear)
+
+        self.stream.force_writes = True
+        self.stream.print('foo')
+        self.assertContents("foo\n")
 
         self.stream.clear()
         self.assertEqual(self.stream.view.size(), 0)
