@@ -149,7 +149,7 @@ class TestSettingsDictSubscription(TestCase):
             nonlocal values
             values = (new, old)
 
-        unsubscribe = self.key = self.fancy.subscribe('example_setting', callback)
+        unsubscribe = self.fancy.subscribe('example_setting', callback)
 
         self.fancy['example_setting'] = 2
         self.assertEqual(values, (2, 1))
@@ -170,7 +170,7 @@ class TestSettingsDictSubscription(TestCase):
             nonlocal values
             values = new
 
-        self.key = self.fancy.subscribe({'example_1', 'example_2', 'example_3'}, callback)
+        self.fancy.subscribe({'example_1', 'example_2', 'example_3'}, callback)
 
         self.fancy['example_1'] = 10
 
