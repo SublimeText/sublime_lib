@@ -2,6 +2,7 @@ import sublime
 
 from uuid import uuid4
 from collections.abc import Mapping
+from functools import partial
 
 from .collection_utils import projection
 
@@ -182,7 +183,7 @@ class SettingsDict():
 
         key = str(uuid4())
         self.settings.add_on_change(key, onchange)
-        return lambda: self.settings.clear_on_change(key)
+        return partial(self.settings.clear_on_change, key)
 
 
 class NamedSettingsDict(SettingsDict):
