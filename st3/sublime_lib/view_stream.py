@@ -46,6 +46,17 @@ class ViewStream(TextIOBase):
             yield
 
     @define_guard
+    @contextmanager
+    def guard_auto_indent(self):
+        settings = self.view.settings()
+        if settings.get('auto_indent'):
+            settings.set('auto_indent', False)
+            yield
+            settings.set('auto_indent', True)
+        else:
+            yield
+
+    @define_guard
     def guard_validity(self):
         if not self.view.is_valid():
             raise ValueError("The underlying view is invalid.")
@@ -95,27 +106,23 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     @guard_read_only
+    @guard_auto_indent
     def write(self, s):
         """Insert the string `s` into the view and return the number of
         characters inserted. The string will be inserted immediately before the
-        cursor.
+        cursor. It will not be auto-indented.
 
         Note: Because Sublime may convert tabs to spaces, the number of
         characters inserted may not match the length of the argument.
         """
-        # This is a hack to get around auto-indentation.
         old_size = self.view.size()
-        self.view.run_command('insert_snippet', {
-            'contents': '$sublime_lib__insert_text',
-            'sublime_lib__insert_text': s,
-        })
+        self.view.run_command('insert', {'characters': s})
         return self.view.size() - old_size
 
     def print(self, *objects, sep=' ', end='\n'):
-        """Print `objects` to the view, separated by `sep` and followed by `end`
-        (similar to the builtin :func:`print()` function). Converts arguments to
-        string using :func:`str()`."""
-        self.write(sep.join(map(str, objects)) + end)
+        """Shorthand for :func:`print()` passing this ViewStream as the `file`
+        argument."""
+        print(*objects, file=self, sep=sep, end=end)
 
     def flush(self):
         """Do nothing. (The stream is not buffered.)"""

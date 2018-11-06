@@ -48,11 +48,12 @@ class TestViewStream(TestCase):
         self.assertEqual(size, self.stream.view.size())
 
     def test_no_indent(self):
-        text = "Hello\n    World\n!"
+        text = "    "
 
         self.stream.view.settings().set('auto_indent', True)
         self.stream.write(text)
-        self.assertContents(text)
+        self.stream.write("\n")
+        self.assertContents(text + "\n")
 
     def test_clear(self):
         self.stream.write("Some text")
@@ -124,7 +125,6 @@ class TestViewStream(TestCase):
     def _compare_print(self, *args, **kwargs):
         self.stream.clear()
         self.stream.print(*args, **kwargs)
-        self.stream.seek_start()
 
         s = StringIO()
         print(*args, file=s, **kwargs)
@@ -140,7 +140,7 @@ class TestViewStream(TestCase):
         self._compare_print(text, number, sep='', end='')
 
     def test_print_no_indent(self):
-        text = "Hello\n    World\n!"
+        text = "    "
 
         self.stream.view.settings().set('auto_indent', True)
         self.stream.print(text)
