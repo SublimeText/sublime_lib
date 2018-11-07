@@ -127,11 +127,16 @@ class TestViewStream(TestCase):
         self.assertContents('')
 
     def _compare_print(self, *args, **kwargs):
+        s = StringIO()
+        print(*args, file=s, **kwargs)
+
         self.stream.clear()
         self.stream.print(*args, **kwargs)
 
-        s = StringIO()
-        print(*args, file=s, **kwargs)
+        self.assertContents(s.getvalue())
+
+        self.stream.clear()
+        print(*args, file=self.stream, **kwargs)
 
         self.assertContents(s.getvalue())
 
