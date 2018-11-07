@@ -110,17 +110,21 @@ class TestViewStream(TestCase):
         self.assertEqual(text, "World")
         self.assertEqual(self.stream.tell(), 12)
 
-    def test_write_read_only(self):
+    def test_write_read_only_failure(self):
         self.stream.view.set_read_only(True)
 
         self.assertRaises(ValueError, self.stream.write, 'foo')
         self.assertRaises(ValueError, self.stream.clear)
 
+    def test_write_read_only_success(self):
+        self.stream.view.set_read_only(True)
         self.stream.force_writes = True
-        self.assertEqual(self.stream.write('foo'), 3)
+
+        self.stream.write('foo')
+        self.assertContents('foo')
 
         self.stream.clear()
-        self.assertEqual(self.stream.view.size(), 0)
+        self.assertContents('')
 
     def _compare_print(self, *args, **kwargs):
         self.stream.clear()
@@ -146,18 +150,21 @@ class TestViewStream(TestCase):
         self.stream.print(text)
         self.assertContents(text + "\n")
 
-    def test_print_read_only(self):
+    def test_print_read_only_failure(self):
         self.stream.view.set_read_only(True)
 
         self.assertRaises(ValueError, self.stream.print, 'foo')
         self.assertRaises(ValueError, self.stream.clear)
 
+    def test_print_read_only_success(self):
+        self.stream.view.set_read_only(True)
         self.stream.force_writes = True
+
         self.stream.print('foo')
         self.assertContents("foo\n")
 
         self.stream.clear()
-        self.assertEqual(self.stream.view.size(), 0)
+        self.assertContents('')
 
     def test_unsupported(self):
         self.assertRaises(UnsupportedOperation, self.stream.detach)
