@@ -22,7 +22,7 @@ def ismapping(obj):
     return isinstance(obj, Mapping)
 
 
-NOT_GIVEN = {}
+NOT_GIVEN = object()
 
 
 class SettingsDict():
