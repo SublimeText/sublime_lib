@@ -68,40 +68,40 @@ def assert_called_once_with_partial(mock, **specified_args):
 
 class TestSelectionPanel(TestCase):
     def test_selected(self):
-        on_selected = MagicMock()
+        on_select = MagicMock()
         on_cancel = MagicMock()
 
         show_selection_panel(
             window=WindowMock(lambda on_select, **rest: on_select(1)),
             items=['a', 'b', 'c'],
-            on_selected=on_selected,
+            on_select=on_select,
             on_cancel=on_cancel
         )
-        on_selected.assert_called_once_with('b')
+        on_select.assert_called_once_with('b')
         assert_not_called(on_cancel)
 
     def test_cancel(self):
-        on_selected = MagicMock()
+        on_select = MagicMock()
         on_cancel = MagicMock()
 
         show_selection_panel(
             window=WindowMock(lambda on_select, **rest: on_select(-1)),
             items=['a', 'b', 'c'],
-            on_selected=on_selected,
+            on_select=on_select,
             on_cancel=on_cancel
         )
-        assert_not_called(on_selected)
+        assert_not_called(on_select)
         on_cancel.assert_called_once_with()
 
     def test_highlight(self):
-        on_highlighted = MagicMock()
+        on_highlight = MagicMock()
 
         show_selection_panel(
             window=WindowMock(lambda on_highlight, **rest: on_highlight(1)),
             items=['a', 'b', 'c'],
-            on_highlighted=on_highlighted,
+            on_highlight=on_highlight,
         )
-        on_highlighted.assert_called_once_with('b')
+        on_highlight.assert_called_once_with('b')
 
     def test_no_flags(self):
         window = WindowMock()
