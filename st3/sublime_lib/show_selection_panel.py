@@ -20,7 +20,8 @@ def show_selection_panel(
 
     Optional keyword arguments:
 
-    :argument flags: TODO
+    :argument flags: A bitwise OR of :const:`sublime.MONOSPACE_FONT` and
+    :const:`sublime.KEEP_OPEN_ON_FOCUS_LOST`.
 
     :argument labels: A function taking elements of `items` to string labels.
 
