@@ -43,9 +43,8 @@ def show_selection_panel(
         if index == -1:
             if on_cancel:
                 on_cancel()
-        else:
-            if on_select:
-                on_select(items[index])
+        elif on_select:
+            on_select(items[index])
 
     if selected is NOT_GIVEN:
         selected_index = None
