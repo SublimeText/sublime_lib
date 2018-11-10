@@ -188,7 +188,7 @@ class TestSelectionPanel(TestCase):
             flags=flags
         )
 
-    def test_labels(self):
+    def test_labels_function(self):
         window = WindowMock()
 
         show_selection_panel(
@@ -199,6 +199,24 @@ class TestSelectionPanel(TestCase):
                 {'name': 'c'},
             ],
             labels=lambda item: item['name']
+        )
+
+        assert_called_once_with_partial(
+            window.show_quick_panel,
+            items=['a', 'b', 'c'],
+        )
+
+    def test_labels_list(self):
+        window = WindowMock()
+
+        show_selection_panel(
+            window=window,
+            items=[
+                {'name': 'a'},
+                {'name': 'b'},
+                {'name': 'c'},
+            ],
+            labels=['a', 'b', 'c'],
         )
 
         assert_called_once_with_partial(
