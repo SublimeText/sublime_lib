@@ -47,7 +47,7 @@ def show_selection_panel(
             if on_select:
                 on_select(items[index])
 
-    if selected == NOT_GIVEN:
+    if selected is NOT_GIVEN:
         selected_index = None
     else:
         selected_index = items.index(selected)
