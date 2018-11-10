@@ -123,6 +123,15 @@ class TestSelectionPanel(TestCase):
             items=[['a'], ['b', 'c']]
         )
 
+    def test_item_labels_lengths_error(self):
+        self.assertRaises(
+            ValueError,
+            show_selection_panel,
+            WindowMock(),
+            items=['a', 'b', 'c'],
+            labels=['x', 'y']
+        )
+
     def test_selected(self):
         on_select = MagicMock()
         on_cancel = MagicMock()

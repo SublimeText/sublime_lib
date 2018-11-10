@@ -52,6 +52,8 @@ def show_selection_panel(
         labels = items
     elif callable(labels):
         labels = map(labels, items)
+    elif len(items) != len(labels):
+        raise ValueError("The lengths of `items` and `labels` must match.")
 
     if any(isinstance(item, list) for item in items):
         if not all(isinstance(item, list) for item in items):
