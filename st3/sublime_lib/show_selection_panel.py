@@ -1,4 +1,4 @@
-NOT_GIVEN = {}
+NOT_GIVEN = object()
 
 
 def show_selection_panel(
