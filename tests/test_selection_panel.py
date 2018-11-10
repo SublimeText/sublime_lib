@@ -67,6 +67,62 @@ def assert_called_once_with_partial(mock, **specified_args):
 
 
 class TestSelectionPanel(TestCase):
+    def test_type_coercion(self):
+        window = WindowMock()
+        show_selection_panel(
+            window=window,
+            items=[10, 20, 30],
+        )
+
+        assert_called_once_with_partial(
+            window.show_quick_panel,
+            items=['10', '20', '30'],
+        )
+
+    def test_multiline_type_coercion(self):
+        window = WindowMock()
+        show_selection_panel(
+            window=window,
+            items=[
+                ['a', 10],
+                ['b', 20],
+                ['c', 30],
+            ],
+        )
+
+        assert_called_once_with_partial(
+            window.show_quick_panel,
+            items=[
+                ['a', '10'],
+                ['b', '20'],
+                ['c', '30'],
+            ],
+        )
+
+    def test_empty_items_error(self):
+        self.assertRaises(
+            ValueError,
+            show_selection_panel,
+            WindowMock(),
+            items=[]
+        )
+
+    def test_mixed_item_types_error(self):
+        self.assertRaises(
+            ValueError,
+            show_selection_panel,
+            WindowMock(),
+            items=[['a'], 'b']
+        )
+
+    def test_mixed_item_lengths_error(self):
+        self.assertRaises(
+            ValueError,
+            show_selection_panel,
+            WindowMock(),
+            items=[['a'], ['b', 'c']]
+        )
+
     def test_selected(self):
         on_select = MagicMock()
         on_cancel = MagicMock()
@@ -108,7 +164,7 @@ class TestSelectionPanel(TestCase):
 
         show_selection_panel(
             window=window,
-            items=[]
+            items=['a', 'b', 'c']
         )
 
         assert_called_once_with_partial(
@@ -123,7 +179,7 @@ class TestSelectionPanel(TestCase):
 
         show_selection_panel(
             window=window,
-            items=[],
+            items=['a', 'b', 'c'],
             flags=flags
         )
 
