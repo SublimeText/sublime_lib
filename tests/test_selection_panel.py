@@ -107,20 +107,22 @@ class TestSelectionPanel(TestCase):
             items=[]
         )
 
-    def test_mixed_item_types_error(self):
+    def test_mixed_label_types_error(self):
         self.assertRaises(
             ValueError,
             show_selection_panel,
             WindowMock(),
-            items=[['a'], 'b']
+            items=['a', 'b'],
+            labels=[['a'], 'b']
         )
 
-    def test_mixed_item_lengths_error(self):
+    def test_mixed_label_lengths_error(self):
         self.assertRaises(
             ValueError,
             show_selection_panel,
             WindowMock(),
-            items=[['a'], ['b', 'c']]
+            items=['a', 'b'],
+            labels=[['a'], ['b', 'c']]
         )
 
     def test_item_labels_lengths_error(self):

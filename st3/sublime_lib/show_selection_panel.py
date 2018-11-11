@@ -51,15 +51,15 @@ def show_selection_panel(
     if labels is NOT_GIVEN:
         labels = items
     elif callable(labels):
-        labels = map(labels, items)
+        labels = list(map(labels, items))
     elif len(items) != len(labels):
         raise ValueError("The lengths of `items` and `labels` must match.")
 
-    if any(isinstance(item, list) for item in items):
-        if not all(isinstance(item, list) for item in items):
+    if any(isinstance(label, list) for label in labels):
+        if not all(isinstance(label, list) for label in labels):
             raise ValueError("Labels must be all strings or all lists.")
 
-        if not all(len(item) == len(items[0]) for item in items):
+        if len(set(map(len, labels))) != 1:
             raise ValueError("If labels are lists, they must all have the same number of elements.")
 
         labels = list(map(lambda label: list(map(str, label)), labels))
