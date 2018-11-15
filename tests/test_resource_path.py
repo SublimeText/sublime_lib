@@ -38,10 +38,12 @@ class TestResourcePath(DeferrableTestCase):
         )
 
     def test_read_text_missing(self):
-        self.assertRaises(
-            FileNotFoundError,
-            ResourcePath("Packages/test_package/nonexistentfile.txt").read_text
-        )
+        with self.assertRaises(FileNotFoundError):
+            ResourcePath("Packages/test_package/nonexistentfile.txt").read_text()
+
+    def test_read_text_invalid_unicode(self):
+        with self.assertRaises(UnicodeDecodeError):
+            ResourcePath("Packages/test_package/UTF-8-test.txt").read_text()
 
     def test_read_bytes(self):
         self.assertEqual(
@@ -50,34 +52,39 @@ class TestResourcePath(DeferrableTestCase):
         )
 
     def test_read_bytes_missing(self):
-        self.assertRaises(
-            FileNotFoundError,
-            ResourcePath("Packages/test_package/nonexistentfile.txt").read_bytes
-        )
+        with self.assertRaises(FileNotFoundError):
+            ResourcePath("Packages/test_package/nonexistentfile.txt").read_bytes()
+
+    def test_read_bytes_invalid_unicode(self):
+        # Should not raise UnicodeDecodeError
+        ResourcePath("Packages/test_package/UTF-8-test.txt").read_bytes()
 
     def test_glob(self):
         self.assertEqual(
             ResourcePath("Packages/test_package").glob('*.txt'),
             [
+                ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/helloworld.txt"),
             ]
         )
 
     def test_rglob(self):
         self.assertEqual(
-            set(ResourcePath("Packages/test_package").rglob('*.txt')),
-            {
+            ResourcePath("Packages/test_package").rglob('*.txt'),
+            [
+                ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/directory/goodbyeworld.txt"),
                 ResourcePath("Packages/test_package/helloworld.txt"),
-            }
+            ]
         )
 
     def test_children(self):
         self.assertEqual(
-            set(ResourcePath("Packages/test_package").children()),
-            {
+            ResourcePath("Packages/test_package").children(),
+            [
+                ResourcePath("Packages/test_package/.test_package_exists"),
+                ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/directory"),
                 ResourcePath("Packages/test_package/helloworld.txt"),
-                ResourcePath("Packages/test_package/.test_package_exists"),
-            }
+            ]
         )
