@@ -1,33 +1,13 @@
 import sublime
 import os.path
-import re
 from collections import OrderedDict
-from functools import lru_cache
 
 from .pure_resource_path import PureResourcePath
 from .path_compat import Path
+from .glob_util import get_glob_expr
 
 
 __all__ = ['glob_resources', 'ResourcePath']
-
-
-GLOB_RE = re.compile(r'(\*\*/?|\*)')
-
-
-@lru_cache()
-def get_glob_expr(pattern):
-    s = ''
-    for part in GLOB_RE.split(pattern):
-        if part == '**/':
-            s += r'(?:.*/)?'
-        elif part == '**':
-            s += r'(?:.*)'
-        elif part == '*':
-            s += r'(?:[^/]*)'
-        else:
-            s += re.escape(part)
-
-    return re.compile(r'\A' + s + r'\Z')
 
 
 def glob_resources(pattern):
