@@ -180,7 +180,7 @@ class TestSelectionPanel(TestCase):
 
         assert_called_once_with_partial(
             window.show_quick_panel,
-            flags=None
+            flags=0
         )
 
     def test_flags(self):
@@ -233,6 +233,19 @@ class TestSelectionPanel(TestCase):
         assert_called_once_with_partial(
             window.show_quick_panel,
             items=['a', 'b', 'c'],
+        )
+
+    def test_no_selected(self):
+        window = WindowMock()
+
+        show_selection_panel(
+            window=window,
+            items=['a', 'b', 'c'],
+        )
+
+        assert_called_once_with_partial(
+            window.show_quick_panel,
+            selected_index=-1
         )
 
     def test_selected_simple(self):
