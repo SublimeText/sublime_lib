@@ -141,24 +141,18 @@ class ViewStream(TextIOBase):
 
     @guard_validity
     def seek(self, offset, whence=SEEK_SET):
-        """Move the cursor in the view to the given offset. If `whence` is
-        provided, the behavior is the same as for TextIOBase. If the view had
+        """Move the cursor in the view and return the new offset. If `whence` is
+        provided, the behavior is the same as for :class:`IOBase`. If the cursor
+        would move before the beginning of the view, it will move to the
+        beginning instead, and likewise for the end of the view. If the view had
         multiple selections, none will be preserved.
         """
         if whence == SEEK_SET:
             return self._seek(offset)
         elif whence == SEEK_CUR:
-            if offset != 0:
-                raise TypeError('Argument "offset" must be zero when "whence" '
-                                'is io.SEEK_CUR.')
-            # Don't move.
-            self._maybe_show_cursor()
-            return self._tell()
+            return self._seek(self._tell() + offset)
         elif whence == SEEK_END:
-            if offset != 0:
-                raise TypeError('Argument "offset" must be zero when "whence" '
-                                'is io.SEEK_END.')
-            return self._seek(self.view.size())
+            return self._seek(self.view.size() + offset)
         else:
             raise TypeError('Invalid value for argument "whence".')
 
@@ -167,7 +161,7 @@ class ViewStream(TextIOBase):
         selection.clear()
         selection.add(Region(offset))
         self._maybe_show_cursor()
-        return offset
+        return self._tell()
 
     @guard_validity
     def seek_start(self):
