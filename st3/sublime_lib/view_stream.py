@@ -27,9 +27,19 @@ class ViewStream(TextIOBase):
     All public methods (except :meth:`flush`) require that the underlying View object
     be valid (using :meth:`View.is_valid`). Otherwise, :class:`ValueError` will be raised.
 
-    The :meth:`read`, :meth:`readline`, :meth:`write`, and :meth:`tell` methods require that the
-    underlying View have exactly one selection, and that the selection is
-    empty (i.e. a simple cursor). Otherwise, :class:`ValueError` will be raised.
+    The :meth:`read`, :meth:`readline`, :meth:`write`, :meth:`print`, and
+    :meth:`tell` methods require that the underlying View have exactly one
+    selection, and that the selection is empty (i.e. a simple cursor).
+    Otherwise, :class:`ValueError` will be raised.
+
+    :argument force_writes: If ``True``, then :meth:`write` and :meth:`print`
+    will write to the view even if it is read-only. Otherwise, those methods
+    will raise :exc:`ValueError`.
+
+    :argument auto_show_cursor: If ``True``, then any method that would move the
+    cursor position will scroll the view to ensure that the new position is
+    visible. Passing an explicit `show_cursor` argument to those methods
+    overrides this setting.
     """
 
     @define_guard
@@ -70,9 +80,10 @@ class ViewStream(TextIOBase):
         elif not self.view.sel()[0].empty():
             raise ValueError("The underlying view's selection is not empty.")
 
-    def __init__(self, view, *, force_writes=False):
+    def __init__(self, view, *, force_writes=False, auto_show_cursor=False):
         self.view = view
         self.force_writes = force_writes
+        self.auto_show_cursor = auto_show_cursor
 
     @guard_validity
     @guard_selection
@@ -107,7 +118,7 @@ class ViewStream(TextIOBase):
     @guard_selection
     @guard_read_only
     @guard_auto_indent
-    def write(self, s):
+    def write(self, s, show_cursor=None):
         """Insert the string `s` into the view and return the number of
         characters inserted. The string will be inserted immediately before the
         cursor. It will not be auto-indented.
@@ -117,54 +128,58 @@ class ViewStream(TextIOBase):
         """
         old_size = self.view.size()
         self.view.run_command('insert', {'characters': s})
+        self._maybe_show_cursor(show_cursor)
         return self.view.size() - old_size
 
-    def print(self, *objects, sep=' ', end='\n'):
+    def print(self, *objects, sep=' ', end='\n', show_cursor=None):
         """Shorthand for :func:`print()` passing this ViewStream as the `file`
         argument."""
         print(*objects, file=self, sep=sep, end=end)
+        self._maybe_show_cursor(show_cursor)
 
     def flush(self):
         """Do nothing. (The stream is not buffered.)"""
         pass
 
     @guard_validity
-    def seek(self, offset, whence=SEEK_SET):
+    def seek(self, offset, whence=SEEK_SET, show_cursor=None):
         """Move the cursor in the view to the given offset. If `whence` is
         provided, the behavior is the same as for TextIOBase. If the view had
         multiple selections, none will be preserved.
         """
         if whence == SEEK_SET:
-            return self._seek(offset)
+            return self._seek(offset, show_cursor)
         elif whence == SEEK_CUR:
             if offset != 0:
                 raise TypeError('Argument "offset" must be zero when "whence" '
                                 'is io.SEEK_CUR.')
             # Don't move.
+            self._maybe_show_cursor()
             return self._tell()
         elif whence == SEEK_END:
             if offset != 0:
                 raise TypeError('Argument "offset" must be zero when "whence" '
                                 'is io.SEEK_END.')
-            return self._seek(self.view.size())
+            return self._seek(self.view.size(), show_cursor)
         else:
             raise TypeError('Invalid value for argument "whence".')
 
-    def _seek(self, offset):
+    def _seek(self, offset, show_cursor=None):
         selection = self.view.sel()
         selection.clear()
         selection.add(Region(offset))
+        self._maybe_show_cursor(show_cursor)
         return offset
 
     @guard_validity
-    def seek_start(self):
+    def seek_start(self, show_cursor=None):
         """Move the cursor in the view to before the first character."""
-        self._seek(0)
+        self._seek(0, show_cursor)
 
     @guard_validity
-    def seek_end(self):
+    def seek_end(self, show_cursor=None):
         """Move the cursor in the view to after the last character."""
-        self._seek(self.view.size())
+        self._seek(self.view.size(), show_cursor)
 
     @guard_validity
     @guard_selection
@@ -174,6 +189,19 @@ class ViewStream(TextIOBase):
 
     def _tell(self):
         return self.view.sel()[0].b
+
+    @guard_validity
+    @guard_selection
+    def show_cursor(self):
+        """Scroll the view to show the position of the cursor."""
+        self._show_cursor()
+
+    def _show_cursor(self):
+        self.view.show(self._tell())
+
+    def _maybe_show_cursor(self, show_cursor=None):
+        if show_cursor or (show_cursor is None and self.auto_show_cursor):
+            self._show_cursor()
 
     @guard_validity
     @guard_selection

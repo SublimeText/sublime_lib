@@ -1,11 +1,11 @@
 import sublime
 from sublime_lib import ViewStream
 
-from unittest import TestCase
+from unittesting import DeferrableTestCase
 from io import UnsupportedOperation, StringIO
 
 
-class TestViewStream(TestCase):
+class TestViewStream(DeferrableTestCase):
 
     def setUp(self):
         self.view = sublime.active_window().new_file()
@@ -14,8 +14,7 @@ class TestViewStream(TestCase):
     def tearDown(self):
         if self.view:
             self.view.set_scratch(True)
-            self.view.window().focus_view(self.view)
-            self.view.window().run_command("close_file")
+            self.view.close()
 
     def assertContents(self, text):
         self.assertEqual(
@@ -171,6 +170,43 @@ class TestViewStream(TestCase):
         self.stream.clear()
         self.assertContents('')
 
+    def assertCursorVisible(self):
+        self.assertTrue(
+            self.stream.view.visible_region().contains(
+                self.stream.tell()
+            )
+        )
+
+    def test_show_cursor(self):
+        self.stream.write('test\n' * 200)
+
+        self.stream.show_cursor()
+        yield 200
+        self.assertCursorVisible()
+
+        self.stream.seek_start(show_cursor=True)
+        yield 200
+        self.assertCursorVisible()
+
+        self.stream.seek_end(show_cursor=True)
+        yield 200
+        self.assertCursorVisible()
+
+    def test_show_cursor_auto(self):
+        self.stream.auto_show_cursor = True
+
+        self.stream.write('test\n' * 200)
+        yield 200
+        self.assertCursorVisible()
+
+        self.stream.seek_start()
+        yield 200
+        self.assertCursorVisible()
+
+        self.stream.seek_end()
+        yield 200
+        self.assertCursorVisible()
+
     def test_unsupported(self):
         self.assertRaises(UnsupportedOperation, self.stream.detach)
 
@@ -191,9 +227,7 @@ class TestViewStream(TestCase):
 
     def test_validity_guard(self):
         self.view.set_scratch(True)
-        self.view.window().focus_view(self.view)
-        self.view.window().run_command("close_file")
-        self.view = None
+        self.view.close()
 
         self.assertRaises(ValueError, self.stream.read, None)
         self.assertRaises(ValueError, self.stream.readline)
@@ -203,3 +237,4 @@ class TestViewStream(TestCase):
         self.assertRaises(ValueError, self.stream.seek_start)
         self.assertRaises(ValueError, self.stream.seek_end)
         self.assertRaises(ValueError, self.stream.tell)
+        self.assertRaises(ValueError, self.stream.show_cursor)
