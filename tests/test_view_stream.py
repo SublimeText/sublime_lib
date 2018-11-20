@@ -169,6 +169,27 @@ class TestViewStream(DeferrableTestCase):
 
         self.stream.clear()
         self.assertContents('')
+    
+    def assertSeek(self, expected, *args):
+        returned = self.stream.seek(*args)
+        measured = self.stream.tell()
+        self.assertEqual(returned, expected)
+        self.assertEqual(measured, expected)
+
+    def test_seek(self):
+        from io import SEEK_SET, SEEK_CUR, SEEK_END
+
+        self.stream.write('test\n'*10)
+
+        self.assertSeek(0, -100)
+        self.assertSeek(50, 100)
+        self.assertSeek(25, 25, SEEK_SET)
+        self.assertSeek(35, 10, SEEK_CUR)
+        self.assertSeek(0, -100, SEEK_CUR)
+        self.assertSeek(50, 0, SEEK_END)
+        self.assertSeek(50, 100, SEEK_END)
+        self.assertSeek(40, -10, SEEK_END)
+        self.assertSeek(0, -100, SEEK_END)
 
     def assertCursorVisible(self):
         self.assertTrue(
