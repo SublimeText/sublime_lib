@@ -27,9 +27,18 @@ class ViewStream(TextIOBase):
     All public methods (except :meth:`flush`) require that the underlying View object
     be valid (using :meth:`View.is_valid`). Otherwise, :class:`ValueError` will be raised.
 
-    The :meth:`read`, :meth:`readline`, :meth:`write`, and :meth:`tell` methods require that the
-    underlying View have exactly one selection, and that the selection is
-    empty (i.e. a simple cursor). Otherwise, :class:`ValueError` will be raised.
+    The :meth:`read`, :meth:`readline`, :meth:`write`, :meth:`print`, and
+    :meth:`tell` methods require that the underlying View have exactly one
+    selection, and that the selection is empty (i.e. a simple cursor).
+    Otherwise, :class:`ValueError` will be raised.
+
+    :argument force_writes: If ``True``, then :meth:`write` and :meth:`print`
+    will write to the view even if it is read-only. Otherwise, those methods
+    will raise :exc:`ValueError`.
+
+    :argument follow_cursor: If ``True``, then any method that moves the
+    cursor position will scroll the view to ensure that the new position is
+    visible.
     """
 
     @define_guard
@@ -70,9 +79,10 @@ class ViewStream(TextIOBase):
         elif not self.view.sel()[0].empty():
             raise ValueError("The underlying view's selection is not empty.")
 
-    def __init__(self, view, *, force_writes=False):
+    def __init__(self, view, *, force_writes=False, follow_cursor=False):
         self.view = view
         self.force_writes = force_writes
+        self.follow_cursor = follow_cursor
 
     @guard_validity
     @guard_selection
@@ -117,6 +127,7 @@ class ViewStream(TextIOBase):
         """
         old_size = self.view.size()
         self.view.run_command('insert', {'characters': s})
+        self._maybe_show_cursor()
         return self.view.size() - old_size
 
     def print(self, *objects, sep=' ', end='\n'):
@@ -141,6 +152,7 @@ class ViewStream(TextIOBase):
                 raise TypeError('Argument "offset" must be zero when "whence" '
                                 'is io.SEEK_CUR.')
             # Don't move.
+            self._maybe_show_cursor()
             return self._tell()
         elif whence == SEEK_END:
             if offset != 0:
@@ -154,6 +166,7 @@ class ViewStream(TextIOBase):
         selection = self.view.sel()
         selection.clear()
         selection.add(Region(offset))
+        self._maybe_show_cursor()
         return offset
 
     @guard_validity
@@ -174,6 +187,19 @@ class ViewStream(TextIOBase):
 
     def _tell(self):
         return self.view.sel()[0].b
+
+    @guard_validity
+    @guard_selection
+    def show_cursor(self):
+        """Scroll the view to show the position of the cursor."""
+        self._show_cursor()
+
+    def _show_cursor(self):
+        self.view.show(self._tell())
+
+    def _maybe_show_cursor(self):
+        if self.follow_cursor:
+            self._show_cursor()
 
     @guard_validity
     @guard_selection

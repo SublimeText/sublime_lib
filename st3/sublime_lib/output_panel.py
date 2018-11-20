@@ -17,6 +17,7 @@ class OutputPanel(ViewStream):
         cls,
         window, name, *,
         force_writes=False,
+        follow_cursor=False,
         unlisted=False,
         **kwargs
     ):
@@ -32,17 +33,18 @@ class OutputPanel(ViewStream):
         view = window.create_output_panel(name, unlisted)
         set_view_options(view, **kwargs)
 
-        return cls(window, name, force_writes=force_writes)
+        return cls(window, name, force_writes=force_writes, follow_cursor=follow_cursor)
 
     def __init__(
         self, window, name, *,
-        force_writes=False
+        force_writes=False,
+        follow_cursor=False
     ):
         view = window.find_output_panel(name)
         if view is None:
             raise ValueError('Output panel "%s" does not exist.' % name)
 
-        super().__init__(view, force_writes=force_writes)
+        super().__init__(view, force_writes=force_writes, follow_cursor=follow_cursor)
 
         self.window = window
         self.name = name
