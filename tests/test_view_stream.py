@@ -185,7 +185,7 @@ class TestViewStream(DeferrableTestCase):
         self.assertCursorVisible()
 
     def test_show_cursor_auto(self):
-        self.stream.auto_show_cursor = True
+        self.stream.follow_cursor = True
 
         self.stream.write('test\n' * 200)
         yield 200

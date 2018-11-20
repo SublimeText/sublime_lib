@@ -36,7 +36,7 @@ class ViewStream(TextIOBase):
     will write to the view even if it is read-only. Otherwise, those methods
     will raise :exc:`ValueError`.
 
-    :argument auto_show_cursor: If ``True``, then any method that moves the
+    :argument follow_cursor: If ``True``, then any method that moves the
     cursor position will scroll the view to ensure that the new position is
     visible.
     """
@@ -79,10 +79,10 @@ class ViewStream(TextIOBase):
         elif not self.view.sel()[0].empty():
             raise ValueError("The underlying view's selection is not empty.")
 
-    def __init__(self, view, *, force_writes=False, auto_show_cursor=False):
+    def __init__(self, view, *, force_writes=False, follow_cursor=False):
         self.view = view
         self.force_writes = force_writes
-        self.auto_show_cursor = auto_show_cursor
+        self.follow_cursor = follow_cursor
 
     @guard_validity
     @guard_selection
@@ -199,7 +199,7 @@ class ViewStream(TextIOBase):
         self.view.show(self._tell())
 
     def _maybe_show_cursor(self):
-        if self.auto_show_cursor:
+        if self.follow_cursor:
             self._show_cursor()
 
     @guard_validity
