@@ -184,14 +184,6 @@ class TestViewStream(DeferrableTestCase):
         yield 200
         self.assertCursorVisible()
 
-        self.stream.seek_start(show_cursor=True)
-        yield 200
-        self.assertCursorVisible()
-
-        self.stream.seek_end(show_cursor=True)
-        yield 200
-        self.assertCursorVisible()
-
     def test_show_cursor_auto(self):
         self.stream.auto_show_cursor = True
 
