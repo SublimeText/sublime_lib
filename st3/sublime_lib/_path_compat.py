@@ -10,7 +10,7 @@ except ImportError:
             self.text = os.path.normpath(path)
 
         def __repr__(self):
-            return "%s(%s)" % (type(self).__name__, repr(self.text))
+            return "{}({!r})".format(self.__class__.__name__, self.text)
 
         def __str__(self):
             return self.text

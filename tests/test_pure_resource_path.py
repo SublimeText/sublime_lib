@@ -11,11 +11,31 @@ class TestPureResourcePath(TestCase):
             ResourcePath("Packages/Foo/bar.py")
         )
 
+    def test_eq_false(self):
+        self.assertNotEqual(
+            ResourcePath("Packages/Foo/bar.py"),
+            "Packages/Foo/bar.py"
+        )
+
     def test_eq_slash(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar.py"),
             ResourcePath("Packages/Foo/bar.py///")
         )
+
+    def test_lt(self):
+        self.assertTrue(
+            ResourcePath("Packages/Foo/bar.py") < ResourcePath("Packages/Foo/xyzzy.py")
+        )
+
+    def test_lt_false(self):
+        self.assertFalse(
+            ResourcePath("Packages/Foo/bar.py") < ResourcePath("Packages/Foo/bar.py")
+        )
+
+    def test_lt_error(self):
+        with self.assertRaises(TypeError):
+            ResourcePath("Packages/Foo/bar.py") < "Packages/Foo/bar.py"
 
     def test_str(self):
         self.assertEqual(
@@ -52,10 +72,10 @@ class TestPureResourcePath(TestCase):
     def test_parents(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar.py").parents,
-            [
+            (
                 ResourcePath("Packages/Foo"),
                 ResourcePath("Packages")
-            ]
+            )
         )
 
     def test_name(self):
@@ -109,7 +129,7 @@ class TestPureResourcePath(TestCase):
     def test_stem_multiple(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar.tar.gz").stem,
-            'bar'
+            'bar.tar'
         )
 
     def test_stem_none(self):
@@ -141,6 +161,21 @@ class TestPureResourcePath(TestCase):
             ResourcePath("Packages").package,
             None
         )
+
+    def test_match(self):
+        path = ResourcePath("Packages/Foo/bar")
+
+        self.assertTrue(path.match('bar'))
+        self.assertTrue(path.match('Foo/bar'))
+        self.assertTrue(path.match('Foo/*'))
+        self.assertTrue(path.match('Packages/*/bar'))
+        self.assertTrue(path.match('Packages/Foo/**/bar'))
+        self.assertTrue(path.match("/Packages/Foo/bar"))
+
+        self.assertFalse(path.match('baz'))
+        self.assertFalse(path.match('Foo'))
+        self.assertFalse(path.match('Packages/*/*/bar'))
+        self.assertFalse(path.match('/Foo/bar'))
 
     def test_joinpath(self):
         self.assertEqual(
