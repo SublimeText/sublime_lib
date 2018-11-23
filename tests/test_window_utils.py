@@ -1,4 +1,5 @@
 import sublime
+from unittest import skipIf
 from unittesting import DeferrableTestCase
 
 from sublime_lib import new_window, close_window
@@ -40,6 +41,7 @@ class TestNewWindow(DeferrableTestCase):
         self._window = new_window(menu_visible=True)
         self.assertTrue(self._window.is_menu_visible())
 
+    @skipIf(sublime.platform() == 'osx', "Menus are always visible on Mac OS.")
     def test_menu_not_visible(self):
         self._window = new_window(menu_visible=False)
         self.assertFalse(self._window.is_menu_visible())
