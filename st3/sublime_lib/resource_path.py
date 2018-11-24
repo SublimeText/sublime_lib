@@ -66,13 +66,17 @@ class ResourcePath(PureResourcePath):
             raise FileNotFoundError from err
 
     def glob(self, pattern):
+        """Glob the given pattern at this path, returning all matching resources."""
         base = str(self) + '/' if self._parts else ''
         return glob_resources(base + pattern)
 
     def rglob(self, pattern):
+        """Shorthand for ``path.glob('**/' + pattern)``."""
         return self.glob('**/' + pattern)
 
     def children(self):
+        """Return a list of ResourcePaths that are direct children of this path
+        and that contain a resource at or beneath that path."""
         depth = len(self._parts)
         return [
             self / next_part
