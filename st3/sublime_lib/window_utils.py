@@ -15,6 +15,27 @@ def new_window(
 ):
     """Open a new window, returning the :class:`~sublime.Window` object.
 
+    This function takes many optional keyword arguments:
+
+    :argument menu_visible: Show the menubar. New windows show the menubar by
+    default. On the Mac OS, this argument has no effect.
+
+    :argument sidebar_visible: Show the sidebar. The sidebar will only be shown
+    if the window's project data has at least one folder.
+
+    :argument tabs_visible: Show the tab bar. If the tab bar is hidden, it will
+    not be shown even if there are multiple tabs.
+
+    :argument minimap_visible: Show the minimap.
+
+    :argument status_bar_visible: Show the status bar.
+
+    :argument project_data: Project data for the window, such as `folders`. See
+    the `.sublime_project` documentation for details.
+
+    This function currently does not provide a way to associate a window with a
+    `.sublime_project` file.
+
     :raises RuntimeError: if the window is not created for any reason.
     """
     original_ids = set(window.id() for window in sublime.windows())

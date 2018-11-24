@@ -15,7 +15,7 @@ def show_selection_panel(
     window,
     items,
     *,
-    flags=None,
+    flags=0,
     labels=NOT_GIVEN,
     selected=NOT_GIVEN,
     on_select=None,
@@ -90,7 +90,7 @@ def show_selection_panel(
             on_select(items[index])
 
     if selected is NOT_GIVEN:
-        selected_index = None
+        selected_index = -1
     else:
         selected_index = items.index(selected)
 
