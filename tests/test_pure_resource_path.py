@@ -49,6 +49,12 @@ class TestPureResourcePath(TestCase):
             "ResourcePath('Packages/Foo/bar.py')"
         )
 
+    def test_repr_empty(self):
+        self.assertEqual(
+            repr(ResourcePath("")),
+            "ResourcePath('')"
+        )
+
     def test_parts(self):
         path = ResourcePath("Packages/Foo/bar.py")
         self.assertEqual(path.parts, ("Packages", "Foo", "bar.py"))
@@ -147,7 +153,7 @@ class TestPureResourcePath(TestCase):
     def test_root_none(self):
         self.assertEqual(
             ResourcePath("").root,
-            None
+            ''
         )
 
     def test_package(self):
@@ -159,7 +165,7 @@ class TestPureResourcePath(TestCase):
     def test_package_none(self):
         self.assertEqual(
             ResourcePath("Packages").package,
-            None
+            ''
         )
 
     def test_match(self):

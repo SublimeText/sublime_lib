@@ -31,12 +31,11 @@ class PureResourcePath():
         return isinstance(other, PureResourcePath) and self._parts == other.parts
 
     def __lt__(self, other):
-        if not isinstance(other, PureResourcePath):
-            raise TypeError('Comparison not supported between members of {!r} and {!r}.'.format(
-                self.__class__.__name__,
-                other.__class__.__name__
-            ))
-        return self._parts < other.parts
+        if isinstance(other, PureResourcePath):
+            return self._parts < other.parts
+        else:
+            return NotImplemented
+        
 
     def __truediv__(self, other):
         return self.joinpath(other)
@@ -48,7 +47,7 @@ class PureResourcePath():
 
     @property
     def parent(self):
-        """The logical parent of the path:"""
+        """The logical parent of the path."""
         if len(self._parts) > 1:
             return self.__class__(*self._parts[:-1])
         else:
@@ -127,7 +126,9 @@ class PureResourcePath():
         return self.parent / name
 
     def with_suffix(self, suffix):
-        """Return a new path with the suffix changed. If the original path
-        doesn’t have a suffix, the new suffix is appended instead. If the suffix
-        is an empty string, the original suffix is removed."""
+        """Return a new path with the suffix changed.
+
+        If the original path doesn’t have a suffix, the new suffix is appended
+        instead. If the suffix is an empty string, the original suffix is
+        removed."""
         return self.parent / (posixpath.splitext(self.name)[0] + suffix)
