@@ -3,7 +3,7 @@ import os.path
 from collections import OrderedDict
 
 from .pure_resource_path import PureResourcePath
-from ._path_compat import Path
+from .vendor.pathlib.pathlib import Path
 from .glob_util import get_glob_expr
 
 
