@@ -78,6 +78,10 @@ class TestResourcePath(DeferrableTestCase):
             ]
         )
 
+    def test_rglob_error(self):
+        with self.assertRaises(NotImplementedError):
+            ResourcePath("Packages/test_package").rglob('/*.txt')
+
     def test_children(self):
         self.assertEqual(
             ResourcePath("Packages/test_package").children(),

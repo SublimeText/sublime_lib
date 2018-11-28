@@ -1,7 +1,7 @@
 import posixpath
 from functools import total_ordering
 
-from .glob_util import get_glob_expr
+from .glob_util import get_glob_matcher
 
 
 __all__ = ['PureResourcePath']
@@ -35,7 +35,6 @@ class PureResourcePath():
             return self._parts < other.parts
         else:
             return NotImplemented
-        
 
     def __truediv__(self, other):
         return self.joinpath(other)
@@ -69,7 +68,7 @@ class PureResourcePath():
         try:
             return self._parts[-1]
         except IndexError:
-            return None
+            return ''
 
     @property
     def suffix(self):
@@ -104,13 +103,11 @@ class PureResourcePath():
 
     def match(self, pattern):
         """Return ``True`` if this path matches the given glob pattern, or
-        ``False`` otherwise."""
-        if pattern.startswith('/'):
-            matcher = get_glob_expr(pattern.lstrip('/'))
-        else:
-            matcher = get_glob_expr('**' + pattern)
+        ``False`` otherwise.
 
-        return matcher.match(str(self))
+        :raise ValueError: if `pattern` is invalid."""
+        match = get_glob_matcher(pattern)
+        return match(str(self))
 
     def joinpath(self, *other):
         """Combine this path with all of the given strings."""

@@ -4,17 +4,17 @@ from collections import OrderedDict
 
 from .pure_resource_path import PureResourcePath
 from .vendor.pathlib.pathlib import Path
-from .glob_util import get_glob_expr
+from .glob_util import get_glob_matcher
 
 
 __all__ = ['glob_resources', 'ResourcePath']
 
 
 def glob_resources(pattern):
-    expr = get_glob_expr(pattern)
+    match = get_glob_matcher(pattern)
     return sorted(
         ResourcePath(path) for path in sublime.find_resources('')
-        if expr.match(path)
+        if match(path)
     )
 
 
@@ -66,12 +66,20 @@ class ResourcePath(PureResourcePath):
             raise FileNotFoundError from err
 
     def glob(self, pattern):
-        """Glob the given pattern at this path, returning all matching resources."""
-        base = str(self) + '/' if self._parts else ''
+        """Glob the given pattern at this path, returning all matching resources.
+
+        :raise ValueError: if `pattern` is invalid."""
+        base = '/' + str(self) + '/' if self._parts else ''
         return glob_resources(base + pattern)
 
     def rglob(self, pattern):
-        """Shorthand for ``path.glob('**/' + pattern)``."""
+        """Shorthand for ``path.glob('**/' + pattern)``.
+
+        :raise ValueError: if `pattern` is invalid.
+
+        :raise NotImplementedError: if `pattern` begins with a slash."""
+        if pattern.startswith('/'):
+            raise NotImplementedError("Non-relative patterns are unsupported")
         return self.glob('**/' + pattern)
 
     def children(self):
