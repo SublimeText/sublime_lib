@@ -121,7 +121,7 @@ class ResourcePath():
 
     @property
     def root(self):
-        """The first path component (usually `Packages` or `Cache`)."""
+        """The first path component (usually ``'Packages'`` or ``'Cache'``)."""
         return self._parts[0]
 
     @property
@@ -185,7 +185,7 @@ class ResourcePath():
         otherwise.
 
         The resource system does not keep track of directories. Even if a path
-        does not contain a resource, there may be resources beneath that path.
+        does not point to a resource, there may be resources beneath that path.
         """
         return str(self) in sublime.find_resources(self.name)
 
@@ -231,7 +231,7 @@ class ResourcePath():
 
     def children(self):
         """Return a list of paths that are direct children of this path and
-        contain a resource at or beneath that path."""
+        point to a resource at or beneath that path."""
         depth = len(self._parts)
         return [
             self / next_part
