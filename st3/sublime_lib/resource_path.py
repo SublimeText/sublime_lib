@@ -1,11 +1,9 @@
 import sublime
 
-import os.path
 import posixpath
 from functools import total_ordering
 from collections import OrderedDict
 
-# from .pure_resource_path import PureResourcePath
 from .vendor.pathlib.pathlib import Path
 from .glob_util import get_glob_matcher
 
@@ -175,11 +173,13 @@ class ResourcePath():
         `Cache`.
         """
         if self.root == 'Packages':
-            return Path(os.path.join(sublime.packages_path(), *self.parts[1:]))
+            base = sublime.packages_path()
         elif self.root == 'Cache':
-            return Path(os.path.join(sublime.cache_path(), *self.parts[1:]))
+            base = sublime.cache_path()
         else:
             raise ValueError("%r is not a packages or cache path" % (self,))
+
+        return Path(base).joinpath(*self.parts[1:])
 
     def exists(self):
         """Return ``True`` if there is a resource at this path, or ``False``
