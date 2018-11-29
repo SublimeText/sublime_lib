@@ -20,15 +20,14 @@ def glob_resources(pattern):
 
 class ResourcePath(PureResourcePath):
     def file_path(self):
-        """Return a Path object representing a filesystem path inside the
-        Packages or Cache directory. Even if there is a resource at this
-        `ResourcePath`, there may not be a file at that filesystem path.
+        """Return a :class:`Path` object representing a filesystem path inside
+        the `Packages` or `Cache` directory.
 
-        If `pathlib` is available, return a :class:`pathlib.Path`. Otherwise,
-        return a stub object that is compatible with :func:`str` and
-        :func:`os.fspath`.
+        Even if there is a resource at this path, there may not be a file at
+        that filesystem path. The resource could be in a default package or an
+        installed package.
 
-        :raise ValueError: if ``ResourcePath.root`` is not `Packages` or
+        :raise ValueError: if the path does not begin with `Packages` or
         `Cache`.
         """
         if self.root == 'Packages':
@@ -40,7 +39,11 @@ class ResourcePath(PureResourcePath):
 
     def exists(self):
         """Return ``True`` if there is a resource at this path, or ``False``
-        otherwise."""
+        otherwise.
+
+        The resource system does not keep track of directories. Even if a path
+        does not contain a resource, there may be resources beneath that path.
+        """
         return str(self) in sublime.find_resources(self.name)
 
     def read_text(self):
@@ -80,11 +83,12 @@ class ResourcePath(PureResourcePath):
         :raise NotImplementedError: if `pattern` begins with a slash."""
         if pattern.startswith('/'):
             raise NotImplementedError("Non-relative patterns are unsupported")
+
         return self.glob('**/' + pattern)
 
     def children(self):
-        """Return a list of ResourcePaths that are direct children of this path
-        and that contain a resource at or beneath that path."""
+        """Return a list of paths that are direct children of this path and
+        contain a resource at or beneath that path."""
         depth = len(self._parts)
         return [
             self / next_part

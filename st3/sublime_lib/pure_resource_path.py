@@ -9,7 +9,22 @@ __all__ = ['PureResourcePath']
 
 @total_ordering
 class PureResourcePath():
-    """A representation of a Sublime Text resource path. Inspired by pathlib."""
+    """A pathlib-inspired representation of a Sublime Text resource path.
+
+    Resource paths are similar to filesystem paths in many ways, yet different
+    in other ways. Many features of :class:`pathlib.Path` objects are not
+    implemented by :class:`ResourcePath`, and other features may have
+    differerent interpretations.
+
+    Resource paths generally behave similarly to POSIX-flavored paths, except
+    that the global root is the empty string, not `/`. All resource paths are
+    absolute; dots in paths have no special meaning.
+
+    Like :class:`pathlib.Path` objects, :class:`ResourcePath` objects are
+    immutable, hashable, and orderable with each other. The forward slash
+    operator is a shorthand for :meth:`joinpath`. The string representation
+    of a :class:`ResourcePath` is the raw resource path in the form that Sublime
+    Text uses."""
 
     def __init__(self, *pathsegments):
         self._parts = tuple(
@@ -46,7 +61,7 @@ class PureResourcePath():
 
     @property
     def parent(self):
-        """The logical parent of the path."""
+        """The logical parent of the path. The empty path is its own parent."""
         if len(self._parts) > 1:
             return self.__class__(*self._parts[:-1])
         else:
@@ -64,7 +79,8 @@ class PureResourcePath():
 
     @property
     def name(self):
-        """A string representing the final path component."""
+        """A string representing the final path component, or the empty string
+        if the path is empty."""
         try:
             return self._parts[-1]
         except IndexError:
@@ -72,7 +88,9 @@ class PureResourcePath():
 
     @property
     def suffix(self):
-        """The file extension of the final component, if any."""
+        """The file extension of the final component, or the empty string if the
+        path is empty or if the final component does not have a file extension.
+        """
         return posixpath.splitext(self.name)[1]
 
     @property
@@ -82,7 +100,8 @@ class PureResourcePath():
 
     @property
     def stem(self):
-        """The final path component, without its suffix."""
+        """The final path component without its suffix, or the empty string if
+        the path is empty."""
         return posixpath.splitext(self.name)[0]
 
     @property
@@ -116,7 +135,7 @@ class PureResourcePath():
     def with_name(self, name):
         """Return a new path with the name changed.
 
-        :raise ValueError: if the original path doesn’t have a name."""
+        :raise ValueError: if the path is empty."""
         if not self.name:
             raise ValueError("{!r} has an empty name".format(self))
 
@@ -128,4 +147,4 @@ class PureResourcePath():
         If the original path doesn’t have a suffix, the new suffix is appended
         instead. If the suffix is an empty string, the original suffix is
         removed."""
-        return self.parent / (posixpath.splitext(self.name)[0] + suffix)
+        return self.parent / (self.stem + suffix)
