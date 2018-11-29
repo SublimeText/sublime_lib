@@ -5,6 +5,10 @@ from unittest import TestCase
 
 class TestPureResourcePath(TestCase):
 
+    def test_empty_error(self):
+        with self.assertRaises(ValueError):
+            ResourcePath("")
+
     def test_eq(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar.py"),
@@ -49,19 +53,9 @@ class TestPureResourcePath(TestCase):
             "ResourcePath('Packages/Foo/bar.py')"
         )
 
-    def test_repr_empty(self):
-        self.assertEqual(
-            repr(ResourcePath("")),
-            "ResourcePath('')"
-        )
-
     def test_parts(self):
         path = ResourcePath("Packages/Foo/bar.py")
         self.assertEqual(path.parts, ("Packages", "Foo", "bar.py"))
-
-    def test_parts_empty(self):
-        path = ResourcePath("")
-        self.assertEqual(path.parts, ())
 
     def test_parent(self):
         self.assertEqual(
@@ -82,6 +76,12 @@ class TestPureResourcePath(TestCase):
                 ResourcePath("Packages/Foo"),
                 ResourcePath("Packages")
             )
+        )
+
+    def test_parents_root(self):
+        self.assertEqual(
+            ResourcePath("Packages").parents,
+            ()
         )
 
     def test_name(self):
@@ -150,12 +150,6 @@ class TestPureResourcePath(TestCase):
             'Packages'
         )
 
-    def test_root_none(self):
-        self.assertEqual(
-            ResourcePath("").root,
-            ''
-        )
-
     def test_package(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar").package,
@@ -201,11 +195,10 @@ class TestPureResourcePath(TestCase):
             ResourcePath("Packages/Foo/baz.js")
         )
 
-    def test_with_name_empty(self):
-        self.assertRaises(
-            ValueError,
-            ResourcePath("").with_name,
-            'baz.js'
+    def test_with_name_root(self):
+        self.assertEqual(
+            ResourcePath("Packages").with_name('Cache'),
+            ResourcePath("Cache")
         )
 
     def test_with_suffix(self):
@@ -224,4 +217,10 @@ class TestPureResourcePath(TestCase):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar.py").with_suffix(''),
             ResourcePath("Packages/Foo/bar")
+        )
+
+    def test_with_suffix_root(self):
+        self.assertEqual(
+            ResourcePath("Packages").with_suffix('.bz2'),
+            ResourcePath("Packages.bz2")
         )

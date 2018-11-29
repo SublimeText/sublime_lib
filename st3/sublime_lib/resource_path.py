@@ -8,15 +8,7 @@ from .vendor.pathlib.pathlib import Path
 from .glob_util import get_glob_matcher
 
 
-__all__ = ['glob_resources', 'ResourcePath']
-
-
-def glob_resources(pattern):
-    match = get_glob_matcher(pattern)
-    return sorted(
-        ResourcePath(path) for path in sublime.find_resources('')
-        if match(path)
-    )
+__all__ = ['ResourcePath']
 
 
 @total_ordering
@@ -28,9 +20,10 @@ class ResourcePath():
     implemented by :class:`ResourcePath`, and other features may have
     differerent interpretations.
 
-    Resource paths generally behave similarly to POSIX-flavored paths, except
-    that the global root is the empty string, not `/`. All resource paths are
-    absolute; dots in paths have no special meaning.
+    A resource path consists of one or more parts separated by forward slashes
+    (regardless of platform). The first part, generally ``'Packages'`` or
+    ``'Cache'``, is the root. (A resource path must have a root.) Resource paths
+    are always absolute; dots in resource paths have no special meaning.
 
     Like :class:`pathlib.Path` objects, :class:`ResourcePath` objects are
     immutable, hashable, and orderable with each other. The forward slash
@@ -38,12 +31,24 @@ class ResourcePath():
     of a :class:`ResourcePath` is the raw resource path in the form that Sublime
     Text uses."""
 
+    @classmethod
+    def glob_resources(cls, pattern):
+        """Find all resources that match the given pattern and return them as
+        :class:`ResourcePath` objects."""
+        match = get_glob_matcher(pattern)
+        return sorted(
+            cls(path) for path in sublime.find_resources('')
+            if match(path)
+        )
+
     def __init__(self, *pathsegments):
         self._parts = tuple(
             part
             for segment in pathsegments if segment
             for part in posixpath.normpath(str(segment)).split('/')
         )
+        if self._parts == ():
+            raise ValueError("Empty path.")
 
     def __hash__(self):
         return hash(self.parts)
@@ -73,11 +78,11 @@ class ResourcePath():
 
     @property
     def parent(self):
-        """The logical parent of the path. The empty path is its own parent."""
-        if len(self._parts) > 1:
-            return self.__class__(*self._parts[:-1])
-        else:
+        """The logical parent of the path. A root path is its own parent."""
+        if len(self._parts) == 1:
             return self
+        else:
+            return self.__class__(*self._parts[:-1])
 
     @property
     def parents(self):
@@ -91,8 +96,7 @@ class ResourcePath():
 
     @property
     def name(self):
-        """A string representing the final path component, or the empty string
-        if the path is empty."""
+        """A string representing the final path component."""
         try:
             return self._parts[-1]
         except IndexError:
@@ -101,7 +105,7 @@ class ResourcePath():
     @property
     def suffix(self):
         """The file extension of the final component, or the empty string if the
-        path is empty or if the final component does not have a file extension.
+        final component does not have a file extension.
         """
         return posixpath.splitext(self.name)[1]
 
@@ -112,17 +116,13 @@ class ResourcePath():
 
     @property
     def stem(self):
-        """The final path component without its suffix, or the empty string if
-        the path is empty."""
+        """The final path component without its suffix."""
         return posixpath.splitext(self.name)[0]
 
     @property
     def root(self):
         """The first path component (usually `Packages` or `Cache`)."""
-        try:
-            return self._parts[0]
-        except IndexError:
-            return ''
+        return self._parts[0]
 
     @property
     def package(self):
@@ -145,21 +145,20 @@ class ResourcePath():
         return self.__class__(self, *other)
 
     def with_name(self, name):
-        """Return a new path with the name changed.
-
-        :raise ValueError: if the path is empty."""
-        if not self.name:
-            raise ValueError("{!r} has an empty name".format(self))
-
-        return self.parent / name
+        """Return a new path with the name changed."""
+        if len(self._parts) == 1:
+            return self.__class__(name)
+        else:
+            return self.parent / name
 
     def with_suffix(self, suffix):
         """Return a new path with the suffix changed.
 
         If the original path doesn’t have a suffix, the new suffix is appended
-        instead. If the suffix is an empty string, the original suffix is
+        instead. If the new suffix is an empty string, the original suffix is
         removed."""
-        return self.parent / (self.stem + suffix)
+        # return self.parent / (self.stem + suffix)
+        return self.with_name(self.stem + suffix)
 
     def file_path(self):
         """Return a :class:`Path` object representing a filesystem path inside
@@ -217,7 +216,7 @@ class ResourcePath():
 
         :raise ValueError: if `pattern` is invalid."""
         base = '/' + str(self) + '/' if self._parts else ''
-        return glob_resources(base + pattern)
+        return ResourcePath.glob_resources(base + pattern)
 
     def rglob(self, pattern):
         """Shorthand for ``path.glob('**/' + pattern)``.
