@@ -169,7 +169,7 @@ class TestViewStream(DeferrableTestCase):
 
         self.stream.clear()
         self.assertContents('')
-    
+
     def assertSeek(self, expected, *args):
         returned = self.stream.seek(*args)
         measured = self.stream.tell()
@@ -179,7 +179,7 @@ class TestViewStream(DeferrableTestCase):
     def test_seek(self):
         from io import SEEK_SET, SEEK_CUR, SEEK_END
 
-        self.stream.write('test\n'*10)
+        self.stream.write('test\n' * 10)
 
         self.assertSeek(0, -100)
         self.assertSeek(50, 100)
