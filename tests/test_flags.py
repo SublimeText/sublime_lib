@@ -26,3 +26,9 @@ class TestFlags(TestCase):
             flags.RegionOption.from_strings(['DRAW_EMPTY', 'HIDE_ON_MINIMAP']),
             flags.RegionOption.DRAW_EMPTY | flags.RegionOption.HIDE_ON_MINIMAP
         )
+
+    def test_from_strings_empty(self):
+        self.assertEqual(
+            flags.RegionOption.from_strings([]),
+            flags.RegionOption(0)
+        )
