@@ -13,34 +13,43 @@ __all__ = ['ResourcePath']
 
 @total_ordering
 class ResourcePath():
-    """A pathlib-inspired representation of a Sublime Text resource path.
+    """
+    A pathlib-inspired representation of a Sublime Text resource path.
 
-    Resource paths are similar to filesystem paths in many ways, yet different
-    in other ways. Many features of :class:`pathlib.Path` objects are not
-    implemented by :class:`ResourcePath`, and other features may have
-    differerent interpretations.
+    Resource paths are similar to filesystem paths in many ways,
+    yet different in other ways.
+    Many features of :class:`pathlib.Path` objects
+    are not implemented by :class:`ResourcePath`,
+    and other features may have differerent interpretations.
 
-    A resource path consists of one or more parts separated by forward slashes
-    (regardless of platform). The first part, generally ``'Packages'`` or
-    ``'Cache'``, is the root. (A resource path must have a root.) Resource paths
-    are always absolute; dots in resource paths have no special meaning.
+    A resource path consists of one or more parts
+    separated by forward slashes (regardless of platform).
+    The first part, generally ``'Packages'`` or ``'Cache'``, is the root.
+    (A resource path must have a root.)
+    Resource paths are always absolute;
+    dots in resource paths have no special meaning.
 
-    Like :class:`pathlib.Path` objects, :class:`ResourcePath` objects are
-    immutable, hashable, and orderable with each other. The forward slash
-    operator is a shorthand for :meth:`joinpath`. The string representation
-    of a :class:`ResourcePath` is the raw resource path in the form that Sublime
-    Text uses.
+    Like :class:`pathlib.Path` objects,
+    :class:`ResourcePath` objects are
+    immutable, hashable, and orderable with each other.
+    The forward slash operator is a shorthand for :meth:`joinpath`.
+    The string representation of a :class:`ResourcePath`
+    is the raw resource path in the form that Sublime Text uses.
 
-    Some methods accept glob patterns as arguments. Glob patterns are
-    interpreted as in pathlib. Recursive globs (**) are always allowed, even in
-    :meth:`match`. Leading slashes are not matched literally. A pattern with a
-    leading slash must match the entire path and not merely a suffix of the
-    path."""
+    Some methods accept glob patterns as arguments.
+    Glob patterns are interpreted as in pathlib.
+    Recursive globs (**) are always allowed, even in :meth:`match`.
+    Leading slashes are not matched literally.
+    A pattern with a leading slash must match the entire path
+    and not merely a suffix of the path.
+    """
 
     @classmethod
     def glob_resources(cls, pattern):
-        """Find all resources that match the given pattern and return them as
-        :class:`ResourcePath` objects."""
+        """
+        Find all resources that match the given pattern
+        and return them as :class:`ResourcePath` objects.
+        """
         match = get_glob_matcher(pattern)
         return sorted(
             cls(path) for path in sublime.find_resources('')
@@ -48,6 +57,11 @@ class ResourcePath():
         )
 
     def __init__(self, *pathsegments):
+        """
+        Construct a :class:`ResourcePath` object with the given parts.
+
+        :raise ValueError: if the resulting path would be empty.
+        """
         self._parts = tuple(
             part
             for segment in pathsegments if segment
@@ -79,12 +93,16 @@ class ResourcePath():
 
     @property
     def parts(self):
-        """A tuple giving access to the path’s various components."""
+        """
+        A tuple giving access to the path’s various components.
+        """
         return self._parts
 
     @property
     def parent(self):
-        """The logical parent of the path. A root path is its own parent."""
+        """
+        The logical parent of the path. A root path is its own parent.
+        """
         if len(self._parts) == 1:
             return self
         else:
@@ -92,8 +110,9 @@ class ResourcePath():
 
     @property
     def parents(self):
-        """An immutable sequence providing access to the logical ancestors of
-        the path."""
+        """
+        An immutable sequence providing access to the path's logical ancestors.
+        """
         parent = self.parent
         if self == parent:
             return ()
@@ -102,12 +121,16 @@ class ResourcePath():
 
     @property
     def name(self):
-        """A string representing the final path component."""
+        """
+        A string representing the final path component.
+        """
         return self._parts[-1]
 
     @property
     def suffix(self):
-        """The final component's last suffix, if any."""
+        """
+        The final component's last suffix, if any.
+        """
         name = self.name
         i = name.rfind('.')
         if 0 < i < len(name) - 1:
@@ -117,7 +140,9 @@ class ResourcePath():
 
     @property
     def suffixes(self):
-        """A list of the final component's suffixes, if any."""
+        """
+        A list of the final component's suffixes, if any.
+        """
         name = self.name
         if name.endswith('.'):
             return []
@@ -126,7 +151,9 @@ class ResourcePath():
 
     @property
     def stem(self):
-        """The final path component, minus its last suffix."""
+        """
+        The final path component, minus its last suffix.
+        """
         name = self.name
         i = name.rfind('.')
         if 0 < i < len(name) - 1:
@@ -136,56 +163,68 @@ class ResourcePath():
 
     @property
     def root(self):
-        """The first path component (usually ``'Packages'`` or ``'Cache'``)."""
+        """
+        The first path component (usually ``'Packages'`` or ``'Cache'``).
+        """
         return self._parts[0]
 
     @property
     def package(self):
-        """The name of the package the path is within, or ``None`` if the path
-        is not beneath ``'Packages'``."""
+        """
+        The name of the package the path is within,
+        or ``None`` if the path is not beneath ``'Packages'``.
+        """
         if self.root == 'Packages' and len(self._parts) >= 2:
             return self._parts[1]
         else:
             return None
 
     def match(self, pattern):
-        """Return ``True`` if this path matches the given glob pattern, or
-        ``False`` otherwise.
+        """
+        Return ``True`` if this path matches the given glob pattern,
+        or ``False`` otherwise.
 
-        :raise ValueError: if `pattern` is invalid."""
+        :raise ValueError: if `pattern` is invalid.
+        """
         match = get_glob_matcher(pattern)
         return match(str(self))
 
     def joinpath(self, *other):
-        """Combine this path with all of the given strings."""
+        """
+        Combine this path with all of the given strings.
+        """
         return self.__class__(self, *other)
 
     def with_name(self, name):
-        """Return a new path with the name changed."""
+        """
+        Return a new path with the name changed.
+        """
         if len(self._parts) == 1:
             return self.__class__(name)
         else:
             return self.parent / name
 
     def with_suffix(self, suffix):
-        """Return a new path with the suffix changed.
+        """
+        Return a new path with the suffix changed.
 
         If the original path doesn’t have a suffix, the new suffix is appended
         instead. If the new suffix is an empty string, the original suffix is
-        removed."""
-        # return self.parent / (self.stem + suffix)
+        removed.
+        """
         return self.with_name(self.stem + suffix)
 
     def file_path(self):
-        """Return a :class:`Path` object representing a filesystem path inside
-        the `Packages` or `Cache` directory.
+        """
+        Return a :class:`Path` object representing a filesystem path
+        inside the `Packages` or `Cache` directory.
 
-        Even if there is a resource at this path, there may not be a file at
-        that filesystem path. The resource could be in a default package or an
-        installed package.
+        Even if there is a resource at this path,
+        there may not be a file at that filesystem path.
+        The resource could be in a default package or an installed package.
 
-        :raise ValueError: if the path does not begin with `Packages` or
-        `Cache`.
+        :raise ValueError: if the path's root is not
+        ``'Packages'`` or ``'Cache'``.
         """
         if self.root == 'Packages':
             base = sublime.packages_path()
@@ -197,16 +236,19 @@ class ResourcePath():
         return Path(base).joinpath(*self.parts[1:])
 
     def exists(self):
-        """Return ``True`` if there is a resource at this path, or ``False``
-        otherwise.
+        """
+        Return ``True`` if there is a resource at this path,
+        or ``False`` otherwise.
 
-        The resource system does not keep track of directories. Even if a path
-        does not point to a resource, there may be resources beneath that path.
+        The resource system does not keep track of directories.
+        Even if a path does not point to a resource,
+        there may be resources beneath that path.
         """
         return str(self) in sublime.find_resources(self.name)
 
     def read_text(self):
-        """Load the resource at this path and return it as text.
+        """
+        Load the resource at this path and return it as text.
 
         :raise FileNotFoundError: if there is no resource at this path.
 
@@ -218,7 +260,8 @@ class ResourcePath():
             raise FileNotFoundError from err
 
     def read_bytes(self):
-        """Load the resource at this path and return it as bytes.
+        """
+        Load the resource at this path and return it as bytes.
 
         :raise FileNotFoundError: if there is no resource at this path.
         """
@@ -228,26 +271,32 @@ class ResourcePath():
             raise FileNotFoundError from err
 
     def glob(self, pattern):
-        """Glob the given pattern at this path, returning all matching resources.
+        """
+        Glob the given pattern at this path, returning all matching resources.
 
-        :raise ValueError: if `pattern` is invalid."""
+        :raise ValueError: if `pattern` is invalid.
+        """
         base = '/' + str(self) + '/' if self._parts else ''
         return ResourcePath.glob_resources(base + pattern)
 
     def rglob(self, pattern):
-        """Shorthand for ``path.glob('**/' + pattern)``.
+        """
+        Shorthand for ``path.glob('**/' + pattern)``.
 
         :raise ValueError: if `pattern` is invalid.
 
-        :raise NotImplementedError: if `pattern` begins with a slash."""
+        :raise NotImplementedError: if `pattern` begins with a slash.
+        """
         if pattern.startswith('/'):
             raise NotImplementedError("Non-relative patterns are unsupported")
 
         return self.glob('**/' + pattern)
 
     def children(self):
-        """Return a list of paths that are direct children of this path and
-        point to a resource at or beneath that path."""
+        """
+        Return a list of paths that are direct children of this path
+        and point to a resource at or beneath that path.
+        """
         depth = len(self._parts)
         return [
             self / next_part
