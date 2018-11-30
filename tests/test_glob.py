@@ -60,7 +60,32 @@ class TestGlob(TestCase):
         )
 
         self._test_matches(
+            'Foo/*',
+            [
+                'Packages/Foo/bar',
+            ],
+            [
+                'Packages/Foo',
+                'Packages/Foo/bar/baz',
+            ]
+        )
+
+        self._test_matches(
             '/Packages/Foo/A*Z',
+            [
+                'Packages/Foo/AZ',
+                'Packages/Foo/AfoobarZ',
+                'Packages/Foo/AAAZZZ',
+            ],
+            [
+                'Packages/Foo/AZbar',
+                'Packages/Foo/AZ/bar',
+                'Packages/Foo/A/Z',
+            ]
+        )
+
+        self._test_matches(
+            'Foo/A*Z',
             [
                 'Packages/Foo/AZ',
                 'Packages/Foo/AfoobarZ',
@@ -87,7 +112,30 @@ class TestGlob(TestCase):
         )
 
         self._test_matches(
+            'Foo/**',
+            [
+                'Packages/Foo/bar',
+                'Packages/Foo/bar/baz',
+            ],
+            [
+                'Packages/Foo',
+                'Packages/Foobar',
+            ]
+        )
+
+        self._test_matches(
             '/Packages/Foo/**/bar',
+            [
+                'Packages/Foo/bar',
+                'Packages/Foo/xyzzy/bar',
+            ],
+            [
+                'Packages/Foo/bar/baz',
+            ]
+        )
+
+        self._test_matches(
+            'Foo/**/bar',
             [
                 'Packages/Foo/bar',
                 'Packages/Foo/xyzzy/bar',
