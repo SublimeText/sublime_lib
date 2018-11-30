@@ -32,6 +32,22 @@ class TestResourcePath(DeferrableTestCase):
             ]
         )
 
+    def test_from_file_path_packages(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(Path(sublime.packages_path(), 'test_package')),
+            ResourcePath("Packages/test_package")
+        )
+
+    def test_from_file_path_cache(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(Path(sublime.cache_path(), 'test_package')),
+            ResourcePath("Cache/test_package")
+        )
+
+    def test_from_file_path_error(self):
+        with self.assertRaises(ValueError):
+            ResourcePath.from_file_path(Path('/test_package')),
+
     def test_file_path_packages(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar.py").file_path(),
