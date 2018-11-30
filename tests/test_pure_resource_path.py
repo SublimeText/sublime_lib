@@ -159,7 +159,13 @@ class TestPureResourcePath(TestCase):
     def test_package_none(self):
         self.assertEqual(
             ResourcePath("Packages").package,
-            ''
+            None
+        )
+
+    def test_package_cache(self):
+        self.assertEqual(
+            ResourcePath("Cache/Foo").package,
+            None
         )
 
     def test_match(self):

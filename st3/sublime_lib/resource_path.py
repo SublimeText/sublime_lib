@@ -132,11 +132,12 @@ class ResourcePath():
 
     @property
     def package(self):
-        """The second path component (usually the name of a package)."""
-        try:
+        """The name of the package the path is within, or ``None`` if the path
+        is not beneath ``'Packages'``."""
+        if self.root == 'Packages' and len(self._parts) >= 2:
             return self._parts[1]
-        except IndexError:
-            return ''
+        else:
+            return None
 
     def match(self, pattern):
         """Return ``True`` if this path matches the given glob pattern, or
