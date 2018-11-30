@@ -3,7 +3,7 @@ from sublime_lib.encodings import from_sublime, to_sublime
 from unittest import TestCase
 
 
-class TestPureResourcePath(TestCase):
+class TestEncodings(TestCase):
 
     def test_from(self):
         self.assertEqual(
