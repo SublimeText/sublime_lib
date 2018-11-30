@@ -29,7 +29,13 @@ class ResourcePath():
     immutable, hashable, and orderable with each other. The forward slash
     operator is a shorthand for :meth:`joinpath`. The string representation
     of a :class:`ResourcePath` is the raw resource path in the form that Sublime
-    Text uses."""
+    Text uses.
+
+    Some methods accept glob patterns as arguments. Glob patterns are
+    interpreted as in pathlib. Recursive globs (**) are always allowed, even in
+    :meth:`match`. Leading slashes are not matched literally. A pattern with a
+    leading slash must match the entire path and not merely a suffix of the
+    path."""
 
     @classmethod
     def glob_resources(cls, pattern):
