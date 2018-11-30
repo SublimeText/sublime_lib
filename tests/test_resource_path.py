@@ -1,8 +1,10 @@
-from sublime_lib.resource_path import ResourcePath
+import sublime
+import shutil
+
+from sublime_lib import ResourcePath
+from sublime_lib.vendor.pathlib.pathlib import Path
 
 from unittesting import DeferrableTestCase
-
-import shutil
 
 
 class TestResourcePath(DeferrableTestCase):
@@ -20,6 +22,31 @@ class TestResourcePath(DeferrableTestCase):
             str(ResourcePath("Packages/test_package").file_path()),
             ignore_errors=True
         )
+
+    def test_glob_resources(self):
+        self.assertEqual(
+            ResourcePath.glob_resources("Packages/test_package/*.txt"),
+            [
+                ResourcePath("Packages/test_package/UTF-8-test.txt"),
+                ResourcePath("Packages/test_package/helloworld.txt"),
+            ]
+        )
+
+    def test_file_path_packages(self):
+        self.assertEqual(
+            ResourcePath("Packages/Foo/bar.py").file_path(),
+            Path(sublime.packages_path(), 'Foo/bar.py')
+        )
+
+    def test_file_path_cache(self):
+        self.assertEqual(
+            ResourcePath("Cache/Foo/bar.py").file_path(),
+            Path(sublime.cache_path(), 'Foo/bar.py')
+        )
+
+    def test_file_path_error(self):
+        with self.assertRaises(ValueError):
+            ResourcePath("Elsewhere/Foo/bar.py").file_path(),
 
     def test_exists(self):
         self.assertTrue(

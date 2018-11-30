@@ -15,6 +15,12 @@ class TestPureResourcePath(TestCase):
             ResourcePath("Packages/Foo/bar.py")
         )
 
+    def test_hash(self):
+        self.assertIsInstance(
+            hash(ResourcePath("Packages/Foo/bar.py")),
+            int
+        )
+
     def test_eq_false(self):
         self.assertNotEqual(
             ResourcePath("Packages/Foo/bar.py"),
@@ -129,6 +135,12 @@ class TestPureResourcePath(TestCase):
     def test_suffixes_none(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar").suffixes,
+            []
+        )
+
+    def test_suffixes_dotend(self):
+        self.assertEqual(
+            ResourcePath("foo.bar.").suffixes,
             []
         )
 

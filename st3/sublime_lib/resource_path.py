@@ -103,10 +103,7 @@ class ResourcePath():
     @property
     def name(self):
         """A string representing the final path component."""
-        try:
-            return self._parts[-1]
-        except IndexError:
-            return ''
+        return self._parts[-1]
 
     @property
     def suffix(self):
