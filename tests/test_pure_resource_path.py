@@ -108,6 +108,12 @@ class TestPureResourcePath(TestCase):
             ''
         )
 
+    def test_suffix_dots_end(self):
+        self.assertEqual(
+            ResourcePath("foo...").suffix,
+            ""
+        )
+
     def test_suffix_multiple(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar.tar.gz").suffix,
@@ -126,10 +132,22 @@ class TestPureResourcePath(TestCase):
             []
         )
 
+    def test_suffixes_dots(self):
+        self.assertEqual(
+            ResourcePath("foo.bar...baz").suffixes,
+            ['.bar', '.', '.', '.baz']
+        )
+
     def test_stem(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar.py").stem,
             'bar'
+        )
+
+    def test_stem_dots_end(self):
+        self.assertEqual(
+            ResourcePath("foo...").stem,
+            "foo..."
         )
 
     def test_stem_multiple(self):

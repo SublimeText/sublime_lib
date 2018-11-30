@@ -110,20 +110,32 @@ class ResourcePath():
 
     @property
     def suffix(self):
-        """The file extension of the final component, or the empty string if the
-        final component does not have a file extension.
-        """
-        return posixpath.splitext(self.name)[1]
+        """The final component's last suffix, if any."""
+        name = self.name
+        i = name.rfind('.')
+        if 0 < i < len(name) - 1:
+            return name[i:]
+        else:
+            return ''
 
     @property
     def suffixes(self):
-        """A list of the path’s file extensions."""
-        return ['.' + suffix for suffix in self.name.split('.')[1:]]
+        """A list of the final component's suffixes, if any."""
+        name = self.name
+        if name.endswith('.'):
+            return []
+        name = name.lstrip('.')
+        return ['.' + suffix for suffix in name.split('.')[1:]]
 
     @property
     def stem(self):
-        """The final path component without its suffix."""
-        return posixpath.splitext(self.name)[0]
+        """The final path component, minus its last suffix."""
+        name = self.name
+        i = name.rfind('.')
+        if 0 < i < len(name) - 1:
+            return name[:i]
+        else:
+            return name
 
     @property
     def root(self):
