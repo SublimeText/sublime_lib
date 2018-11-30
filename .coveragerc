@@ -2,3 +2,6 @@
 omit = 
     */tests/*
     */vendor/*
+
+[report]
+show_missing = True
