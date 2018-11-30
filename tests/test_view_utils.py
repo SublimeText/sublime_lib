@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib.view_utils import new_view, close_view
+from sublime_lib import new_view, close_view
 
 from unittest import TestCase
 
