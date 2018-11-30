@@ -48,6 +48,10 @@ class TestResourcePath(DeferrableTestCase):
         with self.assertRaises(ValueError):
             ResourcePath.from_file_path(Path('/test_package')),
 
+    def test_from_file_path_relative(self):
+        with self.assertRaises(ValueError):
+            ResourcePath.from_file_path(Path('test_package')),
+
     def test_file_path_packages(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar.py").file_path(),

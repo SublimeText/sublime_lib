@@ -70,8 +70,11 @@ class ResourcePath():
 
         :raise ValueError: if the given file path does not correspond to
         any resource path.
+        :raise ValueError: if the given file path is relative.
         """
         file_path = Path(file_path)
+        if not file_path.is_absolute():
+            raise ValueError("Cannot convert a relative file path to a resource path.")
 
         for root, base in RESOURCE_ROOTS.items():
             try:
