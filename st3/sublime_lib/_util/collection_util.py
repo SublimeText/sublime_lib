@@ -1,6 +1,9 @@
 from collections.abc import Mapping, Sequence
 
 
+__all__ = ['projection', 'isiterable', 'ismapping', 'is_sequence_not_str']
+
+
 def projection(d, keys):
     """
     Return a new :class:`dict` with keys restricted to values in `keys`.
