@@ -1,12 +1,25 @@
 """
 Python enumerations for use with Sublime API methods.
-"""
 
+Descendants of :class:`IntFlag` each implement the following class method:
+
+.. py:classmethod:: from_strings(strings)
+
+    Convert each element of strings to this type, then return their union.
+
+    :raise KeyError: if an element of strings cannot be converted to this type.
+"""
 
 import sublime
 
 from .vendor.python.enum import IntEnum, IntFlag
 from inspect import cleandoc
+
+
+__all__ = [
+    'DialogResult', 'PointClass', 'FindOption', 'RegionOption',
+    'PopupOption', 'PhantomLayout', 'OpenFileOption', 'QuickPanelOption'
+]
 
 
 def autodoc(prefix=None):
@@ -29,6 +42,16 @@ def autodoc(prefix=None):
     return decorator
 
 
+class EnhancedIntFlag(IntFlag):
+    @classmethod
+    def from_strings(cls, strings):
+        ret = cls(0)
+        for string in strings:
+            ret |= cls[string]
+
+        return ret
+
+
 @autodoc('DIALOG')
 class DialogResult(IntEnum):
     """
@@ -40,7 +63,7 @@ class DialogResult(IntEnum):
 
 
 @autodoc('CLASS')
-class PointClass(IntFlag):
+class PointClass(EnhancedIntFlag):
     """
     An :class:`~enum.IntFlag` for use with several methods of :class:`sublime.View`:
 
@@ -60,7 +83,7 @@ class PointClass(IntFlag):
 
 
 @autodoc()
-class FindOption(IntFlag):
+class FindOption(EnhancedIntFlag):
     """
     An :class:`~enum.IntFlag` for use with several methods of :class:`sublime.View`:
 
@@ -72,7 +95,7 @@ class FindOption(IntFlag):
 
 
 @autodoc()
-class RegionOption(IntFlag):
+class RegionOption(EnhancedIntFlag):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.View.add_regions`.
     """
@@ -89,7 +112,7 @@ class RegionOption(IntFlag):
 
 
 @autodoc()
-class PopupOption(IntFlag):
+class PopupOption(EnhancedIntFlag):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.View.show_popup`.
     """
@@ -99,7 +122,7 @@ class PopupOption(IntFlag):
 
 
 @autodoc('LAYOUT')
-class PhantomLayout(IntFlag):
+class PhantomLayout(EnhancedIntFlag):
     """
     An :class:`~enum.IntFlag` for use with :class:`sublime.Phantom`.
     """
@@ -109,7 +132,7 @@ class PhantomLayout(IntFlag):
 
 
 @autodoc()
-class OpenFileOption(IntFlag):
+class OpenFileOption(EnhancedIntFlag):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.Window.open_file`.
     """
@@ -118,7 +141,7 @@ class OpenFileOption(IntFlag):
 
 
 @autodoc()
-class QuickPanelOption(IntFlag):
+class QuickPanelOption(EnhancedIntFlag):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.Window.show_quick_panel`.
     """

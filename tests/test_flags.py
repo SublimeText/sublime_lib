@@ -20,3 +20,9 @@ class TestFlags(TestCase):
         self._test_enum(flags.PopupOption)
         self._test_enum(flags.OpenFileOption)
         self._test_enum(flags.QuickPanelOption)
+
+    def test_from_strings(self):
+        self.assertEqual(
+            flags.RegionOption.from_strings(['DRAW_EMPTY', 'HIDE_ON_MINIMAP']),
+            flags.RegionOption.DRAW_EMPTY | flags.RegionOption.HIDE_ON_MINIMAP
+        )
