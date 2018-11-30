@@ -1,14 +1,10 @@
-from collections.abc import Sequence
+from ._util.collection_util import is_sequence_not_str
 
 
 __all__ = ['show_selection_panel']
 
 
 NOT_GIVEN = object()
-
-
-def is_sequence_not_str(obj):
-    return isinstance(obj, Sequence) and not isinstance(obj, str)
 
 
 def show_selection_panel(

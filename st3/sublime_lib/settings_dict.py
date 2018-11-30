@@ -1,25 +1,12 @@
 import sublime
 
 from uuid import uuid4
-from collections.abc import Mapping
 from functools import partial
 
-from .collection_utils import projection
+from ._util.collection_util import projection, isiterable, ismapping
 
 
 __all__ = ['SettingsDict', 'NamedSettingsDict']
-
-
-def isiterable(obj):
-    try:
-        iter(obj)
-        return True
-    except TypeError:
-        return False
-
-
-def ismapping(obj):
-    return isinstance(obj, Mapping)
 
 
 NOT_GIVEN = object()

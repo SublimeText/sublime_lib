@@ -1,3 +1,6 @@
+from collections.abc import Mapping, Sequence
+
+
 def projection(d, keys):
     """
     Return a new :class:`dict` with keys restricted to values in `keys`.
@@ -27,3 +30,19 @@ def projection(d, keys):
             for key in keys
             if key in d
         }
+
+
+def isiterable(obj):
+    try:
+        iter(obj)
+        return True
+    except TypeError:
+        return False
+
+
+def ismapping(obj):
+    return isinstance(obj, Mapping)
+
+
+def is_sequence_not_str(obj):
+    return isinstance(obj, Sequence) and not isinstance(obj, str)
