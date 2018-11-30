@@ -83,8 +83,7 @@ def list_syntaxes():
     syntaxes = [
         get_syntax_metadata(path)
         for path in (
-            sublime.find_resources('*.sublime-syntax') +
-            sublime.find_resources('*.tmLanguage')
+            sublime.find_resources('*.sublime-syntax') + sublime.find_resources('*.tmLanguage')
         )
     ]
 
