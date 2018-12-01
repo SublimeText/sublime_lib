@@ -1,7 +1,7 @@
 from collections.abc import Mapping, Sequence
 
 
-__all__ = ['projection', 'isiterable', 'ismapping', 'is_sequence_not_str']
+__all__ = ['projection', 'get_selector', 'isiterable', 'ismapping', 'is_sequence_not_str']
 
 
 def projection(d, keys):
@@ -33,6 +33,19 @@ def projection(d, keys):
             for key in keys
             if key in d
         }
+
+
+def get_selector(selector, default_value=None):
+    if callable(selector):
+        return selector
+    elif isinstance(selector, str):
+        return lambda this: this.get(selector, default_value)
+    elif isiterable(selector):
+        return lambda this: projection(this, selector)
+    else:
+        raise TypeError(
+            'The selector should be a function, string, or iterable of strings.'
+        )
 
 
 def isiterable(obj):

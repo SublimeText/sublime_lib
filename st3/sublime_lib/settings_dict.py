@@ -3,7 +3,7 @@ import sublime
 from uuid import uuid4
 from functools import partial
 
-from ._util.collection_util import projection, isiterable, ismapping
+from ._util.collection_util import get_selector, ismapping
 
 
 __all__ = ['SettingsDict', 'NamedSettingsDict']
@@ -148,15 +148,7 @@ class SettingsDict():
         `callback` should accept two arguments, the new derived value and the
         previous derived value.
         """
-        if callable(selector):
-            selector_fn = selector
-        elif isinstance(selector, str):
-            selector_fn = lambda this: this.get(selector, default_value)
-        elif isiterable(selector):
-            selector_fn = lambda this: projection(this, selector)
-        else:
-            raise TypeError('The "callback" argument should be a function, '
-                            'string, or iterable of strings.')
+        selector_fn = get_selector(selector)
 
         previous_value = selector_fn(self)
 

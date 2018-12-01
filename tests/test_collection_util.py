@@ -1,4 +1,6 @@
-from sublime_lib._util.collection_util import projection, isiterable, ismapping, is_sequence_not_str
+from sublime_lib._util.collection_util import (
+    projection, get_selector, isiterable, ismapping, is_sequence_not_str
+)
 
 from unittest import TestCase
 
@@ -35,6 +37,60 @@ class TestSettingsDict(TestCase):
                 'y': 2,
             }
         )
+
+    def test_get_selector(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        }
+
+        self.assertEqual(
+            get_selector('a')(d),
+            1
+        )
+
+        self.assertEqual(
+            get_selector('x')(d),
+            None
+        )
+
+        self.assertEqual(
+            get_selector('x', 42)(d),
+            42
+        )
+
+        self.assertEqual(
+            get_selector(lambda d: d['a'])(d),
+            1
+        )
+
+        self.assertEqual(
+            get_selector(('a',))(d),
+            {
+                'a': 1,
+            }
+        )
+
+        self.assertEqual(
+            get_selector(('a', 'b'))(d),
+            {
+                'a': 1,
+                'b': 2,
+            }
+        )
+
+        self.assertEqual(
+            get_selector({'a': 'x', 'b': 'y'})(d),
+            {
+                'x': 1,
+                'y': 2,
+            }
+        )
+
+    def test_get_selector_error(self):
+        with self.assertRaises(TypeError):
+            get_selector(42)
 
     def test_isiterable(self):
         def generator():
