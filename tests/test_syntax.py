@@ -4,8 +4,13 @@ from sublime_lib.syntax import get_yaml_metadata
 from sublime_lib.syntax import get_xml_metadata
 from sublime_lib.syntax import SyntaxInfo
 
+from sublime_lib import ResourcePath
+
 from unittest import TestCase
 from textwrap import dedent
+
+
+TEST_SYNTAXES_PATH = ResourcePath('Packages/sublime_lib/tests/syntax_test_package')
 
 
 class TestSyntax(TestCase):
@@ -69,25 +74,18 @@ class TestGetMetadata(TestCase):
             'name': 'Normal Syntax',
         })
 
-    def test_tmlanguage(self):
-        contents = dedent("""\
-            <?xml version="1.0" encoding="UTF-8"?>
-            <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-                "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-            <plist version="1.0">
-            <dict>
-                <key>name</key>
-                <string>Test Syntax</string>
-                <key>scopeName</key>
-                <string>source.test</string>
-                <key>hidden</key>
-                <true/>
-            </dict>
-            </plist>
-        """)
-        syntax = get_xml_metadata(contents.encode('utf-8'))
+    def test_sublime_syntax(self):
+        syntax = get_yaml_metadata((TEST_SYNTAXES_PATH / 'sublime_lib_test.sublime-syntax').read_text())
         self.assertEqual(syntax, {
-            'name': "Test Syntax",
-            'scope': "source.test",
             'hidden': True,
+            'name': "sublime_lib test syntax (sublime-syntax)",
+            'scope': "source.sublime_lib_test",
+        })
+
+    def test_tmlanguage(self):
+        syntax = get_xml_metadata((TEST_SYNTAXES_PATH / 'sublime_lib_test_2.tmLanguage').read_bytes())
+        self.assertEqual(syntax, {
+            'hidden': True,
+            'name': "sublime_lib test syntax 2 (tmLanguage)",
+            'scope': "source.sublime_lib_test_2",
         })
