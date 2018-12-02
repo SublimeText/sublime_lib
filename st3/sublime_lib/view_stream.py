@@ -91,7 +91,7 @@ class ViewStream(TextIOBase):
     @guard_selection
     def read(self, size):
         """
-        Read and return at most `size` characters from the stream 
+        Read and return at most `size` characters from the stream
         as a single :class:`str`.
         If `size` is negative or None, read until EOF.
         """
