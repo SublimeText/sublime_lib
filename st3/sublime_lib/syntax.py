@@ -5,6 +5,7 @@ from collections import namedtuple
 import plistlib
 
 from .collection_utils import projection
+from .resource_path import ResourcePath
 
 
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']
@@ -52,14 +53,14 @@ def get_xml_metadata(text):
 
 
 def get_syntax_metadata(path):
-    if path.endswith('.sublime-syntax'):
-        meta = get_yaml_metadata(sublime.load_resource(path))
-    elif path.endswith('.tmLanguage'):
-        meta = get_xml_metadata(sublime.load_binary_resource(path))
+    if path.suffix == '.sublime-syntax':
+        meta = get_yaml_metadata(path.read_text())
+    elif path.suffix == '.tmLanguage':
+        meta = get_xml_metadata(path.read_bytes())
     else:
         raise TypeError("%s is not a syntax definition." % path)
 
-    return SyntaxInfo(path=path, **meta)
+    return SyntaxInfo(path=str(path), **meta)
 
 
 def list_syntaxes():
@@ -80,24 +81,13 @@ def list_syntaxes():
     hidden
         Whether the syntax will appear in the syntax menus and the command palette.
     """
-    syntaxes = [
+    return [
         get_syntax_metadata(path)
-        for path in (
-            sublime.find_resources('*.sublime-syntax') + sublime.find_resources('*.tmLanguage')
+        for path in sorted(
+            ResourcePath.glob_resources('*.sublime-syntax')
+            + ResourcePath.glob_resources('*.tmLanguage')
         )
     ]
-
-    def sort_key(syntax):
-        path = syntax.path
-        if path.startswith('Packages/Default'):
-            return (0, path)
-        elif path.startswith('Packages/User'):
-            return (2, path)
-        else:
-            return (1, path)
-
-    syntaxes.sort(key=sort_key)
-    return syntaxes
 
 
 def get_syntax_for_scope(scope):

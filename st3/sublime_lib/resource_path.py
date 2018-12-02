@@ -11,6 +11,18 @@ from .glob_util import get_glob_matcher
 __all__ = ['ResourcePath']
 
 
+ROOT_ORDER = {
+    'Packages': -2,
+    'Cache': -1,
+}
+
+PACKAGE_ORDER = {
+    '': -2,
+    'Default': -1,
+    'User': 1,
+}
+
+
 @total_ordering
 class ResourcePath():
     """
@@ -82,9 +94,27 @@ class ResourcePath():
     def __eq__(self, other):
         return isinstance(other, ResourcePath) and self._parts == other.parts
 
+    def _sort_key(self):
+        return (
+            ROOT_ORDER.get(self.root, 0),
+            self.root,
+            PACKAGE_ORDER.get(self.package, 0),
+            self._parts[1:]
+        )
+
     def __lt__(self, other):
+        """
+        Compare this path to `other` in resource load order.
+
+        Sublime loads resources in lexicographical order, except that
+        resources in ``'Packages'`` are loaded before resources in ``'Cache'``,
+        resources in the ``'Default'`` package are loaded before other packages,
+        and resources in the ``'User'`` package are loaded after other packages.
+        Resources beneath roots that Sublime does not load
+        are sorted at the end.
+        """
         if isinstance(other, ResourcePath):
-            return self._parts < other.parts
+            return self._sort_key() < other._sort_key()
         else:
             return NotImplemented
 
@@ -171,13 +201,12 @@ class ResourcePath():
     @property
     def package(self):
         """
-        The name of the package the path is within,
-        or ``None`` if the path is not beneath ``'Packages'``.
+        The name of the package the path is within.
         """
-        if self.root == 'Packages' and len(self._parts) >= 2:
+        if len(self._parts) >= 2:
             return self._parts[1]
         else:
-            return None
+            return ''
 
     def match(self, pattern):
         """

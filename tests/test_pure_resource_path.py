@@ -15,6 +15,24 @@ class TestPureResourcePath(TestCase):
             ResourcePath("Packages/Foo/bar.py")
         )
 
+    def test_ordering(self):
+        self.assertTrue(ResourcePath("Packages") < ResourcePath("Packages/A"))
+        self.assertTrue(ResourcePath("Packages/Default") < ResourcePath("Packages/A"))
+        self.assertTrue(ResourcePath("Packages/A") < ResourcePath("Packages/Z"))
+        self.assertTrue(ResourcePath("Packages/Z") < ResourcePath("Packages/User"))
+        self.assertTrue(ResourcePath("Packages/User") < ResourcePath("Cache"))
+        self.assertTrue(ResourcePath("Cache") < ResourcePath("Cache/Default"))
+        self.assertTrue(ResourcePath("Cache/Default") < ResourcePath("Cache/A"))
+        self.assertTrue(ResourcePath("Cache/A") < ResourcePath("Cache/Z"))
+        self.assertTrue(ResourcePath("Cache/Z") < ResourcePath("Cache/User"))
+
+        self.assertTrue(ResourcePath("Cache/Z") < ResourcePath("A"))
+        self.assertTrue(ResourcePath("Cache/Z") < ResourcePath("Z"))
+
+    def test_ordering_error(self):
+        with self.assertRaises(TypeError):
+            ResourcePath("Packages") < 'Packages'
+
     def test_hash(self):
         self.assertIsInstance(
             hash(ResourcePath("Packages/Foo/bar.py")),
@@ -189,13 +207,13 @@ class TestPureResourcePath(TestCase):
     def test_package_none(self):
         self.assertEqual(
             ResourcePath("Packages").package,
-            None
+            ''
         )
 
     def test_package_cache(self):
         self.assertEqual(
             ResourcePath("Cache/Foo").package,
-            None
+            'Foo'
         )
 
     def test_match(self):
