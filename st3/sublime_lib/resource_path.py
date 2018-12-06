@@ -5,7 +5,7 @@ from functools import total_ordering
 from collections import OrderedDict
 
 from .vendor.pathlib.pathlib import Path
-from .glob_util import get_glob_matcher
+from ._util.glob import get_glob_matcher
 
 
 __all__ = ['ResourcePath']

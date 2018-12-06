@@ -1,5 +1,5 @@
-from sublime_lib.syntax import list_syntaxes
-from sublime_lib.syntax import get_syntax_for_scope
+from sublime_lib import list_syntaxes
+from sublime_lib import get_syntax_for_scope
 from sublime_lib.syntax import get_yaml_metadata
 from sublime_lib.syntax import get_xml_metadata
 from sublime_lib.syntax import SyntaxInfo
