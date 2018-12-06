@@ -201,7 +201,8 @@ class ResourcePath():
     @property
     def package(self):
         """
-        The name of the package the path is within.
+        The name of the package the path is within,
+        or ``None`` if the path is a root path.
         """
         if len(self._parts) >= 2:
             return self._parts[1]
