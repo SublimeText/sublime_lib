@@ -6,14 +6,14 @@ __all__ = ['projection', 'get_selector', 'isiterable', 'ismapping', 'is_sequence
 
 def projection(d, keys):
     """
-    Return a new :class:`dict` with keys restricted to values in `keys`.
+    Return a new :class:`dict` with keys of ``d`` restricted to values in ``keys``.
 
     .. code-block:: python
 
        >>> projection({'a': 1, 'b': 2}, ['b'])
        {'b': 2}
 
-    If `keys` is a :class:`dict`, then it maps keys of the original dict to
+    If ``keys`` is a :class:`dict`, then it maps keys of the original dict to
     keys of the result:
 
     .. code-block:: python
