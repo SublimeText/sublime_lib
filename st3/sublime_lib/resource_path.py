@@ -206,7 +206,7 @@ class ResourcePath():
         if len(self._parts) >= 2:
             return self._parts[1]
         else:
-            return ''
+            return None
 
     def match(self, pattern):
         """
