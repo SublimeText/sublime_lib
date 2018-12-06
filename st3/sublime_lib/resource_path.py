@@ -11,10 +11,11 @@ from ._util.glob import get_glob_matcher
 __all__ = ['ResourcePath']
 
 
-RESOURCE_ROOTS = {
-    'Packages': sublime.packages_path(),
-    'Cache': sublime.cache_path(),
-}
+def get_resource_roots():
+    return {
+        'Packages': sublime.packages_path(),
+        'Cache': sublime.cache_path(),
+    }
 
 
 @total_ordering
@@ -76,7 +77,7 @@ class ResourcePath():
         if not file_path.is_absolute():
             raise ValueError("Cannot convert a relative file path to a resource path.")
 
-        for root, base in RESOURCE_ROOTS.items():
+        for root, base in get_resource_roots().items():
             try:
                 rel = file_path.relative_to(base)
                 return cls(root, *rel.parts)
@@ -255,7 +256,7 @@ class ResourcePath():
         :raise ValueError: if the path's root is not used by Sublime.
         """
         try:
-            return Path(RESOURCE_ROOTS[self.root]).joinpath(*self.parts[1:])
+            return Path(get_resource_roots()[self.root]).joinpath(*self.parts[1:])
         except KeyError:
             raise ValueError("Can't find a filesystem path for {!r}.".format(self.root)) from None
 
