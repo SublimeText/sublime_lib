@@ -4,7 +4,7 @@ import re
 from collections import namedtuple
 import plistlib
 
-from .collection_utils import projection
+from ._util.collections import projection
 from .resource_path import ResourcePath
 
 
