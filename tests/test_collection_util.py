@@ -1,4 +1,4 @@
-from sublime_lib._util.collection_util import (
+from sublime_lib._util.collections import (
     projection, get_selector, isiterable, ismapping, is_sequence_not_str
 )
 

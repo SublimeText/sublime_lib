@@ -4,7 +4,7 @@ import re
 from collections import namedtuple
 import plistlib
 
-from ._util.collection_util import projection
+from ._util.collections import projection
 
 
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']

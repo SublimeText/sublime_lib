@@ -1,4 +1,4 @@
-from ._util.collection_util import is_sequence_not_str
+from ._util.collections import is_sequence_not_str
 
 
 __all__ = ['show_selection_panel']

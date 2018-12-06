@@ -3,7 +3,7 @@ import sublime
 from uuid import uuid4
 from functools import partial
 
-from ._util.collection_util import get_selector, ismapping
+from ._util.collections import get_selector, ismapping
 
 
 __all__ = ['SettingsDict', 'NamedSettingsDict']
