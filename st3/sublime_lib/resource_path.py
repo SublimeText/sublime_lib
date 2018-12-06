@@ -257,7 +257,7 @@ class ResourcePath():
         try:
             return Path(RESOURCE_ROOTS[self.root]).joinpath(*self.parts[1:])
         except KeyError:
-            raise ValueError("Can't find a filesystem path for {!r}.".format(self.root))
+            raise ValueError("Can't find a filesystem path for {!r}.".format(self.root)) from None
 
     def exists(self):
         """
