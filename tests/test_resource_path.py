@@ -27,8 +27,8 @@ class TestResourcePath(DeferrableTestCase):
         self.assertEqual(
             ResourcePath.glob_resources("Packages/test_package/*.txt"),
             [
-                ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/helloworld.txt"),
+                ResourcePath("Packages/test_package/UTF-8-test.txt"),
             ]
         )
 
@@ -90,8 +90,8 @@ class TestResourcePath(DeferrableTestCase):
         self.assertEqual(
             ResourcePath("Packages/test_package").glob('*.txt'),
             [
-                ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/helloworld.txt"),
+                ResourcePath("Packages/test_package/UTF-8-test.txt"),
             ]
         )
 
@@ -99,9 +99,9 @@ class TestResourcePath(DeferrableTestCase):
         self.assertEqual(
             ResourcePath("Packages/test_package").rglob('*.txt'),
             [
+                ResourcePath("Packages/test_package/helloworld.txt"),
                 ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/directory/goodbyeworld.txt"),
-                ResourcePath("Packages/test_package/helloworld.txt"),
             ]
         )
 
@@ -114,8 +114,8 @@ class TestResourcePath(DeferrableTestCase):
             ResourcePath("Packages/test_package").children(),
             [
                 ResourcePath("Packages/test_package/.test_package_exists"),
+                ResourcePath("Packages/test_package/helloworld.txt"),
                 ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/directory"),
-                ResourcePath("Packages/test_package/helloworld.txt"),
             ]
         )

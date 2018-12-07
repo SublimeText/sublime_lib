@@ -1,7 +1,6 @@
 import sublime
 
 import posixpath
-from functools import total_ordering
 from collections import OrderedDict
 
 from .vendor.pathlib.pathlib import Path
@@ -16,14 +15,30 @@ ROOT_ORDER = {
     'Cache': -1,
 }
 
-PACKAGE_ORDER = {
-    None: -2,
-    'Default': -1,
-    'User': 1,
-}
+
+def sort_by_load_order(paths):
+    default_packages = Path(sublime.executable_path()).parent.glob('*.sublime-package')
+    installed_packages = Path(sublime.installed_packages_path()).glob('*.sublime-package')
+
+    def sort_key(path):
+        package = path.package
+
+        if package == 'Default':
+            package_order = -3
+        elif package == 'User':
+            package_order = 1
+        elif package in installed_packages:
+            package_order = -1
+        elif package in default_packages:
+            package_order = -2
+        else:
+            package_order = 0
+
+        return (ROOT_ORDER[path.root], path.root, package_order) + path.parts[1:]
+
+    return sorted(paths, key=sort_key)
 
 
-@total_ordering
 class ResourcePath():
     """
     A pathlib-inspired representation of a Sublime Text resource path.
@@ -41,9 +56,7 @@ class ResourcePath():
     Resource paths are always absolute;
     dots in resource paths have no special meaning.
 
-    Like :class:`pathlib.Path` objects,
-    :class:`ResourcePath` objects are
-    immutable, hashable, and orderable with each other.
+    :class:`ResourcePath` objects are immutable and hashable.
     The forward slash operator is a shorthand for :meth:`joinpath`.
     The string representation of a :class:`ResourcePath`
     is the raw resource path in the form that Sublime Text uses.
@@ -63,10 +76,10 @@ class ResourcePath():
         and return them as :class:`ResourcePath` objects.
         """
         match = get_glob_matcher(pattern)
-        return sorted(
+        return [
             cls(path) for path in sublime.find_resources('')
             if match(path)
-        )
+        ]
 
     def __init__(self, *pathsegments):
         """
@@ -93,30 +106,6 @@ class ResourcePath():
 
     def __eq__(self, other):
         return isinstance(other, ResourcePath) and self._parts == other.parts
-
-    def _sort_key(self):
-        return (
-            ROOT_ORDER.get(self.root, 0),
-            self.root,
-            PACKAGE_ORDER.get(self.package, 0),
-            self._parts[1:]
-        )
-
-    def __lt__(self, other):
-        """
-        Compare this path to `other` in resource load order.
-
-        Sublime loads resources in lexicographical order, except that
-        resources in ``'Packages'`` are loaded before resources in ``'Cache'``,
-        resources in the ``'Default'`` package are loaded before other packages,
-        and resources in the ``'User'`` package are loaded after other packages.
-        Resources beneath roots that Sublime does not load
-        are sorted at the end.
-        """
-        if isinstance(other, ResourcePath):
-            return self._sort_key() < other._sort_key()
-        else:
-            return NotImplemented
 
     def __truediv__(self, other):
         return self.joinpath(other)

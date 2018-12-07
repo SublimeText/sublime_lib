@@ -15,20 +15,6 @@ class TestPureResourcePath(TestCase):
             ResourcePath("Packages/Foo/bar.py")
         )
 
-    def test_ordering(self):
-        self.assertTrue(ResourcePath("Packages") < ResourcePath("Packages/A"))
-        self.assertTrue(ResourcePath("Packages/Default") < ResourcePath("Packages/A"))
-        self.assertTrue(ResourcePath("Packages/A") < ResourcePath("Packages/Z"))
-        self.assertTrue(ResourcePath("Packages/Z") < ResourcePath("Packages/User"))
-        self.assertTrue(ResourcePath("Packages/User") < ResourcePath("Cache"))
-        self.assertTrue(ResourcePath("Cache") < ResourcePath("Cache/Default"))
-        self.assertTrue(ResourcePath("Cache/Default") < ResourcePath("Cache/A"))
-        self.assertTrue(ResourcePath("Cache/A") < ResourcePath("Cache/Z"))
-        self.assertTrue(ResourcePath("Cache/Z") < ResourcePath("Cache/User"))
-
-        self.assertTrue(ResourcePath("Cache/Z") < ResourcePath("A"))
-        self.assertTrue(ResourcePath("Cache/Z") < ResourcePath("Z"))
-
     def test_ordering_error(self):
         with self.assertRaises(TypeError):
             ResourcePath("Packages") < 'Packages'
@@ -50,20 +36,6 @@ class TestPureResourcePath(TestCase):
             ResourcePath("Packages/Foo/bar.py"),
             ResourcePath("Packages/Foo/bar.py///")
         )
-
-    def test_lt(self):
-        self.assertTrue(
-            ResourcePath("Packages/Foo/bar.py") < ResourcePath("Packages/Foo/xyzzy.py")
-        )
-
-    def test_lt_false(self):
-        self.assertFalse(
-            ResourcePath("Packages/Foo/bar.py") < ResourcePath("Packages/Foo/bar.py")
-        )
-
-    def test_lt_error(self):
-        with self.assertRaises(TypeError):
-            ResourcePath("Packages/Foo/bar.py") < "Packages/Foo/bar.py"
 
     def test_str(self):
         self.assertEqual(
