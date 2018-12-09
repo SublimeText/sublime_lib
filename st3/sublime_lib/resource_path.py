@@ -17,6 +17,10 @@ ROOT_ORDER = {
 
 
 def sort_by_load_order(paths):
+    """
+    Return a list containing the given list of :class:`ResourcePath` objects
+    sorted in Sublime resource load order.
+    """
     default_packages = Path(sublime.executable_path()).parent.glob('*.sublime-package')
     installed_packages = Path(sublime.installed_packages_path()).glob('*.sublime-package')
 
@@ -34,7 +38,10 @@ def sort_by_load_order(paths):
         else:
             package_order = 0
 
-        return (ROOT_ORDER[path.root], path.root, package_order) + path.parts[1:]
+        return (
+            (ROOT_ORDER[path.root], path.root.lower(), package_order)
+            + tuple(part.lower() for part in path.parts[1:])
+        )
 
     return sorted(paths, key=sort_key)
 
