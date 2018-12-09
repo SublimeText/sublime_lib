@@ -34,7 +34,11 @@ def _parse_yaml_value(value):
 def get_yaml_metadata(text):
     return projection(
         dict(
-            map(_parse_yaml_value, match.groups())
+            # map(_parse_yaml_value, match.groups())
+            (
+                _parse_yaml_value(match[1]),
+                _parse_yaml_value(match[2]),
+            )
             for match in re.finditer(r'(?m)^(\S.*?):\s*(.*)\s*$', text)
         ),
         {'name', 'hidden', 'scope'}
