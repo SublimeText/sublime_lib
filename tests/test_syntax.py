@@ -44,6 +44,49 @@ class TestGetMetadata(TestCase):
             )
         )
 
+    def test_sublime_syntax_no_name(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_no_name.sublime-syntax'
+        self.assertEqual(
+            get_syntax_metadata(path).name,
+            'sublime_lib_test_no_name'
+        )
+
+    def test_sublime_syntax_null_name(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_null_name.sublime-syntax'
+        self.assertEqual(
+            get_syntax_metadata(path).name,
+            'sublime_lib_test_null_name'
+        )
+
+    def test_sublime_syntax_empty_name(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_empty_name.sublime-syntax'
+        self.assertEqual(
+            get_syntax_metadata(path).name,
+            'sublime_lib_test_empty_name'
+        )
+
+    def test_tmlanguage_empty_name(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_empty_name_tmLanguage.tmLanguage'
+        self.assertEqual(
+            get_syntax_metadata(path).name,
+            'sublime_lib_test_empty_name_tmLanguage'
+        )
+
+    def _syntax_at_path(self, path):
+        return next((
+            info for info in list_syntaxes() if info.path == str(path)
+        ), None)
+
+    def test_shadowed_tmlanguage(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test.tmLanguage'
+        self.assertTrue(path.exists())
+        self.assertIsNone(self._syntax_at_path(path))
+
+    def test_shadowed_hidden_tmlanguage(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test.hidden-tmLanguage'
+        self.assertTrue(path.exists())
+        self.assertIsNone(self._syntax_at_path(path))
+
     def test_tmlanguage(self):
         path = TEST_SYNTAXES_PATH / 'sublime_lib_test_2.tmLanguage'
         self.assertEqual(
@@ -51,6 +94,18 @@ class TestGetMetadata(TestCase):
             SyntaxInfo(
                 path=str(path),
                 name="sublime_lib test syntax 2 (tmLanguage)",
+                hidden=True,
+                scope="source.sublime_lib_test_2",
+            )
+        )
+
+    def test_hidden_tmlanguage(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_2.hidden-tmLanguage'
+        self.assertEqual(
+            get_syntax_metadata(path),
+            SyntaxInfo(
+                path=str(path),
+                name="sublime_lib_test_2",
                 hidden=True,
                 scope="source.sublime_lib_test_2",
             )
