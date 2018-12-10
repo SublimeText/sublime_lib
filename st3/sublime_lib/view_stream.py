@@ -22,8 +22,7 @@ def define_guard(guard_fn):
 
 
 class ViewStream(TextIOBase):
-    """
-    A :class:`~io.TextIOBase` encapsulating a :class:`~sublime.View` object.
+    """A :class:`~io.TextIOBase` encapsulating a :class:`~sublime.View` object.
 
     All public methods (except :meth:`flush`) require
     that the underlying View object be valid (using :meth:`View.is_valid`).
@@ -90,9 +89,9 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     def read(self, size):
-        """
-        Read and return at most `size` characters from the stream
+        """Read and return at most `size` characters from the stream
         as a single :class:`str`.
+
         If `size` is negative or None, read until EOF.
         """
         begin = self._tell()
@@ -103,8 +102,8 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     def readline(self, size=-1):
-        """
-        Read until newline or EOF and return a single :class:`str`.
+        """Read until newline or EOF and return a single :class:`str`.
+
         If the stream is already at EOF, return an empty string.
         """
         begin = self._tell()
@@ -124,8 +123,7 @@ class ViewStream(TextIOBase):
     @guard_read_only
     @guard_auto_indent
     def write(self, s):
-        """
-        Insert the string `s` into the view immediately before the cursor
+        """Insert the string `s` into the view immediately before the cursor
         and return the number of characters inserted.
 
         Because Sublime may convert tabs to spaces,
@@ -138,16 +136,12 @@ class ViewStream(TextIOBase):
         return self.view.size() - old_size
 
     def print(self, *objects, sep=' ', end='\n'):
-        """
-        Shorthand for :func:`print()`
-        passing this ViewStream as the `file` argument.
-        """
+        """Shorthand for :func:`print()`
+        passing this ViewStream as the `file` argument."""
         print(*objects, file=self, sep=sep, end=end)
 
     def flush(self):
-        """
-        Do nothing. (The stream is not buffered.)
-        """
+        """Do nothing. (The stream is not buffered.)"""
         pass
 
     @guard_validity
@@ -179,24 +173,18 @@ class ViewStream(TextIOBase):
 
     @guard_validity
     def seek_start(self):
-        """
-        Move the cursor in the view to before the first character.
-        """
+        """Move the cursor in the view to before the first character."""
         self._seek(0)
 
     @guard_validity
     def seek_end(self):
-        """
-        Move the cursor in the view to after the last character.
-        """
+        """Move the cursor in the view to after the last character."""
         self._seek(self.view.size())
 
     @guard_validity
     @guard_selection
     def tell(self):
-        """
-        Return the character offset of the cursor.
-        """
+        """Return the character offset of the cursor."""
         return self._tell()
 
     def _tell(self):
@@ -205,9 +193,7 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     def show_cursor(self):
-        """
-        Scroll the view to show the position of the cursor.
-        """
+        """Scroll the view to show the position of the cursor."""
         self._show_cursor()
 
     def _show_cursor(self):
@@ -221,8 +207,6 @@ class ViewStream(TextIOBase):
     @guard_selection
     @guard_read_only
     def clear(self):
-        """
-        Erase all text in the view.
-        """
+        """Erase all text in the view."""
         self.view.run_command('select_all')
         self.view.run_command('left_delete')

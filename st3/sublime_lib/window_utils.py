@@ -13,8 +13,7 @@ def new_window(
     status_bar_visible=None,
     project_data=None
 ):
-    """
-    Open a new window, returning the :class:`~sublime.Window` object.
+    """Open a new window, returning the :class:`~sublime.Window` object.
 
     This function takes many optional keyword arguments:
 
@@ -79,8 +78,7 @@ def new_window(
 
 
 def close_window(window, *, force=False):
-    """
-    Close the given window, discarding unsaved changes if `force` is ``True``.
+    """Close the given window, discarding unsaved changes if `force` is ``True``.
 
     :raise ValueError: if any view in the window has unsaved changes
         and `force` is not ``True``.
