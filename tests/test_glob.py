@@ -1,4 +1,4 @@
-from sublime_lib.glob_util import get_glob_matcher
+from sublime_lib._util.glob import get_glob_matcher
 
 from unittest import TestCase
 

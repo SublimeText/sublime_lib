@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib.view_utils import new_view, close_view
+from sublime_lib import new_view, close_view
 
 from unittest import TestCase
 
@@ -62,6 +62,15 @@ class TestViewUtils(TestCase):
         self.view = new_view(self.window, scope='source.js')
 
         self.assertTrue(self.view.scope_name(0).startswith('source.js'))
+
+    def test_syntax(self):
+        path = 'Packages/JavaScript/JavaScript.sublime-syntax'
+        self.view = new_view(self.window, syntax=path)
+
+        self.assertEquals(
+            self.view.settings().get('syntax'),
+            path
+        )
 
     def test_unknown_args(self):
         self.assertRaises(

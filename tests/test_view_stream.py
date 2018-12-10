@@ -191,6 +191,10 @@ class TestViewStream(DeferrableTestCase):
         self.assertSeek(40, -10, SEEK_END)
         self.assertSeek(0, -100, SEEK_END)
 
+    def test_seek_invalid(self):
+        with self.assertRaises(TypeError):
+            self.stream.seek(0, -99)
+
     def assertCursorVisible(self):
         self.assertTrue(
             self.stream.view.visible_region().contains(

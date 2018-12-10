@@ -54,7 +54,7 @@ def new_window(
 
     try:
         window = next(window for window in sublime.windows() if window.id() not in original_ids)
-    except StopIteration:
+    except StopIteration:  # pragma: no cover
         raise RuntimeError("Window not created.") from None
 
     if menu_visible is not None:
