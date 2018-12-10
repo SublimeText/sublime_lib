@@ -27,34 +27,37 @@ def show_selection_panel(
     Optional keyword arguments:
 
     :argument flags: A bitwise OR of :const:`sublime.MONOSPACE_FONT` and
-    :const:`sublime.KEEP_OPEN_ON_FOCUS_LOST`.
+        :const:`sublime.KEEP_OPEN_ON_FOCUS_LOST`.
 
-    :argument labels: Either a list of labels or a function taking elements of
-    `items` to labels. If `labels` is not given, it will default to `items`.
+    :argument labels: Either a list of labels or
+        a function taking elements of `items` to labels.
+        If `labels` is not given, it will default to `items`.
 
-    Every label must be a single item (a string or convertible with :func:`str`)
-    or a :class:`collections.abc.Sequence` of items (such as a :class:`list` or
-    :class:`tuple`). In the latter case, each entry in the quick panel will show
-    multiple rows.
+        Every label must be a single item
+        (a string or convertible with :func:`str`)
+        or a :class:`collections.abc.Sequence` of items
+        (such as a :class:`list` or :class:`tuple`).
+        In the latter case,
+        each entry in the quick panel will show multiple rows.
 
     :argument selected: The value in `items` that will be initially selected.
-    If `selected` is not given, no value will be initially selected.
+        If `selected` is not given, no value will be initially selected.
 
-    :argument on_select: A callback accepting a value from `items` to be
-    invoked when the user chooses an item.
+    :argument on_select: A callback accepting a value from `items`
+        to be invoked when the user chooses an item.
 
-    :argument on_cancel: A callback that will be invoked with no arguments if
-    the user closes the panel without choosing an item.
+    :argument on_cancel: A callback that will be invoked with no arguments
+        if the user closes the panel without choosing an item.
 
     :argument on_highlight: A callback accepting a value from `items` to be
-    invoked every time the user changes the highlighted item in the panel.
+        invoked every time the user changes the highlighted item in the panel.
 
-    :raises ValueError: if `items` is empty`.
+    :raises ValueError: if `items` is empty.
 
     :raises ValueError: if `selected` is given and the value is not in `items`.
 
-    :raises ValueError: if some labels are sequences but not others or if labels
-    are sequences of inconsistent length.
+    :raises ValueError: if some labels are sequences but not others
+        or if labels are sequences of inconsistent length.
     """
     if len(items) == 0:
         raise ValueError("The items parameter must contain at least one item.")
