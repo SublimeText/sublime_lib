@@ -4,8 +4,8 @@ from unittest import TestCase
 
 
 TEXT = r"""
-single: 'test '' value'
-double: "test\nvalue"
+'single': 'test '' value'
+"double": "test\nvalue"
 unquoted: test\value
 true: true
 false: false

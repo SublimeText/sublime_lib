@@ -1,6 +1,3 @@
-import sublime
-
-import re
 from collections import namedtuple
 import plistlib
 
@@ -16,15 +13,15 @@ SyntaxInfo = namedtuple('SyntaxInfo', ['path', 'name', 'scope', 'hidden'])
 SyntaxInfo.__new__.__defaults__ = (None, None, False)  # type: ignore
 
 
-def get_yaml_metadata(text):
+def get_sublime_syntax_metadata(path):
     return projection(
-        parse_simple_top_level_keys(text),
+        parse_simple_top_level_keys(path.read_text()),
         {'name', 'hidden', 'scope'}
     )
 
 
-def get_xml_metadata(text):
-    tree = plistlib.readPlistFromBytes(text)
+def get_tmlanguage_metadata(path):
+    tree = plistlib.readPlistFromBytes(path.read_bytes())
 
     return projection(tree, {
         'name': 'name',
@@ -33,15 +30,17 @@ def get_xml_metadata(text):
     })
 
 
-def get_syntax_metadata(path):
-    if path.suffix == '.sublime-syntax':
-        meta = get_yaml_metadata(path.read_text())
-    elif path.suffix == '.tmLanguage':
-        meta = get_xml_metadata(path.read_bytes())
-    else:
-        raise TypeError("%s is not a syntax definition." % path)
+SYNTAX_TYPES = {
+    '.sublime-syntax': get_sublime_syntax_metadata,
+    '.tmLanguage': get_tmlanguage_metadata,
+}
 
-    return SyntaxInfo(path=str(path), **meta)
+
+def get_syntax_metadata(path):
+    return SyntaxInfo(
+        path=str(path),
+        **SYNTAX_TYPES[path.suffix](path)
+    )
 
 
 def list_syntaxes():
