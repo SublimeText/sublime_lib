@@ -2,6 +2,9 @@ import re
 from functools import lru_cache
 
 
+__all__ = ['get_glob_matcher']
+
+
 GLOB_RE = re.compile(r"""(?x)(
     (?:^|/) \*\* (?:$|/)
     | (?<!\*)\*(?!\*)
