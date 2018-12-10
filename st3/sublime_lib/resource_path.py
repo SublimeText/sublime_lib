@@ -1,7 +1,6 @@
 import sublime
 
 import posixpath
-from functools import total_ordering
 from collections import OrderedDict
 
 from .vendor.pathlib.pathlib import Path
@@ -18,7 +17,6 @@ def get_resource_roots():
     }
 
 
-@total_ordering
 class ResourcePath():
     """
     A pathlib-inspired representation of a Sublime Text resource path.
@@ -37,9 +35,7 @@ class ResourcePath():
     Resource paths are always absolute;
     dots in resource paths have no special meaning.
 
-    Like :class:`pathlib.Path` objects,
-    :class:`ResourcePath` objects are
-    immutable, hashable, and orderable with each other.
+    :class:`ResourcePath` objects are immutable and hashable.
     The forward slash operator is a shorthand for :meth:`joinpath`.
     The string representation of a :class:`ResourcePath`
     is the raw resource path in the form that Sublime Text uses.
@@ -59,10 +55,10 @@ class ResourcePath():
         and return them as :class:`ResourcePath` objects.
         """
         match = get_glob_matcher(pattern)
-        return sorted(
+        return [
             cls(path) for path in sublime.find_resources('')
             if match(path)
-        )
+        ]
 
     @classmethod
     def from_file_path(cls, file_path):
@@ -111,12 +107,6 @@ class ResourcePath():
 
     def __eq__(self, other):
         return isinstance(other, ResourcePath) and self._parts == other.parts
-
-    def __lt__(self, other):
-        if isinstance(other, ResourcePath):
-            return self._parts < other.parts
-        else:
-            return NotImplemented
 
     def __truediv__(self, other):
         return self.joinpath(other)
@@ -202,9 +192,9 @@ class ResourcePath():
     def package(self):
         """
         The name of the package the path is within,
-        or ``None`` if the path is not beneath ``'Packages'``.
+        or ``None`` if the path is a root path.
         """
-        if self.root == 'Packages' and len(self._parts) >= 2:
+        if len(self._parts) >= 2:
             return self._parts[1]
         else:
             return None
