@@ -10,42 +10,6 @@ from ._util.glob import get_glob_matcher
 __all__ = ['ResourcePath']
 
 
-ROOT_ORDER = {
-    'Packages': -2,
-    'Cache': -1,
-}
-
-
-def sort_by_load_order(paths):
-    """
-    Return a list containing the given list of :class:`ResourcePath` objects
-    sorted in Sublime resource load order.
-    """
-    default_packages = Path(sublime.executable_path()).parent.glob('*.sublime-package')
-    installed_packages = Path(sublime.installed_packages_path()).glob('*.sublime-package')
-
-    def sort_key(path):
-        package = path.package
-
-        if package == 'Default':
-            package_order = -3
-        elif package == 'User':
-            package_order = 1
-        elif package in installed_packages:
-            package_order = -1
-        elif package in default_packages:
-            package_order = -2
-        else:
-            package_order = 0
-
-        return (
-            (ROOT_ORDER[path.root], package_order)
-            + tuple(part.lower() for part in path.parts[1:])
-        )
-
-    return sorted(paths, key=sort_key)
-
-
 class ResourcePath():
     """
     A pathlib-inspired representation of a Sublime Text resource path.

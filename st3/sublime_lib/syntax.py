@@ -5,7 +5,7 @@ from collections import namedtuple
 import plistlib
 
 from ._util.collections import projection
-from .resource_path import ResourcePath, sort_by_load_order
+from .resource_path import ResourcePath
 
 
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']
@@ -83,10 +83,8 @@ def list_syntaxes():
     """
     return [
         get_syntax_metadata(path)
-        for path in sort_by_load_order(
-            ResourcePath.glob_resources('*.sublime-syntax')
-            + ResourcePath.glob_resources('*.tmLanguage')
-        )
+        for path in ResourcePath.glob_resources('')
+        if path.suffix in ('.sublime-syntax', '.tmLanguage')
     ]
 
 
