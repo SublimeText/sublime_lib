@@ -10,6 +10,13 @@ from ._util.glob import get_glob_matcher
 __all__ = ['ResourcePath']
 
 
+def get_resource_roots():
+    return {
+        'Packages': sublime.packages_path(),
+        'Cache': sublime.cache_path(),
+    }
+
+
 class ResourcePath():
     """
     A pathlib-inspired representation of a Sublime Text resource path.
@@ -22,8 +29,9 @@ class ResourcePath():
 
     A resource path consists of one or more parts
     separated by forward slashes (regardless of platform).
-    The first part, generally ``'Packages'`` or ``'Cache'``, is the root.
-    (A resource path must have a root.)
+    The first part is the root.
+    At the present time, the only roots that Sublime uses are
+    ``'Packages'`` and ``'Caches'``.
     Resource paths are always absolute;
     dots in resource paths have no special meaning.
 
@@ -51,6 +59,28 @@ class ResourcePath():
             cls(path) for path in sublime.find_resources('')
             if match(path)
         ]
+
+    @classmethod
+    def from_file_path(cls, file_path):
+        """
+        Return a :class:`ResourcePath` corresponding to the given file path.
+
+        :raise ValueError: if the given file path does not correspond to
+        any resource path.
+        :raise ValueError: if the given file path is relative.
+        """
+        file_path = Path(file_path)
+        if not file_path.is_absolute():
+            raise ValueError("Cannot convert a relative file path to a resource path.")
+
+        for root, base in get_resource_roots().items():
+            try:
+                rel = file_path.relative_to(base)
+                return cls(root, *rel.parts)
+            except ValueError:
+                pass
+
+        raise ValueError("Path {!r} is not beneath any resource path root.".format(file_path))
 
     def __init__(self, *pathsegments):
         """
@@ -207,23 +237,18 @@ class ResourcePath():
     def file_path(self):
         """
         Return a :class:`Path` object representing a filesystem path
-        inside the `Packages` or `Cache` directory.
+        inside one of Sublime's data directories.
 
         Even if there is a resource at this path,
         there may not be a file at that filesystem path.
         The resource could be in a default package or an installed package.
 
-        :raise ValueError: if the path's root is not
-        ``'Packages'`` or ``'Cache'``.
+        :raise ValueError: if the path's root is not used by Sublime.
         """
-        if self.root == 'Packages':
-            base = sublime.packages_path()
-        elif self.root == 'Cache':
-            base = sublime.cache_path()
-        else:
-            raise ValueError("%r is not a packages or cache path" % (self,))
-
-        return Path(base).joinpath(*self.parts[1:])
+        try:
+            return Path(get_resource_roots()[self.root]).joinpath(*self.parts[1:])
+        except KeyError:
+            raise ValueError("Can't find a filesystem path for {!r}.".format(self.root)) from None
 
     def exists(self):
         """
