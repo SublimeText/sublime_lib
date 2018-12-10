@@ -39,7 +39,7 @@ def sort_by_load_order(paths):
             package_order = 0
 
         return (
-            (ROOT_ORDER[path.root], path.root.lower(), package_order)
+            (ROOT_ORDER[path.root], package_order)
             + tuple(part.lower() for part in path.parts[1:])
         )
 
