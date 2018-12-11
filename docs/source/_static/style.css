@@ -2,6 +2,10 @@
 
 .related { display: none; }
 
+*:not(:hover) > a.headerlink {
+    display: none;
+}
+
 html {
     font-size: 20px;
     font-family: "Lato","proxima-nova","Helvetica Neue",Arial,sans-serif;
@@ -12,11 +16,11 @@ body {
     margin: 0 auto;
     max-width: 33rem;
 
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1rem;
 }
 
-code, pre {
+code, pre, dl.class > dt, dl.function > dt, dl.method > dt, dl.classmethod > dt {
     font-family: "Roboto Mono",SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",Courier,monospace;
 }
 
@@ -29,29 +33,64 @@ h2 {
     line-height: 2rem;
 }
 
-#contents > div.container > ul {
-    list-style: none;
-    padding-left: 0;
-}
-
 #contents > div.container p {
     margin-bottom: 0;
 }
 
-dl.class {
+#contents > div.container ul {
+    margin-top: 0;
+}
+
+ul, ol {
+    padding-left: 1rem;
+}
+
+dd {
+    margin-left: 1rem;
+}
+
+dd > :first-child {
+    margin-top: 0.25rem;
+}
+
+dd > ul, dd > ol {
+    padding-left: 0;
+}
+
+code.descname {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+dl {
     margin: 1rem 0;
+}
+
+dl.classmethod > dt > em.property {
+    display: block;
+}
+
+dl.classmethod > dt > em.property::before {
+    content: '@';
+    display: inline;
 }
 
 li > p:only-child {
     margin: 0;
 }
 
-p code {
+code.literal:not(.xref) {
+    display: inline-block;
     background-color: #e7e7e7;
+    padding: 0 0.1rem;
 }
 
 a:not(:hover) {
     text-decoration: none;
+}
+
+a.reference {
+    font-weight: bold;
 }
 
 pre {
