@@ -1,27 +1,62 @@
-code, dt {
-    font-size: inherit !important;
+.related { display: none; }
+
+html {
+    font: 20px Roboto;
+    margin: 0;
 }
 
-ul.simple {
-    /*columns: 10em;*/
+body {
+    margin: 0 auto;
+    max-width: 33rem;
+
+    font-size: 15px;
+    line-height: 1rem;
 }
 
-ul.simple > li > :last-child {
-    margin-bottom: 0 !important;
+code, pre {
+    font-family: "Roboto Mono";
 }
 
-a > code {
-    color: inherit !important;
+h2 {
+    margin-top: 2rem;
+    border-bottom: 2px solid #aaa;
+    background-color: white;
+    font-weight: normal;
+    font-size: 1.5rem;
+    line-height: 2rem;
 }
 
-a:hover > code {
-    text-decoration: underline !important;
+#contents > div.container > ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#contents > div.container p {
+    margin-bottom: 0;
+}
+
+dl.class {
+    margin: 1rem 0;
+}
+
+li > p:only-child {
+    margin: 0;
+}
+
+p code {
+    background-color: #e7e7e7;
+}
+
+a:not(:hover) {
+    text-decoration: none;
 }
 
 pre {
-    font-size: inherit !important;
+    border: 1px solid #33333333;
+    border-radius: 2px;
+    padding: 0.25rem;
 }
 
-.descclassname {
-    font-weight: normal !important;
+div.footer {
+    border-top: 2px solid #aaa;
 }
