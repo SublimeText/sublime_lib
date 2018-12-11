@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i|Roboto+Mono:400,400i,700,700i&subset=latin-ext');
+
 .related { display: none; }
 
 html {
-    font: 20px Roboto;
+    font-size: 20px;
+    font-family: "Lato","proxima-nova","Helvetica Neue",Arial,sans-serif;
     margin: 0;
 }
 
@@ -14,7 +17,7 @@ body {
 }
 
 code, pre {
-    font-family: "Roboto Mono";
+    font-family: "Roboto Mono",SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",Courier,monospace;
 }
 
 h2 {
