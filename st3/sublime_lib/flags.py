@@ -3,11 +3,13 @@ Python enumerations for use with Sublime API methods.
 
 Descendants of :class:`IntFlag` each implement the following class method:
 
-.. py:classmethod:: from_strings(strings)
+..  py:classmethod:: from_strings(strings)
 
     Convert each element of strings to this type, then return their union.
 
     :raise KeyError: if an element of strings cannot be converted to this type.
+
+    ..  versionadded:: 1.2
 """
 
 import sublime

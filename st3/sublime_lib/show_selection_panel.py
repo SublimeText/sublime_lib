@@ -58,6 +58,8 @@ def show_selection_panel(
 
     :raises ValueError: if some labels are sequences but not others
         or if labels are sequences of inconsistent length.
+
+    ..  versionadded:: 1.2
     """
     if len(items) == 0:
         raise ValueError("The items parameter must contain at least one item.")
