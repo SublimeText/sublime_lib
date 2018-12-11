@@ -45,7 +45,7 @@ def new_window(
     This function currently does not provide a way
     to associate a window with a `.sublime_project` file.
 
-    :raises RuntimeError: if the window is not created for any reason.
+    :raise RuntimeError: if the window is not created for any reason.
     """
     original_ids = set(window.id() for window in sublime.windows())
 

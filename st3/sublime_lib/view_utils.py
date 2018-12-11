@@ -13,29 +13,31 @@ def new_view(window, **kwargs):
     This function takes many optional keyword arguments:
 
     :argument content: Text to be inserted into the new view. The text will be inserted even
-        if the `read_only` option is True.
+        if the `read_only` option is ``True``.
 
     :argument encoding: The encoding that the view should use when saving.
 
     :argument name: The name of the view. This will be shown as the title of the view's tab.
 
-    :argument overwrite: If True, the view will be in overwrite mode.
+    :argument overwrite: If ``True``, the view will be in overwrite mode.
 
-    :argument read_only: If True, the view will be read-only.
+    :argument read_only: If ``True``, the view will be read-only.
 
-    :argument scope: A scope name. The view will be assigned a syntax definition that
-        corresponds to the given scope (as determined by
-        sublime_lib.syntax.get_syntax_for_scope). Exclusive with the `syntax`
-        option.
+    :argument scope: A scope name.
+        The view will be assigned a syntax definition that corresponds to the given scope
+        (as determined by :func:`~sublime_lib.get_syntax_for_scope`).
+        Incompatible with the `syntax` option.
 
-    :argument scratch: If True, the view will be a scratch buffer. The user will not be
-        prompted to save the view before closing it.
+    :argument scratch: If ``True``, the view will be a scratch buffer.
+        The user will not be prompted to save the view before closing it.
 
-    :argument settings: A dictionary of names and values that will be applied to the new view's
-        Settings object.
+    :argument settings: A dictionary of names and values
+        that will be applied to the new view's Settings object.
 
     :argument syntax: The resource path of a syntax definition that the view will use.
-        Exclusive with the `scope` option.
+        Incompatible with the `scope` option.
+
+    :raise ValueError: if both `scope` and `syntax` are specified.
     """
     validate_view_options(kwargs)
 
@@ -45,8 +47,7 @@ def new_view(window, **kwargs):
 
 
 def close_view(view, *, force=False):
-    """
-    Close the given view, discarding unsaved changes if `force` is ``True``.
+    """Close the given view, discarding unsaved changes if `force` is ``True``.
 
     If the view is invalid (e.g. already closed), do nothing.
 
