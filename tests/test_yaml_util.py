@@ -1,9 +1,10 @@
-from sublime_lib._util.yaml import parse_simple_top_level_keys
+from sublime_lib._util.simple_yaml import parse_simple_top_level_keys
 
 from unittest import TestCase
 
 
 TEXT = r"""
+# A comment
 'single': 'test '' value'
 "double": "test\nvalue"
 unquoted: test\value

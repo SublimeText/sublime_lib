@@ -8,7 +8,7 @@ __all__ = ['parse_simple_top_level_keys']
 def parse_simple_top_level_keys(text):
     return dict(
         map(_parse_yaml_value, match.groups())
-        for match in re.finditer(r'(?m)^(\S.*?\s*): *(.+) *$', text)
+        for match in re.finditer(r'(?m)^([^\s#].*?\s*): *(.+) *$', text)
     )
 
 

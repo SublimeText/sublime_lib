@@ -1,7 +1,7 @@
 from collections import namedtuple
 import plistlib
 
-from ._util.yaml import parse_simple_top_level_keys
+from ._util.simple_yaml import parse_simple_top_level_keys
 from .resource_path import ResourcePath
 
 
@@ -35,8 +35,8 @@ def get_hidden_tmlanguage_metadata(path):
     tree = plistlib.readPlistFromBytes(path.read_bytes())
 
     return {
-        'name': path.stem, # `name` key is ignored
-        'hidden': True, # `hidden` key is ignored
+        'name': path.stem,  # `name` key is ignored
+        'hidden': True,  # `hidden` key is ignored
         'scope': tree.get('scopeName'),
     }
 
@@ -52,13 +52,6 @@ def get_syntax_metadata(path):
     return SyntaxInfo(
         path=str(path),
         **SYNTAX_TYPES[path.suffix](path)
-    )
-
-
-def shadowed(path):
-    return (
-        path.suffix in {'.tmLanguage', '.hidden-tmLanguage'}
-        and path.with_suffix('.sublime-syntax').exists()
     )
 
 
@@ -79,11 +72,18 @@ def list_syntaxes():
     hidden
         Whether the syntax will appear in the syntax menus and the command palette.
     """
+    syntax_definition_paths = [
+        path for path in ResourcePath.glob_resources('')
+        if path.suffix in SYNTAX_TYPES
+    ]
 
     return [
         get_syntax_metadata(path)
-        for path in ResourcePath.glob_resources('')
-        if path.suffix in SYNTAX_TYPES and not shadowed(path)
+        for path in syntax_definition_paths
+        if not (
+            path.suffix in {'.tmLanguage', '.hidden-tmLanguage'}
+            and path.with_suffix('.sublime-syntax') in syntax_definition_paths
+        )
     ]
 
 
