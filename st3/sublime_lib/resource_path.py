@@ -272,7 +272,7 @@ class ResourcePath():
         try:
             return sublime.load_resource(str(self))
         except IOError as err:
-            raise FileNotFoundError from err
+            raise FileNotFoundError(str(self)) from err
 
     def read_bytes(self):
         """
@@ -283,7 +283,7 @@ class ResourcePath():
         try:
             return sublime.load_binary_resource(str(self))
         except IOError as err:
-            raise FileNotFoundError from err
+            raise FileNotFoundError(str(self)) from err
 
     def glob(self, pattern):
         """

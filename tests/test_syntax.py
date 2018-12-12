@@ -1,11 +1,14 @@
 from sublime_lib import list_syntaxes
 from sublime_lib import get_syntax_for_scope
-from sublime_lib.syntax import get_yaml_metadata
-from sublime_lib.syntax import get_xml_metadata
+from sublime_lib.syntax import get_syntax_metadata
 from sublime_lib.syntax import SyntaxInfo
 
+from sublime_lib import ResourcePath
+
 from unittest import TestCase
-from textwrap import dedent
+
+
+TEST_SYNTAXES_PATH = ResourcePath('Packages/sublime_lib/tests/syntax_test_package')
 
 
 class TestSyntax(TestCase):
@@ -29,65 +32,81 @@ class TestGetMetadata(TestCase):
             SyntaxInfo("a file", None, None, False)
         )
 
-    def test_unquoted(self):
-        contents = dedent("""\
-            name: Test Syntax
-            scope: source.test
-            hidden: true
-        """)
-        syntax = get_yaml_metadata(contents)
-        self.assertEqual(syntax, {
-            'name': "Test Syntax",
-            'scope': "source.test",
-            'hidden': True,
-        })
+    def test_sublime_syntax(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test.sublime-syntax'
+        self.assertEqual(
+            get_syntax_metadata(path),
+            SyntaxInfo(
+                path=str(path),
+                name="sublime_lib test syntax (sublime-syntax)",
+                hidden=True,
+                scope="source.sublime_lib_test",
+            )
+        )
 
-    def test_single_quoted(self):
-        contents = dedent("""\
-            name: 'Test''s Syntax'
-        """)
-        syntax = get_yaml_metadata(contents)
-        self.assertEqual(syntax, {
-            'name': "Test's Syntax",
-        })
+    def test_sublime_syntax_no_name(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_no_name.sublime-syntax'
+        self.assertEqual(
+            get_syntax_metadata(path).name,
+            'sublime_lib_test_no_name'
+        )
 
-    def test_double_quoted(self):
-        contents = dedent("""\
-            name: "\\" escapes "
-        """)
-        syntax = get_yaml_metadata(contents)
-        self.assertEqual(syntax, {
-            'name': '" escapes ',
-        })
+    def test_sublime_syntax_null_name(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_null_name.sublime-syntax'
+        self.assertEqual(
+            get_syntax_metadata(path).name,
+            'sublime_lib_test_null_name'
+        )
 
-    def test_quoted_key(self):
-        contents = dedent("""\
-            'name': Normal Syntax
-        """)
-        syntax = get_yaml_metadata(contents)
-        self.assertEqual(syntax, {
-            'name': 'Normal Syntax',
-        })
+    def test_sublime_syntax_empty_name(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_empty_name.sublime-syntax'
+        self.assertEqual(
+            get_syntax_metadata(path).name,
+            'sublime_lib_test_empty_name'
+        )
+
+    def test_tmlanguage_empty_name(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_empty_name_tmLanguage.tmLanguage'
+        self.assertEqual(
+            get_syntax_metadata(path).name,
+            'sublime_lib_test_empty_name_tmLanguage'
+        )
+
+    def _syntax_at_path(self, path):
+        return next((
+            info for info in list_syntaxes() if info.path == str(path)
+        ), None)
+
+    def test_shadowed_tmlanguage(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test.tmLanguage'
+        self.assertTrue(path.exists())
+        self.assertIsNone(self._syntax_at_path(path))
+
+    def test_shadowed_hidden_tmlanguage(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test.hidden-tmLanguage'
+        self.assertTrue(path.exists())
+        self.assertIsNone(self._syntax_at_path(path))
 
     def test_tmlanguage(self):
-        contents = dedent("""\
-            <?xml version="1.0" encoding="UTF-8"?>
-            <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-                "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-            <plist version="1.0">
-            <dict>
-                <key>name</key>
-                <string>Test Syntax</string>
-                <key>scopeName</key>
-                <string>source.test</string>
-                <key>hidden</key>
-                <true/>
-            </dict>
-            </plist>
-        """)
-        syntax = get_xml_metadata(contents.encode('utf-8'))
-        self.assertEqual(syntax, {
-            'name': "Test Syntax",
-            'scope': "source.test",
-            'hidden': True,
-        })
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_2.tmLanguage'
+        self.assertEqual(
+            get_syntax_metadata(path),
+            SyntaxInfo(
+                path=str(path),
+                name="sublime_lib test syntax 2 (tmLanguage)",
+                hidden=True,
+                scope="source.sublime_lib_test_2",
+            )
+        )
+
+    def test_hidden_tmlanguage(self):
+        path = TEST_SYNTAXES_PATH / 'sublime_lib_test_2.hidden-tmLanguage'
+        self.assertEqual(
+            get_syntax_metadata(path),
+            SyntaxInfo(
+                path=str(path),
+                name="sublime_lib_test_2",
+                hidden=True,
+                scope="source.sublime_lib_test_2",
+            )
+        )
