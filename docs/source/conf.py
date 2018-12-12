@@ -77,7 +77,9 @@ language = None
 exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+# pygments_style = 'sphinx'
+# pygments_style = 'default'
+pygments_style = 'github'
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -111,7 +113,9 @@ html_static_path = ['_static']
 #
 # html_sidebars = {}
 
-html_sidebars = {'**': []}
+html_sidebars = {'**': [
+    "localtoc.html"
+]}
 
 html_use_index = False
 html_use_smartypants = False
@@ -119,9 +123,12 @@ html_compact_lists = True
 
 
 def setup(app):
+    from better_toctree import TocTreeCollector
+    app.add_env_collector(TocTreeCollector)
+
     app.add_stylesheet('style.css')
 
     from prettify_special_methods import PrettifySpecialMethods, show_special_methods
-
     app.add_transform(PrettifySpecialMethods)
+
     app.connect('autodoc-skip-member', show_special_methods)

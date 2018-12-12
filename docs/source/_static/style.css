@@ -14,13 +14,41 @@ html {
 
 body {
     margin: 0 auto;
-    max-width: 33rem;
 
     font-size: 14px;
     line-height: 1rem;
 }
 
-code, pre, dl.class > dt, dl.function > dt, dl.method > dt, dl.classmethod > dt {
+.document {
+    display: flex;
+    justify-content: center;
+    /*max-height: 100vh;*/
+}
+
+.document > * {
+    /*overflow: auto;*/
+    margin: 1rem;
+}
+
+.sphinxsidebar {
+    order: 0;
+    width: 10rem;
+}
+
+.sphinxsidebarwrapper {
+    position: fixed;
+}
+
+.documentwrapper  {
+    order: 1;
+    width: 33rem;
+}
+
+.clearer  { display: none; }
+
+code, pre,
+dl.class > dt, dl.function > dt, dl.method > dt, dl.classmethod > dt, dl.attribute > dt
+{
     font-family: "Roboto Mono",SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",Courier,monospace;
 }
 
