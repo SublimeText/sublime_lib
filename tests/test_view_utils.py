@@ -94,6 +94,25 @@ class TestViewUtils(TestCase):
 
         self.assertEquals(self.view.encoding(), "UTF-16 LE with BOM")
 
+    def test_line_endings_unix(self):
+        self.view = new_view(self.window, line_endings='unix')
+
+        self.assertEquals(self.view.line_endings(), "Unix")
+
+    def test_line_endings_windows(self):
+        self.view = new_view(self.window, line_endings='WINDOWS')
+
+        self.assertEquals(self.view.line_endings(), "Windows")
+
+    def test_line_endings_cr(self):
+        self.view = new_view(self.window, line_endings='cr')
+
+        self.assertEquals(self.view.line_endings(), "CR")
+
+    def test_line_endings_invalid(self):
+        with self.assertRaises(ValueError):
+            self.view = new_view(self.window, line_endings='other')
+
     def test_content(self):
         self.view = new_view(self.window, content="Hello, World!")
 

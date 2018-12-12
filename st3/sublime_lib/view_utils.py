@@ -17,6 +17,9 @@ def new_view(window, **kwargs):
 
     :argument encoding: The encoding that the view should use when saving.
 
+    :argument line_endings: The kind of line endings to use:
+        ``'Unix'``, ``'Windows'``, or ``'CR'``.
+
     :argument name: The name of the view. This will be shown as the title of the view's tab.
 
     :argument overwrite: If ``True``, the view will be in overwrite mode.
@@ -38,6 +41,11 @@ def new_view(window, **kwargs):
         Incompatible with the `scope` option.
 
     :raise ValueError: if both `scope` and `syntax` are specified.
+    :raise ValueError: if `line_endings` has a value that is not case-insensitively equal to
+        ``'Unix'``, ``'Windows'``, or ``'CR'``.
+
+    ..  versionchanged:: 1.2
+        Added the `line_endings` argument.
     """
     validate_view_options(kwargs)
 
@@ -72,6 +80,9 @@ def validate_view_options(options):
     if 'scope' in options and 'syntax' in options:
         raise ValueError('The "syntax" and "scope" arguments are exclusive.')
 
+    if 'line_endings' in options and options['line_endings'].lower() not in LINE_ENDINGS:
+        raise ValueError('The "line_endings" argument must be "Unix", "Windows", or "CR".')
+
 
 def set_view_options(
     view, *,
@@ -83,7 +94,8 @@ def set_view_options(
     syntax=None,
     scope=None,
     encoding=None,
-    content=None
+    content=None,
+    line_endings=None
 ):
     if name is not None:
         view.set_name(name)
@@ -114,9 +126,14 @@ def set_view_options(
     if encoding is not None:
         view.set_encoding(to_sublime(encoding))
 
+    if line_endings is not None:
+        view.set_line_endings(line_endings)
+
 
 VIEW_OPTIONS = {
     name
     for name, param in inspect.signature(set_view_options).parameters.items()
     if param.kind == inspect.Parameter.KEYWORD_ONLY
 }
+
+LINE_ENDINGS = {'unix', 'windows', 'cr'}
