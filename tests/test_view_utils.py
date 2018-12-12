@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib import new_view, close_view
+from sublime_lib import new_view, close_view, LineEnding
 
 from unittest import TestCase
 
@@ -100,12 +100,12 @@ class TestViewUtils(TestCase):
         self.assertEquals(self.view.line_endings(), "Unix")
 
     def test_line_endings_windows(self):
-        self.view = new_view(self.window, line_endings='WINDOWS')
+        self.view = new_view(self.window, line_endings=LineEnding.Windows)
 
         self.assertEquals(self.view.line_endings(), "Windows")
 
     def test_line_endings_cr(self):
-        self.view = new_view(self.window, line_endings='cr')
+        self.view = new_view(self.window, line_endings='\r')
 
         self.assertEquals(self.view.line_endings(), "CR")
 

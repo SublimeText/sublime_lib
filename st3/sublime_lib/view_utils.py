@@ -1,10 +1,49 @@
 import inspect
 
+from .vendor.python.enum import Enum
 from .syntax import get_syntax_for_scope
 from .encodings import to_sublime
 
 
-__all__ = ['new_view', 'close_view']
+__all__ = ['LineEnding', 'new_view', 'close_view']
+
+
+class LineEnding(Enum):
+    """An :class:`enum` of line endings supported by Sublime Text.
+
+    The :class:`LineEnding` constructor accepts either
+    the case-insensitive name (e.g. ``'unix'``) or the value (e.g. ``'\n'``) of a line ending.
+
+    ..  py:attribute:: Unix
+        = ``'\n'``
+
+    ..  py:attribute:: Windows
+        = ``'\r\n'``
+
+    ..  py:attribute:: CR
+        = ``'\r'``
+    """
+    Unix = '\n'
+    Windows = '\r\n'
+    CR = '\r'
+
+
+def from_string(cls, value):
+    try:
+        return super(cls, cls).__new__(cls, value)
+    except ValueError:
+        try:
+            return next(
+                member for name, member in cls.__members__.items()
+                if name.lower() == value.lower()
+            )
+        except StopIteration:
+            pass
+
+        raise
+
+
+setattr(LineEnding, '__new__', from_string)
 
 
 def new_view(window, **kwargs):
@@ -17,8 +56,8 @@ def new_view(window, **kwargs):
 
     :argument encoding: The encoding that the view should use when saving.
 
-    :argument line_endings: The kind of line endings to use:
-        ``'Unix'``, ``'Windows'``, or ``'CR'``.
+    :argument line_endings: The kind of line endings to use.
+        The given value will be passed to :class:`LineEnding`.
 
     :argument name: The name of the view. This will be shown as the title of the view's tab.
 
@@ -41,8 +80,7 @@ def new_view(window, **kwargs):
         Incompatible with the `scope` option.
 
     :raise ValueError: if both `scope` and `syntax` are specified.
-    :raise ValueError: if `line_endings` has a value that is not case-insensitively equal to
-        ``'Unix'``, ``'Windows'``, or ``'CR'``.
+    :raise ValueError: if `line_endings` cannot be converted to :class:`:LineEnding`.
 
     ..  versionchanged:: 1.2
         Added the `line_endings` argument.
@@ -80,8 +118,8 @@ def validate_view_options(options):
     if 'scope' in options and 'syntax' in options:
         raise ValueError('The "syntax" and "scope" arguments are exclusive.')
 
-    if 'line_endings' in options and options['line_endings'].lower() not in LINE_ENDINGS:
-        raise ValueError('The "line_endings" argument must be "Unix", "Windows", or "CR".')
+    if 'line_endings' in options:
+        LineEnding(options['line_endings'])
 
 
 def set_view_options(
@@ -127,7 +165,7 @@ def set_view_options(
         view.set_encoding(to_sublime(encoding))
 
     if line_endings is not None:
-        view.set_line_endings(line_endings)
+        view.set_line_endings(LineEnding(line_endings).name)
 
 
 VIEW_OPTIONS = {
@@ -135,5 +173,3 @@ VIEW_OPTIONS = {
     for name, param in inspect.signature(set_view_options).parameters.items()
     if param.kind == inspect.Parameter.KEYWORD_ONLY
 }
-
-LINE_ENDINGS = {'unix', 'windows', 'cr'}
