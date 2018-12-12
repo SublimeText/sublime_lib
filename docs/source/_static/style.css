@@ -27,7 +27,7 @@ body {
 
 .document > * {
     /*overflow: auto;*/
-    margin: 1rem;
+    margin: 0 1rem;
 }
 
 .sphinxsidebar {
@@ -37,6 +37,10 @@ body {
 
 .sphinxsidebarwrapper {
     position: fixed;
+}
+
+.sphinxsidebarwrapper > ul > li > ul > li {
+    margin-top: 0.5rem;
 }
 
 .documentwrapper  {
@@ -81,7 +85,7 @@ dd > :first-child {
     margin-top: 0.25rem;
 }
 
-dd > ul, dd > ol {
+dd > ul:only-child, dd > ol:only-child {
     padding-left: 0;
 }
 
@@ -107,18 +111,8 @@ li > p:only-child {
     margin: 0;
 }
 
-code.literal:not(.xref) {
-    display: inline-block;
-    background-color: #e7e7e7;
-    padding: 0 0.1rem;
-}
-
 a:not(:hover) {
     text-decoration: none;
-}
-
-a.reference {
-    font-weight: bold;
 }
 
 pre {

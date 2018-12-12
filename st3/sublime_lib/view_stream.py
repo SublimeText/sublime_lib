@@ -41,6 +41,9 @@ class ViewStream(TextIOBase):
     :argument follow_cursor: If ``True``, then any method
         that moves the cursor position will scroll the view
         to ensure that the new position is visible.
+
+    ..  versionchanged:: 1.2
+        Added the `follow_cursor` option.
     """
 
     @define_guard
@@ -89,8 +92,7 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     def read(self, size):
-        """Read and return at most `size` characters from the stream
-        as a single :class:`str`.
+        """Read and return at most `size` characters from the stream as a single :class:`str`.
 
         If `size` is negative or None, read until EOF.
         """
@@ -136,8 +138,7 @@ class ViewStream(TextIOBase):
         return self.view.size() - old_size
 
     def print(self, *objects, sep=' ', end='\n'):
-        """Shorthand for :func:`print()`
-        passing this ViewStream as the `file` argument."""
+        """Shorthand for :func:`print()` passing this ViewStream as the `file` argument."""
         print(*objects, file=self, sep=sep, end=end)
 
     def flush(self):
@@ -146,14 +147,17 @@ class ViewStream(TextIOBase):
 
     @guard_validity
     def seek(self, offset, whence=SEEK_SET):
-        """
-        Move the cursor in the view and return the new offset.
+        """Move the cursor in the view and return the new offset.
+
         If `whence` is provided,
-        the behavior is the same as for :class:`IOBase`.
+        the behavior is the same as for :class:`~io.IOBase`.
         If the cursor would move before the beginning of the view,
         it will move to the beginning instead,
         and likewise for the end of the view.
         If the view had multiple selections, none will be preserved.
+
+        ..  versionchanged:: 1.2
+            Allow non-zero arguments with any value of `whence`.
         """
         if whence == SEEK_SET:
             return self._seek(offset)

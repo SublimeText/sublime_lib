@@ -127,7 +127,7 @@ class TocTreeCollector(EnvironmentCollector):
 
                     reference = nodes.reference(
                         '', '',
-                        nodes.Text(target.attributes['fullname']),
+                        nodes.literal('', target.attributes['fullname']),
                         internal=True,
                         refuri=docname,
                         anchorname='#' + target.attributes['ids'][0],
