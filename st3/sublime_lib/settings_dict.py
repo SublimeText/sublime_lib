@@ -90,9 +90,9 @@ class SettingsDict():
         return self.settings.get(key, default)
 
     def pop(self, key, default=NOT_GIVEN):
-        """Remove the setting `self`[`key`] and return its value or `default`.
+        """Remove the setting `self[key]` and return its value or `default`.
 
-        :raise KeyError: if `key is not in the dictionary and `default` is not given.
+        :raise KeyError: if `key` is not in the dictionary and `default` is not given.
         """
         if key in self:
             ret = self[key]
@@ -104,7 +104,7 @@ class SettingsDict():
             return default
 
     def setdefault(self, key, default=None):
-        """Set `self`[`key`] to `default` if it wasn't already defined and return `self`[`key`].
+        """Set `self[key]` to `default` if it wasn't already defined and return `self[key]`.
         """
         if key in self:
             return self[key]
@@ -119,7 +119,8 @@ class SettingsDict():
         Accepts either another dictionary object
         or an iterable of key/value pairs (as tuples or other iterables of length two).
         If keyword arguments are specified,
-        the dictionary is then updated with those key/value pairs: d.update(red=1, blue=2).
+        the dictionary is then updated with those key/value pairs:
+        ``self.update(red=1, blue=2)``.
         """
         if ismapping(other):
             other = other.items()
