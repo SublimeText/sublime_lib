@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib import new_view, close_view
+from sublime_lib import new_view, close_view, LineEnding
 
 from unittest import TestCase
 
@@ -93,6 +93,25 @@ class TestViewUtils(TestCase):
         self.view = new_view(self.window, encoding='utf-16')
 
         self.assertEquals(self.view.encoding(), "UTF-16 LE with BOM")
+
+    def test_line_endings_unix(self):
+        self.view = new_view(self.window, line_endings='unix')
+
+        self.assertEquals(self.view.line_endings(), "Unix")
+
+    def test_line_endings_windows(self):
+        self.view = new_view(self.window, line_endings=LineEnding.Windows)
+
+        self.assertEquals(self.view.line_endings(), "Windows")
+
+    def test_line_endings_cr(self):
+        self.view = new_view(self.window, line_endings='\r')
+
+        self.assertEquals(self.view.line_endings(), "CR")
+
+    def test_line_endings_invalid(self):
+        with self.assertRaises(ValueError):
+            self.view = new_view(self.window, line_endings='other')
 
     def test_content(self):
         self.view = new_view(self.window, content="Hello, World!")
