@@ -1,6 +1,7 @@
 import inspect
 
 from .vendor.python.enum import Enum
+from ._util.enum import ExtensibleConstructorMeta, construct_with_alternatives
 from .syntax import get_syntax_for_scope
 from .encodings import to_sublime
 
@@ -8,42 +9,23 @@ from .encodings import to_sublime
 __all__ = ['LineEnding', 'new_view', 'close_view']
 
 
-class LineEnding(Enum):
-    """An :class:`enum` of line endings supported by Sublime Text.
+def case_insensitive_value(cls, value):
+    return next((
+        member for name, member in cls.__members__.items()
+        if name.lower() == value.lower()
+    ), None)
+
+
+@construct_with_alternatives(case_insensitive_value)
+class LineEnding(Enum, metaclass=ExtensibleConstructorMeta):
+    """An :class:`Enum` of line endings supported by Sublime Text.
 
     The :class:`LineEnding` constructor accepts either
-    the case-insensitive name (e.g. ``'unix'``) or the value (e.g. ``'\n'``) of a line ending.
-
-    ..  py:attribute:: Unix
-        = ``'\n'``
-
-    ..  py:attribute:: Windows
-        = ``'\r\n'``
-
-    ..  py:attribute:: CR
-        = ``'\r'``
+    the case-insensitive name (e.g. ``'unix'``) or the value (e.g. ``'\\n'``) of a line ending.
     """
     Unix = '\n'
     Windows = '\r\n'
     CR = '\r'
-
-
-def from_string(cls, value):
-    try:
-        return super(cls, cls).__new__(cls, value)
-    except ValueError:
-        try:
-            return next(
-                member for name, member in cls.__members__.items()
-                if name.lower() == value.lower()
-            )
-        except StopIteration:
-            pass
-
-        raise
-
-
-setattr(LineEnding, '__new__', from_string)
 
 
 def new_view(window, **kwargs):
