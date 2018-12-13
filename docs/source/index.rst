@@ -1,5 +1,9 @@
-:mod:`sublime_lib` API
-======================
+:mod:`sublime_lib` API Reference
+================================
+
+A utility library for Sublime Text providing a variety of convenience features for other packages to use.
+
+For general documentation, see the `README <https://github.com/SublimeText/sublime_lib>`_.
 
 Settings dictionaries
 ---------------------

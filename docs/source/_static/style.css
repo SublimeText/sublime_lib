@@ -57,7 +57,7 @@ dl.class > dt, dl.function > dt, dl.method > dt, dl.classmethod > dt, dl.attribu
 }
 
 h2 {
-    margin-top: 2rem;
+    margin-top: 1rem;
     border-bottom: 2px solid #aaa;
     background-color: white;
     font-weight: normal;
@@ -122,5 +122,6 @@ pre {
 }
 
 div.footer {
+    text-align: center;
     border-top: 2px solid #aaa;
 }
