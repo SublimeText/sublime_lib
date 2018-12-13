@@ -29,8 +29,7 @@ def show_selection_panel(
     :argument flags: A bitwise OR of :const:`sublime.MONOSPACE_FONT` and
         :const:`sublime.KEEP_OPEN_ON_FOCUS_LOST`.
 
-    :argument labels: Either a list of labels or
-        a function taking elements of `items` to labels.
+    :argument labels: Either a list of labels or a function taking elements of `items` to labels.
         If `labels` is not given, it will default to `items`.
 
         Every label must be a single item

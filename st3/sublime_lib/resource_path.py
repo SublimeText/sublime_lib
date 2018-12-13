@@ -65,8 +65,7 @@ class ResourcePath():
         """
         Return a :class:`ResourcePath` corresponding to the given file path.
 
-        :raise ValueError: if the given file path does not correspond to
-        any resource path.
+        :raise ValueError: if the given file path does not correspond to any resource path.
         :raise ValueError: if the given file path is relative.
         """
         file_path = Path(file_path)

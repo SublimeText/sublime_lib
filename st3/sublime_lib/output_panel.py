@@ -49,7 +49,7 @@ class OutputPanel(ViewStream):
 
     @property
     def full_name(self):
-        """The output panel name, beginning with ``output.``.
+        """The output panel name, beginning with ``'output.'``.
 
         Generally, API methods specific to output panels will use :attr:`name`,
         while methods that work with any panels will use :attr:`full_name`.
