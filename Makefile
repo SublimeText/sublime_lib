@@ -8,7 +8,7 @@ MODULEDIR     = st3
 .PHONY: source clean
 
 source:
-	SPHINX_APIDOC_OPTIONS=members,no-special-members sphinx-apidoc --separate --force --no-toc -o "$(SOURCEDIR)/modules" "$(MODULEDIR)"
+	SPHINX_APIDOC_OPTIONS=members sphinx-apidoc --force --module-first -o "$(SOURCEDIR)/modules" "$(MODULEDIR)"
 
 html:
 	sphinx-build -M html "$(SOURCEDIR)" "$(BUILDDIR)"
