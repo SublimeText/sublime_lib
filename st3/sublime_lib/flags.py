@@ -45,8 +45,7 @@ def autodoc(prefix=None):
         enum.__doc__ = cleandoc(enum.__doc__) + '\n\n' + '\n'.join([
             cleandoc("""
             .. py:attribute:: {name}
-
-                = :attr:`sublime.{pre}{name}`
+                :annotation: = sublime.{pre}{name}
             """).format(name=item.name, pre=prefix_str) for item in enum
         ])
 
