@@ -22,7 +22,7 @@ class LineEnding(Enum, metaclass=ExtensibleConstructorMeta):
 
     The :class:`LineEnding` constructor accepts either
     the case-insensitive name (e.g. ``'unix'``) or the value (e.g. ``'\\n'``) of a line ending.
-    
+
     .. py:attribute:: Unix
         :annotation: = '\\n'
 

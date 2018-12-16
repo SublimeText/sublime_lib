@@ -1,10 +1,11 @@
 from ._util.collections import is_sequence_not_str
+from ._util.named_value import NamedValue
 
 
-__all__ = ['show_selection_panel']
+__all__ = ['show_selection_panel', 'NO_SELECTION']
 
 
-NOT_GIVEN = object()
+NO_SELECTION = NamedValue('NO_SELECTION')
 
 
 def show_selection_panel(
@@ -13,7 +14,7 @@ def show_selection_panel(
     *,
     flags=0,
     labels=None,
-    selected=NOT_GIVEN,
+    selected=NO_SELECTION,
     on_select=None,
     on_cancel=None,
     on_highlight=None
@@ -44,7 +45,9 @@ def show_selection_panel(
         each entry in the quick panel will show multiple rows.
 
     :argument selected: The value in `items` that will be initially selected.
-        If `selected` is not given, no value will be initially selected.
+
+        If `selected` is :const:`sublime_lib.NO_SELECTION` (the default),
+        then Sublime will determine the initial selection.
 
     :argument on_select: A callback accepting a value from `items`
         to be invoked when the user chooses an item.
@@ -93,7 +96,7 @@ def show_selection_panel(
         elif on_select:
             on_select(items[index])
 
-    if selected is NOT_GIVEN:
+    if selected is NO_SELECTION:
         selected_index = -1
     else:
         selected_index = items.index(selected)
