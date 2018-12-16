@@ -27,6 +27,7 @@ View utilities
 
 .. autofunction:: sublime_lib.new_view
 .. autofunction:: sublime_lib.close_view
+.. autoclass:: sublime_lib.LineEnding
 
 Window utilities
 ----------------

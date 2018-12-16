@@ -167,7 +167,7 @@ class SettingsDict():
 
 
 class NamedSettingsDict(SettingsDict):
-    """Wraps a `sublime.Settings` object corresponding to a `sublime-settings` file."""
+    """Wraps a :class:`sublime.Settings` object corresponding to a `sublime-settings` file."""
 
     @property
     def file_name(self):

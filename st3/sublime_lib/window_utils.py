@@ -46,6 +46,8 @@ def new_window(
     to associate a window with a `.sublime_project` file.
 
     :raise RuntimeError: if the window is not created for any reason.
+
+    .. versionadded:: 1.2
     """
     original_ids = set(window.id() for window in sublime.windows())
 
@@ -82,6 +84,8 @@ def close_window(window, *, force=False):
 
     :raise ValueError: if any view in the window has unsaved changes
         and `force` is not ``True``.
+
+    .. versionadded:: 1.2
     """
     for view in window.views():
         if view.is_dirty() and not view.is_scratch():
