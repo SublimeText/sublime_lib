@@ -4,12 +4,13 @@ from uuid import uuid4
 from functools import partial
 
 from ._util.collections import get_selector, ismapping
+from ._util.named_value import NamedValue
 
 
 __all__ = ['SettingsDict', 'NamedSettingsDict']
 
 
-NOT_GIVEN = object()
+_NO_DEFAULT = NamedValue('SettingsDict.NO_DEFAULT')
 
 
 class SettingsDict():
@@ -33,6 +34,8 @@ class SettingsDict():
     with other dict-like objects. If you do, calling the above unimplemented
     methods on the :class:`~collections.ChainMap` will raise an error.
     """
+
+    NO_DEFAULT = _NO_DEFAULT
 
     def __init__(self, settings):
         self.settings = settings
@@ -89,16 +92,20 @@ class SettingsDict():
         so that this method never raises :exc:`KeyError`."""
         return self.settings.get(key, default)
 
-    def pop(self, key, default=NOT_GIVEN):
+    def pop(self, key, default=_NO_DEFAULT):
         """Remove the setting `self[key]` and return its value or `default`.
 
-        :raise KeyError: if `key` is not in the dictionary and `default` is not given.
+        :raise KeyError: if `key` is not in the dictionary
+            and `default` is :attr:`SettingsDict.NO_DEFAULT`.
+
+        .. versionchanged:: 1.2
+            Added :attr:`SettingsDict.NO_DEFAULT`.
         """
         if key in self:
             ret = self[key]
             del self[key]
             return ret
-        elif default is NOT_GIVEN:
+        elif default is _NO_DEFAULT:
             raise KeyError(key)
         else:
             return default
