@@ -3,15 +3,11 @@
 # You can set these variables from the command line.
 SOURCEDIR     = docs/source
 BUILDDIR      = docs
-MODULEDIR     = st3
 
-.PHONY: source clean
-
-source:
-	SPHINX_APIDOC_OPTIONS=members sphinx-apidoc --force --module-first -o "$(SOURCEDIR)/modules" "$(MODULEDIR)"
+.PHONY: clean
 
 html:
 	sphinx-build -M html "$(SOURCEDIR)" "$(BUILDDIR)"
 
 clean:
-	rm -rf docs/source/modules docs/doctrees docs/html
+	rm -rf doctrees html
