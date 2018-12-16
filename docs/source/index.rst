@@ -5,6 +5,11 @@ A utility library for Sublime Text providing a variety of convenience features f
 
 For general documentation, see the `README <https://github.com/SublimeText/sublime_lib>`_.
 
+Most :mod:`sublime_lib` classes and functions rely on
+the `Sublime Text API <https://www.sublimetext.com/docs/3/api_reference.html>`_.
+As a result, :mod:`sublime_lib` functionality should not be used at import time.
+Instead, any initialization should be performed in :func:`plugin_loaded`.
+
 Settings dictionaries
 ---------------------
 
