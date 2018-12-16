@@ -12,7 +12,7 @@ def show_selection_panel(
     items,
     *,
     flags=0,
-    labels=NOT_GIVEN,
+    labels=None,
     selected=NOT_GIVEN,
     on_select=None,
     on_cancel=None,
@@ -22,20 +22,24 @@ def show_selection_panel(
 
     :argument window: The :class:`sublime.Window` in which to show the panel.
 
-    :argument items: A nonempty :class:`list` of items to choose from.
+    :argument items: A nonempty :class:`~collections.abc.Sequence`
+        (such as a :class:`list`) of items to choose from.
 
     Optional keyword arguments:
 
     :argument flags: A bitwise OR of :const:`sublime.MONOSPACE_FONT` and
         :const:`sublime.KEEP_OPEN_ON_FOCUS_LOST`.
 
-    :argument labels: Either a list of labels or a function taking elements of `items` to labels.
-        If `labels` is not given, it will default to `items`.
+    :argument labels: A value determining what to show as the label for each item:
 
+        - If `labels` is ``None`` (the default), then use `items`.
+        - If `labels` is callable, then use ``map(labels, items)``.
+        - Otherwise, use `labels`.
+
+        The result should be a :class:`~collections.abc.Sequence` of labels.
         Every label must be a single item
         (a string or convertible with :func:`str`)
-        or a :class:`collections.abc.Sequence` of items
-        (such as a :class:`list` or :class:`tuple`).
+        or a :class:`~collections.abc.Sequence` of items.
         In the latter case,
         each entry in the quick panel will show multiple rows.
 
@@ -63,7 +67,7 @@ def show_selection_panel(
     if len(items) == 0:
         raise ValueError("The items parameter must contain at least one item.")
 
-    if labels is NOT_GIVEN:
+    if labels is None:
         labels = items
     elif callable(labels):
         labels = list(map(labels, items))
