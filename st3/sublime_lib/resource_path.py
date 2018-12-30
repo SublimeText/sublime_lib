@@ -17,6 +17,13 @@ def get_resource_roots():
     }
 
 
+def get_installed_resource_roots():
+    return (
+        sublime.installed_packages_path(),
+        Path(sublime.executable_path()).parent / 'Packages',
+    )
+
+
 class ResourcePath():
     """
     A pathlib-inspired representation of a Sublime Text resource path.
@@ -65,8 +72,27 @@ class ResourcePath():
         """
         Return a :class:`ResourcePath` corresponding to the given file path.
 
+        If the file path corresponds to a resource inside an installed package,
+        then return the path to that resource.
+
         :raise ValueError: if the given file path does not correspond to any resource path.
         :raise ValueError: if the given file path is relative.
+
+        .. code-block:: python
+
+           >>> ResourcePath.from_file_path(
+              os.path.join(sublime.packages_path(), 'My Package', 'foo.py')
+           )
+           ResourcePath("Packages/My Package/foo.py")
+
+           >>> ResourcePath.from_file_path(
+              os.path.join(
+                sublime.installed_packages_path(),
+                'My Package.sublime-package',
+                'foo.py'
+              )
+           )
+           ResourcePath("Packages/My Package/foo.py")
         """
         file_path = Path(file_path)
         if not file_path.is_absolute():
@@ -75,11 +101,23 @@ class ResourcePath():
         for root, base in get_resource_roots().items():
             try:
                 rel = file_path.relative_to(base)
-                return cls(root, *rel.parts)
             except ValueError:
                 pass
+            else:
+                return cls(root, *rel.parts)
 
-        raise ValueError("Path {!r} is not beneath any resource path root.".format(file_path))
+        for base in get_installed_resource_roots():
+            try:
+                package, *rest = file_path.relative_to(base).parts
+            except ValueError:
+                pass
+            else:
+                package_path = cls('Packages', package)
+                if package_path.suffix != '.sublime-package':
+                    continue
+                return package_path.with_suffix('').joinpath(*rest)
+
+        raise ValueError("Path {!r} does not correspond to any resource path.".format(file_path))
 
     def __init__(self, *pathsegments):
         """
