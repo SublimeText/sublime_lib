@@ -44,6 +44,44 @@ class TestResourcePath(DeferrableTestCase):
             ResourcePath("Cache/test_package")
         )
 
+    def test_from_file_path_installed_packages(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(
+                Path(sublime.installed_packages_path(), 'test_package.sublime-package', 'foo.py')
+            ),
+            ResourcePath("Packages/test_package/foo.py")
+        )
+
+    def test_from_file_path_installed_packages_not_installed(self):
+        with self.assertRaises(ValueError):
+            ResourcePath.from_file_path(
+                Path(sublime.installed_packages_path(), 'test_package', 'foo.py')
+            ),
+
+    def test_from_file_path_installed_packages_root(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(Path(sublime.installed_packages_path())),
+            ResourcePath("Packages")
+        )
+
+    def test_from_file_path_default_packages(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(
+                Path(sublime.executable_path()).parent.joinpath(
+                    'Packages', 'test_package.sublime-package', 'foo.py'
+                )
+            ),
+            ResourcePath("Packages/test_package/foo.py")
+        )
+
+    def test_from_file_path_default_packages_root(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(
+                Path(sublime.executable_path()).parent / 'Packages'
+            ),
+            ResourcePath("Packages")
+        )
+
     def test_from_file_path_error(self):
         with self.assertRaises(ValueError):
             ResourcePath.from_file_path(Path('/test_package')),
