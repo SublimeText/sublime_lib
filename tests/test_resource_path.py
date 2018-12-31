@@ -62,7 +62,7 @@ class TestResourcePath(DeferrableTestCase):
         self.assertEqual(
             ResourcePath.from_file_path(
                 Path(sublime.executable_path()).parent.joinpath(
-                    'Packages',' test_package.sublime-package',' foo.py'
+                    'Packages', 'test_package.sublime-package', 'foo.py'
                 )
             ),
             ResourcePath("Packages/test_package/foo.py")

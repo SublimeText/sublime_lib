@@ -113,9 +113,8 @@ class ResourcePath():
                 pass
             else:
                 package_path = cls('Packages', package)
-                if package_path.suffix != '.sublime-package':
-                    continue
-                return package_path.with_suffix('').joinpath(*rest)
+                if package_path.suffix == '.sublime-package':
+                    return package_path.with_suffix('').joinpath(*rest)
 
         raise ValueError("Path {!r} does not correspond to any resource path.".format(file_path))
 
