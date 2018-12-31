@@ -58,6 +58,12 @@ class TestResourcePath(DeferrableTestCase):
                 Path(sublime.installed_packages_path(), 'test_package', 'foo.py')
             ),
 
+    def test_from_file_path_installed_packages_root(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(Path(sublime.installed_packages_path())),
+            ResourcePath("Packages")
+        )
+
     def test_from_file_path_default_packages(self):
         self.assertEqual(
             ResourcePath.from_file_path(
@@ -66,6 +72,14 @@ class TestResourcePath(DeferrableTestCase):
                 )
             ),
             ResourcePath("Packages/test_package/foo.py")
+        )
+
+    def test_from_file_path_default_packages_root(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(
+                Path(sublime.executable_path()).parent / 'Packages'
+            ),
+            ResourcePath("Packages")
         )
 
     def test_from_file_path_error(self):

@@ -108,10 +108,13 @@ class ResourcePath():
 
         for base in get_installed_resource_roots():
             try:
-                package, *rest = file_path.relative_to(base).parts
+                rel = file_path.relative_to(base).parts
             except ValueError:
                 pass
             else:
+                if rel == ():
+                    return cls('Packages')
+                package, *rest = rel
                 package_path = cls('Packages', package)
                 if package_path.suffix == '.sublime-package':
                     return package_path.with_suffix('').joinpath(*rest)
