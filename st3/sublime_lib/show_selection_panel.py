@@ -1,5 +1,6 @@
-from ._util.collections import is_sequence_not_str
+from ._util.collections import is_sequence_not_str, isiterable
 from ._util.named_value import NamedValue
+from .flags import QuickPanelOption
 
 
 __all__ = ['show_selection_panel', 'NO_SELECTION']
@@ -28,8 +29,9 @@ def show_selection_panel(
 
     Optional keyword arguments:
 
-    :argument flags: A bitwise OR of :const:`sublime.MONOSPACE_FONT` and
-        :const:`sublime.KEEP_OPEN_ON_FOCUS_LOST`.
+    :argument flags: A :class:`sublime_lib.flags.QuickPanelOption`,
+        a value convertible to :class:`~sublime_lib.flags.QuickPanelOption`,
+        or an iterable of such values.
 
     :argument labels: A value determining what to show as the label for each item:
 
@@ -58,12 +60,15 @@ def show_selection_panel(
     :argument on_highlight: A callback accepting a value from `items` to be
         invoked every time the user changes the highlighted item in the panel.
 
-    :raises ValueError: if `items` is empty.
+    :raise ValueError: if `items` is empty.
 
-    :raises ValueError: if `selected` is given and the value is not in `items`.
+    :raise ValueError: if `selected` is given and the value is not in `items`.
 
-    :raises ValueError: if some labels are sequences but not others
+    :raise ValueError: if some labels are sequences but not others
         or if labels are sequences of inconsistent length.
+
+    :raise ValueError: if `flags` cannot be converted
+        to :class:`sublime_lib.flags.QuickPanelOption`.
 
     ..  versionadded:: 1.2
     """
@@ -105,6 +110,11 @@ def show_selection_panel(
         on_highlight_callback = lambda index: on_highlight(items[index])
     else:
         on_highlight_callback = None
+
+    if isiterable(flags) and not isinstance(flags, str):
+        flags = QuickPanelOption(*flags)
+    else:
+        flags = QuickPanelOption(flags)
 
     # The signature in the API docs is wrong.
     # See https://github.com/SublimeTextIssues/Core/issues/2290
