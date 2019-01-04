@@ -13,6 +13,10 @@ class Panel():
     All :class:`Panel` methods except for :meth:`exists()`
     will raise a ``ValueError`` if the panel does not exist.
     Descendant classes may override :meth:`exists()` to customize this behavior.
+
+    .. py:attribute:: panel_name
+        
+        The name of the panel as it is listed in :meth:`sublime.Window.panels()`.
     """
 
     def __init__(self, window, panel_name):
@@ -22,7 +26,6 @@ class Panel():
         self._checkExists()
 
     def _checkExists(self):
-        # if self.must_exist and not self.exists():
         if not self.exists():
             raise ValueError("Panel {} does not exist.".format(self.panel_name))
 
@@ -33,7 +36,7 @@ class Panel():
     def exists(self):
         """Return ``True`` if the panel exists, or ``False`` otherwise.
 
-        This implementation checks :meth:`sublime.Window.panels`,
+        This implementation checks :meth:`sublime.Window.panels()`,
         so it will return ``False`` for unlisted panels.
         """
         return self.panel_name in self.window.panels()

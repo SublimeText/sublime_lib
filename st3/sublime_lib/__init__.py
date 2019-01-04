@@ -1,4 +1,4 @@
-from .output_panel import Panel, OutputPanel  # noqa: F401
+from .panel import Panel, OutputPanel  # noqa: F401
 from .resource_path import ResourcePath  # noqa: F401
 from .show_selection_panel import show_selection_panel, NO_SELECTION  # noqa: F401
 from .settings_dict import SettingsDict, NamedSettingsDict  # noqa: F401
