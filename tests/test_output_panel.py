@@ -104,7 +104,9 @@ class TestOutputPanel(TestCase):
         self.assertEqual(self.panel.view.id(), other.view.id())
 
         self.panel.destroy()
-        self.assertRaises(ValueError, other.tell)
+        with self.assertRaises(ValueError):
+            other.tell()
 
     def test_init_nonexistent_error(self):
-        self.assertRaises(ValueError, OutputPanel, self.window, 'does_not_exist')
+        with self.assertRaises(ValueError):
+            OutputPanel(self.window, 'nonexistent_output_panel')

@@ -16,10 +16,11 @@ Settings dictionaries
 .. autoclass:: sublime_lib.SettingsDict
 .. autoclass:: sublime_lib.NamedSettingsDict
 
-Output streams
---------------
+Output streams and panels
+-------------------------
 
 .. autoclass:: sublime_lib.ViewStream
+.. autoclass:: sublime_lib.Panel
 .. autoclass:: sublime_lib.OutputPanel
 
 Resource paths
