@@ -1,6 +1,9 @@
 import sublime
 import sublime_lib.flags as flags
 
+from sublime_lib.vendor.python.enum import IntFlag
+
+from functools import reduce
 from unittest import TestCase
 
 
@@ -10,6 +13,12 @@ class TestFlags(TestCase):
         for item in enum:
             self.assertEqual(item, getattr(sublime, prefix + item.name))
             self.assertEqual(item, enum(item.name))
+
+        if issubclass(enum, IntFlag):
+            self.assertEqual(
+                enum(*[item.name for item in enum]),
+                reduce(lambda a, b: a | b, enum)
+            )
 
     def test_flags(self):
         self._test_enum(flags.DialogResult, 'DIALOG_')

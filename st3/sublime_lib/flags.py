@@ -99,7 +99,7 @@ class PointClass(IntFlag, metaclass=ExtensibleConstructorMeta):
 @autodoc()
 @construct_union
 @construct_from_name
-class FindOption(IntFlag):
+class FindOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with several methods of :class:`sublime.View`:
 
@@ -132,7 +132,7 @@ class RegionOption(IntFlag, metaclass=ExtensibleConstructorMeta):
 @autodoc()
 @construct_union
 @construct_from_name
-class PopupOption(IntFlag):
+class PopupOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.View.show_popup`.
     """
@@ -144,7 +144,7 @@ class PopupOption(IntFlag):
 @autodoc('LAYOUT')
 @construct_union
 @construct_from_name
-class PhantomLayout(IntFlag):
+class PhantomLayout(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :class:`sublime.Phantom`.
     """
@@ -156,7 +156,7 @@ class PhantomLayout(IntFlag):
 @autodoc()
 @construct_union
 @construct_from_name
-class OpenFileOption(IntFlag):
+class OpenFileOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.Window.open_file`.
     """
@@ -167,7 +167,7 @@ class OpenFileOption(IntFlag):
 @autodoc()
 @construct_union
 @construct_from_name
-class QuickPanelOption(IntFlag):
+class QuickPanelOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.Window.show_quick_panel`.
     """
