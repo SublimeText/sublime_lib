@@ -1,7 +1,10 @@
 from concurrent.futures import Future
-from functools import partial
+from functools import partial, wraps
 from traceback import print_exception
 from inspect import isgenerator
+from threading import Thread, Event
+from time import sleep, monotonic
+from queue import Queue, PriorityQueue, Empty
 
 
 def wait_for_condition(condition, period=100, iterations=5):
@@ -87,15 +90,13 @@ class Task():
 
 def async_decorator(run):
     def decorator(function):
-        return lambda *args, **kwargs: run(partial(function, *args, **kwargs))
+        @wraps(function)
+        def wrapped(*args, **kwargs):
+            return run(partial(function, *args, **kwargs))
+
+        return wrapped
 
     return decorator
-
-
-    from functools import partial
-    from threading import Thread, Event
-    from time import sleep, monotonic
-    from queue import Queue, PriorityQueue, Empty
 
 
 def _single_thread_runner_worker(get):
@@ -155,7 +156,7 @@ class SharedThreadRunner():
                 self.event.clear()
                 self.event.wait(timeout=time_remaining)
 
-    def _schedule(self, function, delay):
+    def schedule(self, function, delay):
         at = monotonic() + delay / 1000
         self.queue.put((at, function))
         self.event.set()
