@@ -359,3 +359,25 @@ class ResourcePath():
                 for resource in self.glob('**')
             )
         ]
+
+    def copy(self, target, exist_ok=True):
+        """
+        Copy this resource to the given `target`.
+
+        `target` should be a string representing a filesystem path
+        or a value convertible to string.
+        If `target` exists and is a file,
+        and `exist_ok` is ``True`` (the default),
+        it will be silently replaced.
+
+        :raise IsADirectoryError: if `target` is a directory.
+        :raise FileExistsError: if `target` is a file and `exist_ok` is ``False``.
+        """
+        if exist_ok:
+            mode = 'w'
+        else:
+            mode = 'x'
+
+        data = self.read_bytes()
+        with open(str(target), mode + 'b') as file:
+            file.write(data)

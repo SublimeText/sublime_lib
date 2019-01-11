@@ -1,5 +1,6 @@
 import sublime
 import shutil
+import tempfile
 
 from sublime_lib import ResourcePath
 from sublime_lib.vendor.pathlib.pathlib import Path
@@ -177,3 +178,72 @@ class TestResourcePath(DeferrableTestCase):
                 ResourcePath("Packages/test_package/directory"),
             ]
         )
+
+    def test_copy_text(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = ResourcePath("Packages/test_package/helloworld.txt")
+            destination = Path(directory) / 'helloworld.txt'
+
+            source.copy(destination)
+
+            self.assertTrue(destination.is_file())
+
+            with open(str(destination), 'r') as file:
+                text = file.read()
+
+            self.assertEqual(text, source.read_text())
+
+    def test_copy_binary(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = ResourcePath("Packages/test_package/UTF-8-test.txt")
+            destination = Path(directory) / 'UTF-8-test.txt'
+
+            source.copy(destination)
+
+            self.assertTrue(destination.is_file())
+
+            with open(str(destination), 'rb') as file:
+                data = file.read()
+
+            self.assertEqual(data, source.read_bytes())
+
+    def test_copy_existing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = ResourcePath("Packages/test_package/helloworld.txt")
+            destination = Path(directory) / 'helloworld.txt'
+
+            with open(str(destination), 'w') as file:
+                file.write("Nothing to see here.\n")
+
+            source.copy(destination)
+
+            self.assertTrue(destination.is_file())
+
+            with open(str(destination), 'r') as file:
+                text = file.read()
+
+            self.assertEqual(text, source.read_text())
+
+    def test_copy_existing_error(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = ResourcePath("Packages/test_package/helloworld.txt")
+            destination = Path(directory) / 'helloworld.txt'
+
+            text = "Nothing to see here.\n"
+            with open(str(destination), 'w') as file:
+                file.write(text)
+
+            with self.assertRaises(FileExistsError):
+                source.copy(destination, False)
+
+    def test_copy_directory_error(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = ResourcePath("Packages/test_package/helloworld.txt")
+            destination = Path(directory) / 'helloworld.txt'
+
+            destination.mkdir()
+
+            with self.assertRaises(IsADirectoryError):
+                source.copy(destination)
+
+            self.assertTrue(destination.is_dir())
