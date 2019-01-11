@@ -359,3 +359,14 @@ class ResourcePath():
                 for resource in self.glob('**')
             )
         ]
+
+    def copy(self, target):
+        """
+        Copy this resource to the given `target`.
+
+        If `target` exists and is a file,
+        it will be silently replaced.
+        """
+        data = self.read_bytes()
+        with open(str(target), 'wb') as file:
+            file.write(data)
