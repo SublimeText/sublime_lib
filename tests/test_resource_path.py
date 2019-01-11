@@ -223,3 +223,27 @@ class TestResourcePath(DeferrableTestCase):
                 text = file.read()
 
             self.assertEqual(text, source.read_text())
+
+    def test_copy_existing_error(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = ResourcePath("Packages/test_package/helloworld.txt")
+            destination = Path(directory) / 'helloworld.txt'
+
+            text = "Nothing to see here.\n"
+            with open(str(destination), 'w') as file:
+                file.write(text)
+
+            with self.assertRaises(FileExistsError):
+                source.copy(destination, False)
+
+    def test_copy_directory_error(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = ResourcePath("Packages/test_package/helloworld.txt")
+            destination = Path(directory) / 'helloworld.txt'
+
+            destination.mkdir()
+
+            with self.assertRaises(IsADirectoryError):
+                source.copy(destination)
+
+            self.assertTrue(destination.is_dir())
