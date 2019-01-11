@@ -254,6 +254,22 @@ class ResourcePath():
         """
         return self.__class__(self, *other)
 
+    def relative_to(self, *other):
+        """
+        Compute a tuple `parts` of path components such that ``self = other.joinpath(*parts)``.
+
+        `other` will be converted to a :class:`ResourcePath`.
+
+        :raise ValueError: if this path is not a descendant of `other`.
+        """
+        other = ResourcePath(*other)
+        other_len = len(other.parts)
+
+        if other.parts == self._parts[:other_len]:
+            return self._parts[other_len:]
+        else:
+            raise ValueError("{!s} does not start with {!s}".format(self, other))
+
     def with_name(self, name):
         """
         Return a new path with the name changed.
