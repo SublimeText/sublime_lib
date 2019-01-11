@@ -263,6 +263,50 @@ class ResourcePath():
         else:
             return self.parent / name
 
+    def add_suffix(self, suffix):
+        """
+        Return a new path with the suffix added.
+        """
+        return self.with_name(self.name + suffix)
+
+    def remove_suffix(self, suffix=None, *, must_remove=True):
+        """
+        Return a new path with the suffix removed.
+
+        If `suffix` is ``None`` (the default), then ``self.suffix`` will be removed.
+        If `suffix` is a string, then only that suffix will be removed.
+        Otherwise, if `suffix` is iterable,
+        then the longest possible item in `suffix` will be removed.
+
+        :raise ValueError: if `must_remove` is ``True`` (the default)
+            and no suffix can be removed.
+        """
+        new_name = None
+
+        if suffix is None:
+            if self.suffix:
+                new_name = self.stem
+        else:
+            if isinstance(suffix, str):
+                suffixes = (suffix,)
+            else:
+                suffixes = sorted(suffix, key=len, reverse=True)
+
+            old_name = self.name
+            new_name = next((
+                old_name[:i]
+                for s in suffixes
+                for i in (old_name.rfind(s),)
+                if i > 0
+            ), None)
+
+        if new_name is not None:
+            return self.with_name(new_name)
+        elif must_remove:
+            raise ValueError('Cannot remove suffix {!r} from {!r}.'.format(suffix, self))
+        else:
+            return self
+
     def with_suffix(self, suffix):
         """
         Return a new path with the suffix changed.
@@ -270,6 +314,8 @@ class ResourcePath():
         If the original path doesn’t have a suffix, the new suffix is appended
         instead. If the new suffix is an empty string, the original suffix is
         removed.
+
+        Equivalent to ``self.remove_suffix(must_remove=False).add_suffix(suffix)``.
         """
         return self.with_name(self.stem + suffix)
 
