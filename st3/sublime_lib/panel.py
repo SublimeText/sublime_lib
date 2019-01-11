@@ -15,7 +15,7 @@ class Panel():
     Descendant classes may override :meth:`exists()` to customize this behavior.
 
     .. py:attribute:: panel_name
-        
+
         The name of the panel as it is listed in :meth:`sublime.Window.panels()`.
     """
 
