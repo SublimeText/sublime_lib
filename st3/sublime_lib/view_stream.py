@@ -1,44 +1,34 @@
 from sublime import Region
 
 from contextlib import contextmanager
-from functools import wraps
 from io import SEEK_SET, SEEK_CUR, SEEK_END, TextIOBase
 
-
-def define_guard(guard_fn):
-    def decorator(wrapped):
-        @wraps(wrapped)
-        def wrapper_guards(self, *args, **kwargs):
-            ret_val = guard_fn(self)
-            if hasattr(ret_val, '__enter__'):
-                with ret_val:
-                    return wrapped(self, *args, **kwargs)
-            else:
-                return wrapped(self, *args, **kwargs)
-
-        return wrapper_guards
-
-    return decorator
+from ._util.guard import define_guard
 
 
 class ViewStream(TextIOBase):
     """A :class:`~io.TextIOBase` encapsulating a :class:`~sublime.View` object.
 
-    All public methods (except :meth:`flush`) require that the underlying View object
-    be valid (using :meth:`View.is_valid`). Otherwise, :class:`ValueError` will be raised.
+    All public methods (except :meth:`flush`) require
+    that the underlying View object be valid (using :meth:`View.is_valid`).
+    Otherwise, :class:`ValueError` will be raised.
 
-    The :meth:`read`, :meth:`readline`, :meth:`write`, :meth:`print`, and
-    :meth:`tell` methods require that the underlying View have exactly one
-    selection, and that the selection is empty (i.e. a simple cursor).
+    The :meth:`read`, :meth:`readline`, :meth:`write`, :meth:`print`,
+    and :meth:`tell` methods
+    require that the underlying View have exactly one selection,
+    and that the selection is empty (i.e. a simple cursor).
     Otherwise, :class:`ValueError` will be raised.
 
     :argument force_writes: If ``True``, then :meth:`write` and :meth:`print`
-    will write to the view even if it is read-only. Otherwise, those methods
-    will raise :exc:`ValueError`.
+        will write to the view even if it is read-only.
+        Otherwise, those methods will raise :exc:`ValueError`.
 
-    :argument follow_cursor: If ``True``, then any method that moves the
-    cursor position will scroll the view to ensure that the new position is
-    visible.
+    :argument follow_cursor: If ``True``, then any method
+        that moves the cursor position will scroll the view
+        to ensure that the new position is visible.
+
+    ..  versionchanged:: 1.2
+        Added the `follow_cursor` option.
     """
 
     @define_guard
@@ -87,8 +77,9 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     def read(self, size):
-        """Read and return at most `size` characters from the stream as a
-        single :class:`str`. If `size` is negative or None, reads until EOF.
+        """Read and return at most `size` characters from the stream as a single :class:`str`.
+
+        If `size` is negative or None, read until EOF.
         """
         begin = self._tell()
         end = self.view.size()
@@ -98,8 +89,9 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     def readline(self, size=-1):
-        """Read until newline or EOF and return a single :class:`str`. If the stream is
-        already at EOF, an empty string is returned.
+        """Read until newline or EOF and return a single :class:`str`.
+
+        If the stream is already at EOF, return an empty string.
         """
         begin = self._tell()
         end = self.view.full_line(begin).end()
@@ -118,12 +110,12 @@ class ViewStream(TextIOBase):
     @guard_read_only
     @guard_auto_indent
     def write(self, s):
-        """Insert the string `s` into the view and return the number of
-        characters inserted. The string will be inserted immediately before the
-        cursor. It will not be auto-indented.
+        """Insert the string `s` into the view immediately before the cursor
+        and return the number of characters inserted.
 
-        Note: Because Sublime may convert tabs to spaces, the number of
-        characters inserted may not match the length of the argument.
+        Because Sublime may convert tabs to spaces,
+        the number of characters inserted may not match
+        the length of the argument.
         """
         old_size = self.view.size()
         self.view.run_command('insert', {'characters': s})
@@ -131,8 +123,7 @@ class ViewStream(TextIOBase):
         return self.view.size() - old_size
 
     def print(self, *objects, sep=' ', end='\n'):
-        """Shorthand for :func:`print()` passing this ViewStream as the `file`
-        argument."""
+        """Shorthand for :func:`print()` passing this ViewStream as the `file` argument."""
         print(*objects, file=self, sep=sep, end=end)
 
     def flush(self):
@@ -141,11 +132,17 @@ class ViewStream(TextIOBase):
 
     @guard_validity
     def seek(self, offset, whence=SEEK_SET):
-        """Move the cursor in the view and return the new offset. If `whence` is
-        provided, the behavior is the same as for :class:`IOBase`. If the cursor
-        would move before the beginning of the view, it will move to the
-        beginning instead, and likewise for the end of the view. If the view had
-        multiple selections, none will be preserved.
+        """Move the cursor in the view and return the new offset.
+
+        If `whence` is provided,
+        the behavior is the same as for :class:`~io.IOBase`.
+        If the cursor would move before the beginning of the view,
+        it will move to the beginning instead,
+        and likewise for the end of the view.
+        If the view had multiple selections, none will be preserved.
+
+        ..  versionchanged:: 1.2
+            Allow non-zero arguments with any value of `whence`.
         """
         if whence == SEEK_SET:
             return self._seek(offset)

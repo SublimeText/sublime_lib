@@ -54,6 +54,18 @@ class TestViewStream(DeferrableTestCase):
         self.stream.write("\n")
         self.assertContents(text + "\n")
 
+        self.assertTrue(self.stream.view.settings().get('auto_indent'))
+
+    def test_no_indent_off(self):
+        text = "    "
+
+        self.stream.view.settings().set('auto_indent', False)
+        self.stream.write(text)
+        self.stream.write("\n")
+        self.assertContents(text + "\n")
+
+        self.assertFalse(self.stream.view.settings().get('auto_indent'))
+
     def test_clear(self):
         self.stream.write("Some text")
         self.stream.clear()

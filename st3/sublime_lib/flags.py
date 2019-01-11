@@ -1,19 +1,36 @@
 """
 Python enumerations for use with Sublime API methods.
 
-Descendants of :class:`IntFlag` each implement the following class method:
+In addition to the standard behavior,
+these enumerations' constructors accept the name of an enumerated value as a string:
 
-.. py:classmethod:: from_strings(strings)
+.. code-block:: python
 
-    Convert each element of strings to this type, then return their union.
+   >>> PointClass(sublime.DIALOG_YES)
+   <DialogResult.YES: 1>
+   >>> PointClass("YES")
+   <DialogResult.YES: 1>
 
-    :raise KeyError: if an element of strings cannot be converted to this type.
+Descendants of :class:`IntFlag` accept zero or more arguments:
+
+.. code-block:: python
+
+   >>> PointClass("WORD_START", "WORD_END")
+   <PointClass.WORD_END|WORD_START: 3>
+   >>> PointClass()
+   <PointClass.0: 0>
+
+.. versionchanged:: 1.2
+    Constructors accept member names
+    and `IntFlag` constructors accept multiple arguments.
 """
 
 import sublime
 
 from .vendor.python.enum import IntEnum, IntFlag
 from inspect import cleandoc
+
+from ._util.enum import ExtensibleConstructorMeta, construct_union, construct_with_alternatives
 
 
 __all__ = [
@@ -32,8 +49,7 @@ def autodoc(prefix=None):
         enum.__doc__ = cleandoc(enum.__doc__) + '\n\n' + '\n'.join([
             cleandoc("""
             .. py:attribute:: {name}
-
-                = :attr:`sublime.{pre}{name}`
+                :annotation: = sublime.{pre}{name}
             """).format(name=item.name, pre=prefix_str) for item in enum
         ])
 
@@ -42,17 +58,13 @@ def autodoc(prefix=None):
     return decorator
 
 
-class EnhancedIntFlag(IntFlag):
-    @classmethod
-    def from_strings(cls, strings):
-        ret = cls(0)
-        for string in strings:
-            ret |= cls[string]
-
-        return ret
+construct_from_name = construct_with_alternatives(
+    lambda cls, value: cls.__members__.get(value, None)
+)
 
 
 @autodoc('DIALOG')
+@construct_from_name
 class DialogResult(IntEnum):
     """
     An :class:`~enum.IntEnum` for use with :func:`sublime.yes_no_cancel_dialog`.
@@ -63,7 +75,9 @@ class DialogResult(IntEnum):
 
 
 @autodoc('CLASS')
-class PointClass(EnhancedIntFlag):
+@construct_union
+@construct_from_name
+class PointClass(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with several methods of :class:`sublime.View`:
 
@@ -83,7 +97,9 @@ class PointClass(EnhancedIntFlag):
 
 
 @autodoc()
-class FindOption(EnhancedIntFlag):
+@construct_union
+@construct_from_name
+class FindOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with several methods of :class:`sublime.View`:
 
@@ -95,7 +111,9 @@ class FindOption(EnhancedIntFlag):
 
 
 @autodoc()
-class RegionOption(EnhancedIntFlag):
+@construct_union
+@construct_from_name
+class RegionOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.View.add_regions`.
     """
@@ -112,7 +130,9 @@ class RegionOption(EnhancedIntFlag):
 
 
 @autodoc()
-class PopupOption(EnhancedIntFlag):
+@construct_union
+@construct_from_name
+class PopupOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.View.show_popup`.
     """
@@ -122,7 +142,9 @@ class PopupOption(EnhancedIntFlag):
 
 
 @autodoc('LAYOUT')
-class PhantomLayout(EnhancedIntFlag):
+@construct_union
+@construct_from_name
+class PhantomLayout(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :class:`sublime.Phantom`.
     """
@@ -132,7 +154,9 @@ class PhantomLayout(EnhancedIntFlag):
 
 
 @autodoc()
-class OpenFileOption(EnhancedIntFlag):
+@construct_union
+@construct_from_name
+class OpenFileOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.Window.open_file`.
     """
@@ -141,7 +165,9 @@ class OpenFileOption(EnhancedIntFlag):
 
 
 @autodoc()
-class QuickPanelOption(EnhancedIntFlag):
+@construct_union
+@construct_from_name
+class QuickPanelOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.Window.show_quick_panel`.
     """

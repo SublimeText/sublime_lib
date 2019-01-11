@@ -27,10 +27,68 @@ class TestResourcePath(DeferrableTestCase):
         self.assertEqual(
             ResourcePath.glob_resources("Packages/test_package/*.txt"),
             [
-                ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/helloworld.txt"),
+                ResourcePath("Packages/test_package/UTF-8-test.txt"),
             ]
         )
+
+    def test_from_file_path_packages(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(Path(sublime.packages_path(), 'test_package')),
+            ResourcePath("Packages/test_package")
+        )
+
+    def test_from_file_path_cache(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(Path(sublime.cache_path(), 'test_package')),
+            ResourcePath("Cache/test_package")
+        )
+
+    def test_from_file_path_installed_packages(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(
+                Path(sublime.installed_packages_path(), 'test_package.sublime-package', 'foo.py')
+            ),
+            ResourcePath("Packages/test_package/foo.py")
+        )
+
+    def test_from_file_path_installed_packages_not_installed(self):
+        with self.assertRaises(ValueError):
+            ResourcePath.from_file_path(
+                Path(sublime.installed_packages_path(), 'test_package', 'foo.py')
+            ),
+
+    def test_from_file_path_installed_packages_root(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(Path(sublime.installed_packages_path())),
+            ResourcePath("Packages")
+        )
+
+    def test_from_file_path_default_packages(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(
+                Path(sublime.executable_path()).parent.joinpath(
+                    'Packages', 'test_package.sublime-package', 'foo.py'
+                )
+            ),
+            ResourcePath("Packages/test_package/foo.py")
+        )
+
+    def test_from_file_path_default_packages_root(self):
+        self.assertEqual(
+            ResourcePath.from_file_path(
+                Path(sublime.executable_path()).parent / 'Packages'
+            ),
+            ResourcePath("Packages")
+        )
+
+    def test_from_file_path_error(self):
+        with self.assertRaises(ValueError):
+            ResourcePath.from_file_path(Path('/test_package')),
+
+    def test_from_file_path_relative(self):
+        with self.assertRaises(ValueError):
+            ResourcePath.from_file_path(Path('test_package')),
 
     def test_file_path_packages(self):
         self.assertEqual(
@@ -90,8 +148,8 @@ class TestResourcePath(DeferrableTestCase):
         self.assertEqual(
             ResourcePath("Packages/test_package").glob('*.txt'),
             [
-                ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/helloworld.txt"),
+                ResourcePath("Packages/test_package/UTF-8-test.txt"),
             ]
         )
 
@@ -99,9 +157,9 @@ class TestResourcePath(DeferrableTestCase):
         self.assertEqual(
             ResourcePath("Packages/test_package").rglob('*.txt'),
             [
+                ResourcePath("Packages/test_package/helloworld.txt"),
                 ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/directory/goodbyeworld.txt"),
-                ResourcePath("Packages/test_package/helloworld.txt"),
             ]
         )
 
@@ -114,8 +172,8 @@ class TestResourcePath(DeferrableTestCase):
             ResourcePath("Packages/test_package").children(),
             [
                 ResourcePath("Packages/test_package/.test_package_exists"),
+                ResourcePath("Packages/test_package/helloworld.txt"),
                 ResourcePath("Packages/test_package/UTF-8-test.txt"),
                 ResourcePath("Packages/test_package/directory"),
-                ResourcePath("Packages/test_package/helloworld.txt"),
             ]
         )

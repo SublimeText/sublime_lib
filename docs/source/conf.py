@@ -44,9 +44,11 @@ extensions = [
     'sphinx.ext.intersphinx',
 ]
 
-autodoc_mock_imports = ["sublime_plugin"]
-autodoc_default_flags = ["members"]
 autodoc_member_order = 'bysource'
+autodoc_default_options = {
+    'members': None,
+    'mock_imports': ['sublime_plugin']
+}
 
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
@@ -83,16 +85,13 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'basic'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
 html_theme_options = {
-    # 'style_external_links': True,
-    # 'navigation_depth': 1,
-    'collapse_navigation': False,
 }
 
 html_experimental_html5_writer = True
@@ -112,11 +111,22 @@ html_static_path = ['_static']
 #
 # html_sidebars = {}
 
+html_sidebars = {'**': [
+    "localtoc.html"
+]}
+
+html_use_index = False
+html_use_smartypants = False
+html_compact_lists = True
+
 
 def setup(app):
+    from better_toctree import TocTreeCollector
+    app.add_env_collector(TocTreeCollector)
+
     app.add_stylesheet('style.css')
 
     from prettify_special_methods import PrettifySpecialMethods, show_special_methods
-
     app.add_transform(PrettifySpecialMethods)
+
     app.connect('autodoc-skip-member', show_special_methods)

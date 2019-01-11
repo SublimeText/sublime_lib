@@ -1,10 +1,12 @@
-from ._util.collections import is_sequence_not_str
+from ._util.collections import is_sequence_not_str, isiterable
+from ._util.named_value import NamedValue
+from .flags import QuickPanelOption
 
 
-__all__ = ['show_selection_panel']
+__all__ = ['show_selection_panel', 'NO_SELECTION']
 
 
-NOT_GIVEN = object()
+NO_SELECTION = NamedValue('NO_SELECTION')
 
 
 def show_selection_panel(
@@ -12,8 +14,8 @@ def show_selection_panel(
     items,
     *,
     flags=0,
-    labels=NOT_GIVEN,
-    selected=NOT_GIVEN,
+    labels=None,
+    selected=NO_SELECTION,
     on_select=None,
     on_cancel=None,
     on_highlight=None
@@ -22,44 +24,58 @@ def show_selection_panel(
 
     :argument window: The :class:`sublime.Window` in which to show the panel.
 
-    :argument items: A nonempty :class:`list` of items to choose from.
+    :argument items: A nonempty :class:`~collections.abc.Sequence`
+        (such as a :class:`list`) of items to choose from.
 
     Optional keyword arguments:
 
-    :argument flags: A bitwise OR of :const:`sublime.MONOSPACE_FONT` and
-    :const:`sublime.KEEP_OPEN_ON_FOCUS_LOST`.
+    :argument flags: A :class:`sublime_lib.flags.QuickPanelOption`,
+        a value convertible to :class:`~sublime_lib.flags.QuickPanelOption`,
+        or an iterable of such values.
 
-    :argument labels: Either a list of labels or a function taking elements of
-    `items` to labels. If `labels` is not given, it will default to `items`.
+    :argument labels: A value determining what to show as the label for each item:
 
-    Every label must be a single item (a string or convertible with :func:`str`)
-    or a :class:`collections.abc.Sequence` of items (such as a :class:`list` or
-    :class:`tuple`). In the latter case, each entry in the quick panel will show
-    multiple rows.
+        - If `labels` is ``None`` (the default), then use `items`.
+        - If `labels` is callable, then use ``map(labels, items)``.
+        - Otherwise, use `labels`.
+
+        The result should be a :class:`~collections.abc.Sequence` of labels.
+        Every label must be a single item
+        (a string or convertible with :func:`str`)
+        or a :class:`~collections.abc.Sequence` of items.
+        In the latter case,
+        each entry in the quick panel will show multiple rows.
 
     :argument selected: The value in `items` that will be initially selected.
-    If `selected` is not given, no value will be initially selected.
 
-    :argument on_select: A callback accepting a value from `items` to be
-    invoked when the user chooses an item.
+        If `selected` is :const:`sublime_lib.NO_SELECTION` (the default),
+        then Sublime will determine the initial selection.
 
-    :argument on_cancel: A callback that will be invoked with no arguments if
-    the user closes the panel without choosing an item.
+    :argument on_select: A callback accepting a value from `items`
+        to be invoked when the user chooses an item.
+
+    :argument on_cancel: A callback that will be invoked with no arguments
+        if the user closes the panel without choosing an item.
 
     :argument on_highlight: A callback accepting a value from `items` to be
-    invoked every time the user changes the highlighted item in the panel.
+        invoked every time the user changes the highlighted item in the panel.
 
-    :raises ValueError: if `items` is empty`.
+    :raise ValueError: if `items` is empty.
 
-    :raises ValueError: if `selected` is given and the value is not in `items`.
+    :raise ValueError: if `selected` is given and the value is not in `items`.
 
-    :raises ValueError: if some labels are sequences but not others or if labels
-    are sequences of inconsistent length.
+    :raise ValueError: if some labels are sequences but not others
+        or if labels are sequences of inconsistent length.
+
+    :raise ValueError: if `flags` cannot be converted
+        to :class:`sublime_lib.flags.QuickPanelOption`.
+
+    ..  versionadded:: 1.2
     """
     if len(items) == 0:
         raise ValueError("The items parameter must contain at least one item.")
 
-    if labels is NOT_GIVEN:
+    if labels is None:
         labels = items
     elif callable(labels):
         labels = list(map(labels, items))
@@ -85,7 +101,7 @@ def show_selection_panel(
         elif on_select:
             on_select(items[index])
 
-    if selected is NOT_GIVEN:
+    if selected is NO_SELECTION:
         selected_index = -1
     else:
         selected_index = items.index(selected)
@@ -94,6 +110,11 @@ def show_selection_panel(
         on_highlight_callback = lambda index: on_highlight(items[index])
     else:
         on_highlight_callback = None
+
+    if isiterable(flags) and not isinstance(flags, str):
+        flags = QuickPanelOption(*flags)
+    else:
+        flags = QuickPanelOption(flags)
 
     # The signature in the API docs is wrong.
     # See https://github.com/SublimeTextIssues/Core/issues/2290

@@ -199,6 +199,22 @@ class TestSelectionPanel(TestCase):
             flags=flags
         )
 
+    def test_flags_conversion(self):
+        window = WindowMock()
+
+        flags = ['MONOSPACE_FONT', 'KEEP_OPEN_ON_FOCUS_LOST']
+
+        show_selection_panel(
+            window=window,
+            items=['a', 'b', 'c'],
+            flags=flags
+        )
+
+        assert_called_once_with_partial(
+            window.show_quick_panel,
+            flags=(sublime.MONOSPACE_FONT | sublime.KEEP_OPEN_ON_FOCUS_LOST)
+        )
+
     def test_labels_function(self):
         window = WindowMock()
 

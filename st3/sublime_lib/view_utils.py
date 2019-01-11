@@ -1,10 +1,42 @@
 import inspect
 
+from .vendor.python.enum import Enum
+from ._util.enum import ExtensibleConstructorMeta, construct_with_alternatives
 from .syntax import get_syntax_for_scope
 from .encodings import to_sublime
 
 
-__all__ = ['new_view', 'close_view']
+__all__ = ['LineEnding', 'new_view', 'close_view']
+
+
+def case_insensitive_value(cls, value):
+    return next((
+        member for name, member in cls.__members__.items()
+        if name.lower() == value.lower()
+    ), None)
+
+
+@construct_with_alternatives(case_insensitive_value)
+class LineEnding(Enum, metaclass=ExtensibleConstructorMeta):
+    """An :class:`Enum` of line endings supported by Sublime Text.
+
+    The :class:`LineEnding` constructor accepts either
+    the case-insensitive name (e.g. ``'unix'``) or the value (e.g. ``'\\n'``) of a line ending.
+
+    .. py:attribute:: Unix
+        :annotation: = '\\n'
+
+    .. py:attribute:: Windows
+        :annotation: = '\\r\\n'
+
+    .. py:attribute:: CR
+        :annotation: = '\\r'
+
+    .. versionadded:: 1.2
+    """
+    Unix = '\n'
+    Windows = '\r\n'
+    CR = '\r'
 
 
 def new_view(window, **kwargs):
@@ -13,29 +45,38 @@ def new_view(window, **kwargs):
     This function takes many optional keyword arguments:
 
     :argument content: Text to be inserted into the new view. The text will be inserted even
-        if the `read_only` option is True.
+        if the `read_only` option is ``True``.
 
     :argument encoding: The encoding that the view should use when saving.
 
+    :argument line_endings: The kind of line endings to use.
+        The given value will be passed to :class:`LineEnding`.
+
     :argument name: The name of the view. This will be shown as the title of the view's tab.
 
-    :argument overwrite: If True, the view will be in overwrite mode.
+    :argument overwrite: If ``True``, the view will be in overwrite mode.
 
-    :argument read_only: If True, the view will be read-only.
+    :argument read_only: If ``True``, the view will be read-only.
 
-    :argument scope: A scope name. The view will be assigned a syntax definition that
-        corresponds to the given scope (as determined by
-        sublime_lib.syntax.get_syntax_for_scope). Exclusive with the `syntax`
-        option.
+    :argument scope: A scope name.
+        The view will be assigned a syntax definition that corresponds to the given scope
+        (as determined by :func:`~sublime_lib.get_syntax_for_scope`).
+        Incompatible with the `syntax` option.
 
-    :argument scratch: If True, the view will be a scratch buffer. The user will not be
-        prompted to save the view before closing it.
+    :argument scratch: If ``True``, the view will be a scratch buffer.
+        The user will not be prompted to save the view before closing it.
 
-    :argument settings: A dictionary of names and values that will be applied to the new view's
-        Settings object.
+    :argument settings: A dictionary of names and values
+        that will be applied to the new view's Settings object.
 
     :argument syntax: The resource path of a syntax definition that the view will use.
-        Exclusive with the `scope` option.
+        Incompatible with the `scope` option.
+
+    :raise ValueError: if both `scope` and `syntax` are specified.
+    :raise ValueError: if `line_endings` cannot be converted to :class:`LineEnding`.
+
+    ..  versionchanged:: 1.2
+        Added the `line_endings` argument.
     """
     validate_view_options(kwargs)
 
@@ -45,8 +86,7 @@ def new_view(window, **kwargs):
 
 
 def close_view(view, *, force=False):
-    """
-    Close the given view, discarding unsaved changes if `force` is ``True``.
+    """Close the given view, discarding unsaved changes if `force` is ``True``.
 
     If the view is invalid (e.g. already closed), do nothing.
 
@@ -71,6 +111,9 @@ def validate_view_options(options):
     if 'scope' in options and 'syntax' in options:
         raise ValueError('The "syntax" and "scope" arguments are exclusive.')
 
+    if 'line_endings' in options:
+        LineEnding(options['line_endings'])
+
 
 def set_view_options(
     view, *,
@@ -82,7 +125,8 @@ def set_view_options(
     syntax=None,
     scope=None,
     encoding=None,
-    content=None
+    content=None,
+    line_endings=None
 ):
     if name is not None:
         view.set_name(name)
@@ -112,6 +156,9 @@ def set_view_options(
 
     if encoding is not None:
         view.set_encoding(to_sublime(encoding))
+
+    if line_endings is not None:
+        view.set_line_endings(LineEnding(line_endings).name)
 
 
 VIEW_OPTIONS = {
