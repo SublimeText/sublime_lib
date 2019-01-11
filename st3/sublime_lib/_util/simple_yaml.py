@@ -6,10 +6,11 @@ __all__ = ['parse_simple_top_level_keys']
 
 
 def parse_simple_top_level_keys(text):
-    return dict(
-        map(_parse_yaml_value, match.groups())
+    return {
+        _parse_yaml_value(match.group(1)):
+        _parse_yaml_value(match.group(2))
         for match in re.finditer(r'(?m)^([^\s#].*?\s*): *(.+) *$', text)
-    )
+    }
 
 
 def _parse_yaml_value(value):

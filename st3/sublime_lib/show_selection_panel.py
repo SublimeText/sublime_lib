@@ -106,10 +106,9 @@ def show_selection_panel(
     else:
         selected_index = items.index(selected)
 
+    on_highlight_callback = None
     if on_highlight:
         on_highlight_callback = lambda index: on_highlight(items[index])
-    else:
-        on_highlight_callback = None
 
     if isiterable(flags) and not isinstance(flags, str):
         flags = QuickPanelOption(*flags)
