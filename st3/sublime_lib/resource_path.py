@@ -256,7 +256,7 @@ class ResourcePath():
 
     def relative_to(self, *other):
         """
-        Compute a tuple `parts` of path components such that ``self = other.joinpath(*parts)``.
+        Compute a tuple `parts` of path components such that ``self == other.joinpath(*parts)``.
 
         `other` will be converted to a :class:`ResourcePath`.
 
