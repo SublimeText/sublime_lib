@@ -2,7 +2,7 @@ from typing import Tuple, List, Any, Union, Callable, Optional, TypeVar
 
 location = Tuple[str, str, Tuple[int, int]]
 vector = Tuple[float, float]
-value = Union[bool, int, float, str, list, dict]
+value = Union[bool, int, float, str, list, dict, None]
 
 T = TypeVar('T')
 Callback0 = Callable[[], Any]
@@ -191,6 +191,10 @@ class Edit(object):
 
 class Region(object):
     __slots__ = ['a', 'b', 'xpos']
+
+    a = 0 # type: int
+    b = 0 # type: int
+    xpos = 0 # type: int
 
     def __init__(self, a: int, b: Optional[int] = None, xpos: int = -1): ...
     def __str__(self) -> str: ...
