@@ -76,7 +76,7 @@ class TestSelectionPanel(TestCase):
 
         assert_called_once_with_partial(
             window.show_quick_panel,
-            items=['10', '20', '30'],
+            items=[['10'], ['20'], ['30']],
         )
 
     def test_multiline_type_coercion(self):
@@ -100,39 +100,45 @@ class TestSelectionPanel(TestCase):
         )
 
     def test_empty_items_error(self):
-        self.assertRaises(
-            ValueError,
-            show_selection_panel,
-            WindowMock(),
-            items=[]
-        )
+        with self.assertRaises(ValueError):
+            show_selection_panel(
+                WindowMock(),
+                items=[]
+            )
 
-    def test_mixed_label_types_error(self):
-        self.assertRaises(
-            ValueError,
-            show_selection_panel,
-            WindowMock(),
+    def test_mixed_label_types(self):
+        window = WindowMock()
+        show_selection_panel(
+            window=window,
             items=['a', 'b'],
             labels=[['a'], 'b']
         )
 
-    def test_mixed_label_lengths_error(self):
-        self.assertRaises(
-            ValueError,
-            show_selection_panel,
-            WindowMock(),
+        assert_called_once_with_partial(
+            window.show_quick_panel,
+            items=[['a'], ['b']],
+        )
+
+    def test_mixed_label_lengths(self):
+        window = WindowMock()
+        show_selection_panel(
+            window=window,
             items=['a', 'b'],
             labels=[['a'], ['b', 'c']]
         )
 
-    def test_item_labels_lengths_error(self):
-        self.assertRaises(
-            ValueError,
-            show_selection_panel,
-            WindowMock(),
-            items=['a', 'b', 'c'],
-            labels=['x', 'y']
+        assert_called_once_with_partial(
+            window.show_quick_panel,
+            items=[['a', ''], ['b', 'c']],
         )
+
+    def test_item_labels_lengths_error(self):
+        with self.assertRaises(ValueError):
+            show_selection_panel(
+                WindowMock(),
+                items=['a', 'b', 'c'],
+                labels=['x', 'y']
+            )
 
     def test_selected(self):
         on_select = MagicMock()
@@ -230,7 +236,7 @@ class TestSelectionPanel(TestCase):
 
         assert_called_once_with_partial(
             window.show_quick_panel,
-            items=['a', 'b', 'c'],
+            items=[['a'], ['b'], ['c']],
         )
 
     def test_labels_list(self):
@@ -248,7 +254,7 @@ class TestSelectionPanel(TestCase):
 
         assert_called_once_with_partial(
             window.show_quick_panel,
-            items=['a', 'b', 'c'],
+            items=[['a'], ['b'], ['c']],
         )
 
     def test_no_selected(self):

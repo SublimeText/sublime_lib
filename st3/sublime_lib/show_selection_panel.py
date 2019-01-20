@@ -64,9 +64,6 @@ def show_selection_panel(
 
     :raise ValueError: if `selected` is given and the value is not in `items`.
 
-    :raise ValueError: if some labels are sequences but not others
-        or if labels are sequences of inconsistent length.
-
     :raise ValueError: if `flags` cannot be converted
         to :class:`sublime_lib.flags.QuickPanelOption`.
 
@@ -82,17 +79,15 @@ def show_selection_panel(
     elif len(items) != len(labels):
         raise ValueError("The lengths of `items` and `labels` must match.")
 
-    if any(map(is_sequence_not_str, labels)):
-        if not all(map(is_sequence_not_str, labels)):
-            raise ValueError("Labels must be all strings or all lists.")
+    def normalize_label(label):
+        if is_sequence_not_str(label):
+            return list(map(str, label))
+        else:
+            return [str(label)]
 
-        if len(set(map(len, labels))) != 1:
-            raise ValueError(
-                "If labels are lists, they must all have the same number of elements.")
-
-        labels = list(map(lambda label: list(map(str, label)), labels))
-    else:
-        labels = list(map(str, labels))
+    labels = list(map(normalize_label, labels))
+    max_len = max(map(len, labels))
+    labels = [rows + [''] * (max_len - len(rows)) for rows in labels]
 
     def on_done(index):
         if index == -1:
