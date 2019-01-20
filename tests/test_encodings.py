@@ -11,8 +11,16 @@ class TestEncodings(TestCase):
             "cp1252"
         )
 
+    def test_from_error(self):
+        with self.assertRaises(ValueError):
+            from_sublime("Nonexistent")
+
     def test_to(self):
         self.assertEqual(
             to_sublime("cp1252"),
             "Western (Windows 1252)"
         )
+
+    def test_to_error(self):
+        with self.assertRaises(ValueError):
+            to_sublime("Nonexistent")

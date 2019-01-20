@@ -73,6 +73,7 @@ def new_view(window, **kwargs):
         Incompatible with the `scope` option.
 
     :raise ValueError: if both `scope` and `syntax` are specified.
+    :raise ValueError: if `encoding` is not a Python encoding name.
     :raise ValueError: if `line_endings` cannot be converted to :class:`LineEnding`.
 
     ..  versionchanged:: 1.2
