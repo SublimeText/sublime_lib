@@ -6,24 +6,34 @@ __all__ = ['from_sublime', 'to_sublime']
 def from_sublime(name):
     """Translate `name` from a Sublime encoding name to a standard Python encoding name.
 
+    :raise ValueError: if `name` is not a Sublime encoding.
+
     .. code-block:: python
 
        >>> from_sublime("Western (Windows 1252)")
        "cp1252"
     """
 
-    return SUBLIME_TO_STANDARD.get(name, None)
+    try:
+        return SUBLIME_TO_STANDARD[name]
+    except KeyError:
+        raise ValueError("Unknown Sublime encoding {!r}.".format(name)) from None
 
 
 def to_sublime(name):
     """Translate `name` from a standard Python encoding name to a Sublime encoding name.
+
+    :raise ValueError: if `name` is not a Python encoding.
 
     .. code-block:: python
 
        >>> to_sublime("cp1252")
        "Western (Windows 1252)"
     """
-    return STANDARD_TO_SUBLIME.get(lookup(name).name, None)
+    try:
+        return STANDARD_TO_SUBLIME[lookup(name).name]
+    except LookupError:
+        raise ValueError("Unknown Python encoding {!r}.".format(name)) from None
 
 
 SUBLIME_TO_STANDARD = {  # noqa: E121
