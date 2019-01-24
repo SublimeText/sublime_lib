@@ -215,6 +215,28 @@ class TestPureResourcePath(TestCase):
             ResourcePath("Packages/Foo/bar/baz/xyzzy")
         )
 
+    def test_relative_to(self):
+        self.assertEqual(
+            ResourcePath("Packages/Foo/baz/bar.py").relative_to(
+                ResourcePath("Packages/Foo")
+            ),
+            ('baz', 'bar.py')
+        )
+
+    def test_relative_to_same(self):
+        self.assertEqual(
+            ResourcePath("Packages/Foo").relative_to(
+                ResourcePath("Packages/Foo")
+            ),
+            ()
+        )
+
+    def test_relative_to_error(self):
+        with self.assertRaises(ValueError):
+            ResourcePath("Packages/Foo").relative_to(
+                ResourcePath("Packages/Bar")
+            )
+
     def test_with_name(self):
         self.assertEqual(
             ResourcePath("Packages/Foo/bar.py").with_name('baz.js'),
