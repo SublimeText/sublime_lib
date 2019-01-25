@@ -33,7 +33,7 @@ body {
     position: sticky;
     top: 0;
     max-height: 100vh;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .sphinxsidebarwrapper > ul > li > ul > li {
