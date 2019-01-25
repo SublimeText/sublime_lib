@@ -34,6 +34,7 @@ body {
     top: 0;
     max-height: 100vh;
     overflow-y: auto;
+    padding-right: 20px;
 }
 
 .sphinxsidebarwrapper > ul > li > ul > li {
