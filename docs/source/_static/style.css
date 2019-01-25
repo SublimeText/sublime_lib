@@ -22,21 +22,18 @@ body {
 .document {
     display: flex;
     justify-content: center;
-    /*max-height: 100vh;*/
-}
-
-.document > * {
-    /*overflow: auto;*/
-    margin: 0 1rem;
 }
 
 .sphinxsidebar {
     order: 0;
-    width: 10rem;
+    margin-right: 1rem;
 }
 
 .sphinxsidebarwrapper {
-    position: fixed;
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+    overflow: auto;
 }
 
 .sphinxsidebarwrapper > ul > li > ul > li {
@@ -45,7 +42,7 @@ body {
 
 .documentwrapper  {
     order: 1;
-    width: 33rem;
+    max-width: 30rem;
 }
 
 .clearer  { display: none; }
