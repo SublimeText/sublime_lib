@@ -2,6 +2,7 @@ import sublime
 
 import posixpath
 from collections import OrderedDict
+import os
 
 from .vendor.pathlib.pathlib import Path
 from ._util.glob import get_glob_matcher
@@ -432,6 +433,7 @@ class ResourcePath():
         and `exist_ok` is ``True`` (the default),
         it will be silently replaced.
 
+        :raise FileNotFoundError: if there is no resource at this path.
         :raise IsADirectoryError: if `target` is a directory.
         :raise FileExistsError: if `target` is a file and `exist_ok` is ``False``.
         """
@@ -443,3 +445,25 @@ class ResourcePath():
         data = self.read_bytes()
         with open(str(target), mode + 'b') as file:
             file.write(data)
+
+    def copytree(self, target, exist_ok=False):
+        """
+        Copy all resources beneath this path into a directory tree rooted at `target`.
+
+        All missing parent directories of `target` will be created.
+
+        If `exist_ok` is ``False`` (the default),
+        then `target` must not already exist.
+        If `exist_ok` is ``True``,
+        then existing files under `target` will be overwritten.
+
+        :raise FileExistsError: if `target` already exists and `exist_ok` is ``False``.
+        """
+        target = Path(target)
+
+        os.makedirs(str(target), exist_ok=exist_ok)
+
+        for resource in self.rglob('*'):
+            file_path = target.joinpath(*resource.relative_to(self))
+            os.makedirs(str(file_path.parent), exist_ok=True)
+            resource.copy(file_path)
