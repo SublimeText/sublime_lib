@@ -263,13 +263,13 @@ class ResourcePath():
 
         :raise ValueError: if this path is not a descendant of `other`.
         """
-        other = ResourcePath(*other)
-        other_len = len(other.parts)
+        other_path = ResourcePath(*other)
+        other_len = len(other_path.parts)
 
-        if other.parts == self._parts[:other_len]:
+        if other_path.parts == self._parts[:other_len]:
             return self._parts[other_len:]
         else:
-            raise ValueError("{!s} does not start with {!s}".format(self, other))
+            raise ValueError("{!s} does not start with {!s}".format(self, other_path))
 
     def with_name(self, name):
         """
@@ -305,7 +305,7 @@ class ResourcePath():
                 new_name = self.stem
         else:
             if isinstance(suffix, str):
-                suffixes = (suffix,)
+                suffixes = [suffix]
             else:
                 suffixes = sorted(suffix, key=len, reverse=True)
 
