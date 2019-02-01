@@ -54,6 +54,8 @@ class ResourcePath():
     Leading slashes are not matched literally.
     A pattern with a leading slash must match the entire path
     and not merely a suffix of the path.
+
+    .. versionadded:: 1.2
     """
 
     @classmethod
@@ -262,6 +264,8 @@ class ResourcePath():
         `other` will be converted to a :class:`ResourcePath`.
 
         :raise ValueError: if this path is not a descendant of `other`.
+
+        .. versionadded:: 1.3
         """
         other_path = ResourcePath(*other)
         other_len = len(other_path.parts)
@@ -283,6 +287,8 @@ class ResourcePath():
     def add_suffix(self, suffix):
         """
         Return a new path with the suffix added.
+
+        .. versionadded:: 1.3
         """
         return self.with_name(self.name + suffix)
 
@@ -297,6 +303,8 @@ class ResourcePath():
 
         :raise ValueError: if `must_remove` is ``True`` (the default)
             and no suffix can be removed.
+
+        .. versionadded:: 1.3
         """
         new_name = None
 
@@ -436,6 +444,8 @@ class ResourcePath():
         :raise FileNotFoundError: if there is no resource at this path.
         :raise IsADirectoryError: if `target` is a directory.
         :raise FileExistsError: if `target` is a file and `exist_ok` is ``False``.
+
+        .. versionadded:: 1.3
         """
         if exist_ok:
             mode = 'w'
@@ -458,6 +468,8 @@ class ResourcePath():
         then existing files under `target` will be overwritten.
 
         :raise FileExistsError: if `target` already exists and `exist_ok` is ``False``.
+
+        .. versionadded:: 1.3
         """
         target = Path(target)
 
