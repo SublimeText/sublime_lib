@@ -75,7 +75,10 @@ SPECIAL_METHODS = {
         Text(' '),
         SphinxNodes.desc_name('', '', Text('=')),
         Text(' '),
-        emphasis('', parameters_node.children[1].astext()),
+        emphasis('', (
+            (parameters_node.children[1].astext())
+            if len(parameters_node.children) > 1 else ''
+        )),
     ),
     '__delitem__': lambda name_node, parameters_node: inline(
         '', '',

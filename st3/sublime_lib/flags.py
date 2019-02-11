@@ -27,11 +27,15 @@ Descendants of :class:`IntFlag` accept zero or more arguments:
 
 import sublime
 
-from .vendor.python.enum import IntEnum, IntFlag
-from inspect import cleandoc
+from .vendor.python.enum import IntEnum, IntFlag, EnumMeta
+from inspect import getdoc, cleandoc
 
 from ._util.enum import ExtensibleConstructorMeta, construct_union, construct_with_alternatives
 
+try:
+    from typing import Callable, Optional
+except ImportError:
+    pass
 
 __all__ = [
     'DialogResult', 'PointClass', 'FindOption', 'RegionOption',
@@ -39,14 +43,14 @@ __all__ = [
 ]
 
 
-def autodoc(prefix=None):
+def autodoc(prefix: 'Optional[str]' = None) -> 'Callable[[EnumMeta], EnumMeta]':
     if prefix is None:
         prefix_str = ''
     else:
         prefix_str = prefix + '_'
 
-    def decorator(enum):
-        enum.__doc__ = cleandoc(enum.__doc__) + '\n\n' + '\n'.join([
+    def decorator(enum: EnumMeta) -> EnumMeta:
+        enum.__doc__ = getdoc(enum) + '\n\n' + '\n'.join([
             cleandoc("""
             .. py:attribute:: {name}
                 :annotation: = sublime.{pre}{name}

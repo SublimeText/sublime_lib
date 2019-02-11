@@ -1,12 +1,21 @@
 from functools import wraps
 
+try:
+    from typing import Any, Callable, ContextManager, Optional, TypeVar
 
-def define_guard(guard_fn):
-    def decorator(wrapped):
+    _Self = TypeVar('_Self')
+    _R = TypeVar('_R')
+    _WrappedType = Callable[..., _R]
+except ImportError:
+    pass
+
+
+def define_guard(guard_fn: 'Callable[[_Self], Optional[ContextManager]]') -> 'Callable[[_WrappedType], _WrappedType]':
+    def decorator(wrapped: '_WrappedType') -> '_WrappedType':
         @wraps(wrapped)
-        def wrapper_guards(self, *args, **kwargs):
+        def wrapper_guards(self: '_Self', *args: 'Any', **kwargs: 'Any') -> '_R':
             ret_val = guard_fn(self)
-            if hasattr(ret_val, '__enter__'):
+            if ret_val is not None:
                 with ret_val:
                     return wrapped(self, *args, **kwargs)
             else:

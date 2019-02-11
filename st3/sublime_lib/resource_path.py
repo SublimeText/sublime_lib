@@ -6,22 +6,26 @@ from collections import OrderedDict
 from .vendor.pathlib.pathlib import Path
 from ._util.glob import get_glob_matcher
 
+try:
+    from typing import Dict, List, Optional, Tuple
+except ImportError:
+    pass
 
 __all__ = ['ResourcePath']
 
 
-def get_resource_roots():
+def get_resource_roots() -> 'Dict[str, str]':
     return {
         'Packages': sublime.packages_path(),
         'Cache': sublime.cache_path(),
     }
 
 
-def get_installed_resource_roots():
-    return (
+def get_installed_resource_roots() -> 'List[str]':
+    return [
         sublime.installed_packages_path(),
-        Path(sublime.executable_path()).parent / 'Packages',
-    )
+        str(Path(sublime.executable_path()).parent / 'Packages'),
+    ]
 
 
 class ResourcePath():
@@ -56,7 +60,7 @@ class ResourcePath():
     """
 
     @classmethod
-    def glob_resources(cls, pattern):
+    def glob_resources(cls, pattern: str) -> 'List[ResourcePath]':
         """
         Find all resources that match the given pattern
         and return them as :class:`ResourcePath` objects.
@@ -68,7 +72,7 @@ class ResourcePath():
         ]
 
     @classmethod
-    def from_file_path(cls, file_path):
+    def from_file_path(cls, file_path: object) -> 'ResourcePath':
         """
         Return a :class:`ResourcePath` corresponding to the given file path.
 
@@ -121,7 +125,7 @@ class ResourcePath():
 
         raise ValueError("Path {!r} does not correspond to any resource path.".format(file_path))
 
-    def __init__(self, *pathsegments):
+    def __init__(self, *pathsegments: object):
         """
         Construct a :class:`ResourcePath` object with the given parts.
 
@@ -135,30 +139,30 @@ class ResourcePath():
         if self._parts == ():
             raise ValueError("Empty path.")
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.parts)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "{}({!r})".format(self.__class__.__name__, str(self))
 
-    def __str__(self):
+    def __str__(self) -> str:
         return '/'.join(self.parts)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         return isinstance(other, ResourcePath) and self._parts == other.parts
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: object) -> 'ResourcePath':
         return self.joinpath(other)
 
     @property
-    def parts(self):
+    def parts(self) -> 'Tuple[str, ...]':
         """
         A tuple giving access to the path’s various components.
         """
         return self._parts
 
     @property
-    def parent(self):
+    def parent(self) -> 'ResourcePath':
         """
         The logical parent of the path. A root path is its own parent.
         """
@@ -168,7 +172,7 @@ class ResourcePath():
             return self.__class__(*self._parts[:-1])
 
     @property
-    def parents(self):
+    def parents(self) -> 'Tuple[ResourcePath, ...]':
         """
         An immutable sequence providing access to the path's logical ancestors.
         """
@@ -179,14 +183,14 @@ class ResourcePath():
             return (parent,) + parent.parents
 
     @property
-    def name(self):
+    def name(self) -> str:
         """
         A string representing the final path component.
         """
         return self._parts[-1]
 
     @property
-    def suffix(self):
+    def suffix(self) -> str:
         """
         The final component's last suffix, if any.
         """
@@ -198,7 +202,7 @@ class ResourcePath():
             return ''
 
     @property
-    def suffixes(self):
+    def suffixes(self) -> 'List[str]':
         """
         A list of the final component's suffixes, if any.
         """
@@ -209,7 +213,7 @@ class ResourcePath():
         return ['.' + suffix for suffix in name.split('.')[1:]]
 
     @property
-    def stem(self):
+    def stem(self) -> str:
         """
         The final path component, minus its last suffix.
         """
@@ -221,14 +225,14 @@ class ResourcePath():
             return name
 
     @property
-    def root(self):
+    def root(self) -> str:
         """
         The first path component (usually ``'Packages'`` or ``'Cache'``).
         """
         return self._parts[0]
 
     @property
-    def package(self):
+    def package(self) -> 'Optional[str]':
         """
         The name of the package the path is within,
         or ``None`` if the path is a root path.
@@ -238,7 +242,7 @@ class ResourcePath():
         else:
             return None
 
-    def match(self, pattern):
+    def match(self, pattern: str) -> bool:
         """
         Return ``True`` if this path matches the given glob pattern,
         or ``False`` otherwise.
@@ -248,13 +252,13 @@ class ResourcePath():
         match = get_glob_matcher(pattern)
         return match(str(self))
 
-    def joinpath(self, *other):
+    def joinpath(self, *other: object) -> 'ResourcePath':
         """
         Combine this path with all of the given strings.
         """
         return self.__class__(self, *other)
 
-    def relative_to(self, *other):
+    def relative_to(self, *other: object) -> 'Tuple[str, ...]':
         """
         Compute a tuple `parts` of path components such that ``self == other.joinpath(*parts)``.
 
@@ -262,15 +266,15 @@ class ResourcePath():
 
         :raise ValueError: if this path is not a descendant of `other`.
         """
-        other = ResourcePath(*other)
-        other_len = len(other.parts)
+        other_path = ResourcePath(*other)
+        other_len = len(other_path.parts)
 
-        if other.parts == self._parts[:other_len]:
+        if other_path.parts == self._parts[:other_len]:
             return self._parts[other_len:]
         else:
-            raise ValueError("{!s} does not start with {!s}".format(self, other))
+            raise ValueError("{!s} does not start with {!s}".format(self, other_path))
 
-    def with_name(self, name):
+    def with_name(self, name: str) -> 'ResourcePath':
         """
         Return a new path with the name changed.
         """
@@ -279,13 +283,15 @@ class ResourcePath():
         else:
             return self.parent / name
 
-    def add_suffix(self, suffix):
+    def add_suffix(self, suffix: str) -> 'ResourcePath':
         """
         Return a new path with the suffix added.
         """
         return self.with_name(self.name + suffix)
 
-    def remove_suffix(self, suffix=None, *, must_remove=True):
+    def remove_suffix(
+        self, suffix: 'Optional[str]' = None, *, must_remove: bool = True
+    ) -> 'ResourcePath':
         """
         Return a new path with the suffix removed.
 
@@ -304,7 +310,7 @@ class ResourcePath():
                 new_name = self.stem
         else:
             if isinstance(suffix, str):
-                suffixes = (suffix,)
+                suffixes = [suffix]
             else:
                 suffixes = sorted(suffix, key=len, reverse=True)
 
@@ -323,7 +329,7 @@ class ResourcePath():
         else:
             return self
 
-    def with_suffix(self, suffix):
+    def with_suffix(self, suffix: str) -> 'ResourcePath':
         """
         Return a new path with the suffix changed.
 
@@ -335,7 +341,7 @@ class ResourcePath():
         """
         return self.with_name(self.stem + suffix)
 
-    def file_path(self):
+    def file_path(self) -> Path:
         """
         Return a :class:`Path` object representing a filesystem path
         inside one of Sublime's data directories.
@@ -351,7 +357,7 @@ class ResourcePath():
         except KeyError:
             raise ValueError("Can't find a filesystem path for {!r}.".format(self.root)) from None
 
-    def exists(self):
+    def exists(self) -> bool:
         """
         Return ``True`` if there is a resource at this path,
         or ``False`` otherwise.
@@ -362,7 +368,7 @@ class ResourcePath():
         """
         return str(self) in sublime.find_resources(self.name)
 
-    def read_text(self):
+    def read_text(self) -> str:
         """
         Load the resource at this path and return it as text.
 
@@ -375,7 +381,7 @@ class ResourcePath():
         except IOError as err:
             raise FileNotFoundError(str(self)) from err
 
-    def read_bytes(self):
+    def read_bytes(self) -> bytes:
         """
         Load the resource at this path and return it as bytes.
 
@@ -386,7 +392,7 @@ class ResourcePath():
         except IOError as err:
             raise FileNotFoundError(str(self)) from err
 
-    def glob(self, pattern):
+    def glob(self, pattern: str) -> 'List[ResourcePath]':
         """
         Glob the given pattern at this path, returning all matching resources.
 
@@ -395,7 +401,7 @@ class ResourcePath():
         base = '/' + str(self) + '/' if self._parts else ''
         return ResourcePath.glob_resources(base + pattern)
 
-    def rglob(self, pattern):
+    def rglob(self, pattern: str) -> 'List[ResourcePath]':
         """
         Shorthand for ``path.glob('**/' + pattern)``.
 
@@ -408,7 +414,7 @@ class ResourcePath():
 
         return self.glob('**/' + pattern)
 
-    def children(self):
+    def children(self) -> 'List[ResourcePath]':
         """
         Return a list of paths that are direct children of this path
         and point to a resource at or beneath that path.
@@ -422,7 +428,7 @@ class ResourcePath():
             )
         ]
 
-    def copy(self, target, exist_ok=True):
+    def copy(self, target: object, exist_ok: bool = True) -> None:
         """
         Copy this resource to the given `target`.
 

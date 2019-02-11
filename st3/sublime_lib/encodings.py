@@ -3,7 +3,7 @@ from codecs import lookup
 __all__ = ['from_sublime', 'to_sublime']
 
 
-def from_sublime(name):
+def from_sublime(name: str) -> str:
     """Translate `name` from a Sublime encoding name to a standard Python encoding name.
 
     :raise ValueError: if `name` is not a Sublime encoding.
@@ -20,7 +20,7 @@ def from_sublime(name):
         raise ValueError("Unknown Sublime encoding {!r}.".format(name)) from None
 
 
-def to_sublime(name):
+def to_sublime(name: str) -> str:
     """Translate `name` from a standard Python encoding name to a Sublime encoding name.
 
     :raise ValueError: if `name` is not a Python encoding.

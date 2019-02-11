@@ -1,7 +1,16 @@
-from ._util.collections import is_sequence_not_str, isiterable
+import sublime
+
+from ._util.collections import isiterable
 from ._util.named_value import NamedValue
 from .flags import QuickPanelOption
+from collections.abc import Sequence
 
+try:
+    from typing import Any, Callable, List, Optional, TypeVar, Union
+
+    _ItemType = TypeVar('_ItemType')
+except ImportError:
+    pass
 
 __all__ = ['show_selection_panel', 'NO_SELECTION']
 
@@ -10,16 +19,16 @@ NO_SELECTION = NamedValue('NO_SELECTION')
 
 
 def show_selection_panel(
-    window,
-    items,
+    window: sublime.Window,
+    items: 'Sequence[_ItemType]',
     *,
-    flags=0,
-    labels=None,
-    selected=NO_SELECTION,
-    on_select=None,
-    on_cancel=None,
-    on_highlight=None
-):
+    flags: 'Any' = 0,
+    labels: 'Union[Sequence[object], Callable[[_ItemType], object]]' = None,
+    selected: 'Union[NamedValue, _ItemType]' = NO_SELECTION,
+    on_select: 'Optional[Callable[[_ItemType], object]]' = None,
+    on_cancel: 'Optional[Callable[[], object]]' = None,
+    on_highlight: 'Optional[Callable[[_ItemType], object]]' = None
+) -> None:
     """Open a quick panel in the given window to select an item from a list.
 
     :argument window: The :class:`sublime.Window` in which to show the panel.
@@ -79,17 +88,17 @@ def show_selection_panel(
     elif len(items) != len(labels):
         raise ValueError("The lengths of `items` and `labels` must match.")
 
-    def normalize_label(label):
-        if is_sequence_not_str(label):
+    def normalize_label(label: object) -> 'List[str]':
+        if isinstance(label, Sequence) and not isinstance(label, str):
             return list(map(str, label))
         else:
             return [str(label)]
 
-    labels = list(map(normalize_label, labels))
-    max_len = max(map(len, labels))
-    labels = [rows + [''] * (max_len - len(rows)) for rows in labels]
+    label_strings = list(map(normalize_label, labels))
+    max_len = max(map(len, label_strings))
+    label_strings = [rows + [''] * (max_len - len(rows)) for rows in label_strings]
 
-    def on_done(index):
+    def on_done(index: int) -> None:
         if index == -1:
             if on_cancel:
                 on_cancel()
@@ -113,7 +122,7 @@ def show_selection_panel(
     # The signature in the API docs is wrong.
     # See https://github.com/SublimeTextIssues/Core/issues/2290
     window.show_quick_panel(
-        items=labels,
+        items=label_strings,
         on_select=on_done,
         flags=flags,
         selected_index=selected_index,
