@@ -24,12 +24,15 @@ class TestFlags(TestCase):
         self._test_enum(flags.DialogResult, 'DIALOG_')
         self._test_enum(flags.PointClass, 'CLASS_')
         self._test_enum(flags.PhantomLayout, 'LAYOUT_')
+        self._test_enum(flags.HoverLocation, 'HOVER_')
+        self._test_enum(flags.QueryContextOperator, 'OP_')
 
         self._test_enum(flags.FindOption)
         self._test_enum(flags.RegionOption)
         self._test_enum(flags.PopupOption)
         self._test_enum(flags.OpenFileOption)
         self._test_enum(flags.QuickPanelOption)
+        self._test_enum(flags.CompletionOptions)
 
     def test_from_strings(self):
         self.assertEqual(

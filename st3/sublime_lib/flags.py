@@ -173,3 +173,42 @@ class QuickPanelOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     MONOSPACE_FONT = sublime.MONOSPACE_FONT
     KEEP_OPEN_ON_FOCUS_LOST = sublime.KEEP_OPEN_ON_FOCUS_LOST
+
+
+@autodoc('HOVER')
+@construct_from_name
+class HoverLocation(IntEnum):
+    """
+    An :class:`~enum.IntEnum` for use with
+    :func:`sublime_plugin.EventListener.on_hover`.
+    """
+    TEXT = sublime.HOVER_TEXT
+    GUTTER = sublime.HOVER_GUTTER
+    MARGIN = sublime.HOVER_MARGIN
+
+
+@autodoc('OP')
+@construct_from_name
+class QueryContextOperator(IntEnum):
+    """
+    An :class:`~enum.IntEnum` for use with
+    :func:`sublime_plugin.EventListener.on_query_context`.
+    """
+    EQUAL = sublime.OP_EQUAL
+    NOT_EQUAL = sublime.OP_NOT_EQUAL
+    REGEX_MATCH = sublime.OP_REGEX_MATCH
+    NOT_REGEX_MATCH = sublime.OP_NOT_REGEX_MATCH
+    REGEX_CONTAINS = sublime.OP_REGEX_CONTAINS
+    NOT_REGEX_CONTAINS = sublime.OP_NOT_REGEX_CONTAINS
+
+
+@autodoc()
+@construct_union
+@construct_from_name
+class CompletionOptions(IntFlag, metaclass=ExtensibleConstructorMeta):
+    """
+    An :class:`~enum.IntFlag` for use with
+    :func:`sublime_plugin.EventListener.on_query_completions`.
+    """
+    INHIBIT_WORD_COMPLETIONS = sublime.INHIBIT_WORD_COMPLETIONS
+    INHIBIT_EXPLICIT_COMPLETIONS = sublime.INHIBIT_EXPLICIT_COMPLETIONS
