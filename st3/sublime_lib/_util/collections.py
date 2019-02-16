@@ -16,7 +16,10 @@ except ImportError:
 __all__ = ['projection', 'get_selector', 'isiterable', 'ismapping', 'is_sequence_not_str']
 
 
-def projection(d: 'Dict[str, _V]', keys: 'Union[Dict[str, str], Iterable[str]]') -> 'Dict[str, _V]':
+def projection(
+    d: 'Dict[str, _V]',
+    keys: 'Union[Dict[str, str], Iterable[str]]'
+) -> 'Dict[str, _V]':
     """
     Return a new :class:`dict` with keys of ``d`` restricted to values in ``keys``.
 
