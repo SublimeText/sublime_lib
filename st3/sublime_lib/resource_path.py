@@ -11,18 +11,102 @@ from ._util.glob import get_glob_matcher
 __all__ = ['ResourcePath']
 
 
-def get_resource_roots():
-    return {
-        'Packages': sublime.packages_path(),
-        'Cache': sublime.cache_path(),
-    }
+def _abs_parts(path):
+    if path.root:
+        return (path.drive, path.root) + path.parts[1:]
+    else:
+        return path.parts
+
+def _file_relative_to(path, base):
+    """
+    Like Path.relative_to, except:
+
+    - `base` must be a single Path object.
+    - The error message is blank.
+    - Only a tuple of parts is returned.
+
+    Surprisingly, this is much, much faster.
+    """
+    child_parts = _abs_parts(path)
+    base_parts = _abs_parts(base)
+
+    n = len(base_parts)
+    cf = path._flavour.casefold_parts
+
+    if n == 0:
+        compare = (path.root or path.drive)
+    else:
+        compare = cf(child_parts[:n])
+
+    if compare != cf(base_parts):
+        raise ValueError()
+
+    return child_parts[n:]
 
 
-def get_installed_resource_roots():
-    return (
-        sublime.installed_packages_path(),
-        Path(sublime.executable_path()).parent / 'Packages',
-    )
+class ResourceRoot():
+    def __init__(self, root, path):
+        self.resource_root = ResourcePath(root)
+        self.file_root = Path(path)
+
+    def resource_to_file_path(self, resource_path):
+        resource_path = ResourcePath(resource_path)
+
+        parts = resource_path.relative_to(self.resource_root)
+        if parts == ():
+            return self.file_root
+        else:
+            return self._package_file_path(*parts)
+
+    def file_to_resource_path(self, file_path):
+        file_path = wrap_path(file_path)
+
+        if not file_path.is_absolute():
+            raise ValueError("Cannot convert a relative file path to a resource path.")
+
+        parts = _file_relative_to(file_path, self.file_root)
+        # parts = file_path.relative_to(self.file_root).parts
+        if parts == ():
+            return self.resource_root
+        else:
+            return self._package_resource_path(*parts)
+
+
+class DirectoryResourceRoot(ResourceRoot):
+    def _package_file_path(self, *parts):
+        return self.file_root.joinpath(*parts)
+
+    def _package_resource_path(self, *parts):
+        return self.resource_root.joinpath(*parts)
+
+
+class InstalledResourceRoot(ResourceRoot):
+    def _package_file_path(self, package, *rest):
+        return self.file_root.joinpath(package + '.sublime-package', *rest)
+
+    def _package_resource_path(self, package, *rest):
+        package_path = (self.resource_root / package).remove_suffix('.sublime-package')
+        return package_path.joinpath(*rest)
+
+
+def wrap_path(p):
+    if isinstance(p, Path):
+        return p
+    else:
+        return Path(p)
+
+
+_ROOTS = None
+def get_roots():
+    global _ROOTS
+    if _ROOTS is None:
+        _ROOTS = [
+            DirectoryResourceRoot('Cache', sublime.cache_path()),
+            DirectoryResourceRoot('Packages', sublime.packages_path()),
+            InstalledResourceRoot('Packages', sublime.installed_packages_path()),
+            InstalledResourceRoot('Packages', Path(sublime.executable_path()).parent / 'Packages'),
+        ]
+    return _ROOTS
 
 
 class ResourcePath():
@@ -97,30 +181,13 @@ class ResourcePath():
            )
            ResourcePath("Packages/My Package/foo.py")
         """
-        file_path = Path(file_path)
-        if not file_path.is_absolute():
-            raise ValueError("Cannot convert a relative file path to a resource path.")
 
-        for root, base in get_resource_roots().items():
+        file_path = wrap_path(file_path)
+        for root in get_roots():
             try:
-                rel = file_path.relative_to(base)
+                return root.file_to_resource_path(file_path)
             except ValueError:
-                pass
-            else:
-                return cls(root, *rel.parts)
-
-        for base in get_installed_resource_roots():
-            try:
-                rel = file_path.relative_to(base).parts
-
-                if rel == ():
-                    return cls('Packages')
-                else:
-                    package, *rest = rel
-                    return (cls('Packages', package)
-                            .remove_suffix('.sublime-package').joinpath(*rest))
-            except ValueError:
-                pass
+                continue
 
         raise ValueError("Path {!r} does not correspond to any resource path.".format(file_path))
 
@@ -130,13 +197,21 @@ class ResourcePath():
 
         :raise ValueError: if the resulting path would be empty.
         """
-        self._parts = tuple(
+        first, *rest = pathsegments
+        if isinstance(first, ResourcePath):
+            self._parts = first.parts + self._parse_segments(rest)
+        else:
+            self._parts = self._parse_segments(pathsegments)
+
+        if self._parts == ():
+            raise ValueError("Empty path.")
+
+    def _parse_segments(self, pathsegments):
+        return tuple(
             part
             for segment in pathsegments if segment
             for part in posixpath.normpath(str(segment)).split('/')
         )
-        if self._parts == ():
-            raise ValueError("Empty path.")
 
     def __hash__(self):
         return hash(self.parts)
@@ -355,10 +430,13 @@ class ResourcePath():
 
         :raise ValueError: if the path's root is not used by Sublime.
         """
-        try:
-            return Path(get_resource_roots()[self.root]).joinpath(*self.parts[1:])
-        except KeyError:
-            raise ValueError("Can't find a filesystem path for {!r}.".format(self.root)) from None
+        for root in get_roots():
+            try:
+                return root.resource_to_file_path(self)
+            except ValueError:
+                continue
+
+        raise ValueError("Can't find a filesystem path for {!r}.".format(self.root)) from None
 
     def exists(self):
         """
@@ -471,7 +549,7 @@ class ResourcePath():
 
         .. versionadded:: 1.3
         """
-        target = Path(target)
+        target = wrap_path(target)
 
         os.makedirs(str(target), exist_ok=exist_ok)
 
