@@ -45,3 +45,19 @@ class TestFlags(TestCase):
             flags.RegionOption(),
             flags.RegionOption(0)
         )
+
+    def test_query_context_operators(self):
+        ops = flags.QueryContextOperator
+
+        tests = [
+            ('EQUAL', 'x', 'x', 'y'),
+            ('REGEX_MATCH', 'aaa', r'a+', r'a'),
+            ('REGEX_CONTAINS', 'aaa', r'a', r'b'),
+        ]
+
+        for op, key, success, failure in tests:
+            self.assertTrue(ops(op).apply(key, success))
+            self.assertFalse(ops(op).apply(key, failure))
+
+            self.assertTrue(ops('NOT_' + op).apply(key, failure))
+            self.assertFalse(ops('NOT_' + op).apply(key, success))
