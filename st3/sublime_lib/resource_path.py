@@ -226,16 +226,11 @@ class ResourcePath():
         """
 
         file_path = wrap_path(file_path)
-        try:
-            return next(
-                path
-                for path in (
-                    root.file_to_resource_path(file_path)
-                    for root in get_roots()
-                )
-                if path is not None
-            )
-        except StopIteration:
+        candidates = (root.file_to_resource_path(file_path) for root in get_roots())
+        path = next(filter(None, candidates), None)
+        if path:
+            return path
+        else:
             raise ValueError(
                 "Path {!r} does not correspond to any resource path.".format(file_path)
             )
