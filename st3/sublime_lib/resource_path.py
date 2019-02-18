@@ -3,6 +3,7 @@ import sublime
 import posixpath
 from collections import OrderedDict
 import os
+from abc import ABCMeta, abstractmethod
 
 from .vendor.pathlib.pathlib import Path
 from ._util.glob import get_glob_matcher
@@ -16,6 +17,7 @@ def _abs_parts(path):
         return (path.drive, path.root) + path.parts[1:]
     else:
         return path.parts
+
 
 def _file_relative_to(path, base):
     """
@@ -39,17 +41,26 @@ def _file_relative_to(path, base):
         compare = cf(child_parts[:n])
 
     if compare != cf(base_parts):
-        raise ValueError()
+        return None
 
     return child_parts[n:]
 
 
-class ResourceRoot():
+class ResourceRoot(metaclass=ABCMeta):
+    """
+    Represents a directory containing packages.
+    """
     def __init__(self, root, path):
         self.resource_root = ResourcePath(root)
         self.file_root = Path(path)
 
     def resource_to_file_path(self, resource_path):
+        """
+        Given a :class:`ResourcePath`,
+        return the corresponding :class:`Path` within this resource root.
+
+        :raise ValueError: if the :class:`ResourcePath` is not within this resource root.
+        """
         resource_path = ResourcePath(resource_path)
 
         parts = resource_path.relative_to(self.resource_root)
@@ -59,20 +70,47 @@ class ResourceRoot():
             return self._package_file_path(*parts)
 
     def file_to_resource_path(self, file_path):
+        """
+        Given an absolute :class:`Path`,
+        return the corresponging :class:`ResourcePath` within this resource root,
+        or ``None`` if there is no such :class:`ResourcePath`.
+
+        :raise ValueError: if the :class:`Path` is relative.
+        """
         file_path = wrap_path(file_path)
 
         if not file_path.is_absolute():
             raise ValueError("Cannot convert a relative file path to a resource path.")
 
         parts = _file_relative_to(file_path, self.file_root)
-        # parts = file_path.relative_to(self.file_root).parts
-        if parts == ():
+        if parts is None:
+            return None
+        elif parts == ():
             return self.resource_root
         else:
             return self._package_resource_path(*parts)
 
+    @abstractmethod
+    def _package_file_path(self, package, *parts):
+        """
+        Given a package name and zero or more path segments,
+        return the corresponding :class:`Path` within this resource root.
+        """
+        ...
+
+    @abstractmethod
+    def _package_resource_path(self, package, *parts):
+        """
+        Given a package name and zero or more path segments,
+        return the corresponding :class:`ResourcePath` within this resource root.
+        """
+        ...
+
 
 class DirectoryResourceRoot(ResourceRoot):
+    """
+    Represents a directory containing unzipped package directories.
+    """
     def _package_file_path(self, *parts):
         return self.file_root.joinpath(*parts)
 
@@ -81,6 +119,9 @@ class DirectoryResourceRoot(ResourceRoot):
 
 
 class InstalledResourceRoot(ResourceRoot):
+    """
+    Represents a directory containing zipped sublime-package files.
+    """
     def _package_file_path(self, package, *rest):
         return self.file_root.joinpath(package + '.sublime-package', *rest)
 
@@ -97,6 +138,8 @@ def wrap_path(p):
 
 
 _ROOTS = None
+
+
 def get_roots():
     global _ROOTS
     if _ROOTS is None:
@@ -183,13 +226,19 @@ class ResourcePath():
         """
 
         file_path = wrap_path(file_path)
-        for root in get_roots():
-            try:
-                return root.file_to_resource_path(file_path)
-            except ValueError:
-                continue
-
-        raise ValueError("Path {!r} does not correspond to any resource path.".format(file_path))
+        try:
+            return next(
+                path
+                for path in (
+                    root.file_to_resource_path(file_path)
+                    for root in get_roots()
+                )
+                if path is not None
+            )
+        except StopIteration:
+            raise ValueError(
+                "Path {!r} does not correspond to any resource path.".format(file_path)
+            )
 
     def __init__(self, *pathsegments):
         """
