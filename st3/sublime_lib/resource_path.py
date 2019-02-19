@@ -5,7 +5,7 @@ from collections import OrderedDict
 import os
 from abc import ABCMeta, abstractmethod
 
-from .vendor.pathlib.pathlib import Path
+from ._compat.pathlib import Path
 from ._util.glob import get_glob_matcher
 
 

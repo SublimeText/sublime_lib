@@ -3,7 +3,7 @@ import shutil
 import tempfile
 
 from sublime_lib import ResourcePath
-from sublime_lib.vendor.pathlib.pathlib import Path
+from sublime_lib._compat.pathlib import Path
 
 from unittesting import DeferrableTestCase
 
