@@ -24,12 +24,15 @@ class TestFlags(TestCase):
         self._test_enum(flags.DialogResult, 'DIALOG_')
         self._test_enum(flags.PointClass, 'CLASS_')
         self._test_enum(flags.PhantomLayout, 'LAYOUT_')
+        self._test_enum(flags.HoverLocation, 'HOVER_')
+        self._test_enum(flags.QueryContextOperator, 'OP_')
 
         self._test_enum(flags.FindOption)
         self._test_enum(flags.RegionOption)
         self._test_enum(flags.PopupOption)
         self._test_enum(flags.OpenFileOption)
         self._test_enum(flags.QuickPanelOption)
+        self._test_enum(flags.CompletionOptions)
 
     def test_from_strings(self):
         self.assertEqual(
@@ -42,3 +45,19 @@ class TestFlags(TestCase):
             flags.RegionOption(),
             flags.RegionOption(0)
         )
+
+    def test_query_context_operators(self):
+        ops = flags.QueryContextOperator
+
+        tests = [
+            ('EQUAL', 'x', 'x', 'y'),
+            ('REGEX_MATCH', 'aaa', r'a+', r'a'),
+            ('REGEX_CONTAINS', 'aaa', r'a', r'b'),
+        ]
+
+        for op, key, success, failure in tests:
+            self.assertTrue(ops(op).apply(key, success))
+            self.assertFalse(ops(op).apply(key, failure))
+
+            self.assertTrue(ops('NOT_' + op).apply(key, failure))
+            self.assertFalse(ops('NOT_' + op).apply(key, success))
