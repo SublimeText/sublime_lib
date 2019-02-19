@@ -4,7 +4,7 @@ import posixpath
 from collections import OrderedDict
 import os
 
-from .vendor.pathlib.pathlib import Path
+from ._compat.pathlib import Path
 from ._util.glob import get_glob_matcher
 
 
