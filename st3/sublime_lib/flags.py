@@ -30,6 +30,9 @@ import sublime
 from .vendor.python.enum import IntEnum, IntFlag, EnumMeta
 from inspect import getdoc, cleandoc
 
+import operator
+import re
+
 from ._util.enum import ExtensibleConstructorMeta, construct_union, construct_with_alternatives
 
 try:
@@ -37,9 +40,11 @@ try:
 except ImportError:
     pass
 
+
 __all__ = [
     'DialogResult', 'PointClass', 'FindOption', 'RegionOption',
-    'PopupOption', 'PhantomLayout', 'OpenFileOption', 'QuickPanelOption'
+    'PopupOption', 'PhantomLayout', 'OpenFileOption', 'QuickPanelOption',
+    'HoverLocation', 'QueryContextOperator', 'CompletionOptions'
 ]
 
 
@@ -177,3 +182,90 @@ class QuickPanelOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     MONOSPACE_FONT = sublime.MONOSPACE_FONT
     KEEP_OPEN_ON_FOCUS_LOST = sublime.KEEP_OPEN_ON_FOCUS_LOST
+
+
+@autodoc('HOVER')
+@construct_from_name
+class HoverLocation(IntEnum):
+    """
+    An :class:`~enum.IntEnum` for use with
+    :func:`sublime_plugin.EventListener.on_hover`.
+    """
+    TEXT = sublime.HOVER_TEXT
+    GUTTER = sublime.HOVER_GUTTER
+    MARGIN = sublime.HOVER_MARGIN
+
+
+def regex_match(value, operand):
+    expr = r'(?:{})\Z'.format(operand)
+    return re.match(expr, value) is not None
+
+
+def not_regex_match(value, operand):
+    return not regex_match(value, operand)
+
+
+def regex_contains(value, operand):
+    return re.search(operand, value) is not None
+
+
+def not_regex_contains(value, operand):
+    return not regex_contains(value, operand)
+
+
+@autodoc('OP')
+@construct_from_name
+class QueryContextOperator(IntEnum):
+    """
+    An :class:`~enum.IntEnum` for use with
+    :func:`sublime_plugin.EventListener.on_query_context`.
+
+    .. py:method:: apply(value, operand)
+
+        Apply the operation to the given values.
+
+        For regexp operators,
+        `operand` should contain the regexp to be tested against the string `value`.
+
+    Example usage:
+
+    .. code-block:: python
+
+        import sublime_plugin
+        from sublime_lib.flags import QueryContextOperator
+
+        class MyListener(sublime_plugin.EventListener):
+            def on_query_context(self, view, key, operator, operand, match_all):
+                if key == "my_example_key":
+                    value = get_some_value()
+                    return QueryContextOperator(operator).apply(value, operand)
+                else:
+                    return None
+    """
+    EQUAL = (sublime.OP_EQUAL, operator.eq)
+    NOT_EQUAL = (sublime.OP_NOT_EQUAL, operator.ne)
+    REGEX_MATCH = (sublime.OP_REGEX_MATCH, regex_match)
+    NOT_REGEX_MATCH = (sublime.OP_NOT_REGEX_MATCH, not_regex_match)
+    REGEX_CONTAINS = (sublime.OP_REGEX_CONTAINS, regex_contains)
+    NOT_REGEX_CONTAINS = (sublime.OP_NOT_REGEX_CONTAINS, not_regex_contains)
+
+    def __new__(cls, value, operator):
+        obj = int.__new__(cls, value)  # type: ignore
+        obj._value_ = value
+        obj._apply_ = operator
+        return obj
+
+    def apply(self, value, operand):
+        return self._apply_(value, operand)
+
+
+@autodoc()
+@construct_union
+@construct_from_name
+class CompletionOptions(IntFlag, metaclass=ExtensibleConstructorMeta):
+    """
+    An :class:`~enum.IntFlag` for use with
+    :func:`sublime_plugin.EventListener.on_query_completions`.
+    """
+    INHIBIT_WORD_COMPLETIONS = sublime.INHIBIT_WORD_COMPLETIONS
+    INHIBIT_EXPLICIT_COMPLETIONS = sublime.INHIBIT_EXPLICIT_COMPLETIONS

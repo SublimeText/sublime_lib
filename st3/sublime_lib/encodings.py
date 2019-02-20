@@ -12,6 +12,9 @@ def from_sublime(name: str) -> str:
 
        >>> from_sublime("Western (Windows 1252)")
        "cp1252"
+
+    .. versionchanged:: 1.3
+        Raise :exc:`ValueError` if `name` is not a Sublime encoding.
     """
 
     try:
@@ -29,6 +32,9 @@ def to_sublime(name: str) -> str:
 
        >>> to_sublime("cp1252")
        "Western (Windows 1252)"
+
+    .. versionchanged:: 1.3
+        Raise :exc:`ValueError` if `name` is not a Python encoding.
     """
     try:
         return STANDARD_TO_SUBLIME[lookup(name).name]

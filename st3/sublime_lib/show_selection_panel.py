@@ -76,7 +76,13 @@ def show_selection_panel(
     :raise ValueError: if `flags` cannot be converted
         to :class:`sublime_lib.flags.QuickPanelOption`.
 
-    ..  versionadded:: 1.2
+    .. versionadded:: 1.2
+
+    .. versionchanged:: 1.3
+        `labels` can be a mixture of strings and string sequences of uneven length.
+
+        `flags` can be any value or values
+        convertible to :class:`~sublime_lib.flags.QuickPanelOption`.
     """
     if len(items) == 0:
         raise ValueError("The items parameter must contain at least one item.")

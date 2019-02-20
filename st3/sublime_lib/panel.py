@@ -24,6 +24,8 @@ class Panel():
     .. py:attribute:: panel_name
 
         The name of the panel as it is listed in :meth:`sublime.Window.panels()`.
+
+    .. versionadded:: 1.3
     """
 
     def __init__(self, window: sublime.Window, panel_name: str):
@@ -78,6 +80,9 @@ class OutputPanel(ViewStream, Panel):
     wrapping an output panel in the given `window` with the given `name`.
 
     :raise ValueError: if `window` has no output panel called `name`.
+
+    .. versionchanged:: 1.3
+        Now a subclass of :class:`Panel`.
     """
     @classmethod
     def create(

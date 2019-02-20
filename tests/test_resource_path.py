@@ -3,7 +3,7 @@ import shutil
 import tempfile
 
 from sublime_lib import ResourcePath
-from sublime_lib.vendor.pathlib.pathlib import Path
+from sublime_lib._compat.pathlib import Path
 
 from unittesting import DeferrableTestCase
 
@@ -247,3 +247,64 @@ class TestResourcePath(DeferrableTestCase):
                 source.copy(destination)
 
             self.assertTrue(destination.is_dir())
+
+    def test_copytree(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = ResourcePath("Packages/test_package")
+            destination = Path(directory) / 'tree'
+
+            source.copytree(destination)
+
+            self.assertEqual(
+                {
+                    path.relative_to(destination).parts
+                    for path in destination.rglob('*')
+                    if path.is_file()
+                },
+                {
+                    path.relative_to(source)
+                    for path in source.rglob('*')
+                }
+            )
+
+    def test_copytree_exists_error(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = ResourcePath("Packages/test_package")
+            destination = Path(directory) / 'tree'
+            destination.mkdir()
+
+            with self.assertRaises(FileExistsError):
+                source.copytree(destination)
+
+    def test_copytree_exists(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = ResourcePath("Packages/test_package")
+            destination = Path(directory) / 'tree'
+            destination.mkdir()
+
+            helloworld_file = destination / 'helloworld.txt'
+
+            with open(str(helloworld_file), 'w') as file:
+                file.write("Nothing to see here.\n")
+
+            source.copytree(destination, exist_ok=True)
+
+            self.assertEqual(
+                {
+                    path.relative_to(destination).parts
+                    for path in destination.rglob('*')
+                    if path.is_file()
+                },
+                {
+                    path.relative_to(source)
+                    for path in source.rglob('*')
+                }
+            )
+
+            with open(str(helloworld_file)) as file:
+                helloworld_contents = file.read()
+
+            self.assertEqual(
+                helloworld_contents,
+                (source / 'helloworld.txt').read_text()
+            )
