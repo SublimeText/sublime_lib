@@ -4,10 +4,7 @@ from .view_stream import ViewStream
 from .view_utils import set_view_options, validate_view_options
 from ._util.guard import define_guard
 
-try:
-    from typing import Any
-except ImportError:
-    pass
+from ._compat.typing import Any
 
 __all__ = ['Panel', 'OutputPanel']
 
@@ -93,7 +90,7 @@ class OutputPanel(ViewStream, Panel):
         force_writes: bool = False,
         follow_cursor: bool = False,
         unlisted: bool = False,
-        **kwargs: 'Any'
+        **kwargs: Any
     ) -> 'OutputPanel':
         """Create a new output panel with the given `name` in the given `window`.
 

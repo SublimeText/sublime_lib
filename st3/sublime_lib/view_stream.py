@@ -6,10 +6,7 @@ from io import SEEK_SET, SEEK_CUR, SEEK_END, TextIOBase
 
 from ._util.guard import define_guard
 
-try:
-    from typing import Any, Generator
-except ImportError:
-    pass
+from ._compat.typing import Any, Generator
 
 
 class ViewStream(TextIOBase):
@@ -39,7 +36,7 @@ class ViewStream(TextIOBase):
 
     @define_guard
     @contextmanager
-    def guard_read_only(self) -> 'Generator[Any, None, None]':
+    def guard_read_only(self) -> Generator[Any, None, None]:
         if self.view.is_read_only():
             if self.force_writes:
                 self.view.set_read_only(False)
@@ -52,7 +49,7 @@ class ViewStream(TextIOBase):
 
     @define_guard
     @contextmanager
-    def guard_auto_indent(self) -> 'Generator[Any, None, None]':
+    def guard_auto_indent(self) -> Generator[Any, None, None]:
         settings = self.view.settings()
         if settings.get('auto_indent'):
             settings.set('auto_indent', False)

@@ -5,12 +5,9 @@ from ._util.named_value import NamedValue
 from .flags import QuickPanelOption
 from collections.abc import Sequence
 
-try:
-    from typing import Any, Callable, List, Optional, TypeVar, Union
+from ._compat.typing import Any, Callable, List, Optional, TypeVar, Union, Sequence as _Sequence
 
-    _ItemType = TypeVar('_ItemType')
-except ImportError:
-    pass
+_ItemType = TypeVar('_ItemType')
 
 __all__ = ['show_selection_panel', 'NO_SELECTION']
 
@@ -20,14 +17,14 @@ NO_SELECTION = NamedValue('NO_SELECTION')
 
 def show_selection_panel(
     window: sublime.Window,
-    items: 'Sequence[_ItemType]',
+    items: _Sequence[_ItemType],
     *,
-    flags: 'Any' = 0,
-    labels: 'Union[Sequence[object], Callable[[_ItemType], object]]' = None,
-    selected: 'Union[NamedValue, _ItemType]' = NO_SELECTION,
-    on_select: 'Optional[Callable[[_ItemType], object]]' = None,
-    on_cancel: 'Optional[Callable[[], object]]' = None,
-    on_highlight: 'Optional[Callable[[_ItemType], object]]' = None
+    flags: Any = 0,
+    labels: Union[_Sequence[object], Callable[[_ItemType], object]] = None,
+    selected: Union[NamedValue, _ItemType] = NO_SELECTION,
+    on_select: Optional[Callable[[_ItemType], object]] = None,
+    on_cancel: Optional[Callable[[], object]] = None,
+    on_highlight: Optional[Callable[[_ItemType], object]] = None
 ) -> None:
     """Open a quick panel in the given window to select an item from a list.
 
@@ -94,7 +91,7 @@ def show_selection_panel(
     elif len(items) != len(labels):
         raise ValueError("The lengths of `items` and `labels` must match.")
 
-    def normalize_label(label: object) -> 'List[str]':
+    def normalize_label(label: object) -> List[str]:
         if isinstance(label, Sequence) and not isinstance(label, str):
             return list(map(str, label))
         else:

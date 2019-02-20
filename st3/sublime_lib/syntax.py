@@ -4,10 +4,7 @@ import plistlib
 from ._util.simple_yaml import parse_simple_top_level_keys
 from .resource_path import ResourcePath
 
-try:
-    from typing import List
-except ImportError:
-    pass
+from ._compat.typing import List
 
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']
 
@@ -59,7 +56,7 @@ def get_syntax_metadata(path: ResourcePath) -> SyntaxInfo:
     )
 
 
-def list_syntaxes() -> 'List[SyntaxInfo]':
+def list_syntaxes() -> List[SyntaxInfo]:
     """Return a list of all loaded syntax definitions.
 
     Each item is a :class:`namedtuple` with the following properties:

@@ -7,16 +7,13 @@ from ._util.enum import ExtensibleConstructorMeta, construct_with_alternatives
 from .syntax import get_syntax_for_scope
 from .encodings import to_sublime
 
-try:
-    from typing import Any, Optional
-except ImportError:
-    pass
+from ._compat.typing import Any, Optional
 
 
 __all__ = ['LineEnding', 'new_view', 'close_view']
 
 
-def case_insensitive_value(cls: ExtensibleConstructorMeta, value: str) -> 'Optional[Enum]':
+def case_insensitive_value(cls: ExtensibleConstructorMeta, value: str) -> Optional[Enum]:
     return next((
         member for name, member in cls.__members__.items()
         if name.lower() == value.lower()
@@ -46,7 +43,7 @@ class LineEnding(Enum, metaclass=ExtensibleConstructorMeta):
     CR = '\r'
 
 
-def new_view(window: sublime.Window, **kwargs: 'Any') -> sublime.View:
+def new_view(window: sublime.Window, **kwargs: Any) -> sublime.View:
     """Open a new view in the given `window`, returning the :class:`~sublime.View` object.
 
     This function takes many optional keyword arguments:
@@ -111,7 +108,7 @@ def close_view(view: sublime.View, *, force: bool = False) -> None:
         raise ValueError('The view could not be closed.')
 
 
-def validate_view_options(options: 'Any') -> None:
+def validate_view_options(options: Any) -> None:
     unknown = set(options) - VIEW_OPTIONS
     if unknown:
         raise ValueError('Unknown view options: %s.' % ', '.join(list(unknown)))
@@ -126,16 +123,16 @@ def validate_view_options(options: 'Any') -> None:
 def set_view_options(
     view: sublime.View,
     *,
-    name: 'Optional[str]' = None,
-    settings: 'Optional[dict]' = None,
-    read_only: 'Optional[bool]' = None,
-    scratch: 'Optional[bool]' = None,
-    overwrite: 'Optional[bool]' = None,
-    syntax: 'Optional[str]' = None,
-    scope: 'Optional[str]' = None,
-    encoding: 'Optional[str]' = None,
-    content: 'Optional[str]' = None,
-    line_endings: 'Optional[str]' = None
+    name: Optional[str] = None,
+    settings: Optional[dict] = None,
+    read_only: Optional[bool] = None,
+    scratch: Optional[bool] = None,
+    overwrite: Optional[bool] = None,
+    syntax: Optional[str] = None,
+    scope: Optional[str] = None,
+    encoding: Optional[str] = None,
+    content: Optional[str] = None,
+    line_endings: Optional[str] = None
 ) -> None:
     if name is not None:
         view.set_name(name)

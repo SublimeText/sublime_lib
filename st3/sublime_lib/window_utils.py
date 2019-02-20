@@ -1,21 +1,18 @@
 import sublime
 
-try:
-    from typing import Optional
-except ImportError:
-    pass
+from ._compat.typing import Optional
 
 __all__ = ['new_window', 'close_window']
 
 
 def new_window(
     *,
-    menu_visible: 'Optional[bool]' = None,
-    sidebar_visible: 'Optional[bool]' = None,
-    tabs_visible: 'Optional[bool]' = None,
-    minimap_visible: 'Optional[bool]' = None,
-    status_bar_visible: 'Optional[bool]' = None,
-    project_data: 'Optional[dict]' = None
+    menu_visible: Optional[bool] = None,
+    sidebar_visible: Optional[bool] = None,
+    tabs_visible: Optional[bool] = None,
+    minimap_visible: Optional[bool] = None,
+    status_bar_visible: Optional[bool] = None,
+    project_data: Optional[dict] = None
 ) -> sublime.Window:
     """Open a new window, returning the :class:`~sublime.Window` object.
 

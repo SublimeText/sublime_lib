@@ -35,10 +35,7 @@ import re
 
 from ._util.enum import ExtensibleConstructorMeta, construct_union, construct_with_alternatives
 
-try:
-    from typing import Callable, Optional
-except ImportError:
-    pass
+from ._compat.typing import Callable, Optional
 
 
 __all__ = [
@@ -48,7 +45,7 @@ __all__ = [
 ]
 
 
-def autodoc(prefix: 'Optional[str]' = None) -> 'Callable[[EnumMeta], EnumMeta]':
+def autodoc(prefix: Optional[str] = None) -> Callable[[EnumMeta], EnumMeta]:
     if prefix is None:
         prefix_str = ''
     else:
@@ -196,20 +193,20 @@ class HoverLocation(IntEnum):
     MARGIN = sublime.HOVER_MARGIN
 
 
-def regex_match(value, operand):
+def regex_match(value: str, operand: str) -> bool:
     expr = r'(?:{})\Z'.format(operand)
     return re.match(expr, value) is not None
 
 
-def not_regex_match(value, operand):
+def not_regex_match(value: str, operand: str) -> bool:
     return not regex_match(value, operand)
 
 
-def regex_contains(value, operand):
+def regex_contains(value: str, operand: str) -> bool:
     return re.search(operand, value) is not None
 
 
-def not_regex_contains(value, operand):
+def not_regex_contains(value: str, operand: str) -> bool:
     return not regex_contains(value, operand)
 
 
@@ -249,14 +246,16 @@ class QueryContextOperator(IntEnum):
     REGEX_CONTAINS = (sublime.OP_REGEX_CONTAINS, regex_contains)
     NOT_REGEX_CONTAINS = (sublime.OP_NOT_REGEX_CONTAINS, not_regex_contains)
 
-    def __new__(cls, value, operator):
+    # _apply_ = None  # type: Callable[[str, str], bool]
+
+    def __new__(cls, value: int, operator: Callable[[str, str], bool]) -> 'QueryContextOperator':
         obj = int.__new__(cls, value)  # type: ignore
         obj._value_ = value
         obj._apply_ = operator
         return obj
 
-    def apply(self, value, operand):
-        return self._apply_(value, operand)
+    def apply(self, value: str, operand: str) -> bool:
+        return self._apply_(value, operand)  # type: ignore
 
 
 @autodoc()

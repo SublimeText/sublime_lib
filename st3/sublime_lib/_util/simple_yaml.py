@@ -1,17 +1,14 @@
 import sublime
 import re
 
-try:
-    from typing import Dict, Union
+from .._compat.typing import Dict, Union
 
-    YamlScalar = Union[str, bool, None]
-except ImportError:
-    pass
+YamlScalar = Union[str, bool, None]
 
 __all__ = ['parse_simple_top_level_keys']
 
 
-def parse_simple_top_level_keys(text: str) -> 'Dict[YamlScalar, YamlScalar]':
+def parse_simple_top_level_keys(text: str) -> Dict[YamlScalar, YamlScalar]:
     return {
         _parse_yaml_value(match.group(1)):
         _parse_yaml_value(match.group(2))
@@ -19,7 +16,7 @@ def parse_simple_top_level_keys(text: str) -> 'Dict[YamlScalar, YamlScalar]':
     }
 
 
-def _parse_yaml_value(value: str) -> 'YamlScalar':
+def _parse_yaml_value(value: str) -> YamlScalar:
     if value.startswith("'"):
         return value[1:-1].replace("''", "'")
     elif value.startswith('"'):
