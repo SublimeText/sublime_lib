@@ -1,6 +1,6 @@
 from collections.abc import Mapping, Sequence
 
-from .._compat.typing import Callable, Dict, Iterable, TypeVar, Union, overload
+from .._compat.typing import Callable, Dict, Iterable, TypeVar, Union
 
 
 _V = TypeVar('_V')
@@ -46,37 +46,13 @@ def projection(
         }
 
 
-@overload
-def get_selector(
-    selector: Callable[[Dict[str, _Value]], _Result],
-    default_value: object = None
-) -> Callable[[Dict[str, _Value]], _Result]:
-    ...
-
-
-@overload  # noqa: F811
-def get_selector(
-    selector: str,
-    default_value: _Default = None
-) -> Callable[[Dict[str, _Value]], Union[_Value, _Default]]:
-    ...
-
-
-@overload  # noqa: F811
-def get_selector(
-    selector: Iterable[str],
-    default_value: object = None
-) -> Callable[[Dict[str, _Value]], Dict[str, _Value]]:
-    ...
-
-
-def get_selector(selector, default_value=None):  # noqa: F811
+def get_selector(selector: object, default_value: object = None) -> Callable:  # noqa: F811
     if callable(selector):
         return selector
     elif isinstance(selector, str):
         return lambda this: this.get(selector, default_value)
     elif isiterable(selector):
-        return lambda this: projection(this, selector)
+        return lambda this: projection(this, selector)  # type: ignore
     else:
         raise TypeError(
             'The selector should be a function, string, or iterable of strings.'
