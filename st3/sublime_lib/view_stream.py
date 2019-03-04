@@ -81,7 +81,7 @@ class ViewStream(TextIOBase):
 
     @guard_validity
     @guard_selection
-    def read(self, size: int) -> str:
+    def read(self, size: int = -1) -> str:
         """Read and return at most `size` characters from the stream as a single :class:`str`.
 
         If `size` is negative or None, read until EOF.
@@ -94,7 +94,7 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     def readline(self, size: int = -1) -> str:
-        """Read until newline or EOF and return a single :class:`str`.
+        """Read and return one line from the stream. to a maximum of `size` characters.
 
         If the stream is already at EOF, return an empty string.
         """
