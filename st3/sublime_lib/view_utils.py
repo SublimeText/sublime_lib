@@ -7,7 +7,7 @@ from ._util.enum import ExtensibleConstructorMeta, construct_with_alternatives
 from .syntax import get_syntax_for_scope
 from .encodings import to_sublime
 
-from ._compat.typing import Any, Optional
+from ._compat.typing import Any, Optional, Mapping
 
 
 __all__ = ['LineEnding', 'new_view', 'close_view']
@@ -108,7 +108,7 @@ def close_view(view: sublime.View, *, force: bool = False) -> None:
         raise ValueError('The view could not be closed.')
 
 
-def validate_view_options(options: Any) -> None:
+def validate_view_options(options: Mapping[str, Any]) -> None:
     unknown = set(options) - VIEW_OPTIONS
     if unknown:
         raise ValueError('Unknown view options: %s.' % ', '.join(list(unknown)))
