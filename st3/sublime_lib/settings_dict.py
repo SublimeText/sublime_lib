@@ -123,8 +123,7 @@ class SettingsDict():
         if key in self:
             return self[key]
         else:
-            # self[key] = default
-            self.__setitem__(key, default)
+            self[key] = default
             return default
 
     def update(

@@ -5,4 +5,3 @@ docs/source/modules/
 *.doctree
 *.pickle
 modules.rst
-.DS_Store
