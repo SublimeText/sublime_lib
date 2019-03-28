@@ -94,7 +94,7 @@ class ViewStream(TextIOBase):
     @guard_validity
     @guard_selection
     def readline(self, size: int = -1) -> str:
-        """Read and return one line from the stream. to a maximum of `size` characters.
+        """Read and return one line from the stream, to a maximum of `size` characters.
 
         If the stream is already at EOF, return an empty string.
         """
@@ -104,7 +104,7 @@ class ViewStream(TextIOBase):
         return self._read(begin, end, size)
 
     def _read(self, begin: int, end: int, size: int) -> str:
-        if size is not None and size >= 0:
+        if size >= 0:
             end = min(end, begin + size)
 
         self._seek(end)
