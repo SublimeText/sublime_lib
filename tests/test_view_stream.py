@@ -95,6 +95,10 @@ class TestViewStream(DeferrableTestCase):
         text = self.stream.read(-1)
         self.assertEqual(text, "World!\nGoodbye, World!")
 
+        self.stream.seek(7)
+        text = self.stream.read()
+        self.assertEqual(text, "World!\nGoodbye, World!")
+
     def test_readline(self):
         self.stream.write("Hello, World!\nGoodbye, World!")
 

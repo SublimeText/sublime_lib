@@ -1,10 +1,21 @@
 from collections.abc import Mapping, Sequence
 
+from .._compat.typing import Callable, Dict, Iterable, TypeVar, Union
+
+
+_V = TypeVar('_V')
+_Result = TypeVar('_Result')
+_Default = TypeVar('_Default')
+_Value = Union[bool, int, float, str, list, dict, None]
+
 
 __all__ = ['projection', 'get_selector', 'isiterable', 'ismapping', 'is_sequence_not_str']
 
 
-def projection(d, keys):
+def projection(
+    d: Dict[str, _V],
+    keys: Union[Dict[str, str], Iterable[str]]
+) -> Dict[str, _V]:
     """
     Return a new :class:`dict` with keys of ``d`` restricted to values in ``keys``.
 
@@ -35,30 +46,30 @@ def projection(d, keys):
         }
 
 
-def get_selector(selector, default_value=None):
+def get_selector(selector: object, default_value: object = None) -> Callable:  # noqa: F811
     if callable(selector):
         return selector
     elif isinstance(selector, str):
         return lambda this: this.get(selector, default_value)
     elif isiterable(selector):
-        return lambda this: projection(this, selector)
+        return lambda this: projection(this, selector)  # type: ignore
     else:
         raise TypeError(
             'The selector should be a function, string, or iterable of strings.'
         )
 
 
-def isiterable(obj):
+def isiterable(obj: object) -> bool:
     try:
-        iter(obj)
+        iter(obj)  # type: ignore
         return True
     except TypeError:
         return False
 
 
-def ismapping(obj):
+def ismapping(obj: object) -> bool:
     return isinstance(obj, Mapping)
 
 
-def is_sequence_not_str(obj):
+def is_sequence_not_str(obj: object) -> bool:
     return isinstance(obj, Sequence) and not isinstance(obj, str)

@@ -4,6 +4,7 @@ import plistlib
 from ._util.simple_yaml import parse_simple_top_level_keys
 from .resource_path import ResourcePath
 
+from ._compat.typing import List
 
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']
 
@@ -12,7 +13,7 @@ SyntaxInfo = namedtuple('SyntaxInfo', ['path', 'name', 'scope', 'hidden'])
 SyntaxInfo.__new__.__defaults__ = (None, None, False)  # type: ignore
 
 
-def get_sublime_syntax_metadata(path):
+def get_sublime_syntax_metadata(path: ResourcePath) -> dict:
     yaml = parse_simple_top_level_keys(path.read_text())
     return {
         'name': yaml.get('name') or path.stem,
@@ -21,7 +22,7 @@ def get_sublime_syntax_metadata(path):
     }
 
 
-def get_tmlanguage_metadata(path):
+def get_tmlanguage_metadata(path: ResourcePath) -> dict:
     tree = plistlib.readPlistFromBytes(path.read_bytes())
 
     return {
@@ -31,7 +32,7 @@ def get_tmlanguage_metadata(path):
     }
 
 
-def get_hidden_tmlanguage_metadata(path):
+def get_hidden_tmlanguage_metadata(path: ResourcePath) -> dict:
     tree = plistlib.readPlistFromBytes(path.read_bytes())
 
     return {
@@ -48,14 +49,14 @@ SYNTAX_TYPES = {
 }
 
 
-def get_syntax_metadata(path):
+def get_syntax_metadata(path: ResourcePath) -> SyntaxInfo:
     return SyntaxInfo(
         path=str(path),
         **SYNTAX_TYPES[path.suffix](path)
     )
 
 
-def list_syntaxes():
+def list_syntaxes() -> List[SyntaxInfo]:
     """Return a list of all loaded syntax definitions.
 
     Each item is a :class:`namedtuple` with the following properties:
@@ -87,10 +88,13 @@ def list_syntaxes():
     ]
 
 
-def get_syntax_for_scope(scope):
+def get_syntax_for_scope(scope: str) -> str:
     """Returns the last syntax in load order that matches `scope`."""
-    return next((
-        syntax.path
-        for syntax in reversed(list_syntaxes())
-        if syntax.scope == scope
-    ), None)
+    try:
+        return next(
+            syntax.path
+            for syntax in reversed(list_syntaxes())
+            if syntax.scope == scope
+        )
+    except StopIteration:
+        raise ValueError("Cannot find syntax for scope {!r}.".format(scope)) from None

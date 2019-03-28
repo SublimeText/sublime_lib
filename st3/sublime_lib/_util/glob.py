@@ -1,6 +1,7 @@
 import re
 from functools import lru_cache
 
+from .._compat.typing import Callable
 
 __all__ = ['get_glob_matcher']
 
@@ -14,7 +15,7 @@ GLOB_RE = re.compile(r"""(?x)(
 
 
 @lru_cache()
-def get_glob_matcher(pattern):
+def get_glob_matcher(pattern: str) -> Callable[[str], bool]:
     s = ''
     if pattern.startswith('/'):
         pattern = pattern[1:]

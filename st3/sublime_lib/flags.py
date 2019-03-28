@@ -27,12 +27,16 @@ Descendants of :class:`IntFlag` accept zero or more arguments:
 
 import sublime
 
-from .vendor.python.enum import IntEnum, IntFlag
-from inspect import cleandoc
+from .vendor.python.enum import IntEnum, IntFlag, EnumMeta
+from inspect import getdoc, cleandoc
+
 import operator
 import re
 
 from ._util.enum import ExtensibleConstructorMeta, construct_union, construct_with_alternatives
+
+from ._compat.typing import Callable, Optional
+
 
 __all__ = [
     'DialogResult', 'PointClass', 'FindOption', 'RegionOption',
@@ -41,14 +45,14 @@ __all__ = [
 ]
 
 
-def autodoc(prefix=None):
+def autodoc(prefix: Optional[str] = None) -> Callable[[EnumMeta], EnumMeta]:
     if prefix is None:
         prefix_str = ''
     else:
         prefix_str = prefix + '_'
 
-    def decorator(enum):
-        enum.__doc__ = cleandoc(enum.__doc__) + '\n\n' + '\n'.join([
+    def decorator(enum: EnumMeta) -> EnumMeta:
+        enum.__doc__ = getdoc(enum) + '\n\n' + '\n'.join([
             cleandoc("""
             .. py:attribute:: {name}
                 :annotation: = sublime.{pre}{name}
@@ -189,20 +193,20 @@ class HoverLocation(IntEnum):
     MARGIN = sublime.HOVER_MARGIN
 
 
-def regex_match(value, operand):
+def regex_match(value: str, operand: str) -> bool:
     expr = r'(?:{})\Z'.format(operand)
     return re.match(expr, value) is not None
 
 
-def not_regex_match(value, operand):
+def not_regex_match(value: str, operand: str) -> bool:
     return not regex_match(value, operand)
 
 
-def regex_contains(value, operand):
+def regex_contains(value: str, operand: str) -> bool:
     return re.search(operand, value) is not None
 
 
-def not_regex_contains(value, operand):
+def not_regex_contains(value: str, operand: str) -> bool:
     return not regex_contains(value, operand)
 
 
@@ -242,14 +246,16 @@ class QueryContextOperator(IntEnum):
     REGEX_CONTAINS = (sublime.OP_REGEX_CONTAINS, regex_contains)
     NOT_REGEX_CONTAINS = (sublime.OP_NOT_REGEX_CONTAINS, not_regex_contains)
 
-    def __new__(cls, value, operator):
+    # _apply_ = None  # type: Callable[[str, str], bool]
+
+    def __new__(cls, value: int, operator: Callable[[str, str], bool]) -> 'QueryContextOperator':
         obj = int.__new__(cls, value)  # type: ignore
         obj._value_ = value
         obj._apply_ = operator
         return obj
 
-    def apply(self, value, operand):
-        return self._apply_(value, operand)
+    def apply(self, value: str, operand: str) -> bool:
+        return self._apply_(value, operand)  # type: ignore
 
 
 @autodoc()

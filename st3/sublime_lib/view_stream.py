@@ -1,9 +1,12 @@
+import sublime
 from sublime import Region
 
 from contextlib import contextmanager
 from io import SEEK_SET, SEEK_CUR, SEEK_END, TextIOBase
 
 from ._util.guard import define_guard
+
+from ._compat.typing import Any, Generator
 
 
 class ViewStream(TextIOBase):
@@ -33,7 +36,7 @@ class ViewStream(TextIOBase):
 
     @define_guard
     @contextmanager
-    def guard_read_only(self):
+    def guard_read_only(self) -> Generator[Any, None, None]:
         if self.view.is_read_only():
             if self.force_writes:
                 self.view.set_read_only(False)
@@ -46,7 +49,7 @@ class ViewStream(TextIOBase):
 
     @define_guard
     @contextmanager
-    def guard_auto_indent(self):
+    def guard_auto_indent(self) -> Generator[Any, None, None]:
         settings = self.view.settings()
         if settings.get('auto_indent'):
             settings.set('auto_indent', False)
@@ -56,12 +59,12 @@ class ViewStream(TextIOBase):
             yield
 
     @define_guard
-    def guard_validity(self):
+    def guard_validity(self) -> None:
         if not self.view.is_valid():
             raise ValueError("The underlying view is invalid.")
 
     @define_guard
-    def guard_selection(self):
+    def guard_selection(self) -> None:
         if len(self.view.sel()) == 0:
             raise ValueError("The underlying view has no selection.")
         elif len(self.view.sel()) > 1:
@@ -69,14 +72,16 @@ class ViewStream(TextIOBase):
         elif not self.view.sel()[0].empty():
             raise ValueError("The underlying view's selection is not empty.")
 
-    def __init__(self, view, *, force_writes=False, follow_cursor=False):
+    def __init__(
+        self, view: sublime.View, *, force_writes: bool = False, follow_cursor: bool = False
+    ):
         self.view = view
         self.force_writes = force_writes
         self.follow_cursor = follow_cursor
 
     @guard_validity
     @guard_selection
-    def read(self, size):
+    def read(self, size: int = -1) -> str:
         """Read and return at most `size` characters from the stream as a single :class:`str`.
 
         If `size` is negative or None, read until EOF.
@@ -88,8 +93,8 @@ class ViewStream(TextIOBase):
 
     @guard_validity
     @guard_selection
-    def readline(self, size=-1):
-        """Read until newline or EOF and return a single :class:`str`.
+    def readline(self, size: int = -1) -> str:
+        """Read and return one line from the stream, to a maximum of `size` characters.
 
         If the stream is already at EOF, return an empty string.
         """
@@ -98,8 +103,8 @@ class ViewStream(TextIOBase):
 
         return self._read(begin, end, size)
 
-    def _read(self, begin, end, size):
-        if size is not None and size >= 0:
+    def _read(self, begin: int, end: int, size: int) -> str:
+        if size >= 0:
             end = min(end, begin + size)
 
         self._seek(end)
@@ -109,7 +114,7 @@ class ViewStream(TextIOBase):
     @guard_selection
     @guard_read_only
     @guard_auto_indent
-    def write(self, s):
+    def write(self, s: str) -> int:
         """Insert the string `s` into the view immediately before the cursor
         and return the number of characters inserted.
 
@@ -122,16 +127,16 @@ class ViewStream(TextIOBase):
         self._maybe_show_cursor()
         return self.view.size() - old_size
 
-    def print(self, *objects, sep=' ', end='\n'):
+    def print(self, *objects: object, sep: str = ' ', end: str = '\n') -> None:
         """Shorthand for :func:`print()` passing this ViewStream as the `file` argument."""
-        print(*objects, file=self, sep=sep, end=end)
+        print(*objects, file=self, sep=sep, end=end)  # type: ignore
 
-    def flush(self):
+    def flush(self) -> None:
         """Do nothing. (The stream is not buffered.)"""
         pass
 
     @guard_validity
-    def seek(self, offset, whence=SEEK_SET):
+    def seek(self, offset: int, whence: int = SEEK_SET) -> int:
         """Move the cursor in the view and return the new offset.
 
         If `whence` is provided,
@@ -153,7 +158,7 @@ class ViewStream(TextIOBase):
         else:
             raise TypeError('Invalid value for argument "whence".')
 
-    def _seek(self, offset):
+    def _seek(self, offset: int) -> int:
         selection = self.view.sel()
         selection.clear()
         selection.add(Region(offset))
@@ -161,41 +166,41 @@ class ViewStream(TextIOBase):
         return self._tell()
 
     @guard_validity
-    def seek_start(self):
+    def seek_start(self) -> None:
         """Move the cursor in the view to before the first character."""
         self._seek(0)
 
     @guard_validity
-    def seek_end(self):
+    def seek_end(self) -> None:
         """Move the cursor in the view to after the last character."""
         self._seek(self.view.size())
 
     @guard_validity
     @guard_selection
-    def tell(self):
+    def tell(self) -> int:
         """Return the character offset of the cursor."""
         return self._tell()
 
-    def _tell(self):
+    def _tell(self) -> int:
         return self.view.sel()[0].b
 
     @guard_validity
     @guard_selection
-    def show_cursor(self):
+    def show_cursor(self) -> None:
         """Scroll the view to show the position of the cursor."""
         self._show_cursor()
 
-    def _show_cursor(self):
+    def _show_cursor(self) -> None:
         self.view.show(self._tell())
 
-    def _maybe_show_cursor(self):
+    def _maybe_show_cursor(self) -> None:
         if self.follow_cursor:
             self._show_cursor()
 
     @guard_validity
     @guard_selection
     @guard_read_only
-    def clear(self):
+    def clear(self) -> None:
         """Erase all text in the view."""
         self.view.run_command('select_all')
         self.view.run_command('left_delete')

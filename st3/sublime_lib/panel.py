@@ -1,6 +1,10 @@
+import sublime
+
 from .view_stream import ViewStream
 from .view_utils import set_view_options, validate_view_options
 from ._util.guard import define_guard
+
+from ._compat.typing import Any
 
 __all__ = ['Panel', 'OutputPanel']
 
@@ -21,21 +25,21 @@ class Panel():
     .. versionadded:: 1.3
     """
 
-    def __init__(self, window, panel_name):
+    def __init__(self, window: sublime.Window, panel_name: str):
         self.window = window
         self.panel_name = panel_name
 
         self._checkExists()
 
-    def _checkExists(self):
+    def _checkExists(self) -> None:
         if not self.exists():
             raise ValueError("Panel {} does not exist.".format(self.panel_name))
 
     @define_guard
-    def guard_exists(self):
+    def guard_exists(self) -> None:
         self._checkExists()
 
-    def exists(self):
+    def exists(self) -> bool:
         """Return ``True`` if the panel exists, or ``False`` otherwise.
 
         This implementation checks :meth:`sublime.Window.panels()`,
@@ -44,22 +48,22 @@ class Panel():
         return self.panel_name in self.window.panels()
 
     @guard_exists
-    def is_visible(self):
+    def is_visible(self) -> bool:
         """Return ``True`` if the panel is currently visible."""
         return self.window.active_panel() == self.panel_name
 
     @guard_exists
-    def show(self):
+    def show(self) -> None:
         """Show the panel, hiding any other visible panel."""
         self.window.run_command("show_panel", {"panel": self.panel_name})
 
     @guard_exists
-    def hide(self):
+    def hide(self) -> None:
         """Hide the panel."""
         self.window.run_command("hide_panel", {"panel": self.panel_name})
 
     @guard_exists
-    def toggle_visibility(self):
+    def toggle_visibility(self) -> None:
         """If the panel is visible, hide it; otherwise, show it."""
         if self.is_visible():
             self.hide()
@@ -80,12 +84,14 @@ class OutputPanel(ViewStream, Panel):
     @classmethod
     def create(
         cls,
-        window, name, *,
-        force_writes=False,
-        follow_cursor=False,
-        unlisted=False,
-        **kwargs
-    ):
+        window: sublime.Window,
+        name: str,
+        *,
+        force_writes: bool = False,
+        follow_cursor: bool = False,
+        unlisted: bool = False,
+        **kwargs: Any
+    ) -> 'OutputPanel':
         """Create a new output panel with the given `name` in the given `window`.
 
         If `kwargs` are given,
@@ -100,9 +106,12 @@ class OutputPanel(ViewStream, Panel):
         return cls(window, name, force_writes=force_writes, follow_cursor=follow_cursor)
 
     def __init__(
-        self, window, name, *,
-        force_writes=False,
-        follow_cursor=False
+        self,
+        window: sublime.Window,
+        name: str,
+        *,
+        force_writes: bool = False,
+        follow_cursor: bool = False
     ):
         view = window.find_output_panel(name)
         if view is None:
@@ -114,7 +123,7 @@ class OutputPanel(ViewStream, Panel):
         self.name = name
 
     @property
-    def full_name(self):
+    def full_name(self) -> str:
         """The output panel name, beginning with ``'output.'``.
 
         Generally, API methods specific to output panels will use :attr:`name`,
@@ -122,7 +131,7 @@ class OutputPanel(ViewStream, Panel):
         """
         return self.panel_name
 
-    def exists(self):
+    def exists(self) -> bool:
         """Return ``True`` if the panel exists, or ``False`` otherwise.
 
         This implementation checks that the encapsulated :class:`~sublime.View` is valid,
@@ -130,6 +139,6 @@ class OutputPanel(ViewStream, Panel):
         """
         return self.view.is_valid()
 
-    def destroy(self):
+    def destroy(self) -> None:
         """Destroy the output panel."""
         self.window.destroy_output_panel(self.name)
