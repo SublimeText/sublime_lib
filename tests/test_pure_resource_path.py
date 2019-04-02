@@ -202,6 +202,7 @@ class TestPureResourcePath(TestCase):
         self.assertFalse(path.match('Foo'))
         self.assertFalse(path.match('Packages/*/*/bar'))
         self.assertFalse(path.match('/Foo/bar'))
+        self.assertFalse(path.match('ar'))
 
     def test_joinpath(self):
         self.assertEqual(

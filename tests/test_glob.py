@@ -44,6 +44,7 @@ class TestGlob(TestCase):
             ],
             [
                 'Packages/Foo/bar/baz',
+                'FooFoo/bar',
             ]
         )
 

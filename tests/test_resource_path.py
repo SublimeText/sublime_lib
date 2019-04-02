@@ -33,6 +33,18 @@ class TestResourcePath(DeferrableTestCase):
             ]
         )
 
+        self.assertEqual(
+            ResourcePath.glob_resources("ks27jArEz4"),
+            []
+        )
+
+        self.assertEqual(
+            ResourcePath.glob_resources("*ks27jArEz4"),
+            [
+                ResourcePath('Packages/sublime_lib/tests/uniquely_named_file_ks27jArEz4')
+            ]
+        )
+
     def test_from_file_path_packages(self):
         self.assertEqual(
             ResourcePath.from_file_path(Path(sublime.packages_path(), 'test_package')),
