@@ -50,6 +50,15 @@ class ViewTarget(StatusTarget):
 
 
 class ActivityIndicator:
+    """
+    An animated text-based indicator to show that some activity is in progress.
+
+    The `target` argument should be a :class:`sublime.View` or :class:`sublime.Window`.
+    The indicator will be shown in the status bar of that view or window.
+    If `label` is provided, then it will be shown next to the animation.
+
+    :class:`ActivityIndicator` can be used as a context manager.
+    """
     width = 10  # type: int
     interval = 100  # type: float
 
@@ -86,6 +95,11 @@ class ActivityIndicator:
         self.stop()
 
     def start(self) -> None:
+        """
+        Start displaying the indicator and animate it.
+
+        :raise ValueError: if the indicator is already running.
+        """
         with self._running as is_running:
             if is_running:
                 raise ValueError('Timer is already running.')
@@ -98,6 +112,11 @@ class ActivityIndicator:
                 ).start()
 
     def stop(self) -> None:
+        """
+        Stop displaying the indicator.
+
+        If the indicator is not running, do nothing.
+        """
         self._running.set(False)
         self._target.clear()
 
