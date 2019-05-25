@@ -89,6 +89,9 @@ class ViewStream(TextIOBase):
         begin = self._tell()
         end = self.view.size()
 
+        if size is None:
+            size = -1
+
         return self._read(begin, end, size)
 
     @guard_validity

@@ -14,16 +14,14 @@ __all__ = ['ResourcePath']
 
 
 def _abs_parts(path: Path) -> Tuple[str, ...]:
-    if path.root:
-        return (path.drive, path.root) + path.parts[1:]
-    else:
-        return path.parts
+    return (path.drive, path.root) + path.parts[1:]
 
 
 def _file_relative_to(path: Path, base: Path) -> Optional[Tuple[str, ...]]:
     """
     Like Path.relative_to, except:
 
+    - Both paths must be relative.
     - `base` must be a single Path object.
     - The error message is blank.
     - Only a tuple of parts is returned.
@@ -36,12 +34,7 @@ def _file_relative_to(path: Path, base: Path) -> Optional[Tuple[str, ...]]:
     n = len(base_parts)
     cf = path._flavour.casefold_parts  # type: ignore
 
-    if n == 0:
-        compare = (path.root or path.drive)
-    else:
-        compare = cf(child_parts[:n])
-
-    if compare != cf(base_parts):
+    if cf(child_parts[:n]) != cf(base_parts):
         return None
 
     return child_parts[n:]
@@ -92,7 +85,11 @@ class ResourceRoot(metaclass=ABCMeta):
             return self._package_resource_path(*parts)
 
     @abstractmethod
-    def _package_file_path(self, package: str, *parts: str) -> Path:
+    def _package_file_path(
+        self,
+        package: str,
+        *parts: str
+    ) -> Path:  # pragma: no cover
         """
         Given a package name and zero or more path segments,
         return the corresponding :class:`Path` within this resource root.
@@ -100,7 +97,11 @@ class ResourceRoot(metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def _package_resource_path(self, package: str, *parts: str) -> 'ResourcePath':
+    def _package_resource_path(
+        self,
+        package: str,
+        *parts: str
+    ) -> 'ResourcePath':  # pragma: no cover
         """
         Given a package name and zero or more path segments,
         return the corresponding :class:`ResourcePath` within this resource root.
@@ -124,6 +125,7 @@ class InstalledResourceRoot(ResourceRoot):
     Represents a directory containing zipped sublime-package files.
     """
     def _package_file_path(self, package: str, *rest: str) -> Path:
+        # This is not currently called because there are no installed-only roots.
         return self.file_root.joinpath(package + '.sublime-package', *rest)
 
     def _package_resource_path(self, package: str, *rest: str) -> 'ResourcePath':
