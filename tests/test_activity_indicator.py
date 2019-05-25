@@ -100,6 +100,16 @@ class TestActivityIndicator(TestCase):
 
         indicator.stop()
 
+    def test_tick_called(self):
+        target = Mock()
+        indicator = ActivityIndicator(target)
+        with indicator:
+            target.set.assert_called_once_with('[=          ]')
+            target.set.reset_mock()
+            import time
+            time.sleep(0.15)
+            target.set.assert_called_once_with('[ =         ]')
+
     def test_start_twice_error(self):
         target = Mock()
         indicator = ActivityIndicator(target)
