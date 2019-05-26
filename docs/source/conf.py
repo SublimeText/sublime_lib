@@ -130,3 +130,6 @@ def setup(app):
     app.add_transform(PrettifySpecialMethods)
 
     app.connect('autodoc-skip-member', show_special_methods)
+
+    from strip_annotations import strip_annotations
+    app.connect('autodoc-process-signature', strip_annotations)
