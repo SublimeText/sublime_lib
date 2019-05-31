@@ -2,6 +2,7 @@
 omit = 
     */tests/*
     */vendor/*
+    */_compat/*
 
 [report]
 show_missing = True

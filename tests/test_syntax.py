@@ -23,6 +23,11 @@ class TestSyntax(TestCase):
             'Packages/Python/Python.sublime-syntax'
         )
 
+    def test_get_syntax_none(self):
+
+        with self.assertRaises(ValueError):
+            get_syntax_for_scope('sublime_lib.nonexistent_scope')
+
 
 class TestGetMetadata(TestCase):
 
