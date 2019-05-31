@@ -27,7 +27,6 @@ class LockedState(Generic[T]):
         """Acquire the condition and return the current state.
         """
         self._condition.acquire()
-        return self.state
 
     def __exit__(
         self,
