@@ -23,9 +23,8 @@ class LockedState(Generic[T]):
         """The current state."""
         return self._state
 
-    def __enter__(self) -> T:
-        """Acquire the condition and return the current state.
-        """
+    def __enter__(self):
+        """Acquire the condition."""
         self._condition.acquire()
 
     def __exit__(

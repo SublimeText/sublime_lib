@@ -100,7 +100,7 @@ class ActivityIndicator:
 
         :raise ValueError: if the indicator is already running.
         """
-        with self._running as is_running:
+        with self._running:
             if self._running.state:
                 raise ValueError('Timer is already running')
             else:
