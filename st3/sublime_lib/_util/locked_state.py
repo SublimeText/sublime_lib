@@ -1,4 +1,5 @@
 from threading import Condition, RLock
+from contextlib import contextmanager
 
 from types import TracebackType
 from .._compat.typing import Optional, TypeVar, Generic, Callable
@@ -11,6 +12,9 @@ __all__ = ['LockedState']
 class LockedState(Generic[T]):
     """A value wrapped in a :class:`threading.Condition`.
 
+    When a thread has acquired the condition,
+    no other thread may read or write the state.
+
     The condition uses a reentrant lock,
     so a thread may acquire it recursively.
     """
@@ -18,10 +22,29 @@ class LockedState(Generic[T]):
         self._state = initial_state
         self._condition = Condition(RLock())
 
+    @contextmanager
+    def _nonblocking_acquire(self):
+        if not self._condition.acquire(blocking=False):
+            raise RuntimeError("State cannot be acquired")
+        yield
+        self._condition.release()
+
     @property
     def state(self) -> T:
-        """The current state."""
+        """The current state.
+
+        When getting or setting the state,
+        temporarily acquire the condition without blocking.
+
+        :raise RuntimeError: if the condition cannot be acquired without blocking.
+        """
         return self._state
+
+    @state.setter
+    def state(self, state: T) -> None:
+        with self._nonblocking_acquire():
+            self._state = state
+            self._condition.notify_all()
 
     def __enter__(self):
         """Acquire the condition."""
@@ -34,12 +57,6 @@ class LockedState(Generic[T]):
         traceback: TracebackType
     ) -> None:
         self._condition.release()
-
-    def set(self, state: T) -> None:
-        """Set the state, acquiring the condition temporarily."""
-        with self._condition:
-            self._state = state
-            self._condition.notify_all()
 
     def wait_for(
         self,
