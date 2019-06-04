@@ -117,7 +117,8 @@ class ActivityIndicator:
 
         If the indicator is not running, do nothing.
         """
-        self._running.state = False
+        with self._running:
+            self._running.state = False
         self._target.clear()
 
     def _run(self) -> None:

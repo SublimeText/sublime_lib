@@ -38,7 +38,8 @@ class LockedState(Generic[T]):
 
         :raise RuntimeError: if the condition cannot be acquired without blocking.
         """
-        return self._state
+        with self._nonblocking_acquire():
+            return self._state
 
     @state.setter
     def state(self, state: T) -> None:
@@ -68,8 +69,9 @@ class LockedState(Generic[T]):
         Return ``True`` unless a given `timeout` expires,
         in which case return ``False``.
         """
+        def awaiter():
+            with self._condition:
+                return predicate(self.state)
+
         with self._condition:
-            return bool(self._condition.wait_for(
-                lambda: predicate(self.state),
-                timeout
-            ))
+            return bool(self._condition.wait_for(awaiter, timeout))
