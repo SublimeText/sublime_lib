@@ -58,6 +58,8 @@ class ActivityIndicator:
     If `label` is provided, then it will be shown next to the animation.
 
     :class:`ActivityIndicator` can be used as a context manager.
+
+    .. versionadded:: 1.4
     """
     width = 10  # type: int
     interval = 100  # type: float

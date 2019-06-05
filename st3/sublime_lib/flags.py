@@ -187,6 +187,8 @@ class HoverLocation(IntEnum):
     """
     An :class:`~enum.IntEnum` for use with
     :func:`sublime_plugin.EventListener.on_hover`.
+
+    .. versionadded:: 1.4
     """
     TEXT = sublime.HOVER_TEXT
     GUTTER = sublime.HOVER_GUTTER
@@ -216,6 +218,8 @@ class QueryContextOperator(IntEnum):
     """
     An :class:`~enum.IntEnum` for use with
     :func:`sublime_plugin.EventListener.on_query_context`.
+
+    .. versionadded:: 1.4
 
     .. py:method:: apply(value, operand)
 
@@ -265,6 +269,8 @@ class CompletionOptions(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with
     :func:`sublime_plugin.EventListener.on_query_completions`.
+
+    .. versionadded:: 1.4
     """
     INHIBIT_WORD_COMPLETIONS = sublime.INHIBIT_WORD_COMPLETIONS
     INHIBIT_EXPLICIT_COMPLETIONS = sublime.INHIBIT_EXPLICIT_COMPLETIONS
