@@ -3,6 +3,8 @@ import sublime
 import posixpath
 from collections import OrderedDict
 import os
+from zipfile import ZipFile
+from datetime import datetime
 from abc import ABCMeta, abstractmethod
 
 from ._compat.pathlib import Path
@@ -40,13 +42,27 @@ def _file_relative_to(path: Path, base: Path) -> Optional[Tuple[str, ...]]:
     return child_parts[n:]
 
 
+def wrap_path(path: Union[str, Path]) -> Path:
+    if isinstance(path, Path):
+        return path
+    else:
+        return Path(path)
+
+
+def wrap_resource_path(resource_path: Union[str, 'ResourcePath']) -> 'ResourcePath':
+    if isinstance(resource_path, ResourcePath):
+        return resource_path
+    else:
+        return ResourcePath(resource_path)
+
+
 class ResourceRoot(metaclass=ABCMeta):
     """
     Represents a directory containing packages.
     """
     def __init__(self, root: object, path: Union[Path, str]) -> None:
-        self.resource_root = ResourcePath(root)
-        self.file_root = Path(path)
+        self.resource_root = wrap_resource_path(root)
+        self.file_root = wrap_path(path)
 
     def resource_to_file_path(self, resource_path: object) -> Path:
         """
@@ -55,7 +71,7 @@ class ResourceRoot(metaclass=ABCMeta):
 
         :raise ValueError: if the :class:`ResourcePath` is not within this resource root.
         """
-        resource_path = ResourcePath(resource_path)
+        resource_path = wrap_resource_path(resource_path)
 
         parts = resource_path.relative_to(self.resource_root)
         if parts == ():
@@ -83,6 +99,13 @@ class ResourceRoot(metaclass=ABCMeta):
             return self.resource_root
         else:
             return self._package_resource_path(*parts)
+
+    def __repr__(self):
+        return "{cls}({resource_root!r}, {file_root!r})".format(
+            cls=type(self).__name__,
+            resource_root=self.resource_root,
+            file_root=self.file_root,
+        )
 
     @abstractmethod
     def _package_file_path(
@@ -119,25 +142,51 @@ class DirectoryResourceRoot(ResourceRoot):
     def _package_resource_path(self, *parts: str) -> 'ResourcePath':
         return self.resource_root.joinpath(*parts)
 
+    def load_resource(self, resource_path) -> str:
+        with self.resource_to_file_path(resource_path).open('r') as file:
+            return file.read()
+
+    def load_binary_resource(self, resource_path) -> str:
+        with self.resource_to_file_path(resource_path).open('rb') as file:
+            return file.read()
+
+    def resource_exists(self, resource_path) -> str:
+        return self.resource_to_file_path(resource_path).exists()
+
+    def resource_modified(self, resource_path) -> str:
+        return self.resource_to_file_path(resource_path).stat().st_mtime
+
 
 class InstalledResourceRoot(ResourceRoot):
     """
     Represents a directory containing zipped sublime-package files.
     """
     def _package_file_path(self, package: str, *rest: str) -> Path:
-        # This is not currently called because there are no installed-only roots.
         return self.file_root.joinpath(package + '.sublime-package', *rest)
 
     def _package_resource_path(self, package: str, *rest: str) -> 'ResourcePath':
         package_path = (self.resource_root / package).remove_suffix('.sublime-package')
         return package_path.joinpath(*rest)
 
+    def _member_name(self, resource_path):
+        return posixpath.join(*resource_path.relative_to(self.resource_root)[1:])
 
-def wrap_path(p: Union[str, Path]) -> Path:
-    if isinstance(p, Path):
-        return p
-    else:
-        return Path(p)
+    def load_resource(self, resource_path) -> str:
+        return self.load_binary_resource(resource_path).decode()
+
+    def load_binary_resource(self, resource_path) -> str:
+        resource_path = wrap_resource_path(resource_path)
+        with ZipFile(str(self._package_file_path(resource_path.package)), 'r') as zipfile:
+            return zipfile.read(self._member_name(resource_path))
+
+    def resource_exists(self, resource_path) -> str:
+        return self.resource_to_file_path(resource_path).exists()
+
+    def resource_modified(self, resource_path) -> str:
+        resource_path = wrap_resource_path(resource_path)
+        with ZipFile(str(self._package_file_path(resource_path.package)), 'r') as zipfile:
+            ymdhms = zipfile.getinfo(self._member_name(resource_path)).date_time
+            return datetime(*ymdhms).timestamp()
 
 
 _ROOTS = None  # type: Optional[List[ResourceRoot]]
@@ -187,6 +236,9 @@ class ResourcePath():
 
     .. versionadded:: 1.2
     """
+    @staticmethod
+    def get_roots():
+        return get_roots()
 
     @classmethod
     def glob_resources(cls, pattern: str) -> List['ResourcePath']:
