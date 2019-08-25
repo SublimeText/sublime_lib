@@ -50,6 +50,9 @@ class SettingsDict():
         raise NotImplementedError()
 
     def __eq__(self, other) -> bool:
+        """Return ``True`` if `self` and `other` are of the same type
+        and refer to the same underlying settings data.
+        """
         return (
             type(self) == type(other) and
             self.settings.settings_id == other.settings.settings_id
