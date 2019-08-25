@@ -49,6 +49,12 @@ class SettingsDict():
         """Raise NotImplementedError."""
         raise NotImplementedError()
 
+    def __eq__(self, other) -> bool:
+        return (
+            type(self) == type(other) and
+            self.settings.settings_id == other.settings.settings_id
+        )
+
     def __getitem__(self, key: str) -> Value:
         """Return the setting named `key`.
 
