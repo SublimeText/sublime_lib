@@ -2,7 +2,7 @@ from threading import Condition, RLock
 from contextlib import contextmanager
 
 from types import TracebackType
-from .._compat.typing import Optional, TypeVar, Generic, Callable
+from .._compat.typing import Optional, TypeVar, Generator, Generic, Callable
 
 T = TypeVar('T')
 
@@ -23,7 +23,7 @@ class LockedState(Generic[T]):
         self._condition = Condition(RLock())
 
     @contextmanager
-    def _nonblocking_acquire(self):
+    def _nonblocking_acquire(self) -> Generator[None, None, None]:
         if not self._condition.acquire(blocking=False):
             raise RuntimeError("State cannot be acquired")
         yield
@@ -47,7 +47,7 @@ class LockedState(Generic[T]):
             self._state = state
             self._condition.notify_all()
 
-    def __enter__(self):
+    def __enter__(self) -> None:
         """Acquire the condition."""
         self._condition.acquire()
 
@@ -69,7 +69,7 @@ class LockedState(Generic[T]):
         Return ``True`` unless a given `timeout` expires,
         in which case return ``False``.
         """
-        def awaiter():
+        def awaiter() -> bool:
             with self._condition:
                 return predicate(self.state)
 
