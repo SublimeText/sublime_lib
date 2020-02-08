@@ -1,4 +1,3 @@
-from sphinx.transforms import SphinxTransform
 from sphinx.util.inspect import Signature
 
 import inspect
@@ -16,7 +15,7 @@ def strip_annotations(
     signature,
     return_annotation
 ):
-    if what not in { 'function', 'method', 'class' }:
+    if what not in {'function', 'method', 'class'}:
         return
 
     new_signature = Signature(obj)
