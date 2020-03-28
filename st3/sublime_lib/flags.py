@@ -6,9 +6,9 @@ these enumerations' constructors accept the name of an enumerated value as a str
 
 .. code-block:: python
 
-   >>> PointClass(sublime.DIALOG_YES)
+   >>> DialogResult(sublime.DIALOG_YES)
    <DialogResult.YES: 1>
-   >>> PointClass("YES")
+   >>> DialogResult("YES")
    <DialogResult.YES: 1>
 
 Descendants of :class:`IntFlag` accept zero or more arguments:
@@ -16,6 +16,8 @@ Descendants of :class:`IntFlag` accept zero or more arguments:
 .. code-block:: python
 
    >>> PointClass("WORD_START", "WORD_END")
+   <PointClass.WORD_END|WORD_START: 3>
+   >>> PointClass(3)
    <PointClass.WORD_END|WORD_START: 3>
    >>> PointClass()
    <PointClass.0: 0>
