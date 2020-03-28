@@ -1034,14 +1034,16 @@ If <cite>label</cite> is provided, then it will be shown next to the animation.<
 <p>Python enumerations for use with Sublime API methods.</p>
 <p>In addition to the standard behavior,
 these enumerations’ constructors accept the name of an enumerated value as a string:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">PointClass</span><span class="p">(</span><span class="n">sublime</span><span class="o">.</span><span class="n">DIALOG_YES</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">DialogResult</span><span class="p">(</span><span class="n">sublime</span><span class="o">.</span><span class="n">DIALOG_YES</span><span class="p">)</span>
 <span class="go">&lt;DialogResult.YES: 1&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">PointClass</span><span class="p">(</span><span class="s2">&quot;YES&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DialogResult</span><span class="p">(</span><span class="s2">&quot;YES&quot;</span><span class="p">)</span>
 <span class="go">&lt;DialogResult.YES: 1&gt;</span>
 </pre></div>
 </div>
 <p>Descendants of <code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code> accept zero or more arguments:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">PointClass</span><span class="p">(</span><span class="s2">&quot;WORD_START&quot;</span><span class="p">,</span> <span class="s2">&quot;WORD_END&quot;</span><span class="p">)</span>
+<span class="go">&lt;PointClass.WORD_END|WORD_START: 3&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PointClass</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">&lt;PointClass.WORD_END|WORD_START: 3&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">PointClass</span><span class="p">()</span>
 <span class="go">&lt;PointClass.0: 0&gt;</span>
@@ -1470,7 +1472,7 @@ and <cite>IntFlag</cite> constructors accept multiple arguments.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, Thomas Smith.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>
