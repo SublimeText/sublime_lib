@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i|Roboto+Mono:400,400i,700,700i&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i|Roboto+Mono:400,400i,500,500i,700,700i&subset=latin-ext');
 
 .related { display: none; }
 
@@ -123,4 +123,25 @@ pre {
 div.footer {
     text-align: center;
     border-top: 2px solid #aaa;
+}
+
+.sig-paren {
+    font-size: 1.2em;
+}
+
+dl.py.method > dt, dl.py.function > dt {
+    text-indent: -2em;
+    margin-left: 2em;
+}
+
+.sig-param {
+    white-space: nowrap;
+}
+
+.sig-param > :first-child {
+    font-weight: 500;
+}
+
+.sig-param > .n:not(:first-child) {
+    color: #333;
 }
