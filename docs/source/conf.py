@@ -42,6 +42,7 @@ release = ''
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
+    'sphinxcontrib.prettyspecialmethods',
 ]
 
 autodoc_member_order = 'bysource'
@@ -126,7 +127,7 @@ def setup(app):
 
     app.add_css_file('style.css')
 
-    from prettify_special_methods import PrettifySpecialMethods, show_special_methods
-    app.add_transform(PrettifySpecialMethods)
+    # from prettify_special_methods import PrettifySpecialMethods, show_special_methods
+    # app.add_transform(PrettifySpecialMethods)
 
-    app.connect('autodoc-skip-member', show_special_methods)
+    # app.connect('autodoc-skip-member', show_special_methods)

@@ -46,7 +46,6 @@ class SettingsDict():
         self.settings = settings
 
     def __iter__(self) -> NoReturn:
-        """Raise NotImplementedError."""
         raise NotImplementedError()
 
     def __getitem__(self, key: str) -> Value:
