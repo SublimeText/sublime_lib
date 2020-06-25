@@ -124,12 +124,9 @@ def setup(app):
     from better_toctree import TocTreeCollector
     app.add_env_collector(TocTreeCollector)
 
-    app.add_stylesheet('style.css')
+    app.add_css_file('style.css')
 
     from prettify_special_methods import PrettifySpecialMethods, show_special_methods
     app.add_transform(PrettifySpecialMethods)
 
     app.connect('autodoc-skip-member', show_special_methods)
-
-    from strip_annotations import strip_annotations
-    app.connect('autodoc-process-signature', strip_annotations)
