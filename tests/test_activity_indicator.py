@@ -3,11 +3,11 @@ from sublime_lib.activity_indicator import ViewTarget, WindowTarget
 
 from sublime import View, Window
 
-from unittest import TestCase
+from unittesting import DeferrableTestCase
 from unittest.mock import Mock
 
 
-class TestActivityIndicator(TestCase):
+class TestActivityIndicator(DeferrableTestCase):
     def test_window_target(self):
         message = 'Hello, World!'
         window = Mock()
@@ -106,8 +106,7 @@ class TestActivityIndicator(TestCase):
         with indicator:
             target.set.assert_called_once_with('[=          ]')
             target.set.reset_mock()
-            import time
-            time.sleep(0.15)
+            yield 150
             target.set.assert_called_once_with('[ =         ]')
 
     def test_start_twice_error(self):
