@@ -62,6 +62,7 @@ SUBLIME_TO_STANDARD = {  # noqa: E121
     "Celtic (ISO 8859-14)": "iso8859-14",
     "Central European (Windows 1250)": "cp1250",
     "Central European (ISO 8859-2)": "iso8859-2",
+    "Central European (Mac)": "mac-latin2",
     "Cyrillic (Windows 1251)": "cp1251",
     "Cyrillic (Windows 866)": "cp866",
     "Cyrillic (ISO 8859-5)": "iso8859-5",
