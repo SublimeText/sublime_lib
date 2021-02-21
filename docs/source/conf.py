@@ -125,7 +125,7 @@ def setup(app):
     from better_toctree import TocTreeCollector
     app.add_env_collector(TocTreeCollector)
 
-    app.add_stylesheet('style.css')
+    app.add_css_file('style.css')
 
     from strip_annotations import strip_annotations
     app.connect('autodoc-process-signature', strip_annotations)
