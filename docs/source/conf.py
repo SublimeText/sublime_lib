@@ -124,7 +124,7 @@ def setup(app):
     from better_toctree import TocTreeCollector
     app.add_env_collector(TocTreeCollector)
 
-    app.add_stylesheet('style.css')
+    app.add_css_file('style.css')
 
     from prettify_special_methods import PrettifySpecialMethods, show_special_methods
     app.add_transform(PrettifySpecialMethods)

@@ -123,7 +123,7 @@ class TocTreeCollector(EnvironmentCollector):
                         entries.append(onlynode)
                 # ADDED
                 elif isinstance(sectionnode, addnodes.desc):
-                    target = sectionnode.traverse(addnodes.desc_signature)[0]
+                    target = next(iter(sectionnode.traverse(addnodes.desc_signature)))
 
                     reference = nodes.reference(
                         '', '',
