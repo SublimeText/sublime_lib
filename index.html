@@ -51,7 +51,7 @@ with a <a class="reference external" href="https://docs.python.org/3/library/std
 not implemented:</p>
 <ul class="simple">
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code></p></li>
-<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></p></li>
+<li><p><a class="reference internal" href="#sublime_lib.SettingsDict.__iter__" title="sublime_lib.SettingsDict.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a></p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">copy()</span></code></p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">items()</span></code></p></li>
@@ -62,6 +62,12 @@ not implemented:</p>
 <p>You can use <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.ChainMap" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.ChainMap</span></code></a> to chain a <a class="reference internal" href="#sublime_lib.SettingsDict" title="sublime_lib.SettingsDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">SettingsDict</span></code></a>
 with other dict-like objects. If you do, calling the above unimplemented
 methods on the <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.ChainMap" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChainMap</span></code></a> will raise an error.</p>
+<dl class="py method">
+<dt id="sublime_lib.SettingsDict.__iter__">
+<code class="sig-name descname"><span class="pre">iter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise NotImplementedError.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt id="sublime_lib.SettingsDict.__getitem__">
 <span><em><span class="pre">self</span></em><code class="sig-name descname"><span class="pre">[</span></code><em><span class="pre">key</span></em><code class="sig-name descname"><span class="pre">]</span></code></span><a class="headerlink" href="#sublime_lib.SettingsDict.__getitem__" title="Permalink to this definition">¶</a></dt>
