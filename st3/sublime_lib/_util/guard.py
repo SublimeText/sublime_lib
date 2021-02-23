@@ -10,7 +10,7 @@ _WrappedType = Callable[..., _R]
 
 def define_guard(
     guard_fn: Callable[[_Self], Optional[ContextManager]]
-)-> Callable[[_WrappedType], _WrappedType]:
+) -> Callable[[_WrappedType], _WrappedType]:
     def decorator(wrapped: _WrappedType) -> _WrappedType:
         @wraps(wrapped)
         def wrapper_guards(self: _Self, *args: Any, **kwargs: Any) -> _R:

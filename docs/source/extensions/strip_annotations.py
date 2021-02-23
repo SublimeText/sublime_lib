@@ -1,5 +1,4 @@
-from sphinx.transforms import SphinxTransform
-from sphinx.util.inspect import Signature
+from sphinx.util.inspect import stringify_signature
 
 import inspect
 
@@ -16,17 +15,17 @@ def strip_annotations(
     signature,
     return_annotation
 ):
-    if what not in { 'function', 'method', 'class' }:
+    if what not in {'function', 'method', 'class'}:
         return
 
-    new_signature = Signature(obj)
-    new_signature.signature = new_signature.signature.replace(
+    original_signature = inspect.signature(obj)
+    new_signature = original_signature.replace(
         return_annotation=inspect.Signature.empty,
         parameters=[
             param.replace(annotation=inspect.Parameter.empty)
-            for param in new_signature.signature.parameters.values()
+            for param in original_signature.parameters.values()
             if param.name != 'self'
         ],
     )
 
-    return new_signature.format_args(), None
+    return stringify_signature(new_signature), None

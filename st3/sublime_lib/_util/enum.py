@@ -9,7 +9,7 @@ __all__ = ['ExtensibleConstructorMeta', 'construct_with_alternatives', 'construc
 
 class ExtensibleConstructorMeta(EnumMeta):
     def __call__(cls, *args: Any, **kwargs: Any) -> Any:
-        return cls.__new__(cls, *args, **kwargs)
+        return cls.__new__(cls, *args, **kwargs)  # type: ignore
 
 
 def extend_constructor(

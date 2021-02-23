@@ -1,4 +1,4 @@
-from sphinx.ext.autodoc.importer import _MockObject
+from sphinx.ext.autodoc.mock import _MockObject
 
 import sys
 

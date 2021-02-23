@@ -43,7 +43,7 @@ body {
 
 .documentwrapper  {
     order: 1;
-    max-width: 30rem;
+    max-width: 40rem;
 }
 
 .clearer  { display: none; }
