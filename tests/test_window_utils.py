@@ -8,6 +8,8 @@ from sublime_lib import new_window, close_window
 class TestNewWindow(DeferrableTestCase):
 
     def tearDown(self):
+        # We have to wait between opening and closing a window to avoid a crash.
+        # See https://github.com/sublimehq/sublime_text/issues/3960
         yield 100
         if getattr(self, '_window', None):
             close_window(self._window, force=True)
