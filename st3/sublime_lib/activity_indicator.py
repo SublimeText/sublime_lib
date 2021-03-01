@@ -2,7 +2,7 @@ import sublime
 
 from uuid import uuid4
 
-from ._compat.typing import Optional, Union, Callable
+from ._compat.typing import Optional, Union
 from types import TracebackType
 from abc import ABCMeta, abstractmethod
 from functools import partial
@@ -11,20 +11,6 @@ from threading import Lock
 
 
 __all__ = ['ActivityIndicator']
-
-
-class CancellableCallback:
-    cancelled = False
-
-    def __init__(self, callback: Callable) -> None:
-        self.callback = callback
-
-    def cancel(self) -> None:
-        self.cancelled = True
-
-    def run(self) -> None:
-        if not self.cancelled:
-            self.callback()
 
 
 class StatusTarget(metaclass=ABCMeta):  # pragma: no cover
