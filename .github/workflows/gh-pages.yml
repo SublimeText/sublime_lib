@@ -7,9 +7,9 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Setup Python
         uses: actions/setup-python@v1
@@ -23,9 +23,7 @@ jobs:
           python -m pip install -U sphinxcontrib.prettyspecialmethods
 
       - name: Build Docs
-        run: |
-          make -C docs clean html
-          touch docs/html/.nojekyll
+        run: make -C docs clean html
         ## https://github.com/marketplace/actions/sphinx-build
         # uses: ammaraskar/sphinx-action@0.3
         # with:
