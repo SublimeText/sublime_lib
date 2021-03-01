@@ -79,6 +79,7 @@ class ActivityIndicator:
     interval = 100  # type: int
 
     _target = None  # type: StatusTarget
+    _ticks = 0  # type: int
     _lock = None  # type: Lock
     _running = False  # type: bool
     _invocation_id = 0  # type: int
@@ -96,8 +97,6 @@ class ActivityIndicator:
             self._target = WindowTarget(target)
         else:
             self._target = target
-
-        self._ticks = 0
 
         self._lock = Lock()
 
