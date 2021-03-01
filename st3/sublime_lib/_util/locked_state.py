@@ -47,9 +47,10 @@ class LockedState(Generic[T]):
             self._state = state
             self._condition.notify_all()
 
-    def __enter__(self) -> None:
-        """Acquire the condition."""
+    def __enter__(self) -> T:
+        """Acquire the condition and return the state."""
         self._condition.acquire()
+        return self._state
 
     def __exit__(
         self,
