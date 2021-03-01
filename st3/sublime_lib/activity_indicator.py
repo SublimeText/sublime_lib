@@ -86,7 +86,7 @@ class ActivityIndicator:
             self._target = target
 
         self._ticks = 0
-        self._locked_state = SchedulerState()
+        self._locked_state = LockedState(SchedulerState())
 
     def __enter__(self) -> None:
         self.start()
@@ -106,7 +106,7 @@ class ActivityIndicator:
         :raise ValueError: if the indicator is already running.
         """
         with self._locked_state as state:
-            if state.running:
+            if state.running and not state.stopping:
                 raise ValueError('Timer is already running')
             elif state.stopping:
                 state.stopping = False
