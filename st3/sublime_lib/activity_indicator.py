@@ -5,6 +5,7 @@ from uuid import uuid4
 from ._compat.typing import Optional, Union, Callable
 from types import TracebackType
 from abc import ABCMeta, abstractmethod
+from functools import partial
 
 from ._util.locked_state import LockedState
 
@@ -62,6 +63,11 @@ class ViewTarget(StatusTarget):
         self.view.erase_status(self.key)
 
 
+class InvocationState:
+    invocation_id = 0  # type: int
+    running = False  # type: bool
+
+
 class ActivityIndicator:
     """
     An animated text-based indicator to show that some activity is in progress.
@@ -78,7 +84,7 @@ class ActivityIndicator:
     interval = 100  # type: int
 
     _target = None  # type: StatusTarget
-    _callback = None  # type: LockedState[Optional[CancellableCallback]]
+    _state = None  # type: LockedState[InvocationState]
 
     def __init__(
         self,
@@ -96,7 +102,7 @@ class ActivityIndicator:
 
         self._ticks = 0
 
-        self._callback = LockedState(None)
+        self._state = LockedState(InvocationState())
 
     def __enter__(self) -> None:
         self.start()
@@ -115,14 +121,16 @@ class ActivityIndicator:
 
         :raise ValueError: if the indicator is already running.
         """
-        with self._callback:
-            if self._callback.state is not None:
+        with self._state:
+            if self._state.state.running:
                 raise ValueError('Timer is already running')
             else:
-                callback = CancellableCallback(self._run)
-                self._callback.state = callback
+                self._state.state.running = True
                 self.update()
-                sublime.set_timeout(callback.run, self.interval)
+                sublime.set_timeout(
+                    partial(self._run, self._state.state.invocation_id),
+                    self.interval
+                )
 
     def stop(self) -> None:
         """
@@ -130,17 +138,20 @@ class ActivityIndicator:
 
         If the indicator is not running, do nothing.
         """
-        with self._callback:
-            if self._callback.state is not None:
-                self._callback.state.cancel()
-                self._callback.state = None
+        with self._state:
+            if self._state.state.running:
+                self._state.state.running = False
+                self._state.state.invocation_id += 1
         self._target.clear()
 
-    def _run(self) -> None:
-        self.tick()
-        with self._callback:
-            if self._callback.state is not None:
-                sublime.set_timeout(self._callback.state.run, self.interval)
+    def _run(self, invocation_id) -> None:
+        with self._state:
+            if invocation_id == self._state.state.invocation_id:
+                self.tick()
+                sublime.set_timeout(
+                    partial(self._run, invocation_id),
+                    self.interval
+                )
 
     def tick(self) -> None:
         self._ticks += 1
