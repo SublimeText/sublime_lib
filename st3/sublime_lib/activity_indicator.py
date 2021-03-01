@@ -7,7 +7,7 @@ from types import TracebackType
 from abc import ABCMeta, abstractmethod
 from functools import partial
 
-from ._util.locked_state import LockedState
+from threading import Lock
 
 
 __all__ = ['ActivityIndicator']
@@ -63,11 +63,6 @@ class ViewTarget(StatusTarget):
         self.view.erase_status(self.key)
 
 
-class InvocationState:
-    invocation_id = 0  # type: int
-    running = False  # type: bool
-
-
 class ActivityIndicator:
     """
     An animated text-based indicator to show that some activity is in progress.
@@ -84,7 +79,9 @@ class ActivityIndicator:
     interval = 100  # type: int
 
     _target = None  # type: StatusTarget
-    _state = None  # type: LockedState[InvocationState]
+    _lock = None  # type: Lock
+    _running = False  # type: bool
+    _invocation_id = 0  # type: int
 
     def __init__(
         self,
@@ -102,7 +99,7 @@ class ActivityIndicator:
 
         self._ticks = 0
 
-        self._state = LockedState(InvocationState())
+        self._lock = Lock()
 
     def __enter__(self) -> None:
         self.start()
@@ -121,14 +118,14 @@ class ActivityIndicator:
 
         :raise ValueError: if the indicator is already running.
         """
-        with self._state:
-            if self._state.state.running:
+        with self._lock:
+            if self._running:
                 raise ValueError('Timer is already running')
             else:
-                self._state.state.running = True
+                self._running = True
                 self.update()
                 sublime.set_timeout(
-                    partial(self._run, self._state.state.invocation_id),
+                    partial(self._run, self._invocation_id),
                     self.interval
                 )
 
@@ -138,15 +135,15 @@ class ActivityIndicator:
 
         If the indicator is not running, do nothing.
         """
-        with self._state:
-            if self._state.state.running:
-                self._state.state.running = False
-                self._state.state.invocation_id += 1
+        with self._lock:
+            if self._running:
+                self._running = False
+                self._invocation_id += 1
         self._target.clear()
 
     def _run(self, invocation_id) -> None:
-        with self._state:
-            if invocation_id == self._state.state.invocation_id:
+        with self._lock:
+            if invocation_id == self._invocation_id:
                 self.tick()
                 sublime.set_timeout(
                     partial(self._run, invocation_id),
