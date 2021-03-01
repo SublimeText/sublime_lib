@@ -54,7 +54,7 @@ def autodoc(prefix: Optional[str] = None) -> Callable[[EnumMeta], EnumMeta]:
         prefix_str = prefix + '_'
 
     def decorator(enum: EnumMeta) -> EnumMeta:
-        enum.__doc__ = getdoc(enum) + '\n\n' + '\n'.join([
+        enum.__doc__ = (getdoc(enum) or '') + '\n\n' + '\n'.join([
             cleandoc("""
             .. py:attribute:: {name}
                 :annotation: = sublime.{pre}{name}
