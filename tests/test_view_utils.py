@@ -1,6 +1,6 @@
 import sublime
 from sublime_lib import new_view, close_view, LineEnding
-from sublime_lib.view_utils import clone_view
+from sublime_lib.view_utils import _clone_view
 
 from unittest import TestCase
 
@@ -148,7 +148,7 @@ class TestViewUtils(TestCase):
     def test_close_unsaved_clone(self):
         self.view = new_view(self.window, content="Hello, World!")
 
-        clone = clone_view(self.view)
+        clone = _clone_view(self.view)
         close_view(clone, force=True)
 
         self.assertFalse(clone.is_valid())

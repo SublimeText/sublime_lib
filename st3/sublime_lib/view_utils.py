@@ -13,7 +13,7 @@ from ._compat.typing import Any, Optional, Mapping, Iterable, Generator
 
 __all__ = [
     'LineEnding', 'new_view', 'close_view',
-    'clone_view', 'temporarily_scratch_unsaved_views',
+    '_clone_view', '_temporarily_scratch_unsaved_views',
 ]
 
 
@@ -95,7 +95,7 @@ def new_view(window: sublime.Window, **kwargs: Any) -> sublime.View:
 
 
 @contextmanager
-def temporarily_scratch_unsaved_views(
+def _temporarily_scratch_unsaved_views(
     unsaved_views: Iterable[sublime.View]
 ) -> Generator[None, None, None]:
     buffer_ids = {view.buffer_id() for view in unsaved_views}
@@ -114,7 +114,7 @@ def temporarily_scratch_unsaved_views(
         view.set_scratch(False)
 
 
-def clone_view(view: sublime.View) -> sublime.View:
+def _clone_view(view: sublime.View) -> sublime.View:
     window = view.window()
     if window is None:  # pragma: no cover
         raise ValueError("View has no window.")
@@ -142,7 +142,7 @@ def close_view(view: sublime.View, *, force: bool = False) -> None:
         if not force:
             raise ValueError('The view has unsaved changes.')
 
-        with temporarily_scratch_unsaved_views([view]):
+        with _temporarily_scratch_unsaved_views([view]):
             closed = view.close()
     else:
         closed = view.close()

@@ -2,7 +2,7 @@ import sublime
 
 from ._compat.typing import Optional
 
-from .view_utils import temporarily_scratch_unsaved_views
+from .view_utils import _temporarily_scratch_unsaved_views
 
 __all__ = ['new_window', 'close_window']
 
@@ -99,7 +99,7 @@ def close_window(window: sublime.Window, *, force: bool = False) -> None:
         if not force:
             raise ValueError('A view has unsaved changes.')
 
-        with temporarily_scratch_unsaved_views(unsaved):
+        with _temporarily_scratch_unsaved_views(unsaved):
             window.run_command('close_window')
     else:
         window.run_command('close_window')
