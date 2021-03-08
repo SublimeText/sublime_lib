@@ -1,12 +1,11 @@
 import sublime
 
 from uuid import uuid4
+from threading import Lock
 
 from ._compat.typing import Optional, Union
 from types import TracebackType
 from abc import ABCMeta, abstractmethod
-
-from ._util.locked_state import LockedState
 
 
 __all__ = ['ActivityIndicator']
@@ -69,7 +68,9 @@ class ActivityIndicator:
     interval = 100  # type: int
 
     _target = None  # type: StatusTarget
-    _locked_state = None  # type: LockedState[SchedulerState]
+    _ticks = 0
+    _running = False
+    _stopping = False
 
     def __init__(
         self,
@@ -85,8 +86,7 @@ class ActivityIndicator:
         else:
             self._target = target
 
-        self._ticks = 0
-        self._locked_state = LockedState(SchedulerState())
+        self._lock = Lock()
 
     def __enter__(self) -> None:
         self.start()
@@ -105,13 +105,13 @@ class ActivityIndicator:
 
         :raise ValueError: if the indicator is already running.
         """
-        with self._locked_state as state:
-            if state.running and not state.stopping:
+        with self._lock:
+            if self._running and not self._stopping:
                 raise ValueError('Timer is already running')
-            elif state.stopping:
-                state.stopping = False
+            elif self._stopping:
+                self._stopping = False
             else:
-                state.running = True
+                self._running = True
                 self.update()
                 sublime.set_timeout(self._run, self.interval)
 
@@ -121,15 +121,14 @@ class ActivityIndicator:
 
         If the indicator is not running, do nothing.
         """
-        with self._locked_state as state:
-            if state.running:
-                state.stopping = True
+        with self._lock:
+            if self._running:
+                self._stopping = True
 
     def _run(self) -> None:
-        with self._locked_state as state:
-            if state.stopping:
-                state.running = False
-                state.stopping = False
+        with self._lock:
+            if self._stopping:
+                self._running = self._stopping = False
                 self._target.clear()
             else:
                 self.tick()
