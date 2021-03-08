@@ -2,28 +2,15 @@ import sublime
 
 from uuid import uuid4
 
-from ._compat.typing import Optional, Union, Callable
+from ._compat.typing import Optional, Union
 from types import TracebackType
 from abc import ABCMeta, abstractmethod
+from functools import partial
 
-from ._util.locked_state import LockedState
+from threading import Lock
 
 
 __all__ = ['ActivityIndicator']
-
-
-class CancellableCallback:
-    cancelled = False
-
-    def __init__(self, callback: Callable) -> None:
-        self.callback = callback
-
-    def cancel(self) -> None:
-        self.cancelled = True
-
-    def run(self) -> None:
-        if not self.cancelled:
-            self.callback()
 
 
 class StatusTarget(metaclass=ABCMeta):  # pragma: no cover
@@ -78,7 +65,10 @@ class ActivityIndicator:
     interval = 100  # type: int
 
     _target = None  # type: StatusTarget
-    _callback = None  # type: LockedState[Optional[CancellableCallback]]
+    _ticks = 0  # type: int
+    _lock = None  # type: Lock
+    _running = False  # type: bool
+    _invocation_id = 0  # type: int
 
     def __init__(
         self,
@@ -94,9 +84,7 @@ class ActivityIndicator:
         else:
             self._target = target
 
-        self._ticks = 0
-
-        self._callback = LockedState(None)
+        self._lock = Lock()
 
     def __enter__(self) -> None:
         self.start()
@@ -115,14 +103,16 @@ class ActivityIndicator:
 
         :raise ValueError: if the indicator is already running.
         """
-        with self._callback:
-            if self._callback.state is not None:
+        with self._lock:
+            if self._running:
                 raise ValueError('Timer is already running')
             else:
-                callback = CancellableCallback(self._run)
-                self._callback.state = callback
+                self._running = True
                 self.update()
-                sublime.set_timeout(callback.run, self.interval)
+                sublime.set_timeout(
+                    partial(self._run, self._invocation_id),
+                    self.interval
+                )
 
     def stop(self) -> None:
         """
@@ -130,17 +120,20 @@ class ActivityIndicator:
 
         If the indicator is not running, do nothing.
         """
-        with self._callback:
-            if self._callback.state is not None:
-                self._callback.state.cancel()
-                self._callback.state = None
+        with self._lock:
+            if self._running:
+                self._running = False
+                self._invocation_id += 1
         self._target.clear()
 
-    def _run(self) -> None:
-        self.tick()
-        with self._callback:
-            if self._callback.state is not None:
-                sublime.set_timeout(self._callback.state.run, self.interval)
+    def _run(self, invocation_id) -> None:
+        with self._lock:
+            if invocation_id == self._invocation_id:
+                self.tick()
+                sublime.set_timeout(
+                    partial(self._run, invocation_id),
+                    self.interval
+                )
 
     def tick(self) -> None:
         self._ticks += 1
