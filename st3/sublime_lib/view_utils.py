@@ -102,16 +102,17 @@ def _temporarily_scratch_unsaved_views(
     for view in unsaved_views:
         view.set_scratch(True)
 
-    yield
-
-    clones = {
-        view.buffer_id(): view
-        for window in sublime.windows()
-        for view in window.views()
-        if view.buffer_id() in buffer_ids
-    }
-    for view in clones.values():
-        view.set_scratch(False)
+    try:
+        yield
+    finally:
+        clones = {
+            view.buffer_id(): view
+            for window in sublime.windows()
+            for view in window.views()
+            if view.buffer_id() in buffer_ids
+        }
+        for view in clones.values():
+            view.set_scratch(False)
 
 
 def _clone_view(view: sublime.View) -> sublime.View:
