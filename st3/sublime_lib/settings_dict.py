@@ -49,13 +49,14 @@ class SettingsDict():
         """Raise NotImplementedError."""
         raise NotImplementedError()
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Return ``True`` if `self` and `other` are of the same type
         and refer to the same underlying settings data.
         """
         return (
-            type(self) == type(other) and
-            self.settings.settings_id == other.settings.settings_id
+            type(self) == type(other)
+            and isinstance(other, SettingsDict)
+            and self.settings.settings_id == other.settings.settings_id
         )
 
     def __getitem__(self, key: str) -> Value:
