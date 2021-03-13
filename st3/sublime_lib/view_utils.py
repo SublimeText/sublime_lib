@@ -13,7 +13,6 @@ from ._compat.typing import Any, Optional, Mapping, Iterable, Generator
 
 __all__ = [
     'LineEnding', 'new_view', 'close_view',
-    '_clone_view', '_temporarily_scratch_unsaved_views',
 ]
 
 
