@@ -126,6 +126,16 @@ class TestSettingsDict(TestCase):
 
         self.assertRaises(NotImplementedError, iter, chained)
 
+    def test_equal(self):
+        other = SettingsDict(self.settings)
+        self.assertEqual(self.fancy, other)
+
+    def test_not_equal(self):
+        other_view = self.view.window().new_file()
+        other_view.set_scratch(True)
+        other = SettingsDict(other_view.settings())
+        self.assertNotEqual(self.fancy, other)
+
 
 class TestSettingsDictSubscription(TestCase):
 

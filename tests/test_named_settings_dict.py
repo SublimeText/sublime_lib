@@ -1,5 +1,5 @@
 import sublime
-from sublime_lib import NamedSettingsDict
+from sublime_lib import NamedSettingsDict, SettingsDict
 
 import os
 from os import path
@@ -42,3 +42,16 @@ class TestNamedSettingsDict(DeferrableTestCase):
         self.assertNotIn("example_setting", self.fancy)
         self.fancy["example_setting"] = "Hello, World!"
         self.assertEquals(other['example_setting'], 'Hello, World!')
+
+    def test_equal(self):
+        other = NamedSettingsDict(self.name + '.sublime-settings')
+        self.assertEqual(self.fancy, other)
+
+    def test_not_equal(self):
+        other = NamedSettingsDict('Preferences.sublime-settings')
+        self.assertNotEqual(self.fancy, other)
+
+    def test_not_equal_unnamed(self):
+        other = SettingsDict(self.fancy.settings)
+        self.assertNotEqual(self.fancy, other)
+        self.assertNotEqual(other, self.fancy)
