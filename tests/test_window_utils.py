@@ -8,6 +8,9 @@ from sublime_lib import new_window, close_window
 class TestNewWindow(DeferrableTestCase):
 
     def tearDown(self):
+        # We have to wait between opening and closing a window to avoid a crash.
+        # See https://github.com/sublimehq/sublime_text/issues/3960
+        yield 100
         if getattr(self, '_window', None):
             close_window(self._window, force=True)
 
@@ -21,6 +24,7 @@ class TestNewWindow(DeferrableTestCase):
 
     def test_close_window(self):
         self._window = new_window()
+        yield 100
         close_window(self._window)
         yield 500
         self.assertFalse(self._window.is_valid())
@@ -30,6 +34,7 @@ class TestNewWindow(DeferrableTestCase):
 
         self._window.active_view().run_command('insert', {'characters': 'Hello, World!'})
 
+        yield 100
         with self.assertRaises(ValueError):
             close_window(self._window)
 

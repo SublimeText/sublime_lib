@@ -1,16 +1,19 @@
 import sublime
 
 import inspect
+from contextlib import contextmanager
 
 from .vendor.python.enum import Enum
 from ._util.enum import ExtensibleConstructorMeta, construct_with_alternatives
 from .syntax import get_syntax_for_scope
 from .encodings import to_sublime
 
-from ._compat.typing import Any, Optional, Mapping
+from ._compat.typing import Any, Optional, Mapping, Iterable, Generator
 
 
-__all__ = ['LineEnding', 'new_view', 'close_view']
+__all__ = [
+    'LineEnding', 'new_view', 'close_view',
+]
 
 
 def case_insensitive_value(cls: ExtensibleConstructorMeta, value: str) -> Optional[Enum]:
@@ -90,6 +93,41 @@ def new_view(window: sublime.Window, **kwargs: Any) -> sublime.View:
     return view
 
 
+@contextmanager
+def _temporarily_scratch_unsaved_views(
+    unsaved_views: Iterable[sublime.View]
+) -> Generator[None, None, None]:
+    buffer_ids = {view.buffer_id() for view in unsaved_views}
+    for view in unsaved_views:
+        view.set_scratch(True)
+
+    try:
+        yield
+    finally:
+        clones = {
+            view.buffer_id(): view
+            for window in sublime.windows()
+            for view in window.views()
+            if view.buffer_id() in buffer_ids
+        }
+        for view in clones.values():
+            view.set_scratch(False)
+
+
+def _clone_view(view: sublime.View) -> sublime.View:
+    window = view.window()
+    if window is None:  # pragma: no cover
+        raise ValueError("View has no window.")
+
+    window.focus_view(view)
+    window.run_command('clone_file')
+    clone = window.active_view()
+    if clone is None:  # pragma: no cover
+        raise RuntimeError("Clone was not created.")
+
+    return clone
+
+
 def close_view(view: sublime.View, *, force: bool = False) -> None:
     """Close the given view, discarding unsaved changes if `force` is ``True``.
 
@@ -98,13 +136,18 @@ def close_view(view: sublime.View, *, force: bool = False) -> None:
     :raise ValueError: if the view has unsaved changes and `force` is not ``True``.
     :raise ValueError: if the view is not closed for any other reason.
     """
-    if view.is_dirty() and not view.is_scratch():
-        if force:
-            view.set_scratch(True)
-        else:
+    unsaved = view.is_dirty() and not view.is_scratch()
+
+    if unsaved:
+        if not force:
             raise ValueError('The view has unsaved changes.')
 
-    if not view.close():
+        with _temporarily_scratch_unsaved_views([view]):
+            closed = view.close()
+    else:
+        closed = view.close()
+
+    if not closed:
         raise ValueError('The view could not be closed.')
 
 
