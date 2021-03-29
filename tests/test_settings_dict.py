@@ -191,6 +191,7 @@ class TestSettingsDictSubscription(TestCase):
 
     def test_settings_change_in_callback(self):
         calls = []
+
         def callback(new, old):
             calls.append((new, old))
             self.fancy['bar'] = True
