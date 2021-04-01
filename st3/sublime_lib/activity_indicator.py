@@ -2,10 +2,11 @@ import sublime
 
 from uuid import uuid4
 
-from ._compat.typing import Optional, Union
-from types import TracebackType
+from ._compat.typing import Optional, Union, Callable, Any
+from types import TracebackType, MethodType
 from abc import ABCMeta, abstractmethod
 from functools import partial
+import weakref
 
 from threading import Lock
 
@@ -49,6 +50,20 @@ class ViewTarget(StatusTarget):
         self.view.erase_status(self.key)
 
 
+def _weak_method(method: Callable) -> Callable:
+    assert isinstance(method, MethodType)
+    self_ref = weakref.ref(method.__self__)
+    function_ref = weakref.ref(method.__func__)
+
+    def wrapped(*args: Any, **kwargs: Any) -> Any:
+        self = self_ref()
+        function = function_ref()
+        if self is not None and function is not None:
+            return function(self, *args, **kwargs)
+
+    return wrapped
+
+
 class ActivityIndicator:
     """
     An animated text-based indicator to show that some activity is in progress.
@@ -85,6 +100,9 @@ class ActivityIndicator:
             self._target = target
 
         self._lock = Lock()
+
+    def __del__(self) -> None:
+        self._target.clear()
 
     def __enter__(self) -> None:
         self.start()
@@ -126,12 +144,12 @@ class ActivityIndicator:
                 self._invocation_id += 1
         self._target.clear()
 
-    def _run(self, invocation_id) -> None:
+    def _run(self, invocation_id: int) -> None:
         with self._lock:
             if invocation_id == self._invocation_id:
                 self.tick()
                 sublime.set_timeout(
-                    partial(self._run, invocation_id),
+                    partial(_weak_method(self._run), invocation_id),
                     self.interval
                 )
 
