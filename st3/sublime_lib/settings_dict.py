@@ -181,15 +181,16 @@ class SettingsDict():
         """
         selector_fn = get_selector(selector)
 
-        previous_value = selector_fn(self)
+        saved_value = selector_fn(self)
 
         def onchange() -> None:
-            nonlocal previous_value
+            nonlocal saved_value
             new_value = selector_fn(self)
 
-            if new_value != previous_value:
+            if new_value != saved_value:
+                previous_value = saved_value
+                saved_value = new_value
                 callback(new_value, previous_value)
-                previous_value = new_value
 
         key = str(uuid4())
         self.settings.add_on_change(key, onchange)

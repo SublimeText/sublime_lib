@@ -188,3 +188,18 @@ class TestSettingsDictSubscription(TestCase):
             'example_1': 10,
             'example_2': 2
         })
+
+    def test_settings_change_in_callback(self):
+        calls = []
+
+        def callback(new, old):
+            calls.append((new, old))
+            self.fancy['bar'] = True
+
+        self.fancy.subscribe('foo', callback)
+
+        self.fancy['foo'] = True
+
+        self.assertEqual(calls, [
+            (True, None)
+        ])
