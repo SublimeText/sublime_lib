@@ -173,6 +173,12 @@ class SettingsDict():
         then ``self.get(selector, default_value)`` is passed.
         Otherwise, ``projection(self, selector)`` is passed.
 
+        Changes in the selected value are detected
+        by comparing the last known value to the current value
+        using the equality operator.
+        If you use a selector function,
+        the result must be equatable and should not be mutated.
+
         `callback` should accept two arguments:
         the new derived value and the previous derived value.
 
