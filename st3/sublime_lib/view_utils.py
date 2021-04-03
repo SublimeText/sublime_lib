@@ -3,12 +3,15 @@ import sublime
 import inspect
 from contextlib import contextmanager
 
-from .vendor.python.enum import Enum
+from ._compat.enum import Enum
 from ._util.enum import ExtensibleConstructorMeta, construct_with_alternatives
 from .syntax import get_syntax_for_scope
 from .encodings import to_sublime
 
-from ._compat.typing import Any, Optional, Mapping, Iterable, Generator
+from ._compat.typing import Any, Optional, Mapping, Iterable, Generator, Type, TypeVar
+
+
+EnumType = TypeVar('EnumType', bound=Enum)
 
 
 __all__ = [
@@ -16,7 +19,7 @@ __all__ = [
 ]
 
 
-def case_insensitive_value(cls: ExtensibleConstructorMeta, value: str) -> Optional[Enum]:
+def case_insensitive_value(cls: Type[EnumType], value: str) -> Optional[EnumType]:
     return next((
         member for name, member in cls.__members__.items()
         if name.lower() == value.lower()

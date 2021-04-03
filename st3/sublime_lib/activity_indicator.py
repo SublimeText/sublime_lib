@@ -126,7 +126,7 @@ class ActivityIndicator:
                 self._invocation_id += 1
         self._target.clear()
 
-    def _run(self, invocation_id) -> None:
+    def _run(self, invocation_id: int) -> None:
         with self._lock:
             if invocation_id == self._invocation_id:
                 self.tick()

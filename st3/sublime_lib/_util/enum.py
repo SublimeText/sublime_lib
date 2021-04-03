@@ -1,6 +1,6 @@
 from functools import partial
-from ..vendor.python.enum import EnumMeta, Enum, Flag
 
+from .._compat.enum import EnumMeta, Enum, Flag
 from .._compat.typing import Any, Callable, Optional
 
 
