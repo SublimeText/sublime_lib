@@ -99,7 +99,7 @@ def NewType(name, typ):
     return _MakeType(name)
 
 
-def TypeVar(name, *types):
+def TypeVar(name, *types, bound=None):
     return _MakeType(name)
 
 

@@ -29,7 +29,7 @@ Descendants of :class:`IntFlag` accept zero or more arguments:
 
 import sublime
 
-from .vendor.python.enum import IntEnum, IntFlag, EnumMeta
+from ._compat.enum import IntEnum, IntFlag, EnumMeta
 from inspect import getdoc, cleandoc
 
 import operator
@@ -58,7 +58,7 @@ def autodoc(prefix: Optional[str] = None) -> Callable[[EnumMeta], EnumMeta]:
             cleandoc("""
             .. py:attribute:: {name}
                 :annotation: = sublime.{pre}{name}
-            """).format(name=item.name, pre=prefix_str) for item in enum
+            """).format(name=name, pre=prefix_str) for name in enum.__members__
         ])
 
         return enum
