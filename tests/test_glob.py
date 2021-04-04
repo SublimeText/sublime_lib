@@ -115,6 +115,7 @@ class TestGlob(TestCase):
         self._test_matches(
             'Foo/**',
             [
+                'Packages/Foo/',
                 'Packages/Foo/bar',
                 'Packages/Foo/bar/baz',
             ],
@@ -152,6 +153,18 @@ class TestGlob(TestCase):
                 'Packages/Foo/bar',
             ],
             []
+        )
+
+        self._test_matches(
+            'Foo/**/*',
+            [
+                'Foo/bar',
+                'Foo/bar/baz',
+            ],
+            [
+                'Foo',
+                'Foo/',
+            ]
         )
 
     def test_placeholder(self):
