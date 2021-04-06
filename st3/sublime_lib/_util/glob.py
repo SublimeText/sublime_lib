@@ -28,7 +28,7 @@ def get_glob_matcher(pattern: str) -> Callable[[str], bool]:
             # Component must not be empty.
             expr_string += r'(?:[^/])+' + '/'
         elif component == '**':
-            expr_string += r'(?:(?:.*)(?:\Z|/))?'
+            expr_string += r'(?:.*(?:\Z|/))?'
         elif '**' in component:
             raise ValueError("Invalid pattern: '**' can only be an entire path component")
         else:
