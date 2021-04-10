@@ -2,11 +2,11 @@ import sublime
 
 from uuid import uuid4
 
-from ._compat.typing import Optional, Union, Callable, Any
-from types import TracebackType, MethodType
+from ._compat.typing import Optional, Union
+from types import TracebackType
 from abc import ABCMeta, abstractmethod
 from functools import partial
-import weakref
+from ._util.weak_method import weak_method
 
 from threading import Lock
 
@@ -48,20 +48,6 @@ class ViewTarget(StatusTarget):
 
     def clear(self) -> None:
         self.view.erase_status(self.key)
-
-
-def _weak_method(method: Callable) -> Callable:
-    assert isinstance(method, MethodType)
-    self_ref = weakref.ref(method.__self__)
-    function_ref = weakref.ref(method.__func__)
-
-    def wrapped(*args: Any, **kwargs: Any) -> Any:
-        self = self_ref()
-        function = function_ref()
-        if self is not None and function is not None:
-            return function(self, *args, **kwargs)
-
-    return wrapped
 
 
 class ActivityIndicator:
@@ -149,7 +135,7 @@ class ActivityIndicator:
             if invocation_id == self._invocation_id:
                 self.tick()
                 sublime.set_timeout(
-                    partial(_weak_method(self._run), invocation_id),
+                    partial(weak_method(self._run), invocation_id),
                     self.interval
                 )
 
