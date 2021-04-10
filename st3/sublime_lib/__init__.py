@@ -7,3 +7,6 @@ from .view_stream import ViewStream  # noqa: F401
 from .view_utils import new_view, close_view, LineEnding  # noqa: F401
 from .activity_indicator import ActivityIndicator  # noqa: F401
 from .window_utils import new_window, close_window  # noqa: F401
+from .command_input import (  # noqa: F401
+    fancy_input, GenericListInputHandler, GenericTextInputHandler
+)
