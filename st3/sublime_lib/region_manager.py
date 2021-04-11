@@ -10,7 +10,7 @@ __all__ = ['RegionManager']
 T = TypeVar('T')
 
 
-def coalesce(*values: Optional[T]) -> T:
+def _coalesce(*values: Optional[T]) -> T:
     return next(value for value in values if value is not None)
 
 
@@ -49,9 +49,9 @@ class RegionManager:
         self.view.add_regions(
             self.key,
             regions,
-            coalesce(self.scope, scope, ''),
-            coalesce(self.icon, icon, ''),
-            coalesce(self.flags, flags, 0),
+            _coalesce(scope, self.scope, ''),
+            _coalesce(icon, self.icon, ''),
+            _coalesce(flags, self.flags, 0),
         )
 
     def get(self) -> List[sublime.Region]:
