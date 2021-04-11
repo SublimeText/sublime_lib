@@ -170,6 +170,7 @@ class OpenFileOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     ENCODED_POSITION = sublime.ENCODED_POSITION
     TRANSIENT = sublime.TRANSIENT
+    FORCE_GROUP = sublime.FORCE_GROUP
 
 
 @autodoc()
