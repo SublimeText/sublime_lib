@@ -7,10 +7,10 @@ FancyInputHandler = Union['GenericListInputHandler', 'GenericTextInputHandler']
 GeneratorType = Generator[FancyInputHandler, object, None]
 
 
-__all__ = ['fancy_input', 'GenericListInputHandler', 'GenericTextInputHandler']
+__all__ = ['input_generator', 'GenericListInputHandler', 'GenericTextInputHandler']
 
 
-def fancy_input(
+def input_generator(
     input_function: Callable[[Command, dict], GeneratorType],
 ) -> Callable[[Command, dict], Optional[FancyInputHandler]]:
     @wraps(input_function)
