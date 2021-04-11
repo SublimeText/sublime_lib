@@ -1,6 +1,6 @@
 import sublime
 
-from ._compat.typing import Optional, List, TypeVar
+from ._compat.typing import Optional, List, TypeVar, Collection
 from .flags import RegionOption
 
 
@@ -40,7 +40,7 @@ class RegionManager:
 
     def set(
         self,
-        regions: List[sublime.Region],
+        regions: Collection[sublime.Region],
         *,
         scope: Optional[str] = None,
         icon: Optional[str] = None,
