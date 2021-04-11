@@ -3,7 +3,7 @@ import tempfile
 
 from sublime_lib import ResourcePath
 from sublime_lib._compat.pathlib import Path
-from sublime_lib._util.temporary_package import TemporaryPackage
+from .temporary_package import TemporaryPackage
 
 from unittesting import DeferrableTestCase
 

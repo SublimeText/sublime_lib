@@ -1,5 +1,5 @@
 import shutil
-from ..resource_path import ResourcePath
+from sublime_lib import ResourcePath
 
 
 __all__ = ['TemporaryPackage']
