@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>sublime_lib API Reference &#8212; sublime_lib  documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
@@ -32,7 +31,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="sublime-lib-api-reference">
+  <div class="section" id="sublime-lib-api-reference">
 <h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">sublime_lib</span></code> API Reference<a class="headerlink" href="#sublime-lib-api-reference" title="Permalink to this headline">¶</a></h1>
 <p>A utility library for Sublime Text providing a variety of convenience features for other packages to use.</p>
 <p>For general documentation, see the <a class="reference external" href="https://github.com/SublimeText/sublime_lib">README</a>.</p>
@@ -40,7 +39,7 @@
 the <a class="reference external" href="https://www.sublimetext.com/docs/3/api_reference.html">Sublime Text API</a>.
 As a result, <code class="xref py py-mod docutils literal notranslate"><span class="pre">sublime_lib</span></code> functionality should not be used at import time.
 Instead, any initialization should be performed in <code class="xref py py-func docutils literal notranslate"><span class="pre">plugin_loaded()</span></code>.</p>
-<section id="settings-dictionaries">
+<div class="section" id="settings-dictionaries">
 <h2>Settings dictionaries<a class="headerlink" href="#settings-dictionaries" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="sublime_lib.SettingsDict">
@@ -205,8 +204,8 @@ associated with the <a class="reference internal" href="#sublime_lib.NamedSettin
 
 </dd></dl>
 
-</section>
-<section id="output-streams-and-panels">
+</div>
+<div class="section" id="output-streams-and-panels">
 <h2>Output streams and panels<a class="headerlink" href="#output-streams-and-panels" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="sublime_lib.ViewStream">
@@ -418,8 +417,8 @@ so it will return <code class="docutils literal notranslate"><span class="pre">T
 
 </dd></dl>
 
-</section>
-<section id="resource-paths">
+</div>
+<div class="section" id="resource-paths">
 <h2>Resource paths<a class="headerlink" href="#resource-paths" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="sublime_lib.ResourcePath">
@@ -746,8 +745,8 @@ then existing files under <cite>target</cite> will be overwritten.</p>
 
 </dd></dl>
 
-</section>
-<section id="view-utilities">
+</div>
+<div class="section" id="view-utilities">
 <h2>View utilities<a class="headerlink" href="#view-utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="sublime_lib.new_view">
@@ -831,8 +830,8 @@ the case-insensitive name (e.g. <code class="docutils literal notranslate"><span
 </div>
 </dd></dl>
 
-</section>
-<section id="window-utilities">
+</div>
+<div class="section" id="window-utilities">
 <h2>Window utilities<a class="headerlink" href="#window-utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="sublime_lib.new_window">
@@ -949,8 +948,8 @@ convertible to <a class="reference internal" href="#sublime_lib.flags.QuickPanel
 </div>
 </dd></dl>
 
-</section>
-<section id="syntax-utilities">
+</div>
+<div class="section" id="syntax-utilities">
 <h2>Syntax utilities<a class="headerlink" href="#syntax-utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="sublime_lib.list_syntaxes">
@@ -975,8 +974,8 @@ convertible to <a class="reference internal" href="#sublime_lib.flags.QuickPanel
 <dd><p>Returns the last syntax in load order that matches <cite>scope</cite>.</p>
 </dd></dl>
 
-</section>
-<section id="activity-indicator">
+</div>
+<div class="section" id="activity-indicator">
 <h2>Activity indicator<a class="headerlink" href="#activity-indicator" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="sublime_lib.ActivityIndicator">
@@ -1009,8 +1008,8 @@ If <cite>label</cite> is provided, then it will be shown next to the animation.<
 
 </dd></dl>
 
-</section>
-<section id="module-sublime_lib.encodings">
+</div>
+<div class="section" id="module-sublime_lib.encodings">
 <span id="encodings-submodule"></span><h2><a class="reference internal" href="#module-sublime_lib.encodings" title="sublime_lib.encodings"><code class="xref py py-mod docutils literal notranslate"><span class="pre">encodings</span></code></a> submodule<a class="headerlink" href="#module-sublime_lib.encodings" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="sublime_lib.encodings.from_sublime">
@@ -1048,8 +1047,8 @@ If <cite>label</cite> is provided, then it will be shown next to the animation.<
 </div>
 </dd></dl>
 
-</section>
-<section id="module-sublime_lib.flags">
+</div>
+<div class="section" id="module-sublime_lib.flags">
 <span id="flags-submodule"></span><h2><a class="reference internal" href="#module-sublime_lib.flags" title="sublime_lib.flags"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flags</span></code></a> submodule<a class="headerlink" href="#module-sublime_lib.flags" title="Permalink to this headline">¶</a></h2>
 <p>Python enumerations for use with Sublime API methods.</p>
 <p>In addition to the standard behavior,
@@ -1282,6 +1281,11 @@ and <cite>IntFlag</cite> constructors accept multiple arguments.</p>
 <code class="sig-name descname"><span class="pre">TRANSIENT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.TRANSIENT</span></em><a class="headerlink" href="#sublime_lib.flags.OpenFileOption.TRANSIENT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt id="sublime_lib.flags.OpenFileOption.FORCE_GROUP">
+<code class="sig-name descname"><span class="pre">FORCE_GROUP</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.FORCE_GROUP</span></em><a class="headerlink" href="#sublime_lib.flags.OpenFileOption.FORCE_GROUP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -1406,8 +1410,8 @@ and <cite>IntFlag</cite> constructors accept multiple arguments.</p>
 
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
             <div class="clearer"></div>
@@ -1494,7 +1498,7 @@ and <cite>IntFlag</cite> constructors accept multiple arguments.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, Thomas Smith.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>
 </html>
