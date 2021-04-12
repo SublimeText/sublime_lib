@@ -3,6 +3,24 @@ from sublime import Region
 from sublime_lib import RegionManager, new_view, close_view
 
 from unittest import TestCase
+from unittest.mock import NonCallableMagicMock, MagicMock
+
+from inspect import signature
+
+
+class ViewMock(NonCallableMagicMock):
+    def __init__(self, callback=None):
+        super().__init__()
+
+        def side_effect(*args, **kwargs):
+            bound_args = (signature(sublime.View.add_regions)
+                          .bind(self, *args, **kwargs).arguments)
+            callback(**bound_args)
+
+        self.add_regions = MagicMock(
+            spec=sublime.View.add_regions,
+            side_effect=side_effect if callback else None
+        )
 
 
 class TestRegionManager(TestCase):
@@ -95,4 +113,55 @@ class TestRegionManager(TestCase):
         self.assertEqual(
             self.view.get_regions(key),
             [Region(0, 5)]
+        )
+
+    def test_no_default_args(self):
+        view = ViewMock()
+        manager = RegionManager(view)
+
+        regions = [Region(0, 5)]
+        manager.set(regions)
+
+        view.add_regions.assert_called_once_with(
+            manager.key,
+            regions,
+            '',
+            '',
+            0
+        )
+
+    def test_args(self):
+        view = ViewMock()
+        manager = RegionManager(
+            view,
+            scope='region.reddish',
+            icon='dot',
+            flags=sublime.DRAW_EMPTY,
+        )
+
+        regions = [Region(0, 5)]
+        manager.set(regions)
+
+        view.add_regions.assert_called_once_with(
+            manager.key,
+            regions,
+            'region.reddish',
+            'dot',
+            sublime.DRAW_EMPTY
+        )
+        view.add_regions.reset_mock()
+
+        manager.set(
+            regions,
+            scope='region.bluish',
+            icon='circle',
+            flags=sublime.HIDE_ON_MINIMAP
+        )
+
+        view.add_regions.assert_called_once_with(
+            manager.key,
+            regions,
+            'region.bluish',
+            'circle',
+            sublime.HIDE_ON_MINIMAP
         )
