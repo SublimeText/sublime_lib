@@ -15,6 +15,15 @@ def _coalesce(*values: Optional[T]) -> T:
 
 
 class RegionManager:
+    """A manager for regions in a given :class:`sublime.View` with the same `key`.
+
+    If `key` is not given,
+    a unique identifier will be used.
+
+    If the `scope`, `icon`, and `flags` args are given,
+    then they will be used as default values for :meth:`set`.
+    """
+
     def __init__(
         self,
         view: sublime.View,
@@ -46,6 +55,12 @@ class RegionManager:
         icon: Optional[str] = None,
         flags: Optional[RegionOption] = None
     ) -> None:
+        """Replace managed regions with the given regions.
+
+        If the `scope`, `icon`, and `flags` arguments are given,
+        then they will be passed to :meth:`sublime.add_regions`.
+        Otherwise, the defaults specified in the initializer will be used.
+        """
         self.view.add_regions(
             self.key,
             regions,
@@ -55,7 +70,10 @@ class RegionManager:
         )
 
     def get(self) -> List[sublime.Region]:
+        """Return the list of managed regions."""
         return self.view.get_regions(self.key)
 
     def erase(self) -> None:
+        """Erase all managed regions.
+        """
         self.view.erase_regions(self.key)
