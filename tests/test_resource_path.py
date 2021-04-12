@@ -1,9 +1,9 @@
 import sublime
-import shutil
 import tempfile
 
 from sublime_lib import ResourcePath
 from sublime_lib._compat.pathlib import Path
+from .temporary_package import TemporaryPackage
 
 from unittesting import DeferrableTestCase
 
@@ -11,18 +11,16 @@ from unittesting import DeferrableTestCase
 class TestResourcePath(DeferrableTestCase):
 
     def setUp(self):
-        shutil.copytree(
-            src=str(ResourcePath("Packages/sublime_lib/tests/test_package").file_path()),
-            dst=str(ResourcePath("Packages/test_package").file_path()),
+        self.temp = TemporaryPackage(
+            'test_package',
+            ResourcePath("Packages/sublime_lib/tests/test_package")
         )
+        self.temp.create()
 
-        yield ResourcePath("Packages/test_package/.test_package_exists").exists
+        yield self.temp.exists
 
     def tearDown(self):
-        shutil.rmtree(
-            str(ResourcePath("Packages/test_package").file_path()),
-            ignore_errors=True
-        )
+        self.temp.destroy()
 
     def test_glob_resources(self):
         self.assertEqual(
