@@ -5,8 +5,6 @@ from sublime_lib import RegionManager, new_view, close_view
 from unittest import TestCase
 from unittest.mock import NonCallableMagicMock, MagicMock
 
-from inspect import signature
-
 
 class ViewMock(NonCallableMagicMock):
     def __init__(self):
