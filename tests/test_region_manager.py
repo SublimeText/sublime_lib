@@ -9,18 +9,10 @@ from inspect import signature
 
 
 class ViewMock(NonCallableMagicMock):
-    def __init__(self, callback=None):
+    def __init__(self):
         super().__init__()
 
-        def side_effect(*args, **kwargs):
-            bound_args = (signature(sublime.View.add_regions)
-                          .bind(self, *args, **kwargs).arguments)
-            callback(**bound_args)
-
-        self.add_regions = MagicMock(
-            spec=sublime.View.add_regions,
-            side_effect=side_effect if callback else None
-        )
+        self.add_regions = MagicMock(spec=sublime.View.add_regions)
 
 
 class TestRegionManager(TestCase):
