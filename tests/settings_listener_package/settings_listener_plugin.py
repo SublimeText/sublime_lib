@@ -1,20 +1,24 @@
-from sublime_lib import ViewSettingsListener, GlobalSettingsListener, on_setting_changed
+import sublime_lib
+from sublime_lib import on_setting_changed, ResourcePath
 
 
 __all__ = ['FooSettingListener', 'GlobalFooSettingListener']
 
 
-class FooSettingListener(ViewSettingsListener):
+PACKAGE_NAME = ResourcePath.from_file_path(__file__).package
+
+
+class FooSettingListener(sublime_lib.ViewSettingsListener):
     @on_setting_changed('foo')
     def foo_changed(self, new_value: object, old_value: object):
         changes = self.settings.get('changes', [])
         self.settings.set('changes', changes + [[new_value, old_value]])
-        print('foo_changed', new_value, old_value, changes)
 
 
-class GlobalFooSettingListener(GlobalSettingsListener):
-    SETTINGS_NAME = 'Baz.sublime-settings'
+class GlobalFooSettingListener(sublime_lib.GlobalSettingsListener):
+    SETTINGS_NAME = PACKAGE_NAME + '.sublime-settings'
 
-    @on_setting_changed('foobar')
+    @on_setting_changed('foo')
     def foo_changed(self, new_value: object, old_value: object):
-        print('foo_changed', new_value, old_value)
+        changes = self.settings.get('changes', [])
+        self.settings.set('changes', changes + [[new_value, old_value]])

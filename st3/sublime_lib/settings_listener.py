@@ -57,6 +57,15 @@ class GlobalSettingsListener(BaseSettingsListener, sublime_plugin.EventListener)
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(sublime.load_settings(self.SETTINGS_NAME), *args, **kwargs)
 
+    def _on_settings_changed(self) -> None:
+        if self in sublime_plugin.all_callbacks['on_new']:
+            super()._on_settings_changed()
+        else:
+            self.__del__()
+
+    def on_new(self, view: sublime.View) -> None:
+        pass
+
 
 class ViewSettingsListener(BaseSettingsListener, sublime_plugin.ViewEventListener):
     def __init__(self, *args: Any, **kwargs: Any) -> None:

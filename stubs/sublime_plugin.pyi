@@ -2,6 +2,9 @@ import sublime
 from typing import Optional, Union, List, Dict, Tuple
 
 
+all_callbacks: Dict[str, List['EventListener']]
+
+
 class CommandInputHandler():
     def name(self) -> str: ...
     def next_input(self, args: dict) -> Optional[CommandInputHandler]: ...
