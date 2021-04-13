@@ -2,7 +2,9 @@ import sublime
 import sublime_plugin
 
 from collections import namedtuple
+
 from ._util.weak_method import weak_method
+from ._util.collections import get_selector
 
 
 from ._compat.typing import Callable, Any, Iterator, Tuple, TypeVar, Union
@@ -70,16 +72,8 @@ OnChangeListener = Callable[[BaseSettingsListener, Selected, Selected], None]
 def on_setting_changed(
     selector: Union[str, Callable[[sublime.Settings], Selected]]
 ) -> Callable[[OnChangeListener], OnChangeListener]:
-    if callable(selector):
-        selector_function = selector
-    elif isinstance(selector, str):
-        selector_str = selector
-        selector_function = lambda settings: settings.get(selector_str)
-    else:
-        raise TypeError('Selector must be a string or function.')
-
     def decorator(function: OnChangeListener) -> OnChangeListener:
-        setattr(function, OPTIONS_ATTRIBUTE, OnChangedOptions(selector_function))
+        setattr(function, OPTIONS_ATTRIBUTE, OnChangedOptions(get_selector(selector)))
         return function
 
     return decorator
