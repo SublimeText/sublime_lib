@@ -1,27 +1,35 @@
 import sublime
-from typing import Optional, Union, List, Dict, Tuple
+
+from typing import Callable, Generic, TypeVar, Optional, Union, List, Tuple, overload
 
 
-class CommandInputHandler():
+InputType = TypeVar('InputType')
+
+
+class CommandInputHandler(Generic[InputType]):
     def name(self) -> str: ...
     def next_input(self, args: dict) -> Optional[CommandInputHandler]: ...
     def placeholder(self) -> str: ...
     def initial_text(self) -> str: ...
-    def preview(self, arg: dict) -> Union[str, sublime.Html]: ...
-    def validate(self, arg: dict) -> bool: ...
+    def preview(self, arg: InputType) -> Union[str, sublime.Html]: ...
+    def validate(self, arg: InputType) -> bool: ...
     def cancel(self) -> None: ...
-    def confirm(self, arg: dict) -> None: ...
+
+    @overload
+    def confirm(self, arg: InputType) -> None: ...
+    @overload
+    def confirm(self, arg: InputType, event: dict) -> None: ...
 
 
-class BackInputHandler(CommandInputHandler):
+class BackInputHandler(CommandInputHandler[None]):
     pass
 
 
-class TextInputHandler(CommandInputHandler):
+class TextInputHandler(CommandInputHandler[str]):
     def description(self, text: str) -> str: ...
 
 
-class ListInputHandler(CommandInputHandler):
+class ListInputHandler(CommandInputHandler[InputType], Generic[InputType]):
     def list_items(self) -> list: ...
     def description(self, v: object, text: str) -> str: ...
 
@@ -36,19 +44,19 @@ class Command():
 
 
 class ApplicationCommand(Command):
-    def run(self) -> None: ...
+    run: Callable[..., None]
 
 
 class WindowCommand(Command):
     window: sublime.Window
 
-    def run(self) -> None: ...
+    run: Callable[..., None]
 
 
 class TextCommand(Command):
     view: sublime.View
 
-    def run(self, edit: sublime.Edit) -> None: ...
+    run: Callable[..., None]
     def want_event(self) -> bool: ...
 
 
