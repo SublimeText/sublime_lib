@@ -3,7 +3,7 @@ import sublime
 from typing import Callable, Generic, TypeVar, Optional, Union, List, Tuple, overload
 
 
-InputType = TypeVar('InputType')
+InputType = TypeVar('InputType', bound=Union[str, int, float, list, dict, tuple, None])
 
 
 class CommandInputHandler(Generic[InputType]):
@@ -29,8 +29,11 @@ class TextInputHandler(CommandInputHandler[str]):
     def description(self, text: str) -> str: ...
 
 
+ListItem = Union[str, Tuple[str, InputType]]
+
+
 class ListInputHandler(CommandInputHandler[InputType], Generic[InputType]):
-    def list_items(self) -> list: ...
+    def list_items(self) -> Union[List[ListItem], Tuple[List[ListItem], int]]: ...
     def description(self, v: object, text: str) -> str: ...
 
 
