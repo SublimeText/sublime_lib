@@ -10,3 +10,4 @@ from .window_utils import new_window, close_window  # noqa: F401
 from .settings_listener import (  # noqa: F401
     GlobalSettingsListener, ViewSettingsListener, on_setting_changed
 )
+from .region_manager import RegionManager  # noqa: F401
