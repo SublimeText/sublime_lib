@@ -1009,6 +1009,44 @@ If <cite>label</cite> is provided, then it will be shown next to the animation.<
 </dd></dl>
 
 </div>
+<div class="section" id="region-manager">
+<h2>Region manager<a class="headerlink" href="#region-manager" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="sublime_lib.RegionManager">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">RegionManager</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">icon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>A manager for regions in a given <code class="xref py py-class docutils literal notranslate"><span class="pre">sublime.View</span></code> with the same <cite>key</cite>.</p>
+<p>If <cite>key</cite> is not given,
+a unique identifier will be used.</p>
+<p>If the <cite>scope</cite>, <cite>icon</cite>, and <cite>flags</cite> args are given,
+then they will be used as default values for <a class="reference internal" href="#sublime_lib.RegionManager.set" title="sublime_lib.RegionManager.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set()</span></code></a>.</p>
+<p>When the region manager is garbage-collected, all managed regions will be erased.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.</span></p>
+</div>
+<dl class="py method">
+<dt id="sublime_lib.RegionManager.set">
+<code class="sig-name descname"><span class="pre">set</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regions</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">icon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace managed regions with the given regions.</p>
+<p>If the <cite>scope</cite>, <cite>icon</cite>, and <cite>flags</cite> arguments are given,
+then they will be passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">sublime.add_regions()</span></code>.
+Otherwise, the defaults specified in the initializer will be used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sublime_lib.RegionManager.get">
+<code class="sig-name descname"><span class="pre">get</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of managed regions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sublime_lib.RegionManager.erase">
+<code class="sig-name descname"><span class="pre">erase</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager.erase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Erase all managed regions.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-sublime_lib.encodings">
 <span id="encodings-submodule"></span><h2><a class="reference internal" href="#module-sublime_lib.encodings" title="sublime_lib.encodings"><code class="xref py py-mod docutils literal notranslate"><span class="pre">encodings</span></code></a> submodule<a class="headerlink" href="#module-sublime_lib.encodings" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
@@ -1457,6 +1495,10 @@ and <cite>IntFlag</cite> constructors accept multiple arguments.</p>
 </li>
 <li><a class="reference internal" href="#activity-indicator">Activity indicator</a><ul>
 <li><a class="reference internal" href="#sublime_lib.ActivityIndicator"><code class="docutils literal notranslate"><span class="pre">ActivityIndicator</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#region-manager">Region manager</a><ul>
+<li><a class="reference internal" href="#sublime_lib.RegionManager"><code class="docutils literal notranslate"><span class="pre">RegionManager</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-sublime_lib.encodings"><code class="xref py py-mod docutils literal notranslate"><span class="pre">encodings</span></code> submodule</a><ul>

@@ -53,6 +53,11 @@ Activity indicator
 
 .. autoclass:: sublime_lib.ActivityIndicator
 
+Region manager
+------------------
+
+.. autoclass:: sublime_lib.RegionManager
+
 :mod:`~sublime_lib.encodings` submodule
 ---------------------------------------
 
