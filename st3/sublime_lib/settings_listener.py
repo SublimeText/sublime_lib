@@ -61,6 +61,7 @@ class GlobalSettingsListener(BaseSettingsListener, sublime_plugin.EventListener)
     Example usage:
 
     .. code-block:: python
+
         from sublime_lib import GlobalSettingsListener, on_setting_changed
 
         class JsCustomConfigurationsListener(GlobalSettingsListener)
@@ -96,6 +97,7 @@ class ViewSettingsListener(BaseSettingsListener, sublime_plugin.ViewEventListene
     Example:
 
     .. code-block:: python
+
         from sublime_lib import ViewSettingsListener, on_setting_changed
 
         class TabSizeListener(ViewSettingsListener):

@@ -58,6 +58,13 @@ Region manager
 
 .. autoclass:: sublime_lib.RegionManager
 
+Settings listeners
+------------------
+
+.. autoclass:: sublime_lib.GlobalSettingsListener
+.. autoclass:: sublime_lib.ViewSettingsListener
+.. autofunction:: sublime_lib.on_setting_changed
+
 :mod:`~sublime_lib.encodings` submodule
 ---------------------------------------
 
