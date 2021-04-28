@@ -83,7 +83,7 @@ class GlobalSettingsListener(BaseSettingsListener, sublime_plugin.EventListener)
         if self in sublime_plugin.all_callbacks['on_new']:
             super()._on_settings_changed()
         else:
-            self.__del__()
+            self.settings.clear_on_change(str(id(self)))
 
     def on_new(self, view: sublime.View) -> None:
         pass
