@@ -81,7 +81,8 @@ class GlobalSettingsListener(BaseSettingsListener, sublime_plugin.EventListener)
             # don't attach a listener.
             return
         elif self.SETTINGS_NAME is None:
-            raise RuntimeError('Must specify SETTINGS_NAME for listener {}.'.format(type(self).__name__))
+            listener_name = type(self).__name__
+            raise RuntimeError('Must specify SETTINGS_NAME for listener {}.'.format(listener_name))
 
         super().__init__(sublime.load_settings(self.SETTINGS_NAME), *args, **kwargs)
 
