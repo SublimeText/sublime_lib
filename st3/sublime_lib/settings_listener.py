@@ -7,7 +7,7 @@ from ._util.weak_method import weak_method
 from ._util.collections import get_selector
 
 
-from ._compat.typing import Callable, Any, Iterator, Tuple, TypeVar, Union
+from ._compat.typing import Callable, Any, Iterator, Tuple, TypeVar, Union, Optional
 
 
 __all__ = ['GlobalSettingsListener', 'ViewSettingsListener', 'on_setting_changed']
@@ -57,6 +57,7 @@ class GlobalSettingsListener(BaseSettingsListener, sublime_plugin.EventListener)
     that also listens for changes in a global settings object.
 
     Subclasses must set the `SETTINGS_NAME` class variable to the name of the global settings.
+    Otherwise, :exc:`RuntimeError` is raised.
 
     Example usage:
 
@@ -72,9 +73,16 @@ class GlobalSettingsListener(BaseSettingsListener, sublime_plugin.EventListener)
                 if self.settings.get('auto_build', False):
                     sublime.active_window().run_command('build_js_custom_syntaxes')
     """
-    SETTINGS_NAME = ''
+    SETTINGS_NAME = None  # type: Optional[str]
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
+        if type(self) is GlobalSettingsListener:
+            # If someone accidentally exports GlobalSettingsListener itself,
+            # don't attach a listener.
+            return
+        elif self.SETTINGS_NAME is None:
+            raise RuntimeError('Must specify SETTINGS_NAME for listener {}.'.format(type(self).__name__))
+
         super().__init__(sublime.load_settings(self.SETTINGS_NAME), *args, **kwargs)
 
     def _on_settings_changed(self) -> None:

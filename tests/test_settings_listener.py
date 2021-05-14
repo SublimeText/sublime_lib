@@ -2,7 +2,10 @@ import sublime
 from sublime_lib import ResourcePath, new_view, close_view
 from .temporary_package import TemporaryPackage
 
+from unittest import TestCase
 from unittesting import DeferrableTestCase
+
+from sublime_lib import GlobalSettingsListener
 
 
 class TestViewSettingsListener(DeferrableTestCase):
@@ -55,7 +58,6 @@ class TestGlobalSettingsListener(DeferrableTestCase):
         self.temporary_package.destroy()
 
     def test_global_listener(self):
-        # pass
         self.settings.set('foo', 'A')
         self.settings.set('foo', 'B')
 
@@ -72,3 +74,15 @@ class TestGlobalSettingsListener(DeferrableTestCase):
             ['A', None],
             ['B', 'A'],
         ])
+
+
+class TestGlobalSettingsListenerErrors(TestCase):
+    def test_instantiate_base(self):
+        GlobalSettingsListener()
+
+    def test_instantiate_without_name(self):
+        class TestListener(GlobalSettingsListener):
+            pass
+
+        with self.assertRaises(RuntimeError):
+            TestListener()
