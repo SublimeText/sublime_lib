@@ -145,13 +145,29 @@ def on_setting_changed(
 
     The handler is not called every time the `settings` object changes,
     but only when the value derived using the `selector` argument changes.
-    If `selector` is callable, then the derived value is ``selector(self)``.
+    If `selector` is callable, then the derived value is ``selector(settings)``.
     If `selector` is a :class:`str`,
-    then the derived value is ``self.get(selector, None)``.
-    Otherwise, the derived value is ``projection(self, selector)``.
+    then the derived value is ``settings.get(selector, None)``.
+    Otherwise, the derived value is ``projection(settings, selector)`` (as defined below).
 
     The handler should accept two arguments:
     the new derived value and the previous derived value.
+
+    ``projection(settings, keys)``
+        Return a new :class:`dict` with keys of ``settings`` restricted to values in ``keys``.
+
+        .. code-block:: python
+
+           >>> projection({'a': 1, 'b': 2}, ['b'])
+           {'b': 2}
+
+        If ``keys`` is a :class:`dict`, then it maps keys of the original dict to
+        keys of the result:
+
+        .. code-block:: python
+
+           >>> projection({'a': 1, 'b': 2}, {'b': 'c'})
+           {'c': 2}
     """
     def decorator(function: OnChangeListener) -> OnChangeListener:
         setattr(function, OPTIONS_ATTRIBUTE, OnChangedOptions(get_selector(selector)))
