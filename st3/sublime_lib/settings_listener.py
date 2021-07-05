@@ -145,9 +145,9 @@ def on_setting_changed(
 
     The handler is not called every time the `settings` object changes,
     but only when the value derived using the `selector` argument changes.
-    If `selector` is callable, then the derived value is ``selector(settings)``.
     If `selector` is a :class:`str`,
     then the derived value is ``settings.get(selector, None)``.
+    If `selector` is callable, then the derived value is ``selector(settings)``.
     Otherwise, the derived value is ``projection(settings, selector)`` (as defined below).
 
     The handler should accept two arguments:
