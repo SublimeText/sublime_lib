@@ -4,12 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>sublime_lib API Reference &#8212; sublime_lib  documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -31,7 +32,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="sublime-lib-api-reference">
+  <section id="sublime-lib-api-reference">
 <h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">sublime_lib</span></code> API Reference<a class="headerlink" href="#sublime-lib-api-reference" title="Permalink to this headline">¶</a></h1>
 <p>A utility library for Sublime Text providing a variety of convenience features for other packages to use.</p>
 <p>For general documentation, see the <a class="reference external" href="https://github.com/SublimeText/sublime_lib">README</a>.</p>
@@ -39,11 +40,11 @@
 the <a class="reference external" href="https://www.sublimetext.com/docs/3/api_reference.html">Sublime Text API</a>.
 As a result, <code class="xref py py-mod docutils literal notranslate"><span class="pre">sublime_lib</span></code> functionality should not be used at import time.
 Instead, any initialization should be performed in <code class="xref py py-func docutils literal notranslate"><span class="pre">plugin_loaded()</span></code>.</p>
-<div class="section" id="settings-dictionaries">
+<section id="settings-dictionaries">
 <h2>Settings dictionaries<a class="headerlink" href="#settings-dictionaries" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="sublime_lib.SettingsDict">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">SettingsDict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">SettingsDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wraps a <code class="xref py py-class docutils literal notranslate"><span class="pre">sublime.Settings</span></code> object <cite>settings</cite>
 with a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>-like interface.</p>
 <p>There is no way to list or iterate over the keys of a
@@ -63,21 +64,21 @@ not implemented:</p>
 with other dict-like objects. If you do, calling the above unimplemented
 methods on the <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.ChainMap" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChainMap</span></code></a> will raise an error.</p>
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.__iter__">
-<code class="sig-name descname"><span class="pre">iter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.__iter__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.__iter__">
+<span class="sig-name descname"><span class="pre">iter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.__iter__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raise NotImplementedError.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.__eq__">
-<span><em><span class="pre">self</span></em> <code class="sig-name descname"><span class="pre">==</span></code> <em><span class="pre">other</span></em></span><a class="headerlink" href="#sublime_lib.SettingsDict.__eq__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.__eq__">
+<span class="sig-name descname"><em><span class="pre">self</span></em> <span class="sig-name descname"><span class="pre">==</span></span> <em><span class="pre">other</span></em></span><a class="headerlink" href="#sublime_lib.SettingsDict.__eq__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <cite>self</cite> and <cite>other</cite> are of the same type
 and refer to the same underlying settings data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.__getitem__">
-<span><em><span class="pre">self</span></em><code class="sig-name descname"><span class="pre">[</span></code><em><span class="pre">key</span></em><code class="sig-name descname"><span class="pre">]</span></code></span><a class="headerlink" href="#sublime_lib.SettingsDict.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.__getitem__">
+<span class="sig-name descname"><em><span class="pre">self</span></em><span class="sig-name descname"><span class="pre">[</span></span><em><span class="pre">key</span></em><span class="sig-name descname"><span class="pre">]</span></span></span><a class="headerlink" href="#sublime_lib.SettingsDict.__getitem__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the setting named <cite>key</cite>.</p>
 <p>If a subclass of <a class="reference internal" href="#sublime_lib.SettingsDict" title="sublime_lib.SettingsDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">SettingsDict</span></code></a> defines a method <code class="xref py py-meth docutils literal notranslate"><span class="pre">__missing__()</span></code>
 and <cite>key</cite> is not present,
@@ -96,14 +97,14 @@ and <code class="xref py py-meth docutils literal notranslate"><span class="pre"
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.__setitem__">
-<span><em><span class="pre">self</span></em><code class="sig-name descname"><span class="pre">[</span></code><em><span class="pre">key</span></em><code class="sig-name descname"><span class="pre">]</span></code> <code class="sig-name descname"><span class="pre">=</span></code> <em><span class="pre">value</span></em></span><a class="headerlink" href="#sublime_lib.SettingsDict.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.__setitem__">
+<span class="sig-name descname"><em><span class="pre">self</span></em><span class="sig-name descname"><span class="pre">[</span></span><em><span class="pre">key</span></em><span class="sig-name descname"><span class="pre">]</span></span> <span class="sig-name descname"><span class="pre">=</span></span> <em><span class="pre">value</span></em></span><a class="headerlink" href="#sublime_lib.SettingsDict.__setitem__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set <cite>self[key]</cite> to <cite>value</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.__delitem__">
-<span><code class="sig-name descname"><span class="pre">del</span></code> <em><span class="pre">self</span></em><code class="sig-name descname"><span class="pre">[</span></code><em><span class="pre">key</span></em><code class="sig-name descname"><span class="pre">]</span></code></span><a class="headerlink" href="#sublime_lib.SettingsDict.__delitem__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.__delitem__">
+<span class="sig-name descname"><span class="sig-name descname"><span class="pre">del</span></span> <em><span class="pre">self</span></em><span class="sig-name descname"><span class="pre">[</span></span><em><span class="pre">key</span></em><span class="sig-name descname"><span class="pre">]</span></span></span><a class="headerlink" href="#sublime_lib.SettingsDict.__delitem__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove <cite>self[key]</cite> from <cite>self</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -113,22 +114,22 @@ and <code class="xref py py-meth docutils literal notranslate"><span class="pre"
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.__contains__">
-<span><em><span class="pre">item</span></em> <code class="sig-name descname"><span class="pre">in</span></code> <em><span class="pre">self</span></em></span><a class="headerlink" href="#sublime_lib.SettingsDict.__contains__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.__contains__">
+<span class="sig-name descname"><em><span class="pre">item</span></em> <span class="sig-name descname"><span class="pre">in</span></span> <em><span class="pre">self</span></em></span><a class="headerlink" href="#sublime_lib.SettingsDict.__contains__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <cite>self</cite> has a setting named <cite>key</cite>, else <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.get">
-<code class="sig-name descname"><span class="pre">get</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.get" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the value for <cite>key</cite> if <cite>key</cite> is in the dictionary, or <cite>default</cite> otherwise.</p>
 <p>If <cite>default</cite> is not given, it defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>,
 so that this method never raises <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.pop">
-<code class="sig-name descname"><span class="pre">pop</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">SettingsDict.NO_DEFAULT</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.pop" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.pop">
+<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">SettingsDict.NO_DEFAULT</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.pop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove the setting <cite>self[key]</cite> and return its value or <cite>default</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -142,14 +143,14 @@ and <cite>default</cite> is <code class="xref py py-attr docutils literal notran
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.setdefault">
-<code class="sig-name descname"><span class="pre">setdefault</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.setdefault" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.setdefault">
+<span class="sig-name descname"><span class="pre">setdefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.setdefault" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set <cite>self[key]</cite> to <cite>default</cite> if it wasn’t already defined and return <cite>self[key]</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.update">
-<code class="sig-name descname"><span class="pre">update</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.update" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update the dictionary with the key/value pairs from <cite>other</cite>,
 overwriting existing keys.</p>
 <p>Accepts either another dictionary object
@@ -160,8 +161,8 @@ the dictionary is then updated with those key/value pairs:
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.SettingsDict.subscribe">
-<code class="sig-name descname"><span class="pre">subscribe</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.subscribe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.SettingsDict.subscribe">
+<span class="sig-name descname"><span class="pre">subscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.SettingsDict.subscribe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a callback to be invoked
 when the value derived from the settings object changes
 and return a function that when invoked will unregister the callback.</p>
@@ -186,30 +187,30 @@ the new derived value and the previous derived value.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.NamedSettingsDict">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">NamedSettingsDict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.NamedSettingsDict" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.NamedSettingsDict">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">NamedSettingsDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.NamedSettingsDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wraps a <code class="xref py py-class docutils literal notranslate"><span class="pre">sublime.Settings</span></code> object corresponding to a <cite>sublime-settings</cite> file.</p>
-<dl class="py method">
-<dt id="sublime_lib.NamedSettingsDict.file_name">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">file_name</span></code><a class="headerlink" href="#sublime_lib.NamedSettingsDict.file_name" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.NamedSettingsDict.file_name">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">file_name</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#sublime_lib.NamedSettingsDict.file_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the sublime-settings files
 associated with the <a class="reference internal" href="#sublime_lib.NamedSettingsDict" title="sublime_lib.NamedSettingsDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">NamedSettingsDict</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.NamedSettingsDict.save">
-<code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.NamedSettingsDict.save" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.NamedSettingsDict.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.NamedSettingsDict.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flush any in-memory changes to the <a class="reference internal" href="#sublime_lib.NamedSettingsDict" title="sublime_lib.NamedSettingsDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">NamedSettingsDict</span></code></a> to disk.</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="output-streams-and-panels">
+</section>
+<section id="output-streams-and-panels">
 <h2>Output streams and panels<a class="headerlink" href="#output-streams-and-panels" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="sublime_lib.ViewStream">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">ViewStream</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_writes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">ViewStream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_writes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream" title="Permalink to this definition">¶</a></dt>
 <dd><p>A <a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOBase" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextIOBase</span></code></a> encapsulating a <code class="xref py py-class docutils literal notranslate"><span class="pre">View</span></code> object.</p>
 <p>All public methods (except <a class="reference internal" href="#sublime_lib.ViewStream.flush" title="sublime_lib.ViewStream.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a>) require
 that the underlying View object be valid (using <code class="xref py py-meth docutils literal notranslate"><span class="pre">View.is_valid()</span></code>).
@@ -235,22 +236,22 @@ to ensure that the new position is visible.</p></li>
 <p><span class="versionmodified changed">Changed in version 1.2: </span>Added the <cite>follow_cursor</cite> option.</p>
 </div>
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.read">
-<code class="sig-name descname"><span class="pre">read</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.read" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read and return at most <cite>size</cite> characters from the stream as a single <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</p>
 <p>If <cite>size</cite> is negative or None, read until EOF.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.readline">
-<code class="sig-name descname"><span class="pre">readline</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.readline" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.readline">
+<span class="sig-name descname"><span class="pre">readline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.readline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read and return one line from the stream, to a maximum of <cite>size</cite> characters.</p>
 <p>If the stream is already at EOF, return an empty string.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.write">
-<code class="sig-name descname"><span class="pre">write</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.write" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Insert the string <cite>s</cite> into the view immediately before the cursor
 and return the number of characters inserted.</p>
 <p>Because Sublime may convert tabs to spaces,
@@ -259,20 +260,20 @@ the length of the argument.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.print">
-<code class="sig-name descname"><span class="pre">print</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">objects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.print" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">objects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.print" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shorthand for <a class="reference internal" href="#sublime_lib.ViewStream.print" title="sublime_lib.ViewStream.print"><code class="xref py py-func docutils literal notranslate"><span class="pre">print()</span></code></a> passing this ViewStream as the <cite>file</cite> argument.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.flush">
-<code class="sig-name descname"><span class="pre">flush</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.flush" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.flush">
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.flush" title="Permalink to this definition">¶</a></dt>
 <dd><p>Do nothing. (The stream is not buffered.)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.seek">
-<code class="sig-name descname"><span class="pre">seek</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.seek" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.seek">
+<span class="sig-name descname"><span class="pre">seek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.seek" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the cursor in the view and return the new offset.</p>
 <p>If <cite>whence</cite> is provided,
 the behavior is the same as for <a class="reference external" href="https://docs.python.org/3/library/io.html#io.IOBase" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IOBase</span></code></a>.
@@ -286,40 +287,40 @@ If the view had multiple selections, none will be preserved.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.seek_start">
-<code class="sig-name descname"><span class="pre">seek_start</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.seek_start" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.seek_start">
+<span class="sig-name descname"><span class="pre">seek_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.seek_start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the cursor in the view to before the first character.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.seek_end">
-<code class="sig-name descname"><span class="pre">seek_end</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.seek_end" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.seek_end">
+<span class="sig-name descname"><span class="pre">seek_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.seek_end" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the cursor in the view to after the last character.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.tell">
-<code class="sig-name descname"><span class="pre">tell</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.tell" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.tell">
+<span class="sig-name descname"><span class="pre">tell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.tell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the character offset of the cursor.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.show_cursor">
-<code class="sig-name descname"><span class="pre">show_cursor</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.show_cursor" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.show_cursor">
+<span class="sig-name descname"><span class="pre">show_cursor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.show_cursor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Scroll the view to show the position of the cursor.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ViewStream.clear">
-<code class="sig-name descname"><span class="pre">clear</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.clear" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ViewStream.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ViewStream.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Erase all text in the view.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.Panel">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">Panel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.Panel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">Panel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel" title="Permalink to this definition">¶</a></dt>
 <dd><p>An abstraction of a panel, such as the console or an output panel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -330,8 +331,8 @@ If the view had multiple selections, none will be preserved.</p>
 will raise a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if the panel does not exist.
 Descendant classes may override <a class="reference internal" href="#sublime_lib.Panel.exists" title="sublime_lib.Panel.exists"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exists()</span></code></a> to customize this behavior.</p>
 <dl class="py attribute">
-<dt id="sublime_lib.Panel.panel_name">
-<code class="sig-name descname"><span class="pre">panel_name</span></code><a class="headerlink" href="#sublime_lib.Panel.panel_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.Panel.panel_name">
+<span class="sig-name descname"><span class="pre">panel_name</span></span><a class="headerlink" href="#sublime_lib.Panel.panel_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the panel as it is listed in <code class="xref py py-meth docutils literal notranslate"><span class="pre">sublime.Window.panels()</span></code>.</p>
 </dd></dl>
 
@@ -339,42 +340,42 @@ Descendant classes may override <a class="reference internal" href="#sublime_lib
 <p><span class="versionmodified added">New in version 1.3.</span></p>
 </div>
 <dl class="py method">
-<dt id="sublime_lib.Panel.exists">
-<code class="sig-name descname"><span class="pre">exists</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel.exists" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.Panel.exists">
+<span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel.exists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the panel exists, or <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
 <p>This implementation checks <code class="xref py py-meth docutils literal notranslate"><span class="pre">sublime.Window.panels()</span></code>,
 so it will return <code class="docutils literal notranslate"><span class="pre">False</span></code> for unlisted panels.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.Panel.is_visible">
-<code class="sig-name descname"><span class="pre">is_visible</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel.is_visible" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.Panel.is_visible">
+<span class="sig-name descname"><span class="pre">is_visible</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel.is_visible" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the panel is currently visible.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.Panel.show">
-<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel.show" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.Panel.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show the panel, hiding any other visible panel.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.Panel.hide">
-<code class="sig-name descname"><span class="pre">hide</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel.hide" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.Panel.hide">
+<span class="sig-name descname"><span class="pre">hide</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel.hide" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hide the panel.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.Panel.toggle_visibility">
-<code class="sig-name descname"><span class="pre">toggle_visibility</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel.toggle_visibility" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.Panel.toggle_visibility">
+<span class="sig-name descname"><span class="pre">toggle_visibility</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.Panel.toggle_visibility" title="Permalink to this definition">¶</a></dt>
 <dd><p>If the panel is visible, hide it; otherwise, show it.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.OutputPanel">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">OutputPanel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_writes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.OutputPanel" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.OutputPanel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">OutputPanel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_writes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.OutputPanel" title="Permalink to this definition">¶</a></dt>
 <dd><p>A subclass of <a class="reference internal" href="#sublime_lib.ViewStream" title="sublime_lib.ViewStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewStream</span></code></a> and <a class="reference internal" href="#sublime_lib.Panel" title="sublime_lib.Panel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Panel</span></code></a>
 wrapping an output panel in the given <cite>window</cite> with the given <cite>name</cite>.</p>
 <dl class="field-list simple">
@@ -386,43 +387,43 @@ wrapping an output panel in the given <cite>window</cite> with the given <cite>n
 <p><span class="versionmodified changed">Changed in version 1.3: </span>Now a subclass of <a class="reference internal" href="#sublime_lib.Panel" title="sublime_lib.Panel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Panel</span></code></a>.</p>
 </div>
 <dl class="py method">
-<dt id="sublime_lib.OutputPanel.create">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">create</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_writes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unlisted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.OutputPanel.create" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.OutputPanel.create">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_writes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unlisted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.OutputPanel.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new output panel with the given <cite>name</cite> in the given <cite>window</cite>.</p>
 <p>If <cite>kwargs</cite> are given,
 they will be interpreted as for <code class="xref py py-func docutils literal notranslate"><span class="pre">new_view()</span></code>.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="sublime_lib.OutputPanel.full_name">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">full_name</span></code><a class="headerlink" href="#sublime_lib.OutputPanel.full_name" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.OutputPanel.full_name">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">full_name</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#sublime_lib.OutputPanel.full_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The output panel name, beginning with <code class="docutils literal notranslate"><span class="pre">'output.'</span></code>.</p>
 <p>Generally, API methods specific to output panels will use <code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code>,
 while methods that work with any panels will use <a class="reference internal" href="#sublime_lib.OutputPanel.full_name" title="sublime_lib.OutputPanel.full_name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">full_name</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.OutputPanel.exists">
-<code class="sig-name descname"><span class="pre">exists</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.OutputPanel.exists" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.OutputPanel.exists">
+<span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.OutputPanel.exists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the panel exists, or <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
 <p>This implementation checks that the encapsulated <code class="xref py py-class docutils literal notranslate"><span class="pre">View</span></code> is valid,
 so it will return <code class="docutils literal notranslate"><span class="pre">True</span></code> even for unlisted panels.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.OutputPanel.destroy">
-<code class="sig-name descname"><span class="pre">destroy</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.OutputPanel.destroy" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.OutputPanel.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.OutputPanel.destroy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Destroy the output panel.</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="resource-paths">
+</section>
+<section id="resource-paths">
 <h2>Resource paths<a class="headerlink" href="#resource-paths" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="sublime_lib.ResourcePath">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">ResourcePath</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">pathsegments</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">ResourcePath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">pathsegments</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath" title="Permalink to this definition">¶</a></dt>
 <dd><p>A pathlib-inspired representation of a Sublime Text resource path.</p>
 <p>Resource paths are similar to filesystem paths in many ways,
 yet different in other ways.
@@ -450,15 +451,15 @@ and not merely a suffix of the path.</p>
 <p><span class="versionmodified added">New in version 1.2.</span></p>
 </div>
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.glob_resources">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">glob_resources</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.glob_resources" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.glob_resources">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">glob_resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.glob_resources" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find all resources that match the given pattern
 and return them as <a class="reference internal" href="#sublime_lib.ResourcePath" title="sublime_lib.ResourcePath"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResourcePath</span></code></a> objects.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.from_file_path">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_file_path</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.from_file_path" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.from_file_path">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.from_file_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <a class="reference internal" href="#sublime_lib.ResourcePath" title="sublime_lib.ResourcePath"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResourcePath</span></code></a> corresponding to the given file path.</p>
 <p>If the file path corresponds to a resource inside an installed package,
 then return the path to that resource.</p>
@@ -487,64 +488,64 @@ then return the path to that resource.</p>
 </div>
 </dd></dl>
 
-<dl class="py method">
-<dt id="sublime_lib.ResourcePath.parts">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">parts</span></code><a class="headerlink" href="#sublime_lib.ResourcePath.parts" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.parts">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">parts</span></span><em class="property"><span class="pre">:</span> <span class="pre">Tuple[str,</span> <span class="pre">...]</span></em><a class="headerlink" href="#sublime_lib.ResourcePath.parts" title="Permalink to this definition">¶</a></dt>
 <dd><p>A tuple giving access to the path’s various components.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="sublime_lib.ResourcePath.parent">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">parent</span></code><a class="headerlink" href="#sublime_lib.ResourcePath.parent" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.parent">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="pre">:</span> <span class="pre">sublime_lib.resource_path.ResourcePath</span></em><a class="headerlink" href="#sublime_lib.ResourcePath.parent" title="Permalink to this definition">¶</a></dt>
 <dd><p>The logical parent of the path. A root path is its own parent.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="sublime_lib.ResourcePath.parents">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">parents</span></code><a class="headerlink" href="#sublime_lib.ResourcePath.parents" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.parents">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">parents</span></span><em class="property"><span class="pre">:</span> <span class="pre">Tuple[sublime_lib.resource_path.ResourcePath,</span> <span class="pre">...]</span></em><a class="headerlink" href="#sublime_lib.ResourcePath.parents" title="Permalink to this definition">¶</a></dt>
 <dd><p>An immutable sequence providing access to the path’s logical ancestors.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="sublime_lib.ResourcePath.name">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#sublime_lib.ResourcePath.name" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.name">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#sublime_lib.ResourcePath.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>A string representing the final path component.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="sublime_lib.ResourcePath.suffix">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">suffix</span></code><a class="headerlink" href="#sublime_lib.ResourcePath.suffix" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.suffix">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#sublime_lib.ResourcePath.suffix" title="Permalink to this definition">¶</a></dt>
 <dd><p>The final component’s last suffix, if any.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="sublime_lib.ResourcePath.suffixes">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">suffixes</span></code><a class="headerlink" href="#sublime_lib.ResourcePath.suffixes" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.suffixes">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">suffixes</span></span><em class="property"><span class="pre">:</span> <span class="pre">List[str]</span></em><a class="headerlink" href="#sublime_lib.ResourcePath.suffixes" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list of the final component’s suffixes, if any.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="sublime_lib.ResourcePath.stem">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">stem</span></code><a class="headerlink" href="#sublime_lib.ResourcePath.stem" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.stem">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">stem</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#sublime_lib.ResourcePath.stem" title="Permalink to this definition">¶</a></dt>
 <dd><p>The final path component, minus its last suffix.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="sublime_lib.ResourcePath.root">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">root</span></code><a class="headerlink" href="#sublime_lib.ResourcePath.root" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.root">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">root</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#sublime_lib.ResourcePath.root" title="Permalink to this definition">¶</a></dt>
 <dd><p>The first path component (usually <code class="docutils literal notranslate"><span class="pre">'Packages'</span></code> or <code class="docutils literal notranslate"><span class="pre">'Cache'</span></code>).</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="sublime_lib.ResourcePath.package">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">package</span></code><a class="headerlink" href="#sublime_lib.ResourcePath.package" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.package">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">package</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional[str]</span></em><a class="headerlink" href="#sublime_lib.ResourcePath.package" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the package the path is within,
 or <code class="docutils literal notranslate"><span class="pre">None</span></code> if the path is a root path.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.match">
-<code class="sig-name descname"><span class="pre">match</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.match" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.match">
+<span class="sig-name descname"><span class="pre">match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.match" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if this path matches the given glob pattern,
 or <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
 <dl class="field-list simple">
@@ -555,14 +556,14 @@ or <code class="docutils literal notranslate"><span class="pre">False</span></co
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.joinpath">
-<code class="sig-name descname"><span class="pre">joinpath</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.joinpath" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.joinpath">
+<span class="sig-name descname"><span class="pre">joinpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.joinpath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Combine this path with all of the given strings.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.relative_to">
-<code class="sig-name descname"><span class="pre">relative_to</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.relative_to" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.relative_to">
+<span class="sig-name descname"><span class="pre">relative_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.relative_to" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a tuple <cite>parts</cite> of path components such that <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">==</span> <span class="pre">other.joinpath(*parts)</span></code>.</p>
 <p><cite>other</cite> will be converted to a <a class="reference internal" href="#sublime_lib.ResourcePath" title="sublime_lib.ResourcePath"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResourcePath</span></code></a>.</p>
 <dl class="field-list simple">
@@ -576,14 +577,14 @@ or <code class="docutils literal notranslate"><span class="pre">False</span></co
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.with_name">
-<code class="sig-name descname"><span class="pre">with_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.with_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.with_name">
+<span class="sig-name descname"><span class="pre">with_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.with_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a new path with the name changed.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.add_suffix">
-<code class="sig-name descname"><span class="pre">add_suffix</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.add_suffix" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.add_suffix">
+<span class="sig-name descname"><span class="pre">add_suffix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.add_suffix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a new path with the suffix added.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.3.</span></p>
@@ -591,8 +592,8 @@ or <code class="docutils literal notranslate"><span class="pre">False</span></co
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.remove_suffix">
-<code class="sig-name descname"><span class="pre">remove_suffix</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">must_remove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.remove_suffix" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.remove_suffix">
+<span class="sig-name descname"><span class="pre">remove_suffix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">must_remove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.remove_suffix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a new path with the suffix removed.</p>
 <p>If <cite>suffix</cite> is <code class="docutils literal notranslate"><span class="pre">None</span></code> (the default), then <code class="docutils literal notranslate"><span class="pre">self.suffix</span></code> will be removed.
 If <cite>suffix</cite> is a string, then only that suffix will be removed.
@@ -610,8 +611,8 @@ and no suffix can be removed.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.with_suffix">
-<code class="sig-name descname"><span class="pre">with_suffix</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.with_suffix" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.with_suffix">
+<span class="sig-name descname"><span class="pre">with_suffix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.with_suffix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a new path with the suffix changed.</p>
 <p>If the original path doesn’t have a suffix, the new suffix is appended
 instead. If the new suffix is an empty string, the original suffix is
@@ -620,8 +621,8 @@ removed.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.file_path">
-<code class="sig-name descname"><span class="pre">file_path</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.file_path" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.file_path">
+<span class="sig-name descname"><span class="pre">file_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.file_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code> object representing a filesystem path
 inside one of Sublime’s data directories.</p>
 <p>Even if there is a resource at this path,
@@ -635,8 +636,8 @@ The resource could be in a default package or an installed package.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.exists">
-<code class="sig-name descname"><span class="pre">exists</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.exists" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.exists">
+<span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.exists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if there is a resource at this path,
 or <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
 <p>The resource system does not keep track of directories.
@@ -645,8 +646,8 @@ there may be resources beneath that path.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.read_text">
-<code class="sig-name descname"><span class="pre">read_text</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.read_text" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.read_text">
+<span class="sig-name descname"><span class="pre">read_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.read_text" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the resource at this path and return it as text.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -659,8 +660,8 @@ there may be resources beneath that path.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.read_bytes">
-<code class="sig-name descname"><span class="pre">read_bytes</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.read_bytes" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.read_bytes">
+<span class="sig-name descname"><span class="pre">read_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.read_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the resource at this path and return it as bytes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -670,8 +671,8 @@ there may be resources beneath that path.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.glob">
-<code class="sig-name descname"><span class="pre">glob</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.glob" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.glob">
+<span class="sig-name descname"><span class="pre">glob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.glob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Glob the given pattern at this path, returning all matching resources.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -681,8 +682,8 @@ there may be resources beneath that path.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.rglob">
-<code class="sig-name descname"><span class="pre">rglob</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.rglob" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.rglob">
+<span class="sig-name descname"><span class="pre">rglob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.rglob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shorthand for <code class="docutils literal notranslate"><span class="pre">path.glob('**/'</span> <span class="pre">+</span> <span class="pre">pattern)</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -695,15 +696,15 @@ there may be resources beneath that path.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.children">
-<code class="sig-name descname"><span class="pre">children</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.children" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.children">
+<span class="sig-name descname"><span class="pre">children</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.children" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of paths that are direct children of this path
 and point to a resource at or beneath that path.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.copy">
-<code class="sig-name descname"><span class="pre">copy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exist_ok</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.copy" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exist_ok</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy this resource to the given <cite>target</cite>.</p>
 <p><cite>target</cite> should be a string representing a filesystem path
 or a value convertible to string.
@@ -725,8 +726,8 @@ it will be silently replaced.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ResourcePath.copytree">
-<code class="sig-name descname"><span class="pre">copytree</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exist_ok</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.copytree" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ResourcePath.copytree">
+<span class="sig-name descname"><span class="pre">copytree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exist_ok</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ResourcePath.copytree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy all resources beneath this path into a directory tree rooted at <cite>target</cite>.</p>
 <p>All missing parent directories of <cite>target</cite> will be created.</p>
 <p>If <cite>exist_ok</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code> (the default),
@@ -745,12 +746,12 @@ then existing files under <cite>target</cite> will be overwritten.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="view-utilities">
+</section>
+<section id="view-utilities">
 <h2>View utilities<a class="headerlink" href="#view-utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="sublime_lib.new_view">
-<code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">new_view</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.new_view" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.new_view">
+<span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">new_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.new_view" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a new view in the given <cite>window</cite>, returning the <code class="xref py py-class docutils literal notranslate"><span class="pre">View</span></code> object.</p>
 <p>This function takes many optional keyword arguments:</p>
 <dl class="field-list simple">
@@ -790,8 +791,8 @@ Incompatible with the <cite>scope</cite> option.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="sublime_lib.close_view">
-<code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">close_view</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.close_view" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.close_view">
+<span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">close_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.close_view" title="Permalink to this definition">¶</a></dt>
 <dd><p>Close the given view, discarding unsaved changes if <cite>force</cite> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 <p>If the view is invalid (e.g. already closed), do nothing.</p>
 <dl class="field-list simple">
@@ -805,24 +806,24 @@ Incompatible with the <cite>scope</cite> option.</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.LineEnding">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">LineEnding</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.LineEnding" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.LineEnding">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">LineEnding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.LineEnding" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code> of line endings supported by Sublime Text.</p>
 <p>The <a class="reference internal" href="#sublime_lib.LineEnding" title="sublime_lib.LineEnding"><code class="xref py py-class docutils literal notranslate"><span class="pre">LineEnding</span></code></a> constructor accepts either
 the case-insensitive name (e.g. <code class="docutils literal notranslate"><span class="pre">'unix'</span></code>) or the value (e.g. <code class="docutils literal notranslate"><span class="pre">'\n'</span></code>) of a line ending.</p>
 <dl class="py attribute">
-<dt id="sublime_lib.LineEnding.Unix">
-<code class="sig-name descname"><span class="pre">Unix</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'\n'</span></em><a class="headerlink" href="#sublime_lib.LineEnding.Unix" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.LineEnding.Unix">
+<span class="sig-name descname"><span class="pre">Unix</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'\n'</span></em><a class="headerlink" href="#sublime_lib.LineEnding.Unix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.LineEnding.Windows">
-<code class="sig-name descname"><span class="pre">Windows</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'\r\n'</span></em><a class="headerlink" href="#sublime_lib.LineEnding.Windows" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.LineEnding.Windows">
+<span class="sig-name descname"><span class="pre">Windows</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'\r\n'</span></em><a class="headerlink" href="#sublime_lib.LineEnding.Windows" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.LineEnding.CR">
-<code class="sig-name descname"><span class="pre">CR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'\r'</span></em><a class="headerlink" href="#sublime_lib.LineEnding.CR" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.LineEnding.CR">
+<span class="sig-name descname"><span class="pre">CR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'\r'</span></em><a class="headerlink" href="#sublime_lib.LineEnding.CR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <div class="versionadded">
@@ -830,12 +831,12 @@ the case-insensitive name (e.g. <code class="docutils literal notranslate"><span
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="window-utilities">
+</section>
+<section id="window-utilities">
 <h2>Window utilities<a class="headerlink" href="#window-utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="sublime_lib.new_window">
-<code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">new_window</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">menu_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sidebar_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tabs_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimap_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_bar_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.new_window" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.new_window">
+<span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">new_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">menu_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sidebar_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tabs_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimap_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_bar_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.new_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a new window, returning the <code class="xref py py-class docutils literal notranslate"><span class="pre">Window</span></code> object.</p>
 <p>This function takes many optional keyword arguments:</p>
 <dl class="field-list simple">
@@ -870,8 +871,8 @@ to associate a window with a <cite>.sublime_project</cite> file.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="sublime_lib.close_window">
-<code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">close_window</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.close_window" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.close_window">
+<span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">close_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.close_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Close the given window, discarding unsaved changes if <cite>force</cite> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -885,8 +886,8 @@ and <cite>force</cite> is not <code class="docutils literal notranslate"><span c
 </dd></dl>
 
 <dl class="py function">
-<dt id="sublime_lib.show_selection_panel">
-<code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">show_selection_panel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">NO_SELECTION</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_cancel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_highlight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.show_selection_panel" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.show_selection_panel">
+<span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">show_selection_panel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">NO_SELECTION</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_cancel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_highlight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.show_selection_panel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a quick panel in the given window to select an item from a list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -948,12 +949,12 @@ convertible to <a class="reference internal" href="#sublime_lib.flags.QuickPanel
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="syntax-utilities">
+</section>
+<section id="syntax-utilities">
 <h2>Syntax utilities<a class="headerlink" href="#syntax-utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="sublime_lib.list_syntaxes">
-<code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">list_syntaxes</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.list_syntaxes" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.list_syntaxes">
+<span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">list_syntaxes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.list_syntaxes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of all loaded syntax definitions.</p>
 <p>Each item is a <code class="xref py py-class docutils literal notranslate"><span class="pre">namedtuple</span></code> with the following properties:</p>
 <dl class="simple">
@@ -969,17 +970,17 @@ convertible to <a class="reference internal" href="#sublime_lib.flags.QuickPanel
 </dd></dl>
 
 <dl class="py function">
-<dt id="sublime_lib.get_syntax_for_scope">
-<code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">get_syntax_for_scope</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.get_syntax_for_scope" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.get_syntax_for_scope">
+<span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">get_syntax_for_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.get_syntax_for_scope" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the last syntax in load order that matches <cite>scope</cite>.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="activity-indicator">
+</section>
+<section id="activity-indicator">
 <h2>Activity indicator<a class="headerlink" href="#activity-indicator" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="sublime_lib.ActivityIndicator">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">ActivityIndicator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ActivityIndicator" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ActivityIndicator">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">ActivityIndicator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ActivityIndicator" title="Permalink to this definition">¶</a></dt>
 <dd><p>An animated text-based indicator to show that some activity is in progress.</p>
 <p>The <cite>target</cite> argument should be a <code class="xref py py-class docutils literal notranslate"><span class="pre">sublime.View</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">sublime.Window</span></code>.
 The indicator will be shown in the status bar of that view or window.
@@ -989,8 +990,8 @@ If <cite>label</cite> is provided, then it will be shown next to the animation.<
 <p><span class="versionmodified added">New in version 1.4.</span></p>
 </div>
 <dl class="py method">
-<dt id="sublime_lib.ActivityIndicator.start">
-<code class="sig-name descname"><span class="pre">start</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ActivityIndicator.start" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ActivityIndicator.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ActivityIndicator.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start displaying the indicator and animate it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -1000,20 +1001,20 @@ If <cite>label</cite> is provided, then it will be shown next to the animation.<
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.ActivityIndicator.stop">
-<code class="sig-name descname"><span class="pre">stop</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ActivityIndicator.stop" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.ActivityIndicator.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.ActivityIndicator.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop displaying the indicator.</p>
 <p>If the indicator is not running, do nothing.</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="region-manager">
+</section>
+<section id="region-manager">
 <h2>Region manager<a class="headerlink" href="#region-manager" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="sublime_lib.RegionManager">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.</span></code><code class="sig-name descname"><span class="pre">RegionManager</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">icon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.RegionManager">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.</span></span><span class="sig-name descname"><span class="pre">RegionManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">icon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>A manager for regions in a given <code class="xref py py-class docutils literal notranslate"><span class="pre">sublime.View</span></code> with the same <cite>key</cite>.</p>
 <p>If <cite>key</cite> is not given,
 a unique identifier will be used.</p>
@@ -1024,8 +1025,8 @@ then they will be used as default values for <a class="reference internal" href=
 <p><span class="versionmodified added">New in version 1.4.</span></p>
 </div>
 <dl class="py method">
-<dt id="sublime_lib.RegionManager.set">
-<code class="sig-name descname"><span class="pre">set</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regions</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">icon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager.set" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.RegionManager.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regions</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">icon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace managed regions with the given regions.</p>
 <p>If the <cite>scope</cite>, <cite>icon</cite>, and <cite>flags</cite> arguments are given,
 then they will be passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">sublime.add_regions()</span></code>.
@@ -1033,25 +1034,25 @@ Otherwise, the defaults specified in the initializer will be used.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.RegionManager.get">
-<code class="sig-name descname"><span class="pre">get</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager.get" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.RegionManager.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the list of managed regions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sublime_lib.RegionManager.erase">
-<code class="sig-name descname"><span class="pre">erase</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager.erase" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.RegionManager.erase">
+<span class="sig-name descname"><span class="pre">erase</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.RegionManager.erase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Erase all managed regions.</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-sublime_lib.encodings">
+</section>
+<section id="module-sublime_lib.encodings">
 <span id="encodings-submodule"></span><h2><a class="reference internal" href="#module-sublime_lib.encodings" title="sublime_lib.encodings"><code class="xref py py-mod docutils literal notranslate"><span class="pre">encodings</span></code></a> submodule<a class="headerlink" href="#module-sublime_lib.encodings" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="sublime_lib.encodings.from_sublime">
-<code class="sig-prename descclassname"><span class="pre">sublime_lib.encodings.</span></code><code class="sig-name descname"><span class="pre">from_sublime</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.encodings.from_sublime" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.encodings.from_sublime">
+<span class="sig-prename descclassname"><span class="pre">sublime_lib.encodings.</span></span><span class="sig-name descname"><span class="pre">from_sublime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.encodings.from_sublime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Translate <cite>name</cite> from a Sublime encoding name to a standard Python encoding name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -1068,8 +1069,8 @@ Otherwise, the defaults specified in the initializer will be used.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="sublime_lib.encodings.to_sublime">
-<code class="sig-prename descclassname"><span class="pre">sublime_lib.encodings.</span></code><code class="sig-name descname"><span class="pre">to_sublime</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.encodings.to_sublime" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.encodings.to_sublime">
+<span class="sig-prename descclassname"><span class="pre">sublime_lib.encodings.</span></span><span class="sig-name descname"><span class="pre">to_sublime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.encodings.to_sublime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Translate <cite>name</cite> from a standard Python encoding name to a Sublime encoding name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -1085,8 +1086,8 @@ Otherwise, the defaults specified in the initializer will be used.</p>
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="module-sublime_lib.flags">
+</section>
+<section id="module-sublime_lib.flags">
 <span id="flags-submodule"></span><h2><a class="reference internal" href="#module-sublime_lib.flags" title="sublime_lib.flags"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flags</span></code></a> submodule<a class="headerlink" href="#module-sublime_lib.flags" title="Permalink to this headline">¶</a></h2>
 <p>Python enumerations for use with Sublime API methods.</p>
 <p>In addition to the standard behavior,
@@ -1111,29 +1112,29 @@ these enumerations’ constructors accept the name of an enumerated value as a s
 and <cite>IntFlag</cite> constructors accept multiple arguments.</p>
 </div>
 <dl class="py class">
-<dt id="sublime_lib.flags.DialogResult">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">DialogResult</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.DialogResult" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.DialogResult">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">DialogResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.DialogResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a> for use with <code class="xref py py-func docutils literal notranslate"><span class="pre">sublime.yes_no_cancel_dialog()</span></code>.</p>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.DialogResult.CANCEL">
-<code class="sig-name descname"><span class="pre">CANCEL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DIALOG_CANCEL</span></em><a class="headerlink" href="#sublime_lib.flags.DialogResult.CANCEL" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.DialogResult.CANCEL">
+<span class="sig-name descname"><span class="pre">CANCEL</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DIALOG_CANCEL</span></em><a class="headerlink" href="#sublime_lib.flags.DialogResult.CANCEL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.DialogResult.YES">
-<code class="sig-name descname"><span class="pre">YES</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DIALOG_YES</span></em><a class="headerlink" href="#sublime_lib.flags.DialogResult.YES" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.DialogResult.YES">
+<span class="sig-name descname"><span class="pre">YES</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DIALOG_YES</span></em><a class="headerlink" href="#sublime_lib.flags.DialogResult.YES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.DialogResult.NO">
-<code class="sig-name descname"><span class="pre">NO</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DIALOG_NO</span></em><a class="headerlink" href="#sublime_lib.flags.DialogResult.NO" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.DialogResult.NO">
+<span class="sig-name descname"><span class="pre">NO</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DIALOG_NO</span></em><a class="headerlink" href="#sublime_lib.flags.DialogResult.NO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.flags.PointClass">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">PointClass</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.PointClass" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PointClass">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">PointClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.PointClass" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntFlag" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code></a> for use with several methods of <code class="xref py py-class docutils literal notranslate"><span class="pre">sublime.View</span></code>:</p>
 <ul class="simple">
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">classify()</span></code></p></li>
@@ -1141,243 +1142,243 @@ and <cite>IntFlag</cite> constructors accept multiple arguments.</p>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">expand_by_class()</span></code></p></li>
 </ul>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PointClass.WORD_START">
-<code class="sig-name descname"><span class="pre">WORD_START</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_WORD_START</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.WORD_START" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PointClass.WORD_START">
+<span class="sig-name descname"><span class="pre">WORD_START</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_WORD_START</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.WORD_START" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PointClass.WORD_END">
-<code class="sig-name descname"><span class="pre">WORD_END</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_WORD_END</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.WORD_END" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PointClass.WORD_END">
+<span class="sig-name descname"><span class="pre">WORD_END</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_WORD_END</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.WORD_END" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PointClass.PUNCTUATION_START">
-<code class="sig-name descname"><span class="pre">PUNCTUATION_START</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_PUNCTUATION_START</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.PUNCTUATION_START" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PointClass.PUNCTUATION_START">
+<span class="sig-name descname"><span class="pre">PUNCTUATION_START</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_PUNCTUATION_START</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.PUNCTUATION_START" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PointClass.PUNCTUATION_END">
-<code class="sig-name descname"><span class="pre">PUNCTUATION_END</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_PUNCTUATION_END</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.PUNCTUATION_END" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PointClass.PUNCTUATION_END">
+<span class="sig-name descname"><span class="pre">PUNCTUATION_END</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_PUNCTUATION_END</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.PUNCTUATION_END" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PointClass.SUB_WORD_START">
-<code class="sig-name descname"><span class="pre">SUB_WORD_START</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_SUB_WORD_START</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.SUB_WORD_START" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PointClass.SUB_WORD_START">
+<span class="sig-name descname"><span class="pre">SUB_WORD_START</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_SUB_WORD_START</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.SUB_WORD_START" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PointClass.SUB_WORD_END">
-<code class="sig-name descname"><span class="pre">SUB_WORD_END</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_SUB_WORD_END</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.SUB_WORD_END" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PointClass.SUB_WORD_END">
+<span class="sig-name descname"><span class="pre">SUB_WORD_END</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_SUB_WORD_END</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.SUB_WORD_END" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PointClass.LINE_START">
-<code class="sig-name descname"><span class="pre">LINE_START</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_LINE_START</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.LINE_START" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PointClass.LINE_START">
+<span class="sig-name descname"><span class="pre">LINE_START</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_LINE_START</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.LINE_START" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PointClass.LINE_END">
-<code class="sig-name descname"><span class="pre">LINE_END</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_LINE_END</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.LINE_END" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PointClass.LINE_END">
+<span class="sig-name descname"><span class="pre">LINE_END</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_LINE_END</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.LINE_END" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PointClass.EMPTY_LINE">
-<code class="sig-name descname"><span class="pre">EMPTY_LINE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_EMPTY_LINE</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.EMPTY_LINE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PointClass.EMPTY_LINE">
+<span class="sig-name descname"><span class="pre">EMPTY_LINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.CLASS_EMPTY_LINE</span></em><a class="headerlink" href="#sublime_lib.flags.PointClass.EMPTY_LINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.flags.FindOption">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">FindOption</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.FindOption" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.FindOption">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">FindOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.FindOption" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntFlag" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code></a> for use with several methods of <code class="xref py py-class docutils literal notranslate"><span class="pre">sublime.View</span></code>:</p>
 <ul class="simple">
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">find()</span></code></p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_all()</span></code></p></li>
 </ul>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.FindOption.LITERAL">
-<code class="sig-name descname"><span class="pre">LITERAL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.LITERAL</span></em><a class="headerlink" href="#sublime_lib.flags.FindOption.LITERAL" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.FindOption.LITERAL">
+<span class="sig-name descname"><span class="pre">LITERAL</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.LITERAL</span></em><a class="headerlink" href="#sublime_lib.flags.FindOption.LITERAL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.FindOption.IGNORECASE">
-<code class="sig-name descname"><span class="pre">IGNORECASE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.IGNORECASE</span></em><a class="headerlink" href="#sublime_lib.flags.FindOption.IGNORECASE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.FindOption.IGNORECASE">
+<span class="sig-name descname"><span class="pre">IGNORECASE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.IGNORECASE</span></em><a class="headerlink" href="#sublime_lib.flags.FindOption.IGNORECASE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.flags.RegionOption">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">RegionOption</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.RegionOption" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">RegionOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.RegionOption" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntFlag" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code></a> for use with <code class="xref py py-meth docutils literal notranslate"><span class="pre">sublime.View.add_regions()</span></code>.</p>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.RegionOption.DRAW_EMPTY">
-<code class="sig-name descname"><span class="pre">DRAW_EMPTY</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_EMPTY</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_EMPTY" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption.DRAW_EMPTY">
+<span class="sig-name descname"><span class="pre">DRAW_EMPTY</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_EMPTY</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_EMPTY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.RegionOption.HIDE_ON_MINIMAP">
-<code class="sig-name descname"><span class="pre">HIDE_ON_MINIMAP</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HIDE_ON_MINIMAP</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.HIDE_ON_MINIMAP" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption.HIDE_ON_MINIMAP">
+<span class="sig-name descname"><span class="pre">HIDE_ON_MINIMAP</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HIDE_ON_MINIMAP</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.HIDE_ON_MINIMAP" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.RegionOption.DRAW_EMPTY_AS_OVERWRITE">
-<code class="sig-name descname"><span class="pre">DRAW_EMPTY_AS_OVERWRITE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_EMPTY_AS_OVERWRITE</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_EMPTY_AS_OVERWRITE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption.DRAW_EMPTY_AS_OVERWRITE">
+<span class="sig-name descname"><span class="pre">DRAW_EMPTY_AS_OVERWRITE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_EMPTY_AS_OVERWRITE</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_EMPTY_AS_OVERWRITE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.RegionOption.DRAW_NO_FILL">
-<code class="sig-name descname"><span class="pre">DRAW_NO_FILL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_NO_FILL</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_NO_FILL" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption.DRAW_NO_FILL">
+<span class="sig-name descname"><span class="pre">DRAW_NO_FILL</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_NO_FILL</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_NO_FILL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.RegionOption.DRAW_NO_OUTLINE">
-<code class="sig-name descname"><span class="pre">DRAW_NO_OUTLINE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_NO_OUTLINE</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_NO_OUTLINE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption.DRAW_NO_OUTLINE">
+<span class="sig-name descname"><span class="pre">DRAW_NO_OUTLINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_NO_OUTLINE</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_NO_OUTLINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.RegionOption.DRAW_SOLID_UNDERLINE">
-<code class="sig-name descname"><span class="pre">DRAW_SOLID_UNDERLINE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_SOLID_UNDERLINE</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_SOLID_UNDERLINE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption.DRAW_SOLID_UNDERLINE">
+<span class="sig-name descname"><span class="pre">DRAW_SOLID_UNDERLINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_SOLID_UNDERLINE</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_SOLID_UNDERLINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.RegionOption.DRAW_STIPPLED_UNDERLINE">
-<code class="sig-name descname"><span class="pre">DRAW_STIPPLED_UNDERLINE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_STIPPLED_UNDERLINE</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_STIPPLED_UNDERLINE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption.DRAW_STIPPLED_UNDERLINE">
+<span class="sig-name descname"><span class="pre">DRAW_STIPPLED_UNDERLINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_STIPPLED_UNDERLINE</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_STIPPLED_UNDERLINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.RegionOption.DRAW_SQUIGGLY_UNDERLINE">
-<code class="sig-name descname"><span class="pre">DRAW_SQUIGGLY_UNDERLINE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_SQUIGGLY_UNDERLINE</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_SQUIGGLY_UNDERLINE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption.DRAW_SQUIGGLY_UNDERLINE">
+<span class="sig-name descname"><span class="pre">DRAW_SQUIGGLY_UNDERLINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.DRAW_SQUIGGLY_UNDERLINE</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.DRAW_SQUIGGLY_UNDERLINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.RegionOption.PERSISTENT">
-<code class="sig-name descname"><span class="pre">PERSISTENT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.PERSISTENT</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.PERSISTENT" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption.PERSISTENT">
+<span class="sig-name descname"><span class="pre">PERSISTENT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.PERSISTENT</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.PERSISTENT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.RegionOption.HIDDEN">
-<code class="sig-name descname"><span class="pre">HIDDEN</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HIDDEN</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.HIDDEN" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.RegionOption.HIDDEN">
+<span class="sig-name descname"><span class="pre">HIDDEN</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HIDDEN</span></em><a class="headerlink" href="#sublime_lib.flags.RegionOption.HIDDEN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.flags.PopupOption">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">PopupOption</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.PopupOption" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PopupOption">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">PopupOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.PopupOption" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntFlag" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code></a> for use with <code class="xref py py-meth docutils literal notranslate"><span class="pre">sublime.View.show_popup()</span></code>.</p>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PopupOption.COOPERATE_WITH_AUTO_COMPLETE">
-<code class="sig-name descname"><span class="pre">COOPERATE_WITH_AUTO_COMPLETE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.COOPERATE_WITH_AUTO_COMPLETE</span></em><a class="headerlink" href="#sublime_lib.flags.PopupOption.COOPERATE_WITH_AUTO_COMPLETE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PopupOption.COOPERATE_WITH_AUTO_COMPLETE">
+<span class="sig-name descname"><span class="pre">COOPERATE_WITH_AUTO_COMPLETE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.COOPERATE_WITH_AUTO_COMPLETE</span></em><a class="headerlink" href="#sublime_lib.flags.PopupOption.COOPERATE_WITH_AUTO_COMPLETE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PopupOption.HIDE_ON_MOUSE_MOVE">
-<code class="sig-name descname"><span class="pre">HIDE_ON_MOUSE_MOVE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HIDE_ON_MOUSE_MOVE</span></em><a class="headerlink" href="#sublime_lib.flags.PopupOption.HIDE_ON_MOUSE_MOVE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PopupOption.HIDE_ON_MOUSE_MOVE">
+<span class="sig-name descname"><span class="pre">HIDE_ON_MOUSE_MOVE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HIDE_ON_MOUSE_MOVE</span></em><a class="headerlink" href="#sublime_lib.flags.PopupOption.HIDE_ON_MOUSE_MOVE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PopupOption.HIDE_ON_MOUSE_MOVE_AWAY">
-<code class="sig-name descname"><span class="pre">HIDE_ON_MOUSE_MOVE_AWAY</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HIDE_ON_MOUSE_MOVE_AWAY</span></em><a class="headerlink" href="#sublime_lib.flags.PopupOption.HIDE_ON_MOUSE_MOVE_AWAY" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PopupOption.HIDE_ON_MOUSE_MOVE_AWAY">
+<span class="sig-name descname"><span class="pre">HIDE_ON_MOUSE_MOVE_AWAY</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HIDE_ON_MOUSE_MOVE_AWAY</span></em><a class="headerlink" href="#sublime_lib.flags.PopupOption.HIDE_ON_MOUSE_MOVE_AWAY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.flags.PhantomLayout">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">PhantomLayout</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.PhantomLayout" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PhantomLayout">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">PhantomLayout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.PhantomLayout" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntFlag" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code></a> for use with <code class="xref py py-class docutils literal notranslate"><span class="pre">sublime.Phantom</span></code>.</p>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PhantomLayout.INLINE">
-<code class="sig-name descname"><span class="pre">INLINE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.LAYOUT_INLINE</span></em><a class="headerlink" href="#sublime_lib.flags.PhantomLayout.INLINE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PhantomLayout.INLINE">
+<span class="sig-name descname"><span class="pre">INLINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.LAYOUT_INLINE</span></em><a class="headerlink" href="#sublime_lib.flags.PhantomLayout.INLINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PhantomLayout.BELOW">
-<code class="sig-name descname"><span class="pre">BELOW</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.LAYOUT_BELOW</span></em><a class="headerlink" href="#sublime_lib.flags.PhantomLayout.BELOW" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PhantomLayout.BELOW">
+<span class="sig-name descname"><span class="pre">BELOW</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.LAYOUT_BELOW</span></em><a class="headerlink" href="#sublime_lib.flags.PhantomLayout.BELOW" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.PhantomLayout.BLOCK">
-<code class="sig-name descname"><span class="pre">BLOCK</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.LAYOUT_BLOCK</span></em><a class="headerlink" href="#sublime_lib.flags.PhantomLayout.BLOCK" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.PhantomLayout.BLOCK">
+<span class="sig-name descname"><span class="pre">BLOCK</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.LAYOUT_BLOCK</span></em><a class="headerlink" href="#sublime_lib.flags.PhantomLayout.BLOCK" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.flags.OpenFileOption">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">OpenFileOption</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.OpenFileOption" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.OpenFileOption">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">OpenFileOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.OpenFileOption" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntFlag" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code></a> for use with <code class="xref py py-meth docutils literal notranslate"><span class="pre">sublime.Window.open_file()</span></code>.</p>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.OpenFileOption.ENCODED_POSITION">
-<code class="sig-name descname"><span class="pre">ENCODED_POSITION</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.ENCODED_POSITION</span></em><a class="headerlink" href="#sublime_lib.flags.OpenFileOption.ENCODED_POSITION" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.OpenFileOption.ENCODED_POSITION">
+<span class="sig-name descname"><span class="pre">ENCODED_POSITION</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.ENCODED_POSITION</span></em><a class="headerlink" href="#sublime_lib.flags.OpenFileOption.ENCODED_POSITION" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.OpenFileOption.TRANSIENT">
-<code class="sig-name descname"><span class="pre">TRANSIENT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.TRANSIENT</span></em><a class="headerlink" href="#sublime_lib.flags.OpenFileOption.TRANSIENT" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.OpenFileOption.TRANSIENT">
+<span class="sig-name descname"><span class="pre">TRANSIENT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.TRANSIENT</span></em><a class="headerlink" href="#sublime_lib.flags.OpenFileOption.TRANSIENT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.OpenFileOption.FORCE_GROUP">
-<code class="sig-name descname"><span class="pre">FORCE_GROUP</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.FORCE_GROUP</span></em><a class="headerlink" href="#sublime_lib.flags.OpenFileOption.FORCE_GROUP" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.OpenFileOption.FORCE_GROUP">
+<span class="sig-name descname"><span class="pre">FORCE_GROUP</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.FORCE_GROUP</span></em><a class="headerlink" href="#sublime_lib.flags.OpenFileOption.FORCE_GROUP" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.flags.QuickPanelOption">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">QuickPanelOption</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.QuickPanelOption" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QuickPanelOption">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">QuickPanelOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.QuickPanelOption" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntFlag" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code></a> for use with <code class="xref py py-meth docutils literal notranslate"><span class="pre">sublime.Window.show_quick_panel()</span></code>.</p>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.QuickPanelOption.MONOSPACE_FONT">
-<code class="sig-name descname"><span class="pre">MONOSPACE_FONT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.MONOSPACE_FONT</span></em><a class="headerlink" href="#sublime_lib.flags.QuickPanelOption.MONOSPACE_FONT" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QuickPanelOption.MONOSPACE_FONT">
+<span class="sig-name descname"><span class="pre">MONOSPACE_FONT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.MONOSPACE_FONT</span></em><a class="headerlink" href="#sublime_lib.flags.QuickPanelOption.MONOSPACE_FONT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.QuickPanelOption.KEEP_OPEN_ON_FOCUS_LOST">
-<code class="sig-name descname"><span class="pre">KEEP_OPEN_ON_FOCUS_LOST</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.KEEP_OPEN_ON_FOCUS_LOST</span></em><a class="headerlink" href="#sublime_lib.flags.QuickPanelOption.KEEP_OPEN_ON_FOCUS_LOST" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QuickPanelOption.KEEP_OPEN_ON_FOCUS_LOST">
+<span class="sig-name descname"><span class="pre">KEEP_OPEN_ON_FOCUS_LOST</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.KEEP_OPEN_ON_FOCUS_LOST</span></em><a class="headerlink" href="#sublime_lib.flags.QuickPanelOption.KEEP_OPEN_ON_FOCUS_LOST" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.flags.HoverLocation">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">HoverLocation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.HoverLocation" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.HoverLocation">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">HoverLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.HoverLocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a> for use with
 <code class="xref py py-func docutils literal notranslate"><span class="pre">sublime_plugin.EventListener.on_hover()</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.4.</span></p>
 </div>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.HoverLocation.TEXT">
-<code class="sig-name descname"><span class="pre">TEXT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HOVER_TEXT</span></em><a class="headerlink" href="#sublime_lib.flags.HoverLocation.TEXT" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.HoverLocation.TEXT">
+<span class="sig-name descname"><span class="pre">TEXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HOVER_TEXT</span></em><a class="headerlink" href="#sublime_lib.flags.HoverLocation.TEXT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.HoverLocation.GUTTER">
-<code class="sig-name descname"><span class="pre">GUTTER</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HOVER_GUTTER</span></em><a class="headerlink" href="#sublime_lib.flags.HoverLocation.GUTTER" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.HoverLocation.GUTTER">
+<span class="sig-name descname"><span class="pre">GUTTER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HOVER_GUTTER</span></em><a class="headerlink" href="#sublime_lib.flags.HoverLocation.GUTTER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.HoverLocation.MARGIN">
-<code class="sig-name descname"><span class="pre">MARGIN</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HOVER_MARGIN</span></em><a class="headerlink" href="#sublime_lib.flags.HoverLocation.MARGIN" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.HoverLocation.MARGIN">
+<span class="sig-name descname"><span class="pre">MARGIN</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.HOVER_MARGIN</span></em><a class="headerlink" href="#sublime_lib.flags.HoverLocation.MARGIN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.flags.QueryContextOperator">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">QueryContextOperator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QueryContextOperator">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">QueryContextOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a> for use with
 <code class="xref py py-func docutils literal notranslate"><span class="pre">sublime_plugin.EventListener.on_query_context()</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.4.</span></p>
 </div>
 <dl class="py method">
-<dt id="sublime_lib.flags.QueryContextOperator.apply">
-<code class="sig-name descname"><span class="pre">apply</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operand</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.apply" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QueryContextOperator.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operand</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.apply" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply the operation to the given values.</p>
 <p>For regexp operators,
 <cite>operand</cite> should contain the regexp to be tested against the string <cite>value</cite>.</p>
@@ -1397,59 +1398,59 @@ and <cite>IntFlag</cite> constructors accept multiple arguments.</p>
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.QueryContextOperator.EQUAL">
-<code class="sig-name descname"><span class="pre">EQUAL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_EQUAL</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.EQUAL" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QueryContextOperator.EQUAL">
+<span class="sig-name descname"><span class="pre">EQUAL</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_EQUAL</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.EQUAL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.QueryContextOperator.NOT_EQUAL">
-<code class="sig-name descname"><span class="pre">NOT_EQUAL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_NOT_EQUAL</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.NOT_EQUAL" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QueryContextOperator.NOT_EQUAL">
+<span class="sig-name descname"><span class="pre">NOT_EQUAL</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_NOT_EQUAL</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.NOT_EQUAL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.QueryContextOperator.REGEX_MATCH">
-<code class="sig-name descname"><span class="pre">REGEX_MATCH</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_REGEX_MATCH</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.REGEX_MATCH" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QueryContextOperator.REGEX_MATCH">
+<span class="sig-name descname"><span class="pre">REGEX_MATCH</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_REGEX_MATCH</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.REGEX_MATCH" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.QueryContextOperator.NOT_REGEX_MATCH">
-<code class="sig-name descname"><span class="pre">NOT_REGEX_MATCH</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_NOT_REGEX_MATCH</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.NOT_REGEX_MATCH" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QueryContextOperator.NOT_REGEX_MATCH">
+<span class="sig-name descname"><span class="pre">NOT_REGEX_MATCH</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_NOT_REGEX_MATCH</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.NOT_REGEX_MATCH" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.QueryContextOperator.REGEX_CONTAINS">
-<code class="sig-name descname"><span class="pre">REGEX_CONTAINS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_REGEX_CONTAINS</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.REGEX_CONTAINS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QueryContextOperator.REGEX_CONTAINS">
+<span class="sig-name descname"><span class="pre">REGEX_CONTAINS</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_REGEX_CONTAINS</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.REGEX_CONTAINS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.QueryContextOperator.NOT_REGEX_CONTAINS">
-<code class="sig-name descname"><span class="pre">NOT_REGEX_CONTAINS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_NOT_REGEX_CONTAINS</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.NOT_REGEX_CONTAINS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.QueryContextOperator.NOT_REGEX_CONTAINS">
+<span class="sig-name descname"><span class="pre">NOT_REGEX_CONTAINS</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.OP_NOT_REGEX_CONTAINS</span></em><a class="headerlink" href="#sublime_lib.flags.QueryContextOperator.NOT_REGEX_CONTAINS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="sublime_lib.flags.CompletionOptions">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></code><code class="sig-name descname"><span class="pre">CompletionOptions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.CompletionOptions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.CompletionOptions">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sublime_lib.flags.</span></span><span class="sig-name descname"><span class="pre">CompletionOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sublime_lib.flags.CompletionOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>An <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntFlag" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code></a> for use with
 <code class="xref py py-func docutils literal notranslate"><span class="pre">sublime_plugin.EventListener.on_query_completions()</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.4.</span></p>
 </div>
 <dl class="py attribute">
-<dt id="sublime_lib.flags.CompletionOptions.INHIBIT_WORD_COMPLETIONS">
-<code class="sig-name descname"><span class="pre">INHIBIT_WORD_COMPLETIONS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.INHIBIT_WORD_COMPLETIONS</span></em><a class="headerlink" href="#sublime_lib.flags.CompletionOptions.INHIBIT_WORD_COMPLETIONS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.CompletionOptions.INHIBIT_WORD_COMPLETIONS">
+<span class="sig-name descname"><span class="pre">INHIBIT_WORD_COMPLETIONS</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.INHIBIT_WORD_COMPLETIONS</span></em><a class="headerlink" href="#sublime_lib.flags.CompletionOptions.INHIBIT_WORD_COMPLETIONS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="sublime_lib.flags.CompletionOptions.INHIBIT_EXPLICIT_COMPLETIONS">
-<code class="sig-name descname"><span class="pre">INHIBIT_EXPLICIT_COMPLETIONS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">sublime.INHIBIT_EXPLICIT_COMPLETIONS</span></em><a class="headerlink" href="#sublime_lib.flags.CompletionOptions.INHIBIT_EXPLICIT_COMPLETIONS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sublime_lib.flags.CompletionOptions.INHIBIT_EXPLICIT_COMPLETIONS">
+<span class="sig-name descname"><span class="pre">INHIBIT_EXPLICIT_COMPLETIONS</span></span><em class="property"> <span class="pre">=</span> <span class="pre">sublime.INHIBIT_EXPLICIT_COMPLETIONS</span></em><a class="headerlink" href="#sublime_lib.flags.CompletionOptions.INHIBIT_EXPLICIT_COMPLETIONS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -1540,7 +1541,7 @@ and <cite>IntFlag</cite> constructors accept multiple arguments.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, Thomas Smith.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>
