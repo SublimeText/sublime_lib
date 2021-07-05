@@ -1,6 +1,9 @@
 import sublime
 
-from typing import Callable, Generic, TypeVar, Optional, Union, List, Tuple, overload
+from typing import Callable, Generic, TypeVar, Optional, Union, List, Tuple, Dict, overload
+
+
+all_callbacks: Dict[str, List['EventListener']]
 
 
 InputType = TypeVar('InputType', bound=Union[str, int, float, list, dict, tuple, None])
