@@ -33,3 +33,7 @@ omit = [
 
 [tool.coverage.report]
 show_missing = true
+
+[tool.pydocstyle]
+match_dir = "^(?!_)"
+match = "^(?!_).*\\.py"
