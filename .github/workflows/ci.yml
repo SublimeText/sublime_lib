@@ -6,36 +6,33 @@ jobs:
   flake8:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v1
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.x
+          python-version: '3.8'
 
-      - name: Install flake8
-        run: |
-          python -m pip install -U pip
-          pip install flake8
+      - name: Install dev dependencies
+        run: uv sync --group dev
 
-      - run: flake8 .
+      - name: Run flake8
+        run: uv run flake8 .
 
   pydocstyle:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v1
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.x
+          python-version: '3.8'
 
-      - name: Install pydocstyle
-        run: |
-          python -m pip install -U pip
-          pip install pydocstyle
+      - name: Install dev dependencies
+        run: uv sync --group dev
 
       - name: Run pydocstyle (allow failure)
-        run: pydocstyle
+        run: uv run pydocstyle
         working-directory: src/sublime_lib
         continue-on-error: true
