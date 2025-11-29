@@ -7,7 +7,7 @@ BUILDDIR      = .
 .PHONY: clean
 
 html:
-	sphinx-build -M html "$(SOURCEDIR)" "$(BUILDDIR)"
+	uv run sphinx-build -M html "$(SOURCEDIR)" "$(BUILDDIR)"
 
 clean:
 	rm -rf doctrees html

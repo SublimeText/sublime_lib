@@ -22,6 +22,8 @@ dev = [
     "flake8>=3.9.2",
     "mypy>=0.720",
     "pydocstyle>=4.0.0",
+    "sphinx==4.0.2",
+    "sphinxcontrib-prettyspecialmethods>=0.1.0",
 ]
 
 [tool.hatch.build.targets.sdist]
