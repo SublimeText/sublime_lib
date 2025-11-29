@@ -33,6 +33,22 @@ jobs:
         run: uv sync --group dev
 
       - name: Run pydocstyle (allow failure)
-        run: uv run pydocstyle
-        working-directory: src/sublime_lib
+        run: uv run pydocstyle src/sublime_lib
+        continue-on-error: true
+
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+
+      - name: Install dev dependencies
+        run: uv sync --group dev
+
+      - name: Run mypy (allow failure)
+        run: uv run mypy src
         continue-on-error: true
