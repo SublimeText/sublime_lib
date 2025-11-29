@@ -39,7 +39,6 @@ import re
 from ._util.enum import ExtensibleConstructorMeta, construct_union, construct_with_alternatives
 
 
-
 __all__ = [
     'DialogResult', 'PointClass', 'FindOption', 'RegionOption',
     'PopupOption', 'PhantomLayout', 'OpenFileOption', 'QuickPanelOption',
