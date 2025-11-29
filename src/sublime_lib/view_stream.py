@@ -5,8 +5,7 @@ from contextlib import contextmanager
 from io import SEEK_SET, SEEK_CUR, SEEK_END, TextIOBase
 
 from ._util.guard import define_guard
-
-from ._compat.typing import Any, Generator
+from typing import Any, Generator
 
 
 class ViewStream(TextIOBase):

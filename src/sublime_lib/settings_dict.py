@@ -3,11 +3,10 @@ import sublime
 from uuid import uuid4
 from functools import partial
 from collections.abc import Mapping
+from typing import Any, Callable, Iterable, NoReturn, TypeVar, Union, Mapping as _Mapping
 
 from ._util.collections import get_selector
 from ._util.named_value import NamedValue
-
-from ._compat.typing import Any, Callable, Iterable, NoReturn, TypeVar, Union, Mapping as _Mapping
 
 _Default = TypeVar('_Default')
 Value = Union[bool, int, float, str, list, dict, None]

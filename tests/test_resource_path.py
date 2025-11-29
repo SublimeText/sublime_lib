@@ -1,11 +1,11 @@
 import sublime
 import tempfile
 
+from pathlib import Path
 from sublime_lib import ResourcePath
-from sublime_lib._compat.pathlib import Path
-from .temporary_package import TemporaryPackage
-
 from unittesting import DeferrableTestCase
+
+from .temporary_package import TemporaryPackage
 
 
 class TestResourcePath(DeferrableTestCase):

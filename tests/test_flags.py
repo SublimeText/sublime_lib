@@ -1,7 +1,7 @@
 import sublime
 import sublime_lib.flags as flags
 
-from sublime_lib.vendor.python.enum import IntFlag
+from enum import IntFlag
 
 from functools import reduce
 from unittest import TestCase

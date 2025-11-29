@@ -33,9 +33,7 @@ exclude = [
 
 [tool.coverage.run]
 omit = [
-    "*/_compat/*",
     "*/tests/*",
-    "*/vendor/*",
 ]
 
 [tool.coverage.report]
