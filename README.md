@@ -37,6 +37,9 @@ Highlights include:
 
 ## Releasing a new version
 
-1. Bump version in `pyproject.toml` & commit it.
-3. Push to origin.
-4. On GitHub > Actions, run "release" action against `master`.
+1. Create a tag in the format `v<major>.<minor>.<patch>`
+2. Push the tag to origin.
+
+A github action should be created that builds a WHEEL file,
+creates a release for this tag
+and attaches the WHEEL file as an artifact.

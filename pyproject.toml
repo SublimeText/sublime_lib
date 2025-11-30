@@ -1,6 +1,6 @@
 [project]
 name = "sublime_lib"
-version = "1.6.0"
+dynamic = ["version"]
 description = "Utility library for frequently used functionality in Sublime Text"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -32,6 +32,13 @@ exclude = [
     "/stubs",
     "*.lock",
 ]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/sublime_lib/_version.py"
+tag-pattern = "v{version}"
 
 [tool.coverage.run]
 omit = [

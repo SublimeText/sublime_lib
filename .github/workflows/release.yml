@@ -1,7 +1,9 @@
 name: Publish Release
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - v*
 
 jobs:
   release:
@@ -23,4 +25,4 @@ jobs:
       - name: Create release & upload wheel
         run: |
           version=$(uv version --short)
-          gh release create --generate-notes --latest -t "v${version}" "v${version}" dist/*.whl
+          gh release create --generate-notes --latest -t "$GITHUB_REF_NAME" "$GITHUB_REF_NAME" dist/*.whl
