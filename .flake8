@@ -8,7 +8,7 @@ ignore =
 
 exclude =
     .git,
-    src/sublime_lib/vendor,
     .venv,
+    sublime_lib/vendor,
 
 max-line-length = 99

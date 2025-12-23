@@ -21,8 +21,8 @@ jobs:
         run: uv sync --group lint
 
       - name: Run flake8
-        run: uv run flake8 .
+        run: uv run flake8 sublime_lib
 
       - name: Run pydocstyle (allow failure)
-        run: uv run pydocstyle src/sublime_lib
+        run: uv run pydocstyle sublime_lib
         continue-on-error: true

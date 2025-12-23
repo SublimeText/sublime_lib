@@ -39,7 +39,7 @@ exclude = [
 source = "vcs"
 
 [tool.hatch.build.hooks.vcs]
-version-file = "src/sublime_lib/_version.py"
+version-file = "sublime_lib/_version.py"
 tag-pattern = "v{version}"
 
 [tool.coverage.run]
