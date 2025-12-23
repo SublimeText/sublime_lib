@@ -1,6 +1,5 @@
 from functools import wraps
-
-from .._compat.typing import Any, Callable, ContextManager, Optional, TypeVar
+from typing import Any, Callable, ContextManager, Optional, TypeVar
 
 
 _Self = TypeVar('_Self')

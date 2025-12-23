@@ -2,13 +2,12 @@ import sublime
 
 import inspect
 from contextlib import contextmanager
+from enum import Enum
+from typing import Any, Optional, Mapping, Iterable, Generator, Type, TypeVar
 
-from ._compat.enum import Enum
 from ._util.enum import ExtensibleConstructorMeta, construct_with_alternatives
 from .syntax import get_syntax_for_scope
 from .encodings import to_sublime
-
-from ._compat.typing import Any, Optional, Mapping, Iterable, Generator, Type, TypeVar
 
 
 EnumType = TypeVar('EnumType', bound=Enum)

@@ -1,7 +1,7 @@
 import sublime
 import re
+from typing import Dict, Union
 
-from .._compat.typing import Dict, Union
 
 YamlScalar = Union[str, bool, None]
 

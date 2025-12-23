@@ -1,6 +1,6 @@
 import sublime
 
-from ._compat.typing import Optional
+from typing import Optional
 
 from .view_utils import _temporarily_scratch_unsaved_views
 
