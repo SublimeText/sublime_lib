@@ -41,7 +41,7 @@ class TestNamedSettingsDict(DeferrableTestCase):
         self.fancy.pop("example_setting", None)
         self.assertNotIn("example_setting", self.fancy)
         self.fancy["example_setting"] = "Hello, World!"
-        self.assertEquals(other['example_setting'], 'Hello, World!')
+        self.assertEqual(other['example_setting'], 'Hello, World!')
 
     def test_equal(self):
         other = NamedSettingsDict(self.name + '.sublime-settings')

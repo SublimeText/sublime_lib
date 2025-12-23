@@ -14,12 +14,12 @@ class TestSettingsDict(TestCase):
             'c': 3,
         }
 
-        self.assertEquals(
+        self.assertEqual(
             projection(d, ()),
             {}
         )
 
-        self.assertEquals(
+        self.assertEqual(
             projection(d, ('a', 'c')),
             {
                 'a': 1,
@@ -27,7 +27,7 @@ class TestSettingsDict(TestCase):
             }
         )
 
-        self.assertEquals(
+        self.assertEqual(
             projection(d, {
                 'a': 'x',
                 'b': 'y',
