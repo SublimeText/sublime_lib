@@ -18,7 +18,7 @@ requires = ["hatchling>=1.20", "hatch-vcs>=0.4"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = [
+lint = [
     "flake8>=3.9.2",
     "mypy>=0.720",
     "pydocstyle>=4.0.0",
