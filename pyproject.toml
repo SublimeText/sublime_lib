@@ -52,6 +52,14 @@ omit = [
 [tool.coverage.report]
 show_missing = true
 
+[tool.mypy]
+check_untyped_defs = true
+disallow_untyped_defs = true
+mypy_path = [
+    "stubs",
+    "sublime_lib",
+]
+
 [tool.pydocstyle]
 match_dir = "^(?!_)"
 match = "^(?!_).*\\.py"
