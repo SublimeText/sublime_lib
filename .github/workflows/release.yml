@@ -20,11 +20,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Build wheel
-        run: |
-          uv build --wheel
-          wheel=$(ls dist/*.whl)
-          cp $wheel ${wheel/-py3-/-py33-}
-          mv $wheel ${wheel/-py3-/-py38-}
+        run: uv build --wheel
 
       - name: Create release & upload wheel
         run: gh release create --generate-notes --latest -t "$GITHUB_REF_NAME" "$GITHUB_REF_NAME" dist/*.whl
