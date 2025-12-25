@@ -12,33 +12,6 @@ from ._util.glob import get_glob_matcher
 __all__ = ['ResourcePath']
 
 
-def _abs_parts(path: Path) -> Tuple[str, ...]:
-    return (path.drive, path.root) + path.parts[1:]
-
-
-def _file_relative_to(path: Path, base: Path) -> Optional[Tuple[str, ...]]:
-    """
-    Like Path.relative_to, except:
-
-    - Both paths must be relative.
-    - `base` must be a single Path object.
-    - The error message is blank.
-    - Only a tuple of parts is returned.
-
-    Surprisingly, this is much, much faster.
-    """
-    child_parts = _abs_parts(path)
-    base_parts = _abs_parts(base)
-
-    n = len(base_parts)
-    cf = path._flavour.casefold_parts  # type: ignore
-
-    if cf(child_parts[:n]) != cf(base_parts):
-        return None
-
-    return child_parts[n:]
-
-
 class ResourceRoot(metaclass=ABCMeta):
     """
     Represents a directory containing packages.
@@ -75,13 +48,15 @@ class ResourceRoot(metaclass=ABCMeta):
         if not file_path.is_absolute():
             raise ValueError("Cannot convert a relative file path to a resource path.")
 
-        parts = _file_relative_to(file_path, self.file_root)
-        if parts is None:
+        try:
+            relpath = file_path.relative_to(self.file_root)
+        except ValueError:
             return None
-        elif parts == ():
+
+        if not relpath.parts:
             return self.resource_root
-        else:
-            return self._package_resource_path(*parts)
+
+        return self._package_resource_path(*relpath.parts)
 
     @abstractmethod
     def _package_file_path(
