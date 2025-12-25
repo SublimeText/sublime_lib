@@ -1,10 +1,10 @@
 import sublime
 
+from typing import Any
+
 from .view_stream import ViewStream
 from .view_utils import set_view_options, validate_view_options
 from ._util.guard import define_guard
-
-from ._compat.typing import Any
 
 __all__ = ['Panel', 'OutputPanel']
 

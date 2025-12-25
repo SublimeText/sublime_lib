@@ -1,6 +1,5 @@
 from collections.abc import Mapping, Sequence
-
-from .._compat.typing import Callable, Dict, Iterable, TypeVar, Union
+from typing import Callable, Dict, Iterable, TypeVar, Union
 
 
 _V = TypeVar('_V')

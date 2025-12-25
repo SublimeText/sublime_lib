@@ -29,15 +29,15 @@ Descendants of :class:`IntFlag` accept zero or more arguments:
 
 import sublime
 
-from ._compat.enum import IntEnum, IntFlag, EnumMeta
+from enum import IntEnum, IntFlag, EnumMeta
 from inspect import getdoc, cleandoc
+from typing import Callable, Optional
 
 import operator
 import re
 
 from ._util.enum import ExtensibleConstructorMeta, construct_union, construct_with_alternatives
 
-from ._compat.typing import Callable, Optional
 
 __all__ = [
     'DialogResult', 'PointClass', 'FindOption', 'RegionOption',

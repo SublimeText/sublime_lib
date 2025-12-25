@@ -3,8 +3,7 @@ import plistlib
 
 from ._util.simple_yaml import parse_simple_top_level_keys
 from .resource_path import ResourcePath
-
-from ._compat.typing import List
+from typing import List
 
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']
 

@@ -44,9 +44,7 @@ tag-pattern = "v{version}"
 
 [tool.coverage.run]
 omit = [
-    "*/_compat/*",
     "*/tests/*",
-    "*/vendor/*",
 ]
 
 [tool.coverage.report]

@@ -2,7 +2,7 @@ import sublime
 
 from uuid import uuid4
 
-from ._compat.typing import Optional, Union
+from typing import Optional, Union
 from types import TracebackType
 from abc import ABCMeta, abstractmethod
 from functools import partial

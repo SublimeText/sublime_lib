@@ -1,7 +1,7 @@
 import weakref
 
-from .._compat.typing import Callable, Any
 from types import MethodType
+from typing import Callable, Any
 
 
 __all__ = ['weak_method']
