@@ -33,3 +33,13 @@ Highlights include:
 - [`SettingsDict`](https://sublimetext.github.io/sublime_lib/modules/sublime_lib.settings_dict.html), which wraps a `sublime.Settings` object with an interface modeled after a standard Python `dict`.
 - [`ViewStream`](https://sublimetext.github.io/sublime_lib/modules/sublime_lib.view_stream.html), a standard [Python IO stream](https://docs.python.org/3/library/io.html#io.TextIOBase) wrapping a `sublime.View` object; and [OutputPanel](https://sublimetext.github.io/sublime_lib/modules/sublime_lib.output_panel.html), which extends `ViewStream` to provide additional functionality for output panel views.
 - The [`syntax` submodule](https://sublimetext.github.io/sublime_lib/modules/sublime_lib.syntax.html), providing methods to list all loaded syntax definitions and to find a syntax matching a given scope.
+
+
+## Releasing a new version
+
+1. Create a tag in the format `v<major>.<minor>.<patch>`
+2. Push the tag to origin.
+
+A github action should be created that builds a WHEEL file,
+creates a release for this tag
+and attaches the WHEEL file as an artifact.

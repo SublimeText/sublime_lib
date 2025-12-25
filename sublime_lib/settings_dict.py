@@ -54,7 +54,7 @@ class SettingsDict():
         and refer to the same underlying settings data.
         """
         return (
-            type(self) == type(other)
+            type(self) is type(other)
             and isinstance(other, SettingsDict)
             and self.settings.settings_id == other.settings.settings_id
         )

@@ -39,7 +39,6 @@ from ._util.enum import ExtensibleConstructorMeta, construct_union, construct_wi
 
 from ._compat.typing import Callable, Optional
 
-
 __all__ = [
     'DialogResult', 'PointClass', 'FindOption', 'RegionOption',
     'PopupOption', 'PhantomLayout', 'OpenFileOption', 'QuickPanelOption',
