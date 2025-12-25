@@ -22,17 +22,17 @@ class TestViewUtils(TestCase):
 
         self.assertTrue(self.view.is_valid())
 
-        self.assertEquals(self.view.name(), '')
+        self.assertEqual(self.view.name(), '')
         self.assertFalse(self.view.is_read_only())
         self.assertFalse(self.view.is_scratch())
         self.assertFalse(self.view.overwrite_status())
 
-        self.assertEquals(self.view.scope_name(0).strip(), 'text.plain')
+        self.assertEqual(self.view.scope_name(0).strip(), 'text.plain')
 
     def test_name(self):
         self.view = new_view(self.window, name='My Name')
 
-        self.assertEquals(self.view.name(), 'My Name')
+        self.assertEqual(self.view.name(), 'My Name')
 
     def test_read_only(self):
         self.view = new_view(self.window, read_only=True)
@@ -54,7 +54,7 @@ class TestViewUtils(TestCase):
             'example_setting': 'Hello, World!',
         })
 
-        self.assertEquals(
+        self.assertEqual(
             self.view.settings().get('example_setting'),
             'Hello, World!'
         )
@@ -68,7 +68,7 @@ class TestViewUtils(TestCase):
         path = 'Packages/JavaScript/JavaScript.sublime-syntax'
         self.view = new_view(self.window, syntax=path)
 
-        self.assertEquals(
+        self.assertEqual(
             self.view.settings().get('syntax'),
             path
         )
@@ -93,22 +93,22 @@ class TestViewUtils(TestCase):
     def test_encoding(self):
         self.view = new_view(self.window, encoding='utf-16')
 
-        self.assertEquals(self.view.encoding(), "UTF-16 LE with BOM")
+        self.assertEqual(self.view.encoding(), "UTF-16 LE with BOM")
 
     def test_line_endings_unix(self):
         self.view = new_view(self.window, line_endings='unix')
 
-        self.assertEquals(self.view.line_endings(), "Unix")
+        self.assertEqual(self.view.line_endings(), "Unix")
 
     def test_line_endings_windows(self):
         self.view = new_view(self.window, line_endings=LineEnding.Windows)
 
-        self.assertEquals(self.view.line_endings(), "Windows")
+        self.assertEqual(self.view.line_endings(), "Windows")
 
     def test_line_endings_cr(self):
         self.view = new_view(self.window, line_endings='\r')
 
-        self.assertEquals(self.view.line_endings(), "CR")
+        self.assertEqual(self.view.line_endings(), "CR")
 
     def test_line_endings_invalid(self):
         with self.assertRaises(ValueError):
@@ -117,7 +117,7 @@ class TestViewUtils(TestCase):
     def test_content(self):
         self.view = new_view(self.window, content="Hello, World!")
 
-        self.assertEquals(
+        self.assertEqual(
             self.view.substr(sublime.Region(0, self.view.size())),
             "Hello, World!"
         )
@@ -125,7 +125,7 @@ class TestViewUtils(TestCase):
     def test_content_read_only(self):
         self.view = new_view(self.window, content="Hello, World!", read_only=True)
 
-        self.assertEquals(
+        self.assertEqual(
             self.view.substr(sublime.Region(0, self.view.size())),
             "Hello, World!"
         )
