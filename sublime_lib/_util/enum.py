@@ -1,7 +1,6 @@
+from enum import EnumMeta, Enum, Flag
 from functools import partial
-
-from .._compat.enum import EnumMeta, Enum, Flag
-from .._compat.typing import Any, Callable, Optional
+from typing import Any, Callable, Optional
 
 
 __all__ = ['ExtensibleConstructorMeta', 'construct_with_alternatives', 'construct_union']

@@ -4,11 +4,10 @@ import posixpath
 from collections import OrderedDict
 import os
 from abc import ABCMeta, abstractmethod
+from typing import List, Optional, Tuple, Iterable, Union
+from pathlib import Path
 
-from ._compat.pathlib import Path
 from ._util.glob import get_glob_matcher
-
-from ._compat.typing import List, Optional, Tuple, Iterable, Union
 
 __all__ = ['ResourcePath']
 

@@ -1,0 +1,63 @@
+[project]
+name = "sublime_lib"
+dynamic = ["version"]
+description = "Utility library for frequently used functionality in Sublime Text"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "FichteFoll"}, {name = "Thom1729"}]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.8"
+
+[build-system]
+requires = ["hatchling>=1.20", "hatch-vcs>=0.4"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+docs = [
+    "sphinx==4.0.2",
+    "sphinxcontrib-prettyspecialmethods>=0.1.0",
+]
+lint = [
+    "flake8>=3.9.2",
+    "mypy>=0.720",
+    "pydocstyle>=4.0.0",
+]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    "/.*",
+    "/stubs",
+    "*.lock",
+]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "sublime_lib/_version.py"
+tag-pattern = "v{version}"
+
+[tool.coverage.run]
+omit = [
+    "*/tests/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_untyped_defs = true
+mypy_path = [
+    "stubs",
+    "sublime_lib",
+]
+
+[tool.pydocstyle]
+match_dir = "^(?!_)"
+match = "^(?!_).*\\.py"

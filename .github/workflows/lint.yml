@@ -1,0 +1,28 @@
+name: lint
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install lint dependencies
+        run: uv sync --group lint
+
+      - name: Run flake8
+        run: uv run flake8 sublime_lib
+
+      - name: Run pydocstyle (allow failure)
+        run: uv run pydocstyle sublime_lib
+        continue-on-error: true

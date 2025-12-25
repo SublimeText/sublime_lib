@@ -1,6 +1,7 @@
 import sublime
 
-from ._compat.typing import Optional, List, TypeVar, Collection
+from typing import Optional, List, TypeVar, Collection
+
 from .flags import RegionOption
 
 

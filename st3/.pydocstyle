@@ -1,4 +1,0 @@
-[pydocstyle]
-
-match_dir = ^(?!_)
-match = ^(?!_).*\.py

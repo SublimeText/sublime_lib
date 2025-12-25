@@ -4,8 +4,7 @@ from ._util.collections import isiterable
 from ._util.named_value import NamedValue
 from .flags import QuickPanelOption
 from collections.abc import Sequence
-
-from ._compat.typing import Any, Callable, List, Optional, TypeVar, Union, Sequence as _Sequence
+from typing import Any, Callable, List, Optional, TypeVar, Union, Sequence as _Sequence
 
 _ItemType = TypeVar('_ItemType')
 
