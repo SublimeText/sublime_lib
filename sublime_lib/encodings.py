@@ -1,3 +1,4 @@
+from __future__ import annotations
 from codecs import lookup
 
 __all__ = ['from_sublime', 'to_sublime']

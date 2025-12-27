@@ -1,3 +1,4 @@
+from __future__ import annotations
 from enum import EnumMeta, Enum, Flag
 from functools import partial
 from typing import Any, Callable, Optional

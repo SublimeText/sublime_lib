@@ -1,3 +1,4 @@
+from __future__ import annotations
 import sublime
 
 from uuid import uuid4

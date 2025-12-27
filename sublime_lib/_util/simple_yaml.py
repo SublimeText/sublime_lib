@@ -1,3 +1,4 @@
+from __future__ import annotations
 import sublime
 import re
 from typing import Dict, Union

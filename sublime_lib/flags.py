@@ -26,6 +26,7 @@ Descendants of :class:`IntFlag` accept zero or more arguments:
     Constructors accept member names
     and `IntFlag` constructors accept multiple arguments.
 """
+from __future__ import annotations
 
 import sublime
 
