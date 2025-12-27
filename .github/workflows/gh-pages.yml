@@ -6,22 +6,38 @@ on:
       - master
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
 
-      - name: Setup uv
-        uses: astral-sh/setup-uv@v7
-
-      - name: Install dev dependencies
-        run: uv sync --group docs
+      - name: Install Dependencies
+        run: python -m pip --disable-pip-version-check --no-color install -U sphinx
 
       - name: Build Docs
-        run: uv run sphinx-build -M html "docs/source/" "docs/"
+        run: sphinx-build -M html "docs/source/" "docs/"
 
-      - name: Deploy Docs
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: docs/html
+          path: docs/html
+
+  deploy:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
