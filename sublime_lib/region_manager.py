@@ -28,7 +28,7 @@ class RegionManager:
 
     When the region manager is garbage-collected, all managed regions will be erased.
 
-    .. versionadded:: 1.4
+    .. versionadded:: 1.6
     """
 
     def __init__(

@@ -167,6 +167,8 @@ class PhantomLayout(IntFlag, metaclass=ExtensibleConstructorMeta):
 class OpenFileOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.Window.open_file`.
+
+    .. versionadded:: 1.6 FORCE_GROUP
     """
     ENCODED_POSITION = sublime.ENCODED_POSITION
     TRANSIENT = sublime.TRANSIENT
