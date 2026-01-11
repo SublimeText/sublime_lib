@@ -6,13 +6,11 @@ import sublime
 
 __all__ = ['list_syntaxes', 'get_syntax_for_scope']
 
-SyntaxInfo: TypeAlias = sublime.Syntax
-
 
 @deprecated(
     "sublime_lib.list_syntaxes() is deprecated, use sublime.list_syntaxes() instead!"
 )
-def list_syntaxes() -> list[SyntaxInfo]:
+def list_syntaxes() -> list[sublime.Syntax]:
     return sublime.list_syntaxes()
 
 
