@@ -56,10 +56,8 @@ intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
-# You can specify multiple suffix as a list of string:
-#
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+# You can specify multiple suffix as a dictionary:
+source_suffix = {'.rst': 'restructuredtext'}
 
 # The master toctree document.
 master_doc = 'index'
