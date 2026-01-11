@@ -119,17 +119,8 @@ class FindOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     LITERAL = sublime.LITERAL
     IGNORECASE = sublime.IGNORECASE
     WHOLEWORD = 4  # = sublime.WHOLEWORD
-    """
-    .. since:: 4149
-    """
     REVERSE = 8  # = sublime.REVERSE
-    """
-    .. since:: 4149
-    """
     WRAP = 16  # = sublime.WRAP
-    """
-    .. since:: 4149
-    """
 
 
 @autodoc()
