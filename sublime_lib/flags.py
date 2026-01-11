@@ -93,6 +93,7 @@ class PointClass(IntFlag, metaclass=ExtensibleConstructorMeta):
     - :meth:`~sublime.View.find_by_class`
     - :meth:`~sublime.View.expand_by_class`
     """
+    NONE = 0
     WORD_START = sublime.CLASS_WORD_START
     WORD_END = sublime.CLASS_WORD_END
     PUNCTUATION_START = sublime.CLASS_PUNCTUATION_START
@@ -114,8 +115,12 @@ class FindOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     - :meth:`~sublime.View.find`
     - :meth:`~sublime.View.find_all`
     """
+    NONE = 0
     LITERAL = sublime.LITERAL
     IGNORECASE = sublime.IGNORECASE
+    WHOLEWORD = 4  # = sublime.WHOLEWORD
+    REVERSE = 8  # = sublime.REVERSE
+    WRAP = 16  # = sublime.WRAP
 
 
 @autodoc()
@@ -125,6 +130,7 @@ class RegionOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.View.add_regions`.
     """
+    NONE = 0
     DRAW_EMPTY = sublime.DRAW_EMPTY
     HIDE_ON_MINIMAP = sublime.HIDE_ON_MINIMAP
     DRAW_EMPTY_AS_OVERWRITE = sublime.DRAW_EMPTY_AS_OVERWRITE
@@ -135,6 +141,7 @@ class RegionOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     DRAW_SQUIGGLY_UNDERLINE = sublime.DRAW_SQUIGGLY_UNDERLINE
     PERSISTENT = sublime.PERSISTENT
     HIDDEN = sublime.HIDDEN
+    NO_UNDO = sublime.NO_UNDO
 
 
 @autodoc()
@@ -144,9 +151,12 @@ class PopupOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.View.show_popup`.
     """
+    NONE = 0
     COOPERATE_WITH_AUTO_COMPLETE = sublime.COOPERATE_WITH_AUTO_COMPLETE
     HIDE_ON_MOUSE_MOVE = sublime.HIDE_ON_MOUSE_MOVE
     HIDE_ON_MOUSE_MOVE_AWAY = sublime.HIDE_ON_MOUSE_MOVE_AWAY
+    KEEP_ON_SELECTION_MODIFIED = sublime.KEEP_ON_SELECTION_MODIFIED
+    HIDE_ON_CHARACTER_EVENT = sublime.HIDE_ON_CHARACTER_EVENT
 
 
 @autodoc('LAYOUT')
@@ -170,9 +180,15 @@ class OpenFileOption(IntFlag, metaclass=ExtensibleConstructorMeta):
 
     .. versionadded:: 1.6 FORCE_GROUP
     """
+    NONE = 0
     ENCODED_POSITION = sublime.ENCODED_POSITION
     TRANSIENT = sublime.TRANSIENT
     FORCE_GROUP = sublime.FORCE_GROUP
+    SEMI_TRANSIENT = sublime.SEMI_TRANSIENT
+    ADD_TO_SELECTION = sublime.ADD_TO_SELECTION
+    REPLACE_MRU = sublime.REPLACE_MRU
+    CLEAR_TO_RIGHT = sublime.CLEAR_TO_RIGHT
+    FORCE_CLONE = 256  # = sublime.FORCE_CLONE
 
 
 @autodoc()
@@ -182,8 +198,10 @@ class QuickPanelOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     """
     An :class:`~enum.IntFlag` for use with :meth:`sublime.Window.show_quick_panel`.
     """
+    NONE = 0
     MONOSPACE_FONT = sublime.MONOSPACE_FONT
     KEEP_OPEN_ON_FOCUS_LOST = sublime.KEEP_OPEN_ON_FOCUS_LOST
+    WANT_EVENT = sublime.WANT_EVENT
 
 
 @autodoc('HOVER')
@@ -277,5 +295,8 @@ class CompletionOptions(IntFlag, metaclass=ExtensibleConstructorMeta):
 
     .. versionadded:: 1.4
     """
+    NONE = 0
     INHIBIT_WORD_COMPLETIONS = sublime.INHIBIT_WORD_COMPLETIONS
     INHIBIT_EXPLICIT_COMPLETIONS = sublime.INHIBIT_EXPLICIT_COMPLETIONS
+    DYNAMIC_COMPLETIONS = sublime.DYNAMIC_COMPLETIONS
+    INHIBIT_REORDER = sublime.INHIBIT_REORDER
