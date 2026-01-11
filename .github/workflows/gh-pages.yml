@@ -11,11 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Install Dependencies
-        run: python -m pip --disable-pip-version-check --no-color install -U sphinx
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install docs dependencies
+        run: cd docs && uv sync
 
       - name: Build Docs
-        run: sphinx-build -M html "docs/source/" "docs/"
+        run: cd docs && make html
 
       - name: Setup pages
         uses: actions/configure-pages@v4

@@ -1,0 +1,9 @@
+[project]
+name = "sublime_lib-docs"
+version = "1.0.0" # version is required
+description = "Documentation for the sublime_lib utility library"
+authors = [{name = "FichteFoll"}, {name = "Thom1729"}]
+requires-python = ">=3.12"
+dependencies = [
+    "sphinx>=9.1.0",
+]
