@@ -188,7 +188,7 @@ class OpenFileOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     ADD_TO_SELECTION = sublime.ADD_TO_SELECTION
     REPLACE_MRU = sublime.REPLACE_MRU
     CLEAR_TO_RIGHT = sublime.CLEAR_TO_RIGHT
-    FORCE_CLONE = sublime.FORCE_CLONE
+    FORCE_CLONE = 256  # = sublime.FORCE_CLONE
 
 
 @autodoc()
