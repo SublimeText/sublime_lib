@@ -1,21 +1,17 @@
 from __future__ import annotations
 from collections.abc import Mapping, Sequence
-from typing import Callable, Dict, Iterable, TypeVar, Union
+from typing import Callable, Iterable, TypeVar
 
 
 _V = TypeVar('_V')
-_Result = TypeVar('_Result')
-_Default = TypeVar('_Default')
-_Value = Union[bool, int, float, str, list, dict, None]
-
 
 __all__ = ['projection', 'get_selector', 'isiterable', 'ismapping', 'is_sequence_not_str']
 
 
 def projection(
-    d: Dict[str, _V],
-    keys: Union[Dict[str, str], Iterable[str]]
-) -> Dict[str, _V]:
+    d: dict[str, _V],
+    keys: dict[str, str] | Iterable[str]
+) -> dict[str, _V]:
     """
     Return a new :class:`dict` with keys of ``d`` restricted to values in ``keys``.
 

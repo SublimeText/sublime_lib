@@ -1,8 +1,10 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 import sublime
 
-from typing import Optional
+if TYPE_CHECKING:
+    from .settings_dict import Value
 
 from .view_utils import _temporarily_scratch_unsaved_views
 
@@ -11,12 +13,12 @@ __all__ = ['new_window', 'close_window']
 
 def new_window(
     *,
-    menu_visible: Optional[bool] = None,
-    sidebar_visible: Optional[bool] = None,
-    tabs_visible: Optional[bool] = None,
-    minimap_visible: Optional[bool] = None,
-    status_bar_visible: Optional[bool] = None,
-    project_data: Optional[dict] = None
+    menu_visible: bool | None = None,
+    sidebar_visible: bool | None = None,
+    tabs_visible: bool | None = None,
+    minimap_visible: bool | None = None,
+    status_bar_visible: bool | None = None,
+    project_data: dict[str, Value] | None = None
 ) -> sublime.Window:
     """Open a new window, returning the :class:`~sublime.Window` object.
 

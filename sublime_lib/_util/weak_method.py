@@ -1,9 +1,8 @@
 from __future__ import annotations
-
-import weakref
-
 from types import MethodType
 from typing import Callable, Any
+
+import weakref
 
 
 __all__ = ['weak_method']

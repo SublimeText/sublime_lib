@@ -1,20 +1,21 @@
 from __future__ import annotations
+from collections.abc import Mapping
+from functools import partial
+from typing import TYPE_CHECKING
+from uuid import uuid4
 
 import sublime
-
-from uuid import uuid4
-from functools import partial
-from collections.abc import Mapping
-from typing import Any, Callable, Iterable, NoReturn, TypeVar, Union, Mapping as _Mapping
 
 from ._util.collections import get_selector
 from ._util.named_value import NamedValue
 
-_Default = TypeVar('_Default')
-Value = Union[bool, int, float, str, list, dict, None]
-
 __all__ = ['SettingsDict', 'NamedSettingsDict']
 
+if TYPE_CHECKING:
+    from typing import Any, Callable, Iterable
+    from typing_extensions import TypeAlias
+
+    Value: TypeAlias = bool | str | int | float | list[Any] | dict[str, Any] | None
 
 _NO_DEFAULT = NamedValue('SettingsDict.NO_DEFAULT')
 
@@ -44,9 +45,9 @@ class SettingsDict():
     NO_DEFAULT = _NO_DEFAULT
 
     def __init__(self, settings: sublime.Settings):
-        self.settings = settings
+        self.settings: sublime.Settings = settings
 
-    def __iter__(self) -> NoReturn:
+    def __iter__(self) -> None:
         """Raise NotImplementedError."""
         raise NotImplementedError()
 
@@ -101,16 +102,14 @@ class SettingsDict():
         """Return ``True`` if `self` has a setting named `key`, else ``False``."""
         return self.settings.has(item)
 
-    def get(self, key: str, default: _Default = None) -> Union[Value, _Default]:
+    def get(self, key: str, default: Value | None = None) -> Value:
         """Return the value for `key` if `key` is in the dictionary, or `default` otherwise.
 
         If `default` is not given, it defaults to ``None``,
         so that this method never raises :exc:`KeyError`."""
         return self.settings.get(key, default)
 
-    def pop(
-        self, key: str, default: Union[_Default, NamedValue] = _NO_DEFAULT
-    ) -> Union[Value, _Default]:
+    def pop(self, key: str, default: Value | NamedValue = _NO_DEFAULT) -> Value:
         """Remove the setting `self[key]` and return its value or `default`.
 
         :raise KeyError: if `key` is not in the dictionary
@@ -139,7 +138,7 @@ class SettingsDict():
 
     def update(
         self,
-        other: Union[_Mapping[str, Value], Iterable[Iterable[str]]] = [],
+        other: dict[str, Value] | Iterable[Iterable[str]] = [],
         **kwargs: Value
     ) -> None:
         """Update the dictionary with the key/value pairs from `other`,
@@ -157,11 +156,14 @@ class SettingsDict():
         for key, value in other:
             self[key] = value
 
-        for key, value in kwargs.items():
+        for key, value in kwargs.items():  # type: ignore
             self[key] = value
 
     def subscribe(
-        self, selector: Any, callback: Callable, default_value: Any = None
+        self,
+        selector: Value,
+        callback: Callable[[Value, Value], None],
+        default_value: Value = None
     ) -> Callable[[], None]:
         """Register a callback to be invoked
         when the value derived from the settings object changes

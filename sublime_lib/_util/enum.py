@@ -1,7 +1,7 @@
 from __future__ import annotations
 from enum import EnumMeta, Enum, Flag
 from functools import partial
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 
 __all__ = ['ExtensibleConstructorMeta', 'construct_with_alternatives', 'construct_union']
@@ -15,7 +15,7 @@ class ExtensibleConstructorMeta(EnumMeta):
 def extend_constructor(
     constructor: Callable[..., Enum]
 ) -> Callable[[EnumMeta], EnumMeta]:
-    def decorator(cls: EnumMeta) -> EnumMeta:
+    def decorator(cls: Any) -> EnumMeta:
         next_constructor = partial(cls.__new__, cls)
 
         def __new__(cls: EnumMeta, *args: Any, **kwargs: Any) -> Enum:
@@ -28,7 +28,7 @@ def extend_constructor(
 
 
 def construct_with_alternatives(
-    provider: Callable[..., Optional[Enum]]
+    provider: Callable[..., Enum | None]
 ) -> Callable[[EnumMeta], EnumMeta]:
     def constructor(next_constructor: Callable[..., Enum], cls: EnumMeta,
                     *args: Any, **kwargs: Any) -> Enum:
