@@ -1,13 +1,12 @@
 from __future__ import annotations
+from contextlib import contextmanager
+from io import SEEK_SET, SEEK_CUR, SEEK_END, TextIOBase
+from typing import Any, Generator
 
 import sublime
 from sublime import Region
 
-from contextlib import contextmanager
-from io import SEEK_SET, SEEK_CUR, SEEK_END, TextIOBase
-
 from ._util.guard import define_guard
-from typing import Any, Generator
 
 
 class ViewStream(TextIOBase):
@@ -76,9 +75,9 @@ class ViewStream(TextIOBase):
     def __init__(
         self, view: sublime.View, *, force_writes: bool = False, follow_cursor: bool = False
     ):
-        self.view = view
-        self.force_writes = force_writes
-        self.follow_cursor = follow_cursor
+        self.view: sublime.View = view
+        self.force_writes: bool = force_writes
+        self.follow_cursor: bool = follow_cursor
 
     @guard_validity
     @guard_selection

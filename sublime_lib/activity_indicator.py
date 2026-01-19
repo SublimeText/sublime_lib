@@ -1,15 +1,13 @@
 from __future__ import annotations
-import sublime
-
-from uuid import uuid4
-
-from typing import Optional, Union
-from types import TracebackType
 from abc import ABCMeta, abstractmethod
 from functools import partial
-from ._util.weak_method import weak_method
-
 from threading import Lock
+from types import TracebackType
+from uuid import uuid4
+
+import sublime
+
+from ._util.weak_method import weak_method
 
 
 __all__ = ['ActivityIndicator']
@@ -27,7 +25,7 @@ class StatusTarget(metaclass=ABCMeta):  # pragma: no cover
 
 class WindowTarget(StatusTarget):
     def __init__(self, window: sublime.Window) -> None:
-        self.window = window
+        self.window: sublime.Window = window
 
     def set(self, message: str) -> None:
         self.window.status_message(message)
@@ -37,10 +35,10 @@ class WindowTarget(StatusTarget):
 
 
 class ViewTarget(StatusTarget):
-    def __init__(self, view: sublime.View, key: Optional[str] = None) -> None:
-        self.view = view
+    def __init__(self, view: sublime.View, key: str | None = None) -> None:
+        self.view: sublime.View = view
         if key is None:
-            self.key = '_{!s}'.format(uuid4())
+            self.key: str = '_{!s}'.format(uuid4())
         else:
             self.key = key
 
@@ -63,19 +61,19 @@ class ActivityIndicator:
 
     .. versionadded:: 1.4
     """
-    width = 10  # type: int
-    interval = 100  # type: int
+    width: int = 10
+    interval: int = 100
 
-    _target = None  # type: StatusTarget
-    _ticks = 0  # type: int
-    _lock = None  # type: Lock
-    _running = False  # type: bool
-    _invocation_id = 0  # type: int
+    _lock: Lock
+    _target: StatusTarget
+    _ticks: int = 0
+    _running: bool = False
+    _invocation_id: int = 0
 
     def __init__(
         self,
-        target: Union[StatusTarget, sublime.View, sublime.Window],
-        label: Optional[str] = None,
+        target: StatusTarget | sublime.View | sublime.Window,
+        label: str | None = None,
     ) -> None:
         self.label = label
 

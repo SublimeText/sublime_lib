@@ -38,6 +38,9 @@ source = "vcs"
 version-file = "sublime_lib/_version.py"
 tag-pattern = "v{version}"
 
+[tool.black]
+line-length = 100
+
 [tool.coverage.run]
 omit = [
     "*/tests/*",

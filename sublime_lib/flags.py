@@ -27,15 +27,13 @@ Descendants of :class:`IntFlag` accept zero or more arguments:
     and `IntFlag` constructors accept multiple arguments.
 """
 from __future__ import annotations
-
-import sublime
-
 from enum import IntEnum, IntFlag, EnumMeta
 from inspect import getdoc, cleandoc
-from typing import Callable, Optional
+from typing import Callable
 
 import operator
 import re
+import sublime
 
 from ._util.enum import ExtensibleConstructorMeta, construct_union, construct_with_alternatives
 
@@ -47,7 +45,7 @@ __all__ = [
 ]
 
 
-def autodoc(prefix: Optional[str] = None) -> Callable[[EnumMeta], EnumMeta]:
+def autodoc(prefix: str | None = None) -> Callable[[EnumMeta], EnumMeta]:
     if prefix is None:
         prefix_str = ''
     else:
@@ -273,12 +271,10 @@ class QueryContextOperator(IntEnum):
     REGEX_CONTAINS = (sublime.OP_REGEX_CONTAINS, regex_contains)
     NOT_REGEX_CONTAINS = (sublime.OP_NOT_REGEX_CONTAINS, not_regex_contains)
 
-    # _apply_ = None  # type: Callable[[str, str], bool]
-
-    def __new__(cls, value: int, operator: Callable[[str, str], bool]) -> 'QueryContextOperator':
-        obj = int.__new__(cls, value)  # type: ignore
-        obj._value_ = value
-        obj._apply_ = operator
+    def __new__(cls, value: int, operator: Callable[[str, str], bool]) -> QueryContextOperator:
+        obj = int.__new__(cls, value)
+        setattr(obj, '_value_', value)
+        setattr(obj, '_apply_', operator)
         return obj
 
     def apply(self, value: str, operand: str) -> bool:
