@@ -22,9 +22,9 @@ def show_selection_panel(
     flags: QuickPanelOption = QuickPanelOption.NONE,
     labels: Sequence[object] | Callable[[_ItemType], object] | None = None,
     selected: NamedValue | _ItemType = NO_SELECTION,
-    on_select: Callable[[_ItemType], object] | None = None,
-    on_cancel: Callable[[], object] | None = None,
-    on_highlight: Callable[[_ItemType], object] | None = None
+    on_select: Callable[[_ItemType], None] | None = None,
+    on_cancel: Callable[[], None] | None = None,
+    on_highlight: Callable[[_ItemType], None] | None = None
 ) -> None:
     """Open a quick panel in the given window to select an item from a list.
 
@@ -113,7 +113,8 @@ def show_selection_panel(
     else:
         selected_index = items.index(selected)
 
-    on_highlight_callback = lambda index: on_highlight(items[index]) if on_highlight else None
+    on_highlight_callback: Callable[[int], None] = \
+        lambda index: on_highlight(items[index]) if on_highlight else None
 
     if isinstance(flags, str):
         flags = QuickPanelOption(flags)
@@ -127,5 +128,5 @@ def show_selection_panel(
         on_select=on_done,
         flags=flags,  # type: ignore
         selected_index=selected_index,
-        on_highlight=on_highlight_callback   # type: ignore
+        on_highlight=on_highlight_callback
     )

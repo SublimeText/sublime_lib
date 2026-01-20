@@ -43,7 +43,7 @@ def to_sublime(name: str) -> str:
         raise ValueError("Unknown Python encoding {!r}.".format(name)) from None
 
 
-SUBLIME_TO_STANDARD = {  # noqa: E121
+SUBLIME_TO_STANDARD = {
     "UTF-8": "utf-8",
     "UTF-8 with BOM": "utf-8-sig",
     "UTF-16 LE": "utf-16-le",
@@ -85,7 +85,7 @@ SUBLIME_TO_STANDARD = {  # noqa: E121
 }
 
 
-STANDARD_TO_SUBLIME = {  # noqa: E121
+STANDARD_TO_SUBLIME = {
     standard_name: sublime_name
     for sublime_name, standard_name in SUBLIME_TO_STANDARD.items()
 }

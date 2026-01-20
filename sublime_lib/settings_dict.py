@@ -1,5 +1,4 @@
 from __future__ import annotations
-from collections.abc import Mapping
 from functools import partial
 from typing import TYPE_CHECKING
 from uuid import uuid4
@@ -12,7 +11,8 @@ from ._util.named_value import NamedValue
 __all__ = ['SettingsDict', 'NamedSettingsDict']
 
 if TYPE_CHECKING:
-    from typing import Any, Callable, Iterable
+    from collections.abc import Iterable, Mapping
+    from typing import Any, Callable
     from typing_extensions import TypeAlias
 
     Value: TypeAlias = bool | str | int | float | list[Any] | dict[str, Any] | None

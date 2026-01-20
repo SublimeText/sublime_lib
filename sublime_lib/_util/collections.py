@@ -1,26 +1,22 @@
 from __future__ import annotations
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from typing import Callable, TypeVar
-
 
 _V = TypeVar('_V')
 
 __all__ = ['projection', 'get_selector']
 
 
-def projection(
-    d: dict[str, _V],
-    keys: dict[str, str] | Iterable[str]
-) -> dict[str, _V]:
+def projection(d: Mapping[str, _V], keys: Mapping[str, str] | Iterable[str]) -> Mapping[str, _V]:
     """
-    Return a new :class:`dict` with keys of ``d`` restricted to values in ``keys``.
+    Return a new :class:`Mapping` with keys of ``d`` restricted to values in ``keys``.
 
     .. code-block:: python
 
        >>> projection({'a': 1, 'b': 2}, ['b'])
        {'b': 2}
 
-    If ``keys`` is a :class:`dict`, then it maps keys of the original dict to
+    If ``keys`` is a :class:`Mapping`, then it maps keys of the original Mapping to
     keys of the result:
 
     .. code-block:: python
@@ -28,7 +24,7 @@ def projection(
        >>> projection({'a': 1, 'b': 2}, {'b': 'c'})
        {'c': 2}
     """
-    if isinstance(keys, dict):
+    if isinstance(keys, Mapping):
         return {
             new_key: d[original_key]
             for original_key, new_key in keys.items()
@@ -42,7 +38,7 @@ def projection(
         }
 
 
-def get_selector(selector: object, default_value: object = None) -> Callable:  # noqa: F811
+def get_selector(selector: object, default_value: object = None) -> Callable:
     if callable(selector):
         return selector
     elif isinstance(selector, str):
