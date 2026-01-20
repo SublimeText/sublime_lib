@@ -1,11 +1,11 @@
 from __future__ import annotations
-from collections.abc import Mapping, Sequence
-from typing import Callable, Iterable, TypeVar
+from collections.abc import Iterable
+from typing import Callable, TypeVar
 
 
 _V = TypeVar('_V')
 
-__all__ = ['projection', 'get_selector', 'isiterable', 'ismapping', 'is_sequence_not_str']
+__all__ = ['projection', 'get_selector']
 
 
 def projection(
@@ -47,25 +47,9 @@ def get_selector(selector: object, default_value: object = None) -> Callable:  #
         return selector
     elif isinstance(selector, str):
         return lambda this: this.get(selector, default_value)
-    elif isiterable(selector):
+    elif isinstance(selector, Iterable):
         return lambda this: projection(this, selector)  # type: ignore
     else:
         raise TypeError(
             'The selector should be a function, string, or iterable of strings.'
         )
-
-
-def isiterable(obj: object) -> bool:
-    try:
-        iter(obj)  # type: ignore
-        return True
-    except TypeError:
-        return False
-
-
-def ismapping(obj: object) -> bool:
-    return isinstance(obj, Mapping)
-
-
-def is_sequence_not_str(obj: object) -> bool:
-    return isinstance(obj, Sequence) and not isinstance(obj, str)

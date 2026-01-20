@@ -4,7 +4,6 @@ from typing import Callable, TypeVar
 
 import sublime
 
-from ._util.collections import isiterable
 from ._util.named_value import NamedValue
 from .flags import QuickPanelOption
 
@@ -116,10 +115,10 @@ def show_selection_panel(
 
     on_highlight_callback = lambda index: on_highlight(items[index]) if on_highlight else None
 
-    if isiterable(flags) and not isinstance(flags, str):
-        flags = QuickPanelOption(*flags)
-    else:
+    if isinstance(flags, str):
         flags = QuickPanelOption(flags)
+    else:
+        flags = QuickPanelOption(*flags)
 
     # The signature in the API docs is wrong.
     # See https://github.com/SublimeTextIssues/Core/issues/2290
