@@ -42,7 +42,7 @@ def projection(
         }
 
 
-def get_selector(selector: object, default_value: object = None) -> Callable:  # noqa: F811
+def get_selector(selector: object, default_value: object = None) -> Callable:
     if callable(selector):
         return selector
     elif isinstance(selector, str):
