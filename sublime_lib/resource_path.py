@@ -1,8 +1,8 @@
 from __future__ import annotations
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 import os
 import posixpath

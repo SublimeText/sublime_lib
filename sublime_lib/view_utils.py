@@ -4,7 +4,8 @@ from enum import Enum
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Any, Generator, Iterable, TypeVar
+    from collections.abc import Generator, Iterable
+    from typing import Any, TypeVar
     from sublime_types import Value
 
     EnumType = TypeVar('EnumType', bound=Enum)
