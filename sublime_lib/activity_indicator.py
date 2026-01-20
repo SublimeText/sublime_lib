@@ -13,7 +13,7 @@ from ._util.weak_method import weak_method
 __all__ = ['ActivityIndicator']
 
 
-class StatusTarget(metaclass=ABCMeta):  # pragma: no cover
+class StatusTarget(metaclass=ABCMeta):
     @abstractmethod
     def set(self, message: str) -> None:
         ...
@@ -61,7 +61,7 @@ class ActivityIndicator:
 
     .. versionadded:: 1.4
     """
-    width: int = 10
+    frames: str | list[str] = "⣷⣯⣟⡿⢿⣻⣽⣾"
     interval: int = 100
 
     _lock: Lock
@@ -75,7 +75,7 @@ class ActivityIndicator:
         target: StatusTarget | sublime.View | sublime.Window,
         label: str | None = None,
     ) -> None:
-        self.label = label
+        self.label: str | None = label
 
         if isinstance(target, sublime.View):
             self._target = ViewTarget(target)
@@ -146,12 +146,7 @@ class ActivityIndicator:
         self._target.set(self.render(self._ticks))
 
     def render(self, ticks: int) -> str:
-        status = ticks % (2 * self.width)
-        before = min(status, (2 * self.width) - status)
-        after = self.width - before
-
-        return "{}[{}={}]".format(
-            self.label + ' ' if self.label else '',
-            " " * before,
-            " " * after,
-        )
+        text = self.frames[ticks % len(self.frames)]
+        if self.label:
+            text += " " + self.label
+        return text
