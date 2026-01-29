@@ -12,15 +12,13 @@ __all__ = ['SettingsDict', 'NamedSettingsDict']
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Mapping
-    from typing import Any, Callable
-    from typing_extensions import TypeAlias
-
-    Value: TypeAlias = bool | str | int | float | list[Any] | dict[str, Any] | None
+    from typing import Callable
+    from ._util.collections import Value
 
 _NO_DEFAULT = NamedValue('SettingsDict.NO_DEFAULT')
 
 
-class SettingsDict():
+class SettingsDict:
     """Wraps a :class:`sublime.Settings` object `settings`
     with a :class:`dict`-like interface.
 
@@ -42,7 +40,7 @@ class SettingsDict():
     methods on the :class:`~collections.ChainMap` will raise an error.
     """
 
-    NO_DEFAULT = _NO_DEFAULT
+    NO_DEFAULT: NamedValue = _NO_DEFAULT
 
     def __init__(self, settings: sublime.Settings):
         self.settings: sublime.Settings = settings
@@ -161,7 +159,7 @@ class SettingsDict():
 
     def subscribe(
         self,
-        selector: Value,
+        selector: Callable[[Mapping[str, Value]], Value] | Iterable[str] | str,
         callback: Callable[[Value, Value], None],
         default_value: Value = None
     ) -> Callable[[], None]:
@@ -188,13 +186,13 @@ class SettingsDict():
         ..  versionchanged:: 1.1
             Return an unsubscribe callback.
         """
-        selector_fn = get_selector(selector)
+        selector_fn = get_selector(selector, default_value)
 
-        saved_value = selector_fn(self)
+        saved_value = selector_fn(self)  # type: ignore
 
         def onchange() -> None:
             nonlocal saved_value
-            new_value = selector_fn(self)
+            new_value = selector_fn(self)  # type: ignore
 
             if new_value != saved_value:
                 previous_value = saved_value
