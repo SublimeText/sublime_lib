@@ -34,7 +34,7 @@ class Panel():
 
     def _checkExists(self) -> None:
         if not self.exists():
-            raise ValueError("Panel {} does not exist.".format(self.panel_name))
+            raise ValueError(f"Panel {self.panel_name} does not exist.")
 
     @define_guard
     def guard_exists(self) -> None:

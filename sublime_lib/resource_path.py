@@ -204,9 +204,7 @@ class ResourcePath():
         if path:
             return path
         else:
-            raise ValueError(
-                "Path {!r} does not correspond to any resource path.".format(file_path)
-            )
+            raise ValueError(f"Path {file_path!r} does not correspond to any resource path.")
 
     def __init__(self, *pathsegments: object):
         """
@@ -234,7 +232,7 @@ class ResourcePath():
         return hash(self.parts)
 
     def __repr__(self) -> str:
-        return "{}({!r})".format(self.__class__.__name__, str(self))
+        return f"{self.__class__.__name__}({self!s})"
 
     def __str__(self) -> str:
         return '/'.join(self.parts)
@@ -365,7 +363,7 @@ class ResourcePath():
         if other_path.parts == self._parts[:other_len]:
             return self._parts[other_len:]
         else:
-            raise ValueError("{!s} does not start with {!s}".format(self, other_path))
+            raise ValueError(f"{self!s} does not start with {other_path!s}")
 
     def with_name(self, name: str) -> ResourcePath:
         """
@@ -422,7 +420,7 @@ class ResourcePath():
         if new_name is not None:
             return self.with_name(new_name)
         elif must_remove:
-            raise ValueError('Cannot remove suffix {!r} from {!r}.'.format(suffix, self))
+            raise ValueError(f"Cannot remove suffix {suffix!r} from {self!r}.")
         else:
             return self
 
@@ -455,7 +453,7 @@ class ResourcePath():
             except ValueError:
                 continue
 
-        raise ValueError("Can't find a filesystem path for {!r}.".format(self.root)) from None
+        raise ValueError(f"Can't find a filesystem path for {self.root!r}.") from None
 
     def exists(self) -> bool:
         """
