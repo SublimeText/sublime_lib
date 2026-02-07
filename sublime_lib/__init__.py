@@ -9,7 +9,15 @@ from .view_stream import ViewStream
 from .view_utils import LineEnding, close_view, new_view
 from .window_utils import close_window, new_window
 
+try:
+    from ._version import __version__, __version_tuple__
+except ImportError:
+    __version__ = "0.0.0-dev"
+    __version_tuple__ = (0, 0, 0, "dev")
+
 __all__ = [
+    "__version__",
+    "__version_tuple__",
     "ActivityIndicator",
     "Panel",
     "OutputPanel",
