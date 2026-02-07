@@ -38,7 +38,7 @@ class ViewTarget(StatusTarget):
     def __init__(self, view: sublime.View, key: str | None = None) -> None:
         self.view: sublime.View = view
         if key is None:
-            self.key: str = '_{!s}'.format(uuid4())
+            self.key: str = f"_{uuid4()!s}"
         else:
             self.key = key
 

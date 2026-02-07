@@ -53,10 +53,10 @@ def autodoc(prefix: str | None = None) -> Callable[[EnumMeta], EnumMeta]:
 
     def decorator(enum: EnumMeta) -> EnumMeta:
         enum.__doc__ = (getdoc(enum) or '') + '\n\n' + '\n'.join([
-            cleandoc("""
+            cleandoc(f"""
             .. py:attribute:: {name}
-                :annotation: = sublime.{pre}{name}
-            """).format(name=name, pre=prefix_str) for name in enum.__members__
+                :annotation: = sublime.{prefix_str}{name}
+            """) for name in enum.__members__
         ])
 
         return enum
@@ -244,7 +244,7 @@ class HoverLocation(IntEnum):
 
 
 def regex_match(value: str, operand: str) -> bool:
-    expr = r'(?:{})\Z'.format(operand)
+    expr = rf"(?:{operand})\Z"
     return re.match(expr, value) is not None
 
 

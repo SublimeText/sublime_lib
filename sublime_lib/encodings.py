@@ -21,7 +21,7 @@ def from_sublime(name: str) -> str:
     try:
         return SUBLIME_TO_STANDARD[name]
     except KeyError:
-        raise ValueError("Unknown Sublime encoding {!r}.".format(name)) from None
+        raise ValueError(f"Unknown Sublime encoding {name!r}.") from None
 
 
 def to_sublime(name: str) -> str:
@@ -40,7 +40,7 @@ def to_sublime(name: str) -> str:
     try:
         return STANDARD_TO_SUBLIME[lookup(name).name]
     except LookupError:
-        raise ValueError("Unknown Python encoding {!r}.".format(name)) from None
+        raise ValueError(f"Unknown Python encoding {name!r}.") from None
 
 
 SUBLIME_TO_STANDARD = {
