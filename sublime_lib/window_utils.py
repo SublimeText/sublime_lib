@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 import sublime
 
 if TYPE_CHECKING:
-    from .settings_dict import Value
+    from sublime_types import Value
 
 from .view_utils import _temporarily_scratch_unsaved_views
 

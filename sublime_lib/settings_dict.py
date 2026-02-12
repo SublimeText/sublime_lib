@@ -12,8 +12,8 @@ __all__ = ['SettingsDict', 'NamedSettingsDict']
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Mapping
+    from sublime_types import Value
     from typing import Callable
-    from ._util.collections import Value
 
 _NO_DEFAULT = NamedValue('SettingsDict.NO_DEFAULT')
 

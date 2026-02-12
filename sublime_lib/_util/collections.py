@@ -3,10 +3,9 @@ from collections.abc import Iterable, Mapping
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Any, Callable
-    from typing_extensions import TypeAlias
+    from sublime_types import Value
+    from typing import Callable
 
-    Value: TypeAlias = bool | str | int | float | list[Any] | dict[str, Any] | None
 
 __all__ = ['projection', 'get_selector']
 
