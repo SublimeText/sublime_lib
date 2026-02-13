@@ -1,13 +1,16 @@
 from __future__ import annotations
 from collections.abc import Iterable, Mapping
-from typing import Callable, TypeVar
+from typing import TYPE_CHECKING
 
-_V = TypeVar('_V')
+if TYPE_CHECKING:
+    from sublime_types import Value
+    from typing import Callable
+
 
 __all__ = ['projection', 'get_selector']
 
 
-def projection(d: Mapping[str, _V], keys: Mapping[str, str] | Iterable[str]) -> Mapping[str, _V]:
+def projection(d: Mapping[str, Value], keys: Mapping[str, str] | Iterable[str]) -> Value:
     """
     Return a new :class:`Mapping` with keys of ``d`` restricted to values in ``keys``.
 
@@ -38,13 +41,16 @@ def projection(d: Mapping[str, _V], keys: Mapping[str, str] | Iterable[str]) -> 
         }
 
 
-def get_selector(selector: object, default_value: object = None) -> Callable:
+def get_selector(
+    selector: Callable[[Mapping[str, Value]], Value] | Iterable[str] | str,
+    default_value: Value = None
+) -> Callable[[Mapping[str, Value]], Value]:
     if callable(selector):
         return selector
     elif isinstance(selector, str):
         return lambda this: this.get(selector, default_value)
     elif isinstance(selector, Iterable):
-        return lambda this: projection(this, selector)  # type: ignore
+        return lambda this: projection(this, selector)
     else:
         raise TypeError(
             'The selector should be a function, string, or iterable of strings.'
