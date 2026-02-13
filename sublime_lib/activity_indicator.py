@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import ABCMeta, abstractmethod
+from enum import IntEnum
 from threading import Lock
 from types import TracebackType
 from uuid import uuid4
@@ -59,9 +60,11 @@ class ActivityIndicator:
 
     .. versionadded:: 1.4
     """
-    STOPPED: int = 0
-    STOPPING: int = 1
-    RUNNING: int = 2
+
+    class State(IntEnum):
+        STOPPED = 0
+        STOPPING = 1
+        RUNNING = 2
 
     frames: str | list[str] = "⣷⣯⣟⡿⢿⣻⣽⣾"
     interval: int = 100
@@ -81,7 +84,7 @@ class ActivityIndicator:
             self._target = target
 
         self._lock: Lock = Lock()
-        self._state: int = self.STOPPED
+        self._state: int = self.State.STOPPED
         self._ticks: int = 0
         self._tick = weak_method(self._tick)
 
@@ -107,14 +110,14 @@ class ActivityIndicator:
         :raise ValueError: if the indicator is already running.
         """
         with self._lock:
-            if self._state == self.RUNNING:
+            if self._state == self.State.RUNNING:
                 raise ValueError('Timer is already running')
-            elif self._state == self.STOPPING:
-                self._state = self.RUNNING
+            elif self._state == self.State.STOPPING:
+                self._state = self.State.RUNNING
             else:
                 self.update()
                 sublime.set_timeout(self._tick, self.interval)
-                self._state = self.RUNNING
+                self._state = self.State.RUNNING
 
     def stop(self) -> None:
         """
@@ -123,16 +126,16 @@ class ActivityIndicator:
         If the indicator is not running, do nothing.
         """
         with self._lock:
-            if self._state != self.STOPPED:
-                self._state = self.STOPPING
+            if self._state != self.State.STOPPED:
+                self._state = self.State.STOPPING
 
     def _tick(self) -> None:
         with self._lock:
-            if self._state == self.RUNNING:
+            if self._state == self.State.RUNNING:
                 self.tick()
                 sublime.set_timeout(self._tick, self.interval)
                 return
-            self._state = self.STOPPED
+            self._state = self.State.STOPPED
         self._target.clear()
 
     def tick(self) -> None:
