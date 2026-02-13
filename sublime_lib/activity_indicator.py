@@ -89,8 +89,9 @@ class ActivityIndicator:
     def __del__(self) -> None:
         self._target.clear()
 
-    def __enter__(self) -> None:
+    def __enter__(self) -> ActivityIndicator:
         self.start()
+        return self
 
     def __exit__(
         self,
