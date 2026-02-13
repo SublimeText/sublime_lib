@@ -66,8 +66,6 @@ class ActivityIndicator:
     frames: str | list[str] = "⣷⣯⣟⡿⢿⣻⣽⣾"
     interval: int = 100
 
-    _lock: Lock = Lock()
-
     def __init__(
         self,
         target: StatusTarget | sublime.View | sublime.Window,
@@ -82,6 +80,7 @@ class ActivityIndicator:
         else:
             self._target = target
 
+        self._lock: Lock = Lock()
         self._state: int = self.STOPPED
         self._ticks: int = 0
         self._tick = weak_method(self._tick)
