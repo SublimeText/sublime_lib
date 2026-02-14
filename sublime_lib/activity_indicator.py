@@ -86,7 +86,7 @@ class ActivityIndicator:
         self._lock: Lock = Lock()
         self._state: int = self.State.STOPPED
         self._ticks: int = 0
-        self._tick = weak_method(self._tick)
+        self._tick_ref = weak_method(self._tick)
 
     def __del__(self) -> None:
         self.stop()
@@ -116,7 +116,7 @@ class ActivityIndicator:
                 self._state = self.State.RUNNING
             else:
                 self.update()
-                sublime.set_timeout(self._tick, self.interval)
+                sublime.set_timeout(self._tick_ref, self.interval)
                 self._state = self.State.RUNNING
 
     def stop(self) -> None:
@@ -133,7 +133,7 @@ class ActivityIndicator:
         with self._lock:
             if self._state == self.State.RUNNING:
                 self.tick()
-                sublime.set_timeout(self._tick, self.interval)
+                sublime.set_timeout(self._tick_ref, self.interval)
                 return
             self._state = self.State.STOPPED
         self._target.clear()
