@@ -111,7 +111,7 @@ class ActivityIndicator:
         """
         with self._lock:
             if self._state == self.State.RUNNING:
-                raise ValueError('Timer is already running')
+                raise ValueError("Activity indicator is already running!")
             elif self._state == self.State.STOPPING:
                 self._state = self.State.RUNNING
             else:
