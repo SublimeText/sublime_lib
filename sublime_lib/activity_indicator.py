@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABCMeta, abstractmethod
-from functools import partial
+from enum import IntEnum
 from threading import Lock
 from types import TracebackType
 from uuid import uuid4
@@ -8,7 +8,6 @@ from uuid import uuid4
 import sublime
 
 from ._util.weak_method import weak_method
-
 
 __all__ = ['ActivityIndicator']
 
@@ -61,14 +60,14 @@ class ActivityIndicator:
 
     .. versionadded:: 1.4
     """
+
+    class State(IntEnum):
+        STOPPED = 0
+        STOPPING = 1
+        RUNNING = 2
+
     frames: str | list[str] = "⣷⣯⣟⡿⢿⣻⣽⣾"
     interval: int = 100
-
-    _lock: Lock
-    _target: StatusTarget
-    _ticks: int = 0
-    _running: bool = False
-    _invocation_id: int = 0
 
     def __init__(
         self,
@@ -78,15 +77,19 @@ class ActivityIndicator:
         self.label: str | None = label
 
         if isinstance(target, sublime.View):
-            self._target = ViewTarget(target)
+            self._target: StatusTarget = ViewTarget(target)
         elif isinstance(target, sublime.Window):
             self._target = WindowTarget(target)
         else:
             self._target = target
 
-        self._lock = Lock()
+        self._lock: Lock = Lock()
+        self._state: int = self.State.STOPPED
+        self._ticks: int = 0
+        self._tick_ref = weak_method(self._tick)
 
     def __del__(self) -> None:
+        self.stop()
         self._target.clear()
 
     def __enter__(self) -> ActivityIndicator:
@@ -108,15 +111,14 @@ class ActivityIndicator:
         :raise ValueError: if the indicator is already running.
         """
         with self._lock:
-            if self._running:
-                raise ValueError('Timer is already running')
+            if self._state == self.State.RUNNING:
+                raise ValueError("Activity indicator is already running!")
+            elif self._state == self.State.STOPPING:
+                self._state = self.State.RUNNING
             else:
-                self._running = True
                 self.update()
-                sublime.set_timeout(
-                    partial(self._run, self._invocation_id),
-                    self.interval
-                )
+                sublime.set_timeout(self._tick_ref, self.interval)
+                self._state = self.State.RUNNING
 
     def stop(self) -> None:
         """
@@ -125,19 +127,17 @@ class ActivityIndicator:
         If the indicator is not running, do nothing.
         """
         with self._lock:
-            if self._running:
-                self._running = False
-                self._invocation_id += 1
-        self._target.clear()
+            if self._state != self.State.STOPPED:
+                self._state = self.State.STOPPING
 
-    def _run(self, invocation_id: int) -> None:
+    def _tick(self) -> None:
         with self._lock:
-            if invocation_id == self._invocation_id:
+            if self._state == self.State.RUNNING:
                 self.tick()
-                sublime.set_timeout(
-                    partial(weak_method(self._run), invocation_id),
-                    self.interval
-                )
+                sublime.set_timeout(self._tick_ref, self.interval)
+                return
+            self._state = self.State.STOPPED
+        self._target.clear()
 
     def tick(self) -> None:
         self._ticks += 1
