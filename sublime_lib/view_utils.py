@@ -120,20 +120,6 @@ def _temporarily_scratch_unsaved_views(
             view.set_scratch(False)
 
 
-def _clone_view(view: sublime.View) -> sublime.View:
-    window = view.window()
-    if window is None:  # pragma: no cover
-        raise ValueError("View has no window.")
-
-    window.focus_view(view)
-    window.run_command('clone_file')
-    clone = window.active_view()
-    if clone is None:  # pragma: no cover
-        raise RuntimeError("Clone was not created.")
-
-    return clone
-
-
 def close_view(view: sublime.View, *, force: bool = False) -> None:
     """Close the given view, discarding unsaved changes if `force` is ``True``.
 
