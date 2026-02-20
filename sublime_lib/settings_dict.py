@@ -222,7 +222,7 @@ class SettingsDict:
         when the value derived from the settings object changes
         and return a function that when invoked will unregister the callback.
 
-        Instead of passing the `SettingsDict` to callback,
+        Instead of passing the :class:`SettingsDict` to `callback`,
         a value derived using `selector` is passed.
         If `selector` is callable, then ``selector(self)`` is passed.
         If `selector` is a :class:`str`,
