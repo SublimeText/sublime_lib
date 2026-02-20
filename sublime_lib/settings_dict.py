@@ -89,7 +89,14 @@ class SettingsDict:
     def __delitem__(self, key: str) -> None:
         """Remove `self[key]` from `self`.
 
-        :raise KeyError: if there us no setting with the given `key`.
+        Note that :class:`~sublime.Settings`
+        behave similar to a :class:`collections.ChainMap`
+        in that deletions are only applied to the top-most settings source.
+        However, since it is not possible to determine
+        whether a key is present in the top-most settings source,
+        it is also not possible to raise an error in that case.
+
+        :raise KeyError: if there is no setting with the given `key`.
         """
         if key in self:
             self.settings.erase(key)
@@ -109,6 +116,8 @@ class SettingsDict:
 
     def pop(self, key: str, default: Value | NamedValue = _NO_DEFAULT) -> Value:
         """Remove the setting `self[key]` and return its value or `default`.
+
+        The same caveats for deletions apply as for :meth:`__delitem__`.
 
         :raise KeyError: if `key` is not in the dictionary
             and `default` is :attr:`SettingsDict.NO_DEFAULT`.
