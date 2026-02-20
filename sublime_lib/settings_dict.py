@@ -22,6 +22,13 @@ class SettingsDict:
     """Wraps a :class:`sublime.Settings` object `settings`
     with a :class:`dict`-like interface.
 
+    Since ST build 4075,
+    :class:`~sublime.Settings` objects directly implement some :class:`dict` methods,
+    notably :meth:`__getitem__`, :meth:`__setitem__`, and :meth:`__delitem__`,
+    which is enough for most use cases.
+    This class still provides polyfills for older builds
+    and additional functionality on top.
+
     The ability to iterate over keys of
     :class:`~sublime.Settings` objects is either limited
     (ST >=4078, Python host >=3.8)
