@@ -11,7 +11,7 @@ from ._util.named_value import NamedValue
 __all__ = ['SettingsDict', 'NamedSettingsDict']
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Mapping
+    from collections.abc import Iterable, Iterator, Mapping
     from sublime_types import Value
     from typing import Callable
 
@@ -22,32 +22,45 @@ class SettingsDict:
     """Wraps a :class:`sublime.Settings` object `settings`
     with a :class:`dict`-like interface.
 
-    There is no way to list or iterate over the keys of a
-    :class:`~sublime.Settings` object. As a result, the following methods are
-    not implemented:
+    The ability to iterate over keys of
+    :class:`~sublime.Settings` objects is either limited
+    (ST >=4078, Python host >=3.8)
+    or outright not present.
+
+    Additionally :class:`~sublime.Settings`
+    objects behave similar to a :class:`collections.ChainMap`
+    in that deletions are only applied to the top-most settings source
+    and it is not possible to determine
+    whether a key is present in the top-most settings source
+    Thus, deletions do not necessarily
+    lead to the items actually getting deleted.
+
+    As a result,
+    the following methods are **not** implemented:
+
+    - :meth:`clear`
+    - :meth:`copy`
+    - :meth:`popitem`
+
+    The following methods are implemented only
+    for ST builds >=4078 and Python host >=3.8
+    and will raise :class:`NotImplementedError` otherwise:
 
     - :meth:`__len__`
     - :meth:`__iter__`
-    - :meth:`clear`
-    - :meth:`copy`
-    - :meth:`items`
     - :meth:`keys`
-    - :meth:`popitem`
     - :meth:`values`
+    - :meth:`items`
 
     You can use :class:`collections.ChainMap` to chain a :class:`SettingsDict`
     with other dict-like objects. If you do, calling the above unimplemented
-    methods on the :class:`~collections.ChainMap` will raise an error.
+    methods on the :class:`~collections.ChainMap` will also raise an error.
     """
 
     NO_DEFAULT: NamedValue = _NO_DEFAULT
 
     def __init__(self, settings: sublime.Settings):
         self.settings: sublime.Settings = settings
-
-    def __iter__(self) -> None:
-        """Raise NotImplementedError."""
-        raise NotImplementedError()
 
     def __eq__(self, other: object) -> bool:
         """Return ``True`` if `self` and `other` are of the same type
@@ -89,13 +102,6 @@ class SettingsDict:
     def __delitem__(self, key: str) -> None:
         """Remove `self[key]` from `self`.
 
-        Note that :class:`~sublime.Settings`
-        behave similar to a :class:`collections.ChainMap`
-        in that deletions are only applied to the top-most settings source.
-        However, since it is not possible to determine
-        whether a key is present in the top-most settings source,
-        it is also not possible to raise an error in that case.
-
         :raise KeyError: if there is no setting with the given `key`.
         """
         if key in self:
@@ -117,9 +123,7 @@ class SettingsDict:
     def pop(self, key: str, default: Value | NamedValue = _NO_DEFAULT) -> Value:
         """Remove the setting `self[key]` and return its value or `default`.
 
-        The same caveats for deletions apply as for :meth:`__delitem__`.
-
-        :raise KeyError: if `key` is not in the dictionary
+        :raise KeyError: if `key` is not in the top-level settings object
             and `default` is :attr:`SettingsDict.NO_DEFAULT`.
 
         .. versionchanged:: 1.2
@@ -166,6 +170,40 @@ class SettingsDict:
 
         for key, value in kwargs.items():
             self[key] = value
+
+    def _to_dict(self) -> dict[str, Value]:
+        """Helper method with a clearer exception than :class:`KeyError`."""
+        if hasattr(self.settings, 'to_dict'):
+            return self.settings.to_dict()
+        else:
+            raise NotImplementedError
+
+    def keys(self) -> Iterable[str]:
+        """Return a set-like object providing a view on the setting object's keys.
+
+        ..  versionadded:: 2.2
+        """
+        return self._to_dict().keys()
+
+    def values(self) -> Iterable[Value]:
+        """Return a set-like object providing a view on the setting object's values.
+
+        ..  versionadded:: 2.2
+        """
+        return self._to_dict().values()
+
+    def items(self) -> Iterable[tuple[str, Value]]:
+        """Return a set-like object providing a view on the setting object's items.
+
+        ..  versionadded:: 2.2
+        """
+        return self._to_dict().items()
+
+    def __iter__(self) -> Iterator[str]:
+        return iter(self._to_dict())
+
+    def __len__(self) -> int:
+        return len(self._to_dict())
 
     def subscribe(
         self,
