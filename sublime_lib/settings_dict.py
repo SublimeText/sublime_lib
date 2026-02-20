@@ -145,6 +145,7 @@ class SettingsDict:
     def update(
         self,
         other: dict[str, Value] | Iterable[tuple[str, Value]] = [],
+        /,
         **kwargs: Value,
     ) -> None:
         """Update the dictionary with the key/value pairs from `other`,
