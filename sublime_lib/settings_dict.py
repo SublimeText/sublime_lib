@@ -145,8 +145,8 @@ class SettingsDict:
 
     def update(
         self,
-        other: dict[str, Value] | Iterable[Iterable[str]] = [],
-        **kwargs: Value
+        other: dict[str, Value] | Iterable[tuple[str, Value]] = [],
+        **kwargs: Value,
     ) -> None:
         """Update the dictionary with the key/value pairs from `other`,
         overwriting existing keys.
@@ -157,13 +157,14 @@ class SettingsDict:
         the dictionary is then updated with those key/value pairs:
         ``self.update(red=1, blue=2)``.
         """
-        if isinstance(other, Mapping):
-            other = other.items()  # type: ignore
+        if isinstance(other, dict):
+            for key in other.keys():
+                self[key] = other[key]  # type: ignore
+        else:
+            for key, value in other:
+                self[key] = value
 
-        for key, value in other:
-            self[key] = value
-
-        for key, value in kwargs.items():  # type: ignore
+        for key, value in kwargs.items():
             self[key] = value
 
     def subscribe(
