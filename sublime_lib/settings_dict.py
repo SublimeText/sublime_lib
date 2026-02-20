@@ -30,11 +30,8 @@ class SettingsDict:
     and additional functionality on top.
 
     The ability to iterate over keys of
-    :class:`~sublime.Settings` objects is either limited
-    (ST >=4078, Python host >=3.8)
-    or outright not present.
-
-    Additionally :class:`~sublime.Settings`
+    :class:`~sublime.Settings` objects is limited.
+    Additionally, :class:`~sublime.Settings`
     objects behave similar to a :class:`collections.ChainMap`
     in that deletions are only applied to the top-most settings source
     and it is not possible to determine
@@ -43,21 +40,12 @@ class SettingsDict:
     lead to the items actually getting deleted.
 
     As a result,
-    the following methods are **not** implemented:
+    method that involve iteration may behave unexpectedly
+    and the following methods are **not** implemented:
 
     - :meth:`clear`
     - :meth:`copy`
     - :meth:`popitem`
-
-    The following methods are implemented only
-    for ST builds >=4078 and Python host >=3.8
-    and will raise :class:`NotImplementedError` otherwise:
-
-    - :meth:`__len__`
-    - :meth:`__iter__`
-    - :meth:`keys`
-    - :meth:`values`
-    - :meth:`items`
 
     You can use :class:`collections.ChainMap` to chain a :class:`SettingsDict`
     with other dict-like objects. If you do, calling the above unimplemented
@@ -178,39 +166,32 @@ class SettingsDict:
         for key, value in kwargs.items():
             self[key] = value
 
-    def _to_dict(self) -> dict[str, Value]:
-        """Helper method with a clearer exception than :class:`KeyError`."""
-        if hasattr(self.settings, 'to_dict'):
-            return self.settings.to_dict()
-        else:
-            raise NotImplementedError
-
     def keys(self) -> Iterable[str]:
         """Return a set-like object providing a view on the setting object's keys.
 
         ..  versionadded:: 2.2
         """
-        return self._to_dict().keys()
+        return self.settings.to_dict().keys()
 
     def values(self) -> Iterable[Value]:
         """Return a set-like object providing a view on the setting object's values.
 
         ..  versionadded:: 2.2
         """
-        return self._to_dict().values()
+        return self.settings.to_dict().values()
 
     def items(self) -> Iterable[tuple[str, Value]]:
         """Return a set-like object providing a view on the setting object's items.
 
         ..  versionadded:: 2.2
         """
-        return self._to_dict().items()
+        return self.settings.to_dict().items()
 
     def __iter__(self) -> Iterator[str]:
-        return iter(self._to_dict())
+        return iter(self.settings.to_dict())
 
     def __len__(self) -> int:
-        return len(self._to_dict())
+        return len(self.settings.to_dict())
 
     def subscribe(
         self,
