@@ -185,7 +185,7 @@ class SettingsDict(Mapping[str, Value]):
         """
         if isinstance(other, dict):
             for key in other.keys():
-                self[key] = other[key]  # type: ignore
+                self[key] = other[key]
         else:
             for key, value in other:
                 self[key] = value
@@ -253,11 +253,11 @@ class SettingsDict(Mapping[str, Value]):
         """
         selector_fn = get_selector(selector, default_value)
 
-        saved_value = selector_fn(self)  # type: ignore
+        saved_value = selector_fn(self)
 
         def onchange() -> None:
             nonlocal saved_value
-            new_value = selector_fn(self)  # type: ignore
+            new_value = selector_fn(self)
 
             if new_value != saved_value:
                 previous_value = saved_value
