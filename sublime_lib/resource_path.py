@@ -40,7 +40,7 @@ class ResourceRoot(metaclass=ABCMeta):
     def file_to_resource_path(self, file_path: Path | str) -> ResourcePath | None:
         """
         Given an absolute :class:`Path`,
-        return the corresponging :class:`ResourcePath` within this resource root,
+        return the corresponding :class:`ResourcePath` within this resource root,
         or ``None`` if there is no such :class:`ResourcePath`.
 
         :raise ValueError: if the :class:`Path` is relative.
