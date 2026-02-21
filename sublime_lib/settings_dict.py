@@ -1,9 +1,11 @@
 from __future__ import annotations
 from functools import partial
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, overload
 from uuid import uuid4
+from collections.abc import Mapping
 
 import sublime
+from sublime_types import Value
 
 from ._util.collections import get_selector
 from ._util.named_value import NamedValue
@@ -11,16 +13,18 @@ from ._util.named_value import NamedValue
 __all__ = ['SettingsDict', 'NamedSettingsDict']
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator, Mapping
-    from sublime_types import Value
-    from typing import Callable
+    from collections.abc import Callable, Iterable, Iterator, KeysView, ValuesView, ItemsView
+    from typing import TypeVar
+
+    _T = TypeVar('_T')
 
 _NO_DEFAULT = NamedValue('SettingsDict.NO_DEFAULT')
 
 
-class SettingsDict:
+class SettingsDict(Mapping[str, Value]):
     """Wraps a :class:`sublime.Settings` object `settings`
-    with a :class:`dict`-like interface.
+    with a :class:`collections.abc.Mapping` interface
+    and a few :class:`dict` methods.
 
     Since ST build 4075,
     :class:`~sublime.Settings` objects directly implement some :class:`dict` methods,
@@ -40,8 +44,8 @@ class SettingsDict:
     lead to the items actually getting deleted.
 
     As a result,
-    method that involve iteration may behave unexpectedly
-    and the following methods are **not** implemented:
+    methods that involve iteration may behave unexpectedly
+    and the following `dict` methods are **not** implemented:
 
     - :meth:`clear`
     - :meth:`copy`
@@ -50,6 +54,9 @@ class SettingsDict:
     You can use :class:`collections.ChainMap` to chain a :class:`SettingsDict`
     with other dict-like objects. If you do, calling the above unimplemented
     methods on the :class:`~collections.ChainMap` will also raise an error.
+
+    .. versionchanged:: 2.2
+        Implements the full :class:`~collections.abc.Mapping` interface.
     """
 
     NO_DEFAULT: NamedValue = _NO_DEFAULT
@@ -104,16 +111,35 @@ class SettingsDict:
         else:
             raise KeyError(key)
 
-    def __contains__(self, item: str) -> bool:
+    def __contains__(self, item: object) -> bool:
         """Return ``True`` if `self` has a setting named `key`, else ``False``."""
-        return self.settings.has(item)
+        if isinstance(item, str):
+            return self.settings.has(item)
+        else:
+            return False
 
-    def get(self, key: str, default: Value | None = None) -> Value:
+    @overload
+    def get(self, key: str, /) -> Value | None:
+        ...
+
+    @overload
+    def get(self, key: str, default: Value, /) -> Value:
+        ...
+
+    @overload
+    def get(self, key: str, default: _T, /) -> Value | _T:
+        ...
+
+    def get(self, key: str, default: _T | None = None) -> Value | _T:
         """Return the value for `key` if `key` is in the dictionary, or `default` otherwise.
 
         If `default` is not given, it defaults to ``None``,
         so that this method never raises :exc:`KeyError`."""
-        return self.settings.get(key, default)
+        # Upstream `get` implementation does not accept non-Value `default`.
+        if key in self:
+            return self.settings.get(key)
+        else:
+            return default
 
     def pop(self, key: str, default: Value | NamedValue = _NO_DEFAULT) -> Value:
         """Remove the setting `self[key]` and return its value or `default`.
@@ -167,21 +193,21 @@ class SettingsDict:
         for key, value in kwargs.items():
             self[key] = value
 
-    def keys(self) -> Iterable[str]:
+    def keys(self) -> KeysView[str]:
         """Return a set-like object providing a view on the setting object's keys.
 
         ..  versionadded:: 2.2
         """
         return self.settings.to_dict().keys()
 
-    def values(self) -> Iterable[Value]:
+    def values(self) -> ValuesView[Value]:
         """Return a set-like object providing a view on the setting object's values.
 
         ..  versionadded:: 2.2
         """
         return self.settings.to_dict().values()
 
-    def items(self) -> Iterable[tuple[str, Value]]:
+    def items(self) -> ItemsView[str, Value]:
         """Return a set-like object providing a view on the setting object's items.
 
         ..  versionadded:: 2.2
@@ -189,9 +215,11 @@ class SettingsDict:
         return self.settings.to_dict().items()
 
     def __iter__(self) -> Iterator[str]:
+        # Added in 2.2
         return iter(self.settings.to_dict())
 
     def __len__(self) -> int:
+        # Added in 2.2
         return len(self.settings.to_dict())
 
     def subscribe(
