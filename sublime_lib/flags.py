@@ -76,7 +76,7 @@ class DialogResult(IntEnum):
     An :class:`~enum.IntEnum` for use with :func:`sublime.yes_no_cancel_dialog`.
 
     .. deprecated:: 2.1
-        Use :class:`sublime.DialogResult` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.DialogResult` instead for plugins targeting ST4135+.
     """
     CANCEL = sublime.DIALOG_CANCEL
     YES = sublime.DIALOG_YES
@@ -95,7 +95,7 @@ class PointClass(IntFlag, metaclass=ExtensibleConstructorMeta):
     - :meth:`~sublime.View.expand_by_class`
 
     .. deprecated:: 2.1
-        Use :class:`sublime.PointClassification` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.PointClassification` instead for plugins targeting ST4135+.
     """
     NONE = 0
     WORD_START = sublime.CLASS_WORD_START
@@ -120,7 +120,7 @@ class FindOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     - :meth:`~sublime.View.find_all`
 
     .. deprecated:: 2.1
-        Use :class:`sublime.FindFlags` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.FindFlags` instead for plugins targeting ST4135+.
     """
     NONE = 0
     LITERAL = sublime.LITERAL
@@ -138,7 +138,7 @@ class RegionOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     An :class:`~enum.IntFlag` for use with :meth:`sublime.View.add_regions`.
 
     .. deprecated:: 2.1
-        Use :class:`sublime.FindFlags` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.FindFlags` instead for plugins targeting ST4135+.
     """
     NONE = 0
     DRAW_EMPTY = sublime.DRAW_EMPTY
@@ -162,7 +162,7 @@ class PopupOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     An :class:`~enum.IntFlag` for use with :meth:`sublime.View.show_popup`.
 
     .. deprecated:: 2.1
-        Use :class:`sublime.PopupFlags` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.PopupFlags` instead for plugins targeting ST4135+.
     """
     NONE = 0
     COOPERATE_WITH_AUTO_COMPLETE = sublime.COOPERATE_WITH_AUTO_COMPLETE
@@ -180,7 +180,7 @@ class PhantomLayout(IntFlag, metaclass=ExtensibleConstructorMeta):
     An :class:`~enum.IntFlag` for use with :class:`sublime.Phantom`.
 
     .. deprecated:: 2.1
-        Use :class:`sublime.PhantomLayout` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.PhantomLayout` instead for plugins targeting ST4135+.
     """
     INLINE = sublime.LAYOUT_INLINE
     BELOW = sublime.LAYOUT_BELOW
@@ -197,7 +197,7 @@ class OpenFileOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     .. versionadded:: 1.6 FORCE_GROUP
 
     .. deprecated:: 2.1
-        Use :class:`sublime.NewFileFlags` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.NewFileFlags` instead for plugins targeting ST4135+.
     """
     NONE = 0
     ENCODED_POSITION = sublime.ENCODED_POSITION
@@ -218,7 +218,7 @@ class QuickPanelOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     An :class:`~enum.IntFlag` for use with :meth:`sublime.Window.show_quick_panel`.
 
     .. deprecated:: 2.1
-        Use :class:`sublime.QuickPanelFlags` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.QuickPanelFlags` instead for plugins targeting ST4135+.
     """
     NONE = 0
     MONOSPACE_FONT = sublime.MONOSPACE_FONT
@@ -236,7 +236,7 @@ class HoverLocation(IntEnum):
     .. versionadded:: 1.4
 
     .. deprecated:: 2.1
-        Use :class:`sublime.HoverZone` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.HoverZone` instead for plugins targeting ST4135+.
     """
     TEXT = sublime.HOVER_TEXT
     GUTTER = sublime.HOVER_GUTTER
@@ -270,7 +270,7 @@ class QueryContextOperator(IntEnum):
     .. versionadded:: 1.4
 
     .. deprecated:: 2.1
-        Use :class:`sublime.QueryOperator` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.QueryOperator` instead for plugins targeting ST4135+.
 
     .. py:method:: apply(value, operand)
 
@@ -322,7 +322,7 @@ class CompletionOptions(IntFlag, metaclass=ExtensibleConstructorMeta):
     .. versionadded:: 1.4
 
     .. deprecated:: 2.1
-        Use :class:`sublime.AutoCompleteFlags` instead, for plugins targetting ST4135+.
+        Use :class:`sublime.AutoCompleteFlags` instead for plugins targeting ST4135+.
     """
     NONE = 0
     INHIBIT_WORD_COMPLETIONS = sublime.INHIBIT_WORD_COMPLETIONS
