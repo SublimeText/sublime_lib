@@ -10,6 +10,48 @@ from sublime import Region
 from ._util.guard import define_guard
 
 
+@define_guard
+@contextmanager
+def guard_read_only(vs: ViewStream) -> Generator[Any, None, None]:
+    if vs.view.is_read_only():
+        if vs.force_writes:
+            vs.view.set_read_only(False)
+            yield
+            vs.view.set_read_only(True)
+        else:
+            raise ValueError("The underlying view is read-only.")
+    else:
+        yield
+
+
+@define_guard
+@contextmanager
+def guard_auto_indent(vs: ViewStream) -> Generator[Any, None, None]:
+    settings = vs.view.settings()
+    if settings.get('auto_indent'):
+        settings.set('auto_indent', False)
+        yield
+        settings.set('auto_indent', True)
+    else:
+        yield
+
+
+@define_guard
+def guard_validity(vs: ViewStream) -> None:
+    if not vs.view.is_valid():
+        raise ValueError("The underlying view is invalid.")
+
+
+@define_guard
+def guard_selection(vs: ViewStream) -> None:
+    if len(vs.view.sel()) == 0:
+        raise ValueError("The underlying view has no selection.")
+    elif len(vs.view.sel()) > 1:
+        raise ValueError("The underlying view has multiple selections.")
+    elif not vs.view.sel()[0].empty():
+        raise ValueError("The underlying view's selection is not empty.")
+
+
 class ViewStream(TextIO):
     """A :class:`~io.TextIOBase` encapsulating a :class:`~sublime.View` object.
 
@@ -34,44 +76,6 @@ class ViewStream(TextIO):
     ..  versionchanged:: 1.2
         Added the `follow_cursor` option.
     """
-
-    @define_guard
-    @contextmanager
-    def guard_read_only(self) -> Generator[Any, None, None]:
-        if self.view.is_read_only():
-            if self.force_writes:
-                self.view.set_read_only(False)
-                yield
-                self.view.set_read_only(True)
-            else:
-                raise ValueError("The underlying view is read-only.")
-        else:
-            yield
-
-    @define_guard
-    @contextmanager
-    def guard_auto_indent(self) -> Generator[Any, None, None]:
-        settings = self.view.settings()
-        if settings.get('auto_indent'):
-            settings.set('auto_indent', False)
-            yield
-            settings.set('auto_indent', True)
-        else:
-            yield
-
-    @define_guard
-    def guard_validity(self) -> None:
-        if not self.view.is_valid():
-            raise ValueError("The underlying view is invalid.")
-
-    @define_guard
-    def guard_selection(self) -> None:
-        if len(self.view.sel()) == 0:
-            raise ValueError("The underlying view has no selection.")
-        elif len(self.view.sel()) > 1:
-            raise ValueError("The underlying view has multiple selections.")
-        elif not self.view.sel()[0].empty():
-            raise ValueError("The underlying view's selection is not empty.")
 
     def __init__(
         self, view: sublime.View, *, force_writes: bool = False, follow_cursor: bool = False

@@ -10,6 +10,11 @@ from ._util.guard import define_guard
 __all__ = ['Panel', 'OutputPanel']
 
 
+@define_guard
+def guard_exists(panel: Panel) -> None:
+    panel._checkExists()
+
+
 class Panel():
     """An abstraction of a panel, such as the console or an output panel.
 
@@ -35,10 +40,6 @@ class Panel():
     def _checkExists(self) -> None:
         if not self.exists():
             raise ValueError(f"Panel {self.panel_name} does not exist.")
-
-    @define_guard
-    def guard_exists(self) -> None:
-        self._checkExists()
 
     def exists(self) -> bool:
         """Return ``True`` if the panel exists, or ``False`` otherwise.
