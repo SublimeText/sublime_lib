@@ -13,7 +13,9 @@ if TYPE_CHECKING:
 def define_guard(
     guard_fn: Callable[[_Self], ContextManager[Any] | None]
 ) -> Callable[[Callable[Concatenate[_Self, _P], _T]], Callable[Concatenate[_Self, _P], _T]]:
-    def decorator(wrapped: Callable[Concatenate[_Self, _P], _T]) -> Callable[Concatenate[_Self, _P], _T]:
+    def decorator(
+        wrapped: Callable[Concatenate[_Self, _P], _T]
+    ) -> Callable[Concatenate[_Self, _P], _T]:
         @wraps(wrapped)
         def wrapper(self: _Self, /, *args: _P.args, **kwargs: _P.kwargs) -> _T:
             ret_val = guard_fn(self)
