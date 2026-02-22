@@ -21,7 +21,7 @@ def extend_constructor(
         def __new__(cls: EnumMeta, *args: Any, **kwargs: Any) -> Enum:
             return constructor(next_constructor, cls, *args, **kwargs)
 
-        cls.__new__ = __new__  # type: ignore
+        cls.__new__ = __new__
         return cls
 
     return decorator

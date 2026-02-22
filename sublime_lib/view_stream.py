@@ -136,7 +136,7 @@ class ViewStream(TextIOBase):
 
     def print(self, *objects: object, sep: str = ' ', end: str = '\n') -> None:
         """Shorthand for :func:`print()` passing this ViewStream as the `file` argument."""
-        print(*objects, file=self, sep=sep, end=end)  # type: ignore
+        print(*objects, file=self, sep=sep, end=end)
 
     def flush(self) -> None:
         """Do nothing. (The stream is not buffered.)"""
