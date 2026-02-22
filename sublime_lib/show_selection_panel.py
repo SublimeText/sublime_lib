@@ -1,6 +1,6 @@
 from __future__ import annotations
 from collections.abc import Sequence
-from typing import Callable, TypeVar
+from typing import Callable, Iterable, TypeVar
 
 import sublime
 
@@ -19,7 +19,7 @@ def show_selection_panel(
     window: sublime.Window,
     items: Sequence[_ItemType],
     *,
-    flags: QuickPanelOption = QuickPanelOption.NONE,
+    flags: QuickPanelOption | Iterable[QuickPanelOption] | str = QuickPanelOption.NONE,
     labels: Sequence[object] | Callable[[_ItemType], object] | None = None,
     selected: NamedValue | _ItemType = NO_SELECTION,
     on_select: Callable[[_ItemType], None] | None = None,
@@ -113,16 +113,16 @@ def show_selection_panel(
     else:
         selected_index = items.index(selected)
 
-    on_highlight_callback: Callable[[int], None] = \
-        lambda index: on_highlight(items[index]) if on_highlight else None
+    def on_highlight_callback(index: int) -> None:
+        return on_highlight(items[index]) if on_highlight else None
 
-    if isinstance(flags, str):
-        flags = QuickPanelOption(flags)
+    if isinstance(flags, QuickPanelOption):
+        pass
+    elif isinstance(flags, str):
+        flags = QuickPanelOption[flags]
     else:
         flags = QuickPanelOption(*flags)
 
-    # The signature in the API docs is wrong.
-    # See https://github.com/SublimeTextIssues/Core/issues/2290
     window.show_quick_panel(
         items=label_strings,
         on_select=on_done,
