@@ -1,8 +1,8 @@
 from __future__ import annotations
 from collections.abc import Generator
 from contextlib import contextmanager
-from io import SEEK_SET, SEEK_CUR, SEEK_END, TextIOBase
-from typing import Any
+from io import SEEK_SET, SEEK_CUR, SEEK_END
+from typing import Any, TextIO
 
 import sublime
 from sublime import Region
@@ -10,7 +10,7 @@ from sublime import Region
 from ._util.guard import define_guard
 
 
-class ViewStream(TextIOBase):
+class ViewStream(TextIO):
     """A :class:`~io.TextIOBase` encapsulating a :class:`~sublime.View` object.
 
     All public methods (except :meth:`flush`) require
