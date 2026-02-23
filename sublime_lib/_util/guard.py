@@ -1,18 +1,23 @@
 from __future__ import annotations
 from functools import wraps
-from typing import Any, Callable, ContextManager, TypeVar
+from typing import TYPE_CHECKING
 
-
-_Self = TypeVar('_Self')
-_WrappedType = Callable[..., Any]
+if TYPE_CHECKING:
+    from typing import Any, Callable, ContextManager, TypeVar
+    from typing_extensions import ParamSpec, Concatenate
+    _Self = TypeVar('_Self')
+    _T = TypeVar('_T')
+    _P = ParamSpec('_P')
 
 
 def define_guard(
-    guard_fn: Callable[[_Self], ContextManager | None]
-) -> Callable[[_WrappedType], _WrappedType]:
-    def decorator(wrapped: _WrappedType) -> _WrappedType:
+    guard_fn: Callable[[_Self], ContextManager[Any] | None]
+) -> Callable[[Callable[Concatenate[_Self, _P], _T]], Callable[Concatenate[_Self, _P], _T]]:
+    def decorator(
+        wrapped: Callable[Concatenate[_Self, _P], _T]
+    ) -> Callable[Concatenate[_Self, _P], _T]:
         @wraps(wrapped)
-        def wrapper_guards(self: _Self, *args: Any, **kwargs: Any) -> Any:
+        def wrapper(self: _Self, /, *args: _P.args, **kwargs: _P.kwargs) -> _T:
             ret_val = guard_fn(self)
             if ret_val is not None:
                 with ret_val:
@@ -20,6 +25,6 @@ def define_guard(
             else:
                 return wrapped(self, *args, **kwargs)
 
-        return wrapper_guards
+        return wrapper
 
     return decorator
