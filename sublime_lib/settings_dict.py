@@ -1,9 +1,11 @@
 from __future__ import annotations
 from functools import partial
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, overload
 from uuid import uuid4
+from collections.abc import Mapping
 
 import sublime
+from sublime_types import Value
 
 from ._util.collections import get_selector
 from ._util.named_value import NamedValue
@@ -11,43 +13,56 @@ from ._util.named_value import NamedValue
 __all__ = ['SettingsDict', 'NamedSettingsDict']
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Mapping
-    from sublime_types import Value
-    from typing import Callable
+    from collections.abc import Callable, Iterable, Iterator, KeysView, ValuesView, ItemsView
+    from typing import TypeVar
+
+    _T = TypeVar('_T')
 
 _NO_DEFAULT = NamedValue('SettingsDict.NO_DEFAULT')
 
 
-class SettingsDict:
+class SettingsDict(Mapping[str, Value]):
     """Wraps a :class:`sublime.Settings` object `settings`
-    with a :class:`dict`-like interface.
+    with a :class:`collections.abc.Mapping` interface
+    and a few :class:`dict` methods.
 
-    There is no way to list or iterate over the keys of a
-    :class:`~sublime.Settings` object. As a result, the following methods are
-    not implemented:
+    Since ST build 4075,
+    :class:`~sublime.Settings` objects directly implement some :class:`dict` methods,
+    notably :meth:`__getitem__`, :meth:`__setitem__`, and :meth:`__delitem__`,
+    which is enough for most use cases.
+    This class still provides polyfills for older builds
+    and additional functionality on top.
 
-    - :meth:`__len__`
-    - :meth:`__iter__`
+    The ability to iterate over keys of
+    :class:`~sublime.Settings` objects is limited.
+    Additionally, :class:`~sublime.Settings`
+    objects behave similar to a :class:`collections.ChainMap`
+    in that deletions are only applied to the top-most settings source
+    and it is not possible to determine
+    whether a key is present in the top-most settings source
+    Thus, deletions do not necessarily
+    lead to the items actually getting deleted.
+
+    As a result,
+    methods that involve iteration may behave unexpectedly
+    and the following `dict` methods are **not** implemented:
+
     - :meth:`clear`
     - :meth:`copy`
-    - :meth:`items`
-    - :meth:`keys`
     - :meth:`popitem`
-    - :meth:`values`
 
     You can use :class:`collections.ChainMap` to chain a :class:`SettingsDict`
     with other dict-like objects. If you do, calling the above unimplemented
-    methods on the :class:`~collections.ChainMap` will raise an error.
+    methods on the :class:`~collections.ChainMap` will also raise an error.
+
+    .. versionchanged:: 2.2
+        Implements the full :class:`~collections.abc.Mapping` interface.
     """
 
     NO_DEFAULT: NamedValue = _NO_DEFAULT
 
     def __init__(self, settings: sublime.Settings):
         self.settings: sublime.Settings = settings
-
-    def __iter__(self) -> None:
-        """Raise NotImplementedError."""
-        raise NotImplementedError()
 
     def __eq__(self, other: object) -> bool:
         """Return ``True`` if `self` and `other` are of the same type
@@ -89,28 +104,47 @@ class SettingsDict:
     def __delitem__(self, key: str) -> None:
         """Remove `self[key]` from `self`.
 
-        :raise KeyError: if there us no setting with the given `key`.
+        :raise KeyError: if there is no setting with the given `key`.
         """
         if key in self:
             self.settings.erase(key)
         else:
             raise KeyError(key)
 
-    def __contains__(self, item: str) -> bool:
+    def __contains__(self, item: object) -> bool:
         """Return ``True`` if `self` has a setting named `key`, else ``False``."""
-        return self.settings.has(item)
+        if isinstance(item, str):
+            return self.settings.has(item)
+        else:
+            return False
 
-    def get(self, key: str, default: Value | None = None) -> Value:
+    @overload
+    def get(self, key: str, /) -> Value | None:
+        ...
+
+    @overload
+    def get(self, key: str, default: Value, /) -> Value:
+        ...
+
+    @overload
+    def get(self, key: str, default: _T, /) -> Value | _T:
+        ...
+
+    def get(self, key: str, default: _T | None = None) -> Value | _T:
         """Return the value for `key` if `key` is in the dictionary, or `default` otherwise.
 
         If `default` is not given, it defaults to ``None``,
         so that this method never raises :exc:`KeyError`."""
-        return self.settings.get(key, default)
+        # Upstream `get` implementation does not accept non-Value `default`.
+        if key in self:
+            return self.settings.get(key)
+        else:
+            return default
 
     def pop(self, key: str, default: Value | NamedValue = _NO_DEFAULT) -> Value:
         """Remove the setting `self[key]` and return its value or `default`.
 
-        :raise KeyError: if `key` is not in the dictionary
+        :raise KeyError: if `key` is not in the top-level settings object
             and `default` is :attr:`SettingsDict.NO_DEFAULT`.
 
         .. versionchanged:: 1.2
@@ -136,8 +170,9 @@ class SettingsDict:
 
     def update(
         self,
-        other: dict[str, Value] | Iterable[Iterable[str]] = [],
-        **kwargs: Value
+        other: dict[str, Value] | Iterable[tuple[str, Value]] = [],
+        /,
+        **kwargs: Value,
     ) -> None:
         """Update the dictionary with the key/value pairs from `other`,
         overwriting existing keys.
@@ -148,14 +183,44 @@ class SettingsDict:
         the dictionary is then updated with those key/value pairs:
         ``self.update(red=1, blue=2)``.
         """
-        if isinstance(other, Mapping):
-            other = other.items()  # type: ignore
+        if isinstance(other, dict):
+            for key in other.keys():
+                self[key] = other[key]
+        else:
+            for key, value in other:
+                self[key] = value
 
-        for key, value in other:
+        for key, value in kwargs.items():
             self[key] = value
 
-        for key, value in kwargs.items():  # type: ignore
-            self[key] = value
+    def keys(self) -> KeysView[str]:
+        """Return a set-like object providing a view on the setting object's keys.
+
+        ..  versionadded:: 2.2
+        """
+        return self.settings.to_dict().keys()
+
+    def values(self) -> ValuesView[Value]:
+        """Return a set-like object providing a view on the setting object's values.
+
+        ..  versionadded:: 2.2
+        """
+        return self.settings.to_dict().values()
+
+    def items(self) -> ItemsView[str, Value]:
+        """Return a set-like object providing a view on the setting object's items.
+
+        ..  versionadded:: 2.2
+        """
+        return self.settings.to_dict().items()
+
+    def __iter__(self) -> Iterator[str]:
+        # Added in 2.2
+        return iter(self.settings.to_dict())
+
+    def __len__(self) -> int:
+        # Added in 2.2
+        return len(self.settings.to_dict())
 
     def subscribe(
         self,
@@ -167,7 +232,7 @@ class SettingsDict:
         when the value derived from the settings object changes
         and return a function that when invoked will unregister the callback.
 
-        Instead of passing the `SettingsDict` to callback,
+        Instead of passing the :class:`SettingsDict` to `callback`,
         a value derived using `selector` is passed.
         If `selector` is callable, then ``selector(self)`` is passed.
         If `selector` is a :class:`str`,
@@ -188,11 +253,11 @@ class SettingsDict:
         """
         selector_fn = get_selector(selector, default_value)
 
-        saved_value = selector_fn(self)  # type: ignore
+        saved_value = selector_fn(self)
 
         def onchange() -> None:
             nonlocal saved_value
-            new_value = selector_fn(self)  # type: ignore
+            new_value = selector_fn(self)
 
             if new_value != saved_value:
                 previous_value = saved_value
