@@ -3,7 +3,7 @@ from functools import wraps
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Any, Callable, ContextManager, TypeVar
+    from typing import Callable, ContextManager, TypeVar
     from typing_extensions import ParamSpec, Concatenate
     _Self = TypeVar('_Self')
     _T = TypeVar('_T')
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 def define_guard(
-    guard_fn: Callable[[_Self], ContextManager[Any] | None]
+    guard_fn: Callable[[_Self], ContextManager[object] | None]
 ) -> Callable[[Callable[Concatenate[_Self, _P], _T]], Callable[Concatenate[_Self, _P], _T]]:
     def decorator(
         wrapped: Callable[Concatenate[_Self, _P], _T]
