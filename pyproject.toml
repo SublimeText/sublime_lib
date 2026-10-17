@@ -22,6 +22,7 @@ lint = [
     "flake8>=3.9.2",
     "mypy>=0.720",
     "pydocstyle>=4.0.0",
+    "sublime-text-stubs>=1.4200.0",
 ]
 
 [tool.hatch.build.targets.sdist]
