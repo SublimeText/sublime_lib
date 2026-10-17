@@ -506,6 +506,7 @@ lint = [
     { name = "mypy", version = "1.19.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
     { name = "mypy", version = "2.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "pydocstyle" },
+    { name = "sublime-text-stubs" },
 ]
 
 [package.metadata]
@@ -515,6 +516,16 @@ lint = [
     { name = "flake8", specifier = ">=3.9.2" },
     { name = "mypy", specifier = ">=0.720" },
     { name = "pydocstyle", specifier = ">=4.0.0" },
+    { name = "sublime-text-stubs", specifier = ">=1.4200.0" },
+]
+
+[[package]]
+name = "sublime-text-stubs"
+version = "1.4200.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2d/98/f9f73b5eacd03ce4caf1fb98e26e1808bb372e34579825a391ee6885c97d/sublime_text_stubs-1.4200.0.tar.gz", hash = "sha256:6448b643869be1d801521d892faf995d6d162531b404253c1d8105e1cdff181f", size = 79351, upload-time = "2026-10-17T10:28:27.86Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/65/cd/8f65f2315113a1e55fd33b70a26ddd0197aef5fafa93e2e025cac9e2beab/sublime_text_stubs-1.4200.0-py3-none-any.whl", hash = "sha256:5cb99a205f40454a5b50fde65f968b0da1a6929bed521b6d8d600d1aba43531e", size = 37281, upload-time = "2026-10-17T10:28:26.41Z" },
 ]
 
 [[package]]
