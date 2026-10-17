@@ -19,9 +19,8 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 lint = [
-    "flake8>=3.9.2",
-    "mypy>=0.720",
-    "pydocstyle>=4.0.0",
+    "pydocstyle>=6.3.0",
+    "ruff>=0.17.1",
     "sublime-text-stubs>=1.4200.0",
 ]
 
@@ -39,9 +38,6 @@ source = "vcs"
 version-file = "sublime_lib/_version.py"
 tag-pattern = "v{version}"
 
-[tool.black]
-line-length = 100
-
 [tool.coverage.run]
 omit = [
     "*/tests/*",
@@ -50,15 +46,16 @@ omit = [
 [tool.coverage.report]
 show_missing = true
 
-[tool.mypy]
-check_untyped_defs = true
-disable_error_code = "import-untyped"
-disallow_untyped_defs = true
-mypy_path = [
-    "stubs",
-    "sublime_lib",
-]
-
 [tool.pydocstyle]
 match_dir = "^(?!_)"
 match = "^(?!_).*\\.py"
+
+[tool.ruff]
+exclude = [
+  ".git",
+  ".github",
+  "docs",
+  "tests",
+]
+line-length = 100
+target-version = "py38"
