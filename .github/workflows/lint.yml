@@ -20,11 +20,8 @@ jobs:
       - name: Install lint dependencies
         run: uv sync --group lint
 
-      - name: Run flake8
-        run: uv run flake8 sublime_lib
-
-      - name: Run mypy
-        run: uv run mypy sublime_lib
+      - name: Run ruff check
+        run: uvx ruff check sublime_lib
 
       - name: Run pydocstyle (allow failure)
         run: uv run pydocstyle sublime_lib
