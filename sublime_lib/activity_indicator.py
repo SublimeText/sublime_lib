@@ -11,17 +11,15 @@ from typing_extensions import Self
 
 from ._util.weak_method import weak_method
 
-__all__ = ['ActivityIndicator']
+__all__ = ["ActivityIndicator"]
 
 
 class StatusTarget(metaclass=ABCMeta):
     @abstractmethod
-    def set(self, message: str) -> None:
-        ...
+    def set(self, message: str) -> None: ...
 
     @abstractmethod
-    def clear(self) -> None:
-        ...
+    def clear(self) -> None: ...
 
 
 class WindowTarget(StatusTarget):

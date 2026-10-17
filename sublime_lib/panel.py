@@ -8,7 +8,7 @@ from ._util.guard import define_guard
 from .view_stream import ViewStream
 from .view_utils import set_view_options, validate_view_options
 
-__all__ = ['OutputPanel', 'Panel']
+__all__ = ["OutputPanel", "Panel"]
 
 
 @define_guard
@@ -84,6 +84,7 @@ class OutputPanel(ViewStream, Panel):
     .. versionchanged:: 1.3
         Now a subclass of :class:`Panel`.
     """
+
     @classmethod
     def create(
         cls,
@@ -93,7 +94,7 @@ class OutputPanel(ViewStream, Panel):
         force_writes: bool = False,
         follow_cursor: bool = False,
         unlisted: bool = False,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> OutputPanel:
         """Create a new output panel with the given `name` in the given `window`.
 
@@ -114,7 +115,7 @@ class OutputPanel(ViewStream, Panel):
         name: str,
         *,
         force_writes: bool = False,
-        follow_cursor: bool = False
+        follow_cursor: bool = False,
     ):
         view = window.find_output_panel(name)
         if view is None:

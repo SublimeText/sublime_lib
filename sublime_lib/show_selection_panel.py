@@ -8,12 +8,12 @@ import sublime
 from ._util.named_value import NamedValue
 from .flags import QuickPanelOption
 
-_ItemType = TypeVar('_ItemType')
+_ItemType = TypeVar("_ItemType")
 
-__all__ = ['NO_SELECTION', 'show_selection_panel']
+__all__ = ["NO_SELECTION", "show_selection_panel"]
 
 
-NO_SELECTION = NamedValue('NO_SELECTION')
+NO_SELECTION = NamedValue("NO_SELECTION")
 
 
 def show_selection_panel(
@@ -25,7 +25,7 @@ def show_selection_panel(
     selected: NamedValue | _ItemType = NO_SELECTION,
     on_select: Callable[[_ItemType], None] | None = None,
     on_cancel: Callable[[], None] | None = None,
-    on_highlight: Callable[[_ItemType], None] | None = None
+    on_highlight: Callable[[_ItemType], None] | None = None,
 ) -> None:
     """Open a quick panel in the given window to select an item from a list.
 
@@ -100,7 +100,7 @@ def show_selection_panel(
 
     label_strings = list(map(normalize_label, labels))
     max_len = max(map(len, label_strings))
-    label_strings = [rows + [''] * (max_len - len(rows)) for rows in label_strings]
+    label_strings = [rows + [""] * (max_len - len(rows)) for rows in label_strings]
 
     def on_done(index: int) -> None:
         if index == -1:
@@ -129,5 +129,5 @@ def show_selection_panel(
         on_select=on_done,
         flags=flags,  # type: ignore
         selected_index=selected_index,
-        on_highlight=on_highlight_callback
+        on_highlight=on_highlight_callback,
     )

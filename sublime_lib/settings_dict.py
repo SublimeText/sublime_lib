@@ -10,7 +10,7 @@ import sublime
 from ._util.collections import get_selector
 from ._util.named_value import NamedValue
 
-__all__ = ['NamedSettingsDict', 'SettingsDict']
+__all__ = ["NamedSettingsDict", "SettingsDict"]
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
     from sublime_types import Value
 
-_NO_DEFAULT = NamedValue('SettingsDict.NO_DEFAULT')
+_NO_DEFAULT = NamedValue("SettingsDict.NO_DEFAULT")
 
 
 class SettingsDict:
@@ -129,8 +129,7 @@ class SettingsDict:
             return default  # type: ignore
 
     def setdefault(self, key: str, default: Value = None) -> Value:
-        """Set `self[key]` to `default` if it wasn't already defined and return `self[key]`.
-        """
+        """Set `self[key]` to `default` if it wasn't already defined and return `self[key]`."""
         if key in self:
             return self[key]
         else:
@@ -138,9 +137,7 @@ class SettingsDict:
             return default
 
     def update(
-        self,
-        other: dict[str, Value] | Iterable[Iterable[str]] | None = None,
-        **kwargs: Value
+        self, other: dict[str, Value] | Iterable[Iterable[str]] | None = None, **kwargs: Value
     ) -> None:
         """Update the dictionary with the key/value pairs from `other`,
         overwriting existing keys.
@@ -166,7 +163,7 @@ class SettingsDict:
         self,
         selector: Callable[[Mapping[str, Value]], Value] | Iterable[str] | str,
         callback: Callable[[Value, Value], None],
-        default_value: Value = None
+        default_value: Value = None,
     ) -> Callable[[], None]:
         """Register a callback to be invoked
         when the value derived from the settings object changes
@@ -216,12 +213,12 @@ class NamedSettingsDict(SettingsDict):
     def file_name(self) -> str:
         """The name of the sublime-settings files
         associated with the :class:`NamedSettingsDict`."""
-        return self.name + '.sublime-settings'
+        return self.name + ".sublime-settings"
 
     def __init__(self, name: str):
         """Return a new :class:`NamedSettingsDict` corresponding to the given name."""
 
-        if name.endswith('.sublime-settings'):
+        if name.endswith(".sublime-settings"):
             self.name = name[:-17]
         else:
             self.name = name

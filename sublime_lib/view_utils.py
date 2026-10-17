@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
     from sublime_types import Value
 
-    EnumType = TypeVar('EnumType', bound=Enum)
+    EnumType = TypeVar("EnumType", bound=Enum)
 
 import inspect
 
@@ -21,17 +21,16 @@ from .encodings import to_sublime
 from .syntax import get_syntax_for_scope
 
 __all__ = [
-    'LineEnding',
-    'close_view',
-    'new_view',
+    "LineEnding",
+    "close_view",
+    "new_view",
 ]
 
 
 def case_insensitive_value(cls: type[EnumType], value: str) -> EnumType | None:
-    return next((
-        member for name, member in cls.__members__.items()
-        if name.lower() == value.lower()
-    ), None)
+    return next(
+        (member for name, member in cls.__members__.items() if name.lower() == value.lower()), None
+    )
 
 
 @construct_with_alternatives(case_insensitive_value)
@@ -52,9 +51,10 @@ class LineEnding(Enum, metaclass=ExtensibleConstructorMeta):
 
     .. versionadded:: 1.2
     """
-    Unix = '\n'
-    Windows = '\r\n'
-    CR = '\r'
+
+    Unix = "\n"
+    Windows = "\r\n"
+    CR = "\r"
 
 
 def new_view(window: sublime.Window, **kwargs: Any) -> sublime.View:
@@ -106,7 +106,7 @@ def new_view(window: sublime.Window, **kwargs: Any) -> sublime.View:
 
 @contextmanager
 def _temporarily_scratch_unsaved_views(
-    unsaved_views: Iterable[sublime.View]
+    unsaved_views: Iterable[sublime.View],
 ) -> Generator[None, None, None]:
     buffer_ids = {view.buffer_id() for view in unsaved_views}
     for view in unsaved_views:
@@ -137,7 +137,7 @@ def close_view(view: sublime.View, *, force: bool = False) -> None:
 
     if unsaved:
         if not force:
-            raise ValueError('The view has unsaved changes.')
+            raise ValueError("The view has unsaved changes.")
 
         with _temporarily_scratch_unsaved_views([view]):
             closed = view.close()
@@ -145,19 +145,19 @@ def close_view(view: sublime.View, *, force: bool = False) -> None:
         closed = view.close()
 
     if not closed:
-        raise ValueError('The view could not be closed.')
+        raise ValueError("The view could not be closed.")
 
 
 def validate_view_options(options: dict[str, Value]) -> None:
     unknown = set(options) - VIEW_OPTIONS
     if unknown:
-        raise ValueError('Unknown view options: {}.'.format(', '.join(list(unknown))))
+        raise ValueError("Unknown view options: {}.".format(", ".join(list(unknown))))
 
-    if 'scope' in options and 'syntax' in options:
+    if "scope" in options and "syntax" in options:
         raise ValueError('The "syntax" and "scope" arguments are exclusive.')
 
-    if 'line_endings' in options:
-        LineEnding(options['line_endings'])
+    if "line_endings" in options:
+        LineEnding(options["line_endings"])
 
 
 def set_view_options(
@@ -172,13 +172,13 @@ def set_view_options(
     scope: str | None = None,
     encoding: str | None = None,
     content: str | None = None,
-    line_endings: str | None = None
+    line_endings: str | None = None,
 ) -> None:
     if name is not None:
         view.set_name(name)
 
     if content is not None:
-        view.run_command('append', {'characters': content})
+        view.run_command("append", {"characters": content})
 
     if settings is not None:
         view_settings = view.settings()

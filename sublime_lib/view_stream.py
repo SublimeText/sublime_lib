@@ -29,10 +29,10 @@ def guard_read_only(vs: ViewStream) -> Generator[Any, None, None]:
 @contextmanager
 def guard_auto_indent(vs: ViewStream) -> Generator[Any, None, None]:
     settings = vs.view.settings()
-    if settings.get('auto_indent'):
-        settings.set('auto_indent', False)
+    if settings.get("auto_indent"):
+        settings.set("auto_indent", False)
         yield
-        settings.set('auto_indent', True)
+        settings.set("auto_indent", True)
     else:
         yield
 
@@ -135,11 +135,11 @@ class ViewStream(TextIO):
         the length of the argument.
         """
         old_size = self.view.size()
-        self.view.run_command('insert', {'characters': s})
+        self.view.run_command("insert", {"characters": s})
         self._maybe_show_cursor()
         return self.view.size() - old_size
 
-    def print(self, *objects: object, sep: str = ' ', end: str = '\n') -> None:
+    def print(self, *objects: object, sep: str = " ", end: str = "\n") -> None:
         """Shorthand for :func:`print()` passing this ViewStream as the `file` argument."""
         print(*objects, file=self, sep=sep, end=end)
 
@@ -213,5 +213,5 @@ class ViewStream(TextIO):
     @guard_read_only
     def clear(self) -> None:
         """Erase all text in the view."""
-        self.view.run_command('select_all')
-        self.view.run_command('left_delete')
+        self.view.run_command("select_all")
+        self.view.run_command("left_delete")

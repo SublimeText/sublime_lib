@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from sublime_types import Value
 
 
-__all__ = ['get_selector', 'projection']
+__all__ = ["get_selector", "projection"]
 
 
 def projection(d: Mapping[str, Value], keys: Mapping[str, str] | Iterable[str]) -> Value:
@@ -31,21 +31,15 @@ def projection(d: Mapping[str, Value], keys: Mapping[str, str] | Iterable[str]) 
     """
     if isinstance(keys, Mapping):
         return {
-            new_key: d[original_key]
-            for original_key, new_key in keys.items()
-            if original_key in d
+            new_key: d[original_key] for original_key, new_key in keys.items() if original_key in d
         }
     else:
-        return {
-            key: d[key]
-            for key in keys
-            if key in d
-        }
+        return {key: d[key] for key in keys if key in d}
 
 
 def get_selector(
     selector: Callable[[Mapping[str, Value]], Value] | Iterable[str] | str,
-    default_value: Value = None
+    default_value: Value = None,
 ) -> Callable[[Mapping[str, Value]], Value]:
     if callable(selector):
         return selector
@@ -54,6 +48,4 @@ def get_selector(
     elif isinstance(selector, Iterable):
         return lambda this: projection(this, selector)
     else:
-        raise TypeError(
-            'The selector should be a function, string, or iterable of strings.'
-        )
+        raise TypeError("The selector should be a function, string, or iterable of strings.")

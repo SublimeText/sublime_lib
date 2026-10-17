@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 from .view_utils import _temporarily_scratch_unsaved_views
 
-__all__ = ['close_window', 'new_window']
+__all__ = ["close_window", "new_window"]
 
 
 def new_window(
@@ -19,7 +19,7 @@ def new_window(
     tabs_visible: bool | None = None,
     minimap_visible: bool | None = None,
     status_bar_visible: bool | None = None,
-    project_data: dict[str, Value] | None = None
+    project_data: dict[str, Value] | None = None,
 ) -> sublime.Window:
     """Open a new window, returning the :class:`~sublime.Window` object.
 
@@ -59,7 +59,7 @@ def new_window(
     """
     original_ids = {window.id() for window in sublime.windows()}
 
-    sublime.run_command('new_window')
+    sublime.run_command("new_window")
 
     try:
         window = next(window for window in sublime.windows() if window.id() not in original_ids)
@@ -95,16 +95,13 @@ def close_window(window: sublime.Window, *, force: bool = False) -> None:
 
     .. versionadded:: 1.2
     """
-    unsaved = [
-        view for view in window.views()
-        if view.is_dirty() and not view.is_scratch()
-    ]
+    unsaved = [view for view in window.views() if view.is_dirty() and not view.is_scratch()]
 
     if unsaved:
         if not force:
-            raise ValueError('A view has unsaved changes.')
+            raise ValueError("A view has unsaved changes.")
 
         with _temporarily_scratch_unsaved_views(unsaved):
-            window.run_command('close_window')
+            window.run_command("close_window")
     else:
-        window.run_command('close_window')
+        window.run_command("close_window")

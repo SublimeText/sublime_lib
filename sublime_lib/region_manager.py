@@ -4,13 +4,14 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import TypeVar
-    T = TypeVar('T')
+
+    T = TypeVar("T")
 
 import sublime
 
 from .flags import RegionOption
 
-__all__ = ['RegionManager']
+__all__ = ["RegionManager"]
 
 
 def _coalesce(*values: T | None) -> T:
@@ -38,7 +39,7 @@ class RegionManager:
         *,
         scope: str | None = None,
         icon: str | None = None,
-        flags: type[RegionOption] | None = None
+        flags: type[RegionOption] | None = None,
     ):
         self.view: sublime.View = view
 
@@ -60,7 +61,7 @@ class RegionManager:
         *,
         scope: str | None = None,
         icon: str | None = None,
-        flags: type[RegionOption] | None = None
+        flags: type[RegionOption] | None = None,
     ) -> None:
         """Replace managed regions with the given regions.
 
@@ -71,8 +72,8 @@ class RegionManager:
         self.view.add_regions(
             self.key,
             regions,
-            _coalesce(scope, self.scope, ''),
-            _coalesce(icon, self.icon, ''),
+            _coalesce(scope, self.scope, ""),
+            _coalesce(icon, self.icon, ""),
             _coalesce(flags, self.flags, RegionOption.NONE),  # type: ignore
         )
 
@@ -81,6 +82,5 @@ class RegionManager:
         return self.view.get_regions(self.key)
 
     def erase(self) -> None:
-        """Erase all managed regions.
-        """
+        """Erase all managed regions."""
         self.view.erase_regions(self.key)

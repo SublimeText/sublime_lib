@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     P = ParamSpec("P")
     T = TypeVar("T")
 
-__all__ = ['weak_method']
+__all__ = ["weak_method"]
 
 
 def weak_method(method: Callable[P, T]) -> Callable[P, T | None]:

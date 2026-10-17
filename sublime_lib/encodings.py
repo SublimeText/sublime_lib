@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from codecs import lookup
 
-__all__ = ['from_sublime', 'to_sublime']
+__all__ = ["from_sublime", "to_sublime"]
 
 
 def from_sublime(name: str) -> str:
@@ -87,7 +87,6 @@ SUBLIME_TO_STANDARD = {
 
 
 STANDARD_TO_SUBLIME = {
-    standard_name: sublime_name
-    for sublime_name, standard_name in SUBLIME_TO_STANDARD.items()
+    standard_name: sublime_name for sublime_name, standard_name in SUBLIME_TO_STANDARD.items()
 }
-STANDARD_TO_SUBLIME['utf-16'] = 'UTF-16 LE with BOM'
+STANDARD_TO_SUBLIME["utf-16"] = "UTF-16 LE with BOM"
