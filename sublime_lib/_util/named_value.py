@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-class NamedValue():
+class NamedValue:
     def __init__(self, name: str):
         self.name = name
 

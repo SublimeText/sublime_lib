@@ -1,10 +1,10 @@
 from __future__ import annotations
-from enum import EnumMeta, Enum, Flag
+
+from enum import Enum, EnumMeta, Flag
 from functools import partial
 from typing import Any, Callable
 
-
-__all__ = ['ExtensibleConstructorMeta', 'construct_with_alternatives', 'construct_union']
+__all__ = ['ExtensibleConstructorMeta', 'construct_union', 'construct_with_alternatives']
 
 
 class ExtensibleConstructorMeta(EnumMeta):

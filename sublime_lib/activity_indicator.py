@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from abc import ABCMeta, abstractmethod
 from enum import IntEnum
 from threading import Lock
@@ -6,6 +7,7 @@ from types import TracebackType
 from uuid import uuid4
 
 import sublime
+from typing_extensions import Self
 
 from ._util.weak_method import weak_method
 
@@ -93,15 +95,15 @@ class ActivityIndicator:
         self.stop()
         self._target.clear()
 
-    def __enter__(self) -> ActivityIndicator:
+    def __enter__(self) -> Self:
         self.start()
         return self
 
     def __exit__(
         self,
-        exc_type: type,
-        exc_value: Exception,
-        traceback: TracebackType
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
     ) -> None:
         self.stop()
 

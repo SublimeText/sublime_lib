@@ -1,13 +1,14 @@
 from __future__ import annotations
+
 from typing import Any
 
 import sublime
 
+from ._util.guard import define_guard
 from .view_stream import ViewStream
 from .view_utils import set_view_options, validate_view_options
-from ._util.guard import define_guard
 
-__all__ = ['Panel', 'OutputPanel']
+__all__ = ['OutputPanel', 'Panel']
 
 
 @define_guard
@@ -15,7 +16,7 @@ def guard_exists(panel: Panel) -> None:
     panel._checkExists()
 
 
-class Panel():
+class Panel:
     """An abstraction of a panel, such as the console or an output panel.
 
     :raise ValueError: if `window` has no panel called `panel_name`.
@@ -117,7 +118,7 @@ class OutputPanel(ViewStream, Panel):
     ):
         view = window.find_output_panel(name)
         if view is None:
-            raise ValueError('Output panel "%s" does not exist.' % name)
+            raise ValueError(f'Output panel "{name}" does not exist.')
 
         ViewStream.__init__(self, view, force_writes=force_writes, follow_cursor=follow_cursor)
         Panel.__init__(self, window, "output." + name)

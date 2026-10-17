@@ -1,13 +1,15 @@
 from __future__ import annotations
+
 from collections.abc import Iterable, Mapping
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from sublime_types import Value
     from typing import Callable
 
+    from sublime_types import Value
 
-__all__ = ['projection', 'get_selector']
+
+__all__ = ['get_selector', 'projection']
 
 
 def projection(d: Mapping[str, Value], keys: Mapping[str, str] | Iterable[str]) -> Value:

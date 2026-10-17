@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from collections.abc import Sequence
 from typing import Callable, Iterable, TypeVar
 
@@ -9,7 +10,7 @@ from .flags import QuickPanelOption
 
 _ItemType = TypeVar('_ItemType')
 
-__all__ = ['show_selection_panel', 'NO_SELECTION']
+__all__ = ['NO_SELECTION', 'show_selection_panel']
 
 
 NO_SELECTION = NamedValue('NO_SELECTION')

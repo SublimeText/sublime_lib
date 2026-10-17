@@ -1,7 +1,8 @@
 from __future__ import annotations
+
 from collections.abc import Generator
 from contextlib import contextmanager
-from io import SEEK_SET, SEEK_CUR, SEEK_END
+from io import SEEK_CUR, SEEK_END, SEEK_SET
 from typing import Any, TextIO
 
 import sublime
@@ -144,7 +145,6 @@ class ViewStream(TextIO):
 
     def flush(self) -> None:
         """Do nothing. (The stream is not buffered.)"""
-        pass
 
     @guard_validity
     def seek(self, offset: int, whence: int = SEEK_SET) -> int:

@@ -1,10 +1,12 @@
 from __future__ import annotations
+
 from functools import wraps
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Callable, ContextManager, TypeVar
-    from typing_extensions import ParamSpec, Concatenate
+
+    from typing_extensions import Concatenate, ParamSpec
     _Self = TypeVar('_Self')
     _T = TypeVar('_T')
     _P = ParamSpec('_P')

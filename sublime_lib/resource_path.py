@@ -1,11 +1,12 @@
 from __future__ import annotations
+
+import os
+import posixpath
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 from collections.abc import Iterable
 from pathlib import Path
 
-import os
-import posixpath
 import sublime
 
 from ._util.glob import get_glob_matcher
@@ -125,7 +126,7 @@ def get_roots() -> list[ResourceRoot]:
     return _roots
 
 
-class ResourcePath():
+class ResourcePath:
     """
     A pathlib-inspired representation of a Sublime Text resource path.
 
@@ -476,7 +477,7 @@ class ResourcePath():
         """
         try:
             return sublime.load_resource(str(self))
-        except IOError as err:
+        except OSError as err:
             raise FileNotFoundError(str(self)) from err
 
     def read_bytes(self) -> bytes:
@@ -487,7 +488,7 @@ class ResourcePath():
         """
         try:
             return sublime.load_binary_resource(str(self))
-        except IOError as err:
+        except OSError as err:
             raise FileNotFoundError(str(self)) from err
 
     def glob(self, pattern: str) -> list[ResourcePath]:
