@@ -7,16 +7,17 @@ if TYPE_CHECKING:
     from typing import Callable, ContextManager, TypeVar
 
     from typing_extensions import Concatenate, ParamSpec
-    _Self = TypeVar('_Self')
-    _T = TypeVar('_T')
-    _P = ParamSpec('_P')
+
+    _Self = TypeVar("_Self")
+    _T = TypeVar("_T")
+    _P = ParamSpec("_P")
 
 
 def define_guard(
-    guard_fn: Callable[[_Self], ContextManager[object] | None]
+    guard_fn: Callable[[_Self], ContextManager[object] | None],
 ) -> Callable[[Callable[Concatenate[_Self, _P], _T]], Callable[Concatenate[_Self, _P], _T]]:
     def decorator(
-        wrapped: Callable[Concatenate[_Self, _P], _T]
+        wrapped: Callable[Concatenate[_Self, _P], _T],
     ) -> Callable[Concatenate[_Self, _P], _T]:
         @wraps(wrapped)
         def wrapper(self: _Self, /, *args: _P.args, **kwargs: _P.kwargs) -> _T:

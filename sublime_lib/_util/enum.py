@@ -4,7 +4,7 @@ from enum import Enum, EnumMeta, Flag
 from functools import partial
 from typing import Any, Callable
 
-__all__ = ['ExtensibleConstructorMeta', 'construct_union', 'construct_with_alternatives']
+__all__ = ["ExtensibleConstructorMeta", "construct_union", "construct_with_alternatives"]
 
 
 class ExtensibleConstructorMeta(EnumMeta):
@@ -12,9 +12,7 @@ class ExtensibleConstructorMeta(EnumMeta):
         return cls.__new__(cls, *args, **kwargs)  # type: ignore
 
 
-def extend_constructor(
-    constructor: Callable[..., Enum]
-) -> Callable[[EnumMeta], EnumMeta]:
+def extend_constructor(constructor: Callable[..., Enum]) -> Callable[[EnumMeta], EnumMeta]:
     def decorator(cls: Any) -> EnumMeta:
         next_constructor = partial(cls.__new__, cls)
 
@@ -28,10 +26,11 @@ def extend_constructor(
 
 
 def construct_with_alternatives(
-    provider: Callable[..., Enum | None]
+    provider: Callable[..., Enum | None],
 ) -> Callable[[EnumMeta], EnumMeta]:
-    def constructor(next_constructor: Callable[..., Enum], cls: EnumMeta,
-                    *args: Any, **kwargs: Any) -> Enum:
+    def constructor(
+        next_constructor: Callable[..., Enum], cls: EnumMeta, *args: Any, **kwargs: Any
+    ) -> Enum:
         try:
             return next_constructor(*args, **kwargs)
         except ValueError:
@@ -45,9 +44,7 @@ def construct_with_alternatives(
 
 
 def _construct_union(
-    next_constructor: Callable[[Any], Flag],
-    cls: ExtensibleConstructorMeta,
-    *args: Any
+    next_constructor: Callable[[Any], Flag], cls: ExtensibleConstructorMeta, *args: Any
 ) -> Any:
     if args:
         ret, *rest = iter(next_constructor(arg) for arg in args)

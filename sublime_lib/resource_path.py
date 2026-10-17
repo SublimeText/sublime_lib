@@ -11,7 +11,7 @@ import sublime
 
 from ._util.glob import get_glob_matcher
 
-__all__ = ['ResourcePath']
+__all__ = ["ResourcePath"]
 
 
 class ResourceRoot(metaclass=ABCMeta):
@@ -97,10 +97,10 @@ class InstalledResourceRoot(ResourceRoot):
 
     def _package_file_path(self, package: str, *rest: str) -> Path:
         # This is not currently called because there are no installed-only roots.
-        return self.file_root.joinpath(package + '.sublime-package', *rest)
+        return self.file_root.joinpath(package + ".sublime-package", *rest)
 
     def _package_resource_path(self, package: str, *rest: str) -> ResourcePath:
-        package_path = (self.resource_root / package).remove_suffix('.sublime-package')
+        package_path = (self.resource_root / package).remove_suffix(".sublime-package")
         return package_path.joinpath(*rest)
 
 
@@ -118,10 +118,10 @@ def get_roots() -> list[ResourceRoot]:
     global _roots
     if _roots is None:
         _roots = [
-            DirectoryResourceRoot('Cache', sublime.cache_path()),
-            DirectoryResourceRoot('Packages', sublime.packages_path()),
-            InstalledResourceRoot('Packages', sublime.installed_packages_path()),
-            InstalledResourceRoot('Packages', Path(sublime.executable_path()).parent / 'Packages'),
+            DirectoryResourceRoot("Cache", sublime.cache_path()),
+            DirectoryResourceRoot("Packages", sublime.packages_path()),
+            InstalledResourceRoot("Packages", sublime.installed_packages_path()),
+            InstalledResourceRoot("Packages", Path(sublime.executable_path()).parent / "Packages"),
         ]
     return _roots
 
@@ -166,10 +166,7 @@ class ResourcePath:
         and return them as :class:`ResourcePath` objects.
         """
         match = get_glob_matcher(pattern)
-        return [
-            cls(path) for path in sublime.find_resources('')
-            if match(path)
-        ]
+        return [cls(path) for path in sublime.find_resources("") if match(path)]
 
     @classmethod
     def from_file_path(cls, file_path: Path | str) -> ResourcePath:
@@ -225,8 +222,9 @@ class ResourcePath:
     def _parse_segments(self, pathsegments: Iterable[object]) -> tuple[str, ...]:
         return tuple(
             part
-            for segment in pathsegments if segment
-            for part in posixpath.normpath(str(segment)).split('/')
+            for segment in pathsegments
+            if segment
+            for part in posixpath.normpath(str(segment)).split("/")
         )
 
     def __hash__(self) -> int:
@@ -236,7 +234,7 @@ class ResourcePath:
         return f"{self.__class__.__name__}({self!s})"
 
     def __str__(self) -> str:
-        return '/'.join(self.parts)
+        return "/".join(self.parts)
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, ResourcePath) and self._parts == other.parts
@@ -285,11 +283,11 @@ class ResourcePath:
         The final component's last suffix, if any.
         """
         name = self.name
-        i = name.rfind('.')
+        i = name.rfind(".")
         if 0 < i < len(name) - 1:
             return name[i:]
         else:
-            return ''
+            return ""
 
     @property
     def suffixes(self) -> list[str]:
@@ -297,10 +295,10 @@ class ResourcePath:
         A list of the final component's suffixes, if any.
         """
         name = self.name
-        if name.endswith('.'):
+        if name.endswith("."):
             return []
-        name = name.lstrip('.')
-        return ['.' + suffix for suffix in name.split('.')[1:]]
+        name = name.lstrip(".")
+        return ["." + suffix for suffix in name.split(".")[1:]]
 
     @property
     def stem(self) -> str:
@@ -308,7 +306,7 @@ class ResourcePath:
         The final path component, minus its last suffix.
         """
         name = self.name
-        i = name.rfind('.')
+        i = name.rfind(".")
         if 0 < i < len(name) - 1:
             return name[:i]
         else:
@@ -411,12 +409,9 @@ class ResourcePath:
                 suffixes = sorted(suffix, key=len, reverse=True)
 
             old_name = self.name
-            new_name = next((
-                old_name[:i]
-                for s in suffixes
-                for i in (old_name.rfind(s),)
-                if i > 0
-            ), None)
+            new_name = next(
+                (old_name[:i] for s in suffixes for i in (old_name.rfind(s),) if i > 0), None
+            )
 
         if new_name is not None:
             return self.with_name(new_name)
@@ -497,7 +492,7 @@ class ResourcePath:
 
         :raise ValueError: if `pattern` is invalid.
         """
-        base = '/' + str(self) + '/' if self._parts else ''
+        base = "/" + str(self) + "/" if self._parts else ""
         return ResourcePath.glob_resources(base + pattern)
 
     def rglob(self, pattern: str) -> list[ResourcePath]:
@@ -508,10 +503,10 @@ class ResourcePath:
 
         :raise NotImplementedError: if `pattern` begins with a slash.
         """
-        if pattern.startswith('/'):
+        if pattern.startswith("/"):
             raise NotImplementedError("Non-relative patterns are unsupported")
 
-        return self.glob('**/' + pattern)
+        return self.glob("**/" + pattern)
 
     def children(self) -> list[ResourcePath]:
         """
@@ -522,8 +517,7 @@ class ResourcePath:
         return [
             self / next_part
             for next_part in OrderedDict.fromkeys(
-                resource.parts[depth]
-                for resource in self.glob('**')
+                resource.parts[depth] for resource in self.glob("**")
             )
         ]
 
@@ -544,12 +538,12 @@ class ResourcePath:
         .. versionadded:: 1.3
         """
         if exist_ok:
-            mode = 'w'
+            mode = "w"
         else:
-            mode = 'x'
+            mode = "x"
 
         data = self.read_bytes()
-        with open(str(target), mode + 'b') as file:
+        with open(str(target), mode + "b") as file:
             file.write(data)
 
     def copytree(self, target: Path | str, exist_ok: bool = False) -> None:
@@ -571,7 +565,7 @@ class ResourcePath:
 
         os.makedirs(str(target), exist_ok=exist_ok)
 
-        for resource in self.rglob('*'):
+        for resource in self.rglob("*"):
             file_path = target.joinpath(*resource.relative_to(self))
             os.makedirs(str(file_path.parent), exist_ok=True)
             resource.copy(file_path)

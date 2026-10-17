@@ -26,6 +26,7 @@ Descendants of :class:`IntFlag` accept zero or more arguments:
     Constructors accept member names
     and `IntFlag` constructors accept multiple arguments.
 """
+
 from __future__ import annotations
 
 import operator
@@ -44,33 +45,40 @@ from ._util.enum import (
 )
 
 __all__ = [
-    'CompletionOptions',
-    'DialogResult',
-    'FindOption',
-    'HoverLocation',
-    'OpenFileOption',
-    'PhantomLayout',
-    'PointClass',
-    'PopupOption',
-    'QueryContextOperator',
-    'QuickPanelOption',
-    'RegionOption'
+    "CompletionOptions",
+    "DialogResult",
+    "FindOption",
+    "HoverLocation",
+    "OpenFileOption",
+    "PhantomLayout",
+    "PointClass",
+    "PopupOption",
+    "QueryContextOperator",
+    "QuickPanelOption",
+    "RegionOption",
 ]
 
 
 def autodoc(prefix: str | None = None) -> Callable[[EnumMeta], EnumMeta]:
     if prefix is None:
-        prefix_str = ''
+        prefix_str = ""
     else:
-        prefix_str = prefix + '_'
+        prefix_str = prefix + "_"
 
     def decorator(enum: EnumMeta) -> EnumMeta:
-        enum.__doc__ = (getdoc(enum) or '') + '\n\n' + '\n'.join([
-            cleandoc(f"""
+        enum.__doc__ = (
+            (getdoc(enum) or "")
+            + "\n\n"
+            + "\n".join(
+                [
+                    cleandoc(f"""
             .. py:attribute:: {name}
                 :annotation: = sublime.{prefix_str}{name}
-            """) for name in enum.__members__
-        ])
+            """)
+                    for name in enum.__members__
+                ]
+            )
+        )
 
         return enum
 
@@ -82,7 +90,7 @@ construct_from_name = construct_with_alternatives(
 )
 
 
-@autodoc('DIALOG')
+@autodoc("DIALOG")
 @construct_from_name
 class DialogResult(IntEnum):
     """
@@ -91,12 +99,13 @@ class DialogResult(IntEnum):
     .. deprecated:: 2.1
         Use :class:`sublime.DialogResult` instead for plugins targeting ST4135+.
     """
+
     CANCEL = sublime.DIALOG_CANCEL
     YES = sublime.DIALOG_YES
     NO = sublime.DIALOG_NO
 
 
-@autodoc('CLASS')
+@autodoc("CLASS")
 @construct_union
 @construct_from_name
 class PointClass(IntFlag, metaclass=ExtensibleConstructorMeta):
@@ -110,6 +119,7 @@ class PointClass(IntFlag, metaclass=ExtensibleConstructorMeta):
     .. deprecated:: 2.1
         Use :class:`sublime.PointClassification` instead for plugins targeting ST4135+.
     """
+
     NONE = 0
     WORD_START = sublime.CLASS_WORD_START
     WORD_END = sublime.CLASS_WORD_END
@@ -135,6 +145,7 @@ class FindOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     .. deprecated:: 2.1
         Use :class:`sublime.FindFlags` instead for plugins targeting ST4135+.
     """
+
     NONE = 0
     LITERAL = sublime.LITERAL
     IGNORECASE = sublime.IGNORECASE
@@ -153,6 +164,7 @@ class RegionOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     .. deprecated:: 2.1
         Use :class:`sublime.FindFlags` instead for plugins targeting ST4135+.
     """
+
     NONE = 0
     DRAW_EMPTY = sublime.DRAW_EMPTY
     HIDE_ON_MINIMAP = sublime.HIDE_ON_MINIMAP
@@ -177,6 +189,7 @@ class PopupOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     .. deprecated:: 2.1
         Use :class:`sublime.PopupFlags` instead for plugins targeting ST4135+.
     """
+
     NONE = 0
     COOPERATE_WITH_AUTO_COMPLETE = sublime.COOPERATE_WITH_AUTO_COMPLETE
     HIDE_ON_MOUSE_MOVE = sublime.HIDE_ON_MOUSE_MOVE
@@ -185,7 +198,7 @@ class PopupOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     HIDE_ON_CHARACTER_EVENT = sublime.HIDE_ON_CHARACTER_EVENT
 
 
-@autodoc('LAYOUT')
+@autodoc("LAYOUT")
 @construct_union
 @construct_from_name
 class PhantomLayout(IntFlag, metaclass=ExtensibleConstructorMeta):
@@ -195,6 +208,7 @@ class PhantomLayout(IntFlag, metaclass=ExtensibleConstructorMeta):
     .. deprecated:: 2.1
         Use :class:`sublime.PhantomLayout` instead for plugins targeting ST4135+.
     """
+
     INLINE = sublime.LAYOUT_INLINE
     BELOW = sublime.LAYOUT_BELOW
     BLOCK = sublime.LAYOUT_BLOCK
@@ -212,6 +226,7 @@ class OpenFileOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     .. deprecated:: 2.1
         Use :class:`sublime.NewFileFlags` instead for plugins targeting ST4135+.
     """
+
     NONE = 0
     ENCODED_POSITION = sublime.ENCODED_POSITION
     TRANSIENT = sublime.TRANSIENT
@@ -233,13 +248,14 @@ class QuickPanelOption(IntFlag, metaclass=ExtensibleConstructorMeta):
     .. deprecated:: 2.1
         Use :class:`sublime.QuickPanelFlags` instead for plugins targeting ST4135+.
     """
+
     NONE = 0
     MONOSPACE_FONT = sublime.MONOSPACE_FONT
     KEEP_OPEN_ON_FOCUS_LOST = sublime.KEEP_OPEN_ON_FOCUS_LOST
     WANT_EVENT = sublime.WANT_EVENT
 
 
-@autodoc('HOVER')
+@autodoc("HOVER")
 @construct_from_name
 class HoverLocation(IntEnum):
     """
@@ -251,6 +267,7 @@ class HoverLocation(IntEnum):
     .. deprecated:: 2.1
         Use :class:`sublime.HoverZone` instead for plugins targeting ST4135+.
     """
+
     TEXT = sublime.HOVER_TEXT
     GUTTER = sublime.HOVER_GUTTER
     MARGIN = sublime.HOVER_MARGIN
@@ -273,7 +290,7 @@ def not_regex_contains(value: str, operand: str) -> bool:
     return not regex_contains(value, operand)
 
 
-@autodoc('OP')
+@autodoc("OP")
 @construct_from_name
 class QueryContextOperator(IntEnum):
     """
@@ -307,6 +324,7 @@ class QueryContextOperator(IntEnum):
                 else:
                     return None
     """
+
     EQUAL = (sublime.OP_EQUAL, operator.eq)
     NOT_EQUAL = (sublime.OP_NOT_EQUAL, operator.ne)
     REGEX_MATCH = (sublime.OP_REGEX_MATCH, regex_match)
@@ -337,6 +355,7 @@ class CompletionOptions(IntFlag, metaclass=ExtensibleConstructorMeta):
     .. deprecated:: 2.1
         Use :class:`sublime.AutoCompleteFlags` instead for plugins targeting ST4135+.
     """
+
     NONE = 0
     INHIBIT_WORD_COMPLETIONS = sublime.INHIBIT_WORD_COMPLETIONS
     INHIBIT_EXPLICIT_COMPLETIONS = sublime.INHIBIT_EXPLICIT_COMPLETIONS
