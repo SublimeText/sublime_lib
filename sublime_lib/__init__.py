@@ -1,10 +1,10 @@
 from .activity_indicator import ActivityIndicator
-from .panel import Panel, OutputPanel
+from .panel import OutputPanel, Panel
 from .region_manager import RegionManager
 from .resource_path import ResourcePath
 from .settings_dict import NamedSettingsDict, SettingsDict
 from .show_selection_panel import NO_SELECTION, show_selection_panel
-from .syntax import list_syntaxes, get_syntax_for_scope
+from .syntax import get_syntax_for_scope, list_syntaxes
 from .view_stream import ViewStream
 from .view_utils import LineEnding, close_view, new_view
 from .window_utils import close_window, new_window
@@ -16,23 +16,23 @@ except ImportError:
     __version_tuple__ = (0, 0, 0, "dev")
 
 __all__ = [
-    "__version__",
-    "__version_tuple__",
+    "NO_SELECTION",
     "ActivityIndicator",
-    "Panel",
+    "LineEnding",
+    "NamedSettingsDict",
     "OutputPanel",
+    "Panel",
     "RegionManager",
     "ResourcePath",
-    "NamedSettingsDict",
     "SettingsDict",
-    "NO_SELECTION",
-    "show_selection_panel",
-    "list_syntaxes",
-    "get_syntax_for_scope",
     "ViewStream",
-    "LineEnding",
+    "__version__",
+    "__version_tuple__",
     "close_view",
-    "new_view",
     "close_window",
+    "get_syntax_for_scope",
+    "list_syntaxes",
+    "new_view",
     "new_window",
+    "show_selection_panel",
 ]

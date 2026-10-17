@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sublime
 
-__all__ = ['list_syntaxes', 'get_syntax_for_scope']
+__all__ = ['get_syntax_for_scope', 'list_syntaxes']
 
 
 def list_syntaxes() -> list[sublime.Syntax]:

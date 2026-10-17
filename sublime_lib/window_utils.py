@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 import sublime
@@ -8,7 +9,7 @@ if TYPE_CHECKING:
 
 from .view_utils import _temporarily_scratch_unsaved_views
 
-__all__ = ['new_window', 'close_window']
+__all__ = ['close_window', 'new_window']
 
 
 def new_window(
@@ -56,7 +57,7 @@ def new_window(
 
     .. versionadded:: 1.2
     """
-    original_ids = set(window.id() for window in sublime.windows())
+    original_ids = {window.id() for window in sublime.windows()}
 
     sublime.run_command('new_window')
 

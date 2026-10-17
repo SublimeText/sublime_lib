@@ -1,11 +1,12 @@
 from __future__ import annotations
+
+import weakref
 from types import MethodType
 from typing import TYPE_CHECKING
 
-import weakref
-
 if TYPE_CHECKING:
     from typing import Callable
+
     from typing_extensions import ParamSpec, TypeVar
 
     P = ParamSpec("P")

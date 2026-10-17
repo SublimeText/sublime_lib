@@ -27,21 +27,34 @@ Descendants of :class:`IntFlag` accept zero or more arguments:
     and `IntFlag` constructors accept multiple arguments.
 """
 from __future__ import annotations
-from enum import IntEnum, IntFlag, EnumMeta
-from inspect import getdoc, cleandoc
-from typing import Callable
 
 import operator
 import re
+from enum import EnumMeta, IntEnum, IntFlag
+from inspect import cleandoc, getdoc
+from typing import Callable
+
 import sublime
+from typing_extensions import Self
 
-from ._util.enum import ExtensibleConstructorMeta, construct_union, construct_with_alternatives
-
+from ._util.enum import (
+    ExtensibleConstructorMeta,
+    construct_union,
+    construct_with_alternatives,
+)
 
 __all__ = [
-    'DialogResult', 'PointClass', 'FindOption', 'RegionOption',
-    'PopupOption', 'PhantomLayout', 'OpenFileOption', 'QuickPanelOption',
-    'HoverLocation', 'QueryContextOperator', 'CompletionOptions'
+    'CompletionOptions',
+    'DialogResult',
+    'FindOption',
+    'HoverLocation',
+    'OpenFileOption',
+    'PhantomLayout',
+    'PointClass',
+    'PopupOption',
+    'QueryContextOperator',
+    'QuickPanelOption',
+    'RegionOption'
 ]
 
 
@@ -301,10 +314,10 @@ class QueryContextOperator(IntEnum):
     REGEX_CONTAINS = (sublime.OP_REGEX_CONTAINS, regex_contains)
     NOT_REGEX_CONTAINS = (sublime.OP_NOT_REGEX_CONTAINS, not_regex_contains)
 
-    def __new__(cls, value: int, operator: Callable[[str, str], bool]) -> QueryContextOperator:
+    def __new__(cls, value: int, operator: Callable[[str, str], bool]) -> Self:
         obj = int.__new__(cls, value)
-        setattr(obj, '_value_', value)
-        setattr(obj, '_apply_', operator)
+        obj._value_ = value
+        obj._apply_ = operator
         return obj
 
     def apply(self, value: str, operand: str) -> bool:

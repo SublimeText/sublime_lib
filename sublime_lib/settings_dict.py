@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+from collections.abc import Mapping
 from functools import partial
 from typing import TYPE_CHECKING
 from uuid import uuid4
@@ -8,12 +10,13 @@ import sublime
 from ._util.collections import get_selector
 from ._util.named_value import NamedValue
 
-__all__ = ['SettingsDict', 'NamedSettingsDict']
+__all__ = ['NamedSettingsDict', 'SettingsDict']
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Mapping
-    from sublime_types import Value
+    from collections.abc import Iterable
     from typing import Callable
+
+    from sublime_types import Value
 
 _NO_DEFAULT = NamedValue('SettingsDict.NO_DEFAULT')
 
@@ -136,7 +139,7 @@ class SettingsDict:
 
     def update(
         self,
-        other: dict[str, Value] | Iterable[Iterable[str]] = [],
+        other: dict[str, Value] | Iterable[Iterable[str]] | None = None,
         **kwargs: Value
     ) -> None:
         """Update the dictionary with the key/value pairs from `other`,
@@ -148,6 +151,8 @@ class SettingsDict:
         the dictionary is then updated with those key/value pairs:
         ``self.update(red=1, blue=2)``.
         """
+        if other is None:
+            other = []
         if isinstance(other, Mapping):
             other = other.items()  # type: ignore
 

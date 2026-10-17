@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from contextlib import contextmanager
 from enum import Enum
 from typing import TYPE_CHECKING
@@ -6,11 +7,13 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
     from typing import Any, TypeVar
+
     from sublime_types import Value
 
     EnumType = TypeVar('EnumType', bound=Enum)
 
 import inspect
+
 import sublime
 
 from ._util.enum import ExtensibleConstructorMeta, construct_with_alternatives
@@ -18,7 +21,9 @@ from .encodings import to_sublime
 from .syntax import get_syntax_for_scope
 
 __all__ = [
-    'LineEnding', 'new_view', 'close_view',
+    'LineEnding',
+    'close_view',
+    'new_view',
 ]
 
 
@@ -146,7 +151,7 @@ def close_view(view: sublime.View, *, force: bool = False) -> None:
 def validate_view_options(options: dict[str, Value]) -> None:
     unknown = set(options) - VIEW_OPTIONS
     if unknown:
-        raise ValueError('Unknown view options: %s.' % ', '.join(list(unknown)))
+        raise ValueError('Unknown view options: {}.'.format(', '.join(list(unknown))))
 
     if 'scope' in options and 'syntax' in options:
         raise ValueError('The "syntax" and "scope" arguments are exclusive.')
