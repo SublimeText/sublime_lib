@@ -21,7 +21,7 @@ build-backend = "hatchling.build"
 lint = [
     "pydocstyle>=6.3.0",
     "ruff>=0.17.1",
-    "sublime-text-stubs>=4200.0",
+    "sublime-text-stubs>=4200.1",
     "typing-extensions>=4.13.2",
 ]
 

@@ -74,7 +74,7 @@ lint = [
 lint = [
     { name = "pydocstyle", specifier = ">=6.3.0" },
     { name = "ruff", specifier = ">=0.17.1" },
-    { name = "sublime-text-stubs", specifier = ">=4200.0" },
+    { name = "sublime-text-stubs", specifier = ">=4200.1" },
     { name = "typing-extensions", specifier = ">=4.13.2" },
 ]
 
