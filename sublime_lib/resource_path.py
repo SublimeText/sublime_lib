@@ -4,12 +4,15 @@ import os
 import posixpath
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
-from collections.abc import Iterable
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import sublime
 
 from ._util.glob import get_glob_matcher
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 __all__ = ["ResourcePath"]
 

@@ -33,16 +33,18 @@ import operator
 import re
 from enum import EnumMeta, IntEnum, IntFlag
 from inspect import cleandoc, getdoc
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
 import sublime
-from typing_extensions import Self
 
 from ._util.enum import (
     ExtensibleConstructorMeta,
     construct_union,
     construct_with_alternatives,
 )
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = [
     "CompletionOptions",
