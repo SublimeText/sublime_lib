@@ -6,5 +6,4 @@ authors = [{name = "FichteFoll"}, {name = "Thom1729"}]
 requires-python = ">=3.14"
 dependencies = [
     "sphinx>=9.1.0",
-    "typing-extensions>=4.16.0",
 ]
