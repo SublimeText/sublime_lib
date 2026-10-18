@@ -1,14 +1,16 @@
 from __future__ import annotations
 
-from collections.abc import Generator
 from contextlib import contextmanager
 from io import SEEK_CUR, SEEK_END, SEEK_SET
-from typing import Any, TextIO
+from typing import TYPE_CHECKING, Any, TextIO
 
 import sublime
 from sublime import Region
 
 from ._util.guard import define_guard
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 @define_guard

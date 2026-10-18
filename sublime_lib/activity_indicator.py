@@ -3,13 +3,17 @@ from __future__ import annotations
 from abc import ABCMeta, abstractmethod
 from enum import IntEnum
 from threading import Lock
-from types import TracebackType
+from typing import TYPE_CHECKING
 from uuid import uuid4
 
 import sublime
-from typing_extensions import Self
 
 from ._util.weak_method import weak_method
+
+if TYPE_CHECKING:
+    from types import TracebackType
+
+    from typing_extensions import Self
 
 __all__ = ["ActivityIndicator"]
 
