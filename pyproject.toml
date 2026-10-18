@@ -65,5 +65,5 @@ target-version = "py38"
 extend-select = ["TC"]
 
 [tool.ruff.lint.flake8-type-checking]
-# `sublime` is always available at runtime, so guarding it gains nothing.
-exempt-modules = ["typing", "sublime"]
+# `sublime` and `sublime_plugin` are always available at runtime.
+exempt-modules = ["typing", "sublime", "sublime_plugin"]
